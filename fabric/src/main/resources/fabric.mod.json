@@ -1,0 +1,37 @@
+{
+    "schemaVersion": 1,
+    "id": "lithostitched",
+    "version": "${version}",
+    "name": "Lithostitched",
+    "description": "Library mod with new configurability and compatibility enhancements for worldgen.",
+    "authors": [
+        "Apollo",
+        "SmellyModder"
+    ],
+    "contact": {
+        "homepage": "https://modrinth.com/mod/lithostitched/",
+        "sources": "https://github.com/Apollounknowndev/lithostitched",
+        "issues": "https://github.com/Apollounknowndev/lithostitched/issues"
+    },
+    "license": "MIT",
+    "icon": "assets/lithostitched/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "dev.worldgen.lithostitched.LithostitchedFabric"
+        ]
+    },
+    "mixins": [
+        "lithostitched.mixins.json",
+        "lithostitched.fabric.mixins.json"
+    ],
+    "accessWidener": "lithostitched.accesswidener",
+    "depends": {
+        "fabric": ">=0.86.0",
+        "fabricloader": ">=0.14",
+        "minecraft": "1.20.1",
+        "java": ">=17"
+    },
+    "suggests": {}
+}
+  

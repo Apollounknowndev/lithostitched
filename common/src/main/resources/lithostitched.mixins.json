@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.worldgen.lithostitched.mixin",
+  "refmap": "${mod_id}.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "common.GameTestServerMixin",
+    "common.PlacedFeatureAccessor",
+    "common.StructureSetAccessor",
+    "common.StructureTemplatePoolAccessor"
+  ],
+  "client": [
+    "client.IntegratedServerMixin"
+  ],
+  "server": [
+    "server.DedicatedServerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
