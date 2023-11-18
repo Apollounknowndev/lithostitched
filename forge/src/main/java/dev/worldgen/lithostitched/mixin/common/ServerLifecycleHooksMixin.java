@@ -31,7 +31,7 @@ public class ServerLifecycleHooksMixin {
     }
 
     @ModifyArg(
-        method = "lambda$runModifiers$5",
+        method = "lambda$runModifiers$4",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraftforge/common/world/ModifiableBiomeInfo;applyBiomeModifiers(Lnet/minecraft/core/Holder;Ljava/util/List;)V"

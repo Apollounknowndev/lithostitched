@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[46,)"
+loaderVersion = "[48,)"
 issueTrackerURL = "https://github.com/Apollounknowndev/lithostitched/issues"
 license = "MIT"
 
@@ -7,20 +7,20 @@ license = "MIT"
     modId = "lithostitched"
     version = "${file.jarVersion}"
     displayName = "Lithostitched"
-    logoFile = "logo.png"
+    logoFile = "pack.png"
     authors = "Apollo, SmellyModder"
     description = '''Library mod with new configurability and compatibility enhancements for worldgen.'''
 
 [[dependencies.lithostitched]]
     modId = "forge"
     mandatory = true
-    versionRange = "[46,)"
+    versionRange = "[48,)"
     ordering = "NONE"
     side = "BOTH"
 
 [[dependencies.lithostitched]]
     modId = "minecraft"
     mandatory = true
-    versionRange = "[1.20,1.20.2)"
+    versionRange = "[1.20.2,1.20.3)"
     ordering = "NONE"
     side = "BOTH"
