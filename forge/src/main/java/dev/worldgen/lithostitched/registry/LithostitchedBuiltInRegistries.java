@@ -6,6 +6,9 @@ import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
 import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockentity.RuleBlockEntityModifier;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.*;
@@ -27,9 +30,11 @@ public final class LithostitchedBuiltInRegistries {
 	public static void init(IEventBus bus) {
 
 		bus.addListener((RegisterEvent event) -> {
-			event.register(Registries.MATERIAL_RULE, (helper) -> {
-				helper.register("transient_merged", LithostitchedSurfaceRules.TransientMergedRuleSource.CODEC.codec());
-			});
+			event.register(Registries.MATERIAL_RULE, helper -> helper.register("transient_merged", LithostitchedSurfaceRules.TransientMergedRuleSource.CODEC.codec()));
+
+			LithostitchedCommon.registerCommonStructureTypes((name, codec) -> event.register(Registries.STRUCTURE_TYPE, helper -> helper.register(name, () -> (Codec<Structure>)codec)));
+			LithostitchedCommon.registerCommonStructureProcessors((name, codec) -> event.register(Registries.STRUCTURE_PROCESSOR, helper -> helper.register(name, () -> (Codec<StructureProcessor>)codec)));
+			LithostitchedCommon.registerCommonBlockEntityModifiers((name, codec) -> event.register(Registries.RULE_BLOCK_ENTITY_MODIFIER, helper -> helper.register(name, () -> (Codec<RuleBlockEntityModifier>)codec)));
 		});
 
 		bus.addListener((DataPackRegistryEvent.NewRegistry event) -> {

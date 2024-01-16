@@ -11,6 +11,14 @@ import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.WritableRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockentity.RuleBlockEntityModifier;
+
+import static dev.worldgen.lithostitched.LithostitchedCommon.LOGGER;
+import static dev.worldgen.lithostitched.LithostitchedCommon.createResourceKey;
 
 import java.util.function.BiConsumer;
 
@@ -26,14 +34,26 @@ public final class LithostitchedBuiltInRegistries {
 	public static void init() {
 		Registry.register(BuiltInRegistries.MATERIAL_RULE, LithostitchedMaterialRules.TRANSIENT_MERGED, LithostitchedSurfaceRules.TransientMergedRuleSource.CODEC.codec());
 
+
 		LithostitchedCommon.registerCommonModifiers((name, codec) -> {
-			MODIFIER_TYPE.register(LithostitchedCommon.createResourceKey(LithostitchedRegistries.MODIFIER_TYPE, name), codec, Lifecycle.stable());
+			MODIFIER_TYPE.register(createResourceKey(LithostitchedRegistries.MODIFIER_TYPE, name), codec, Lifecycle.stable());
 		});
 		registerFabricModifiers((name, codec) -> {
-			MODIFIER_TYPE.register(LithostitchedCommon.createResourceKey(LithostitchedRegistries.MODIFIER_TYPE, name), codec, Lifecycle.stable());
+			MODIFIER_TYPE.register(createResourceKey(LithostitchedRegistries.MODIFIER_TYPE, name), codec, Lifecycle.stable());
 		});
 		LithostitchedCommon.registerCommonModifierPredicates((name, codec) -> {
-			MODIFIER_PREDICATE_TYPE.register(LithostitchedCommon.createResourceKey(LithostitchedRegistries.MODIFIER_PREDICATE_TYPE, name), codec, Lifecycle.stable());
+			MODIFIER_PREDICATE_TYPE.register(createResourceKey(LithostitchedRegistries.MODIFIER_PREDICATE_TYPE, name), codec, Lifecycle.stable());
+		});
+
+
+		LithostitchedCommon.registerCommonStructureTypes((name, codec) -> {
+			Registry.register(BuiltInRegistries.STRUCTURE_TYPE, createResourceKey(Registries.STRUCTURE_TYPE, name), () -> (Codec<Structure>)codec);
+		});
+		LithostitchedCommon.registerCommonStructureProcessors((name, codec) -> {
+			Registry.register(BuiltInRegistries.STRUCTURE_PROCESSOR, createResourceKey(Registries.STRUCTURE_PROCESSOR, name), () -> (Codec<StructureProcessor>)codec);
+		});
+		LithostitchedCommon.registerCommonBlockEntityModifiers((name, codec) -> {
+			Registry.register(BuiltInRegistries.RULE_BLOCK_ENTITY_MODIFIER, createResourceKey(Registries.RULE_BLOCK_ENTITY_MODIFIER, name), () -> (Codec<RuleBlockEntityModifier>)codec);
 		});
 
 		DynamicRegistries.register(LithostitchedRegistries.WORLDGEN_MODIFIER, Modifier.CODEC);

@@ -8,7 +8,8 @@
     "common.GameTestServerMixin",
     "common.PlacedFeatureAccessor",
     "common.StructureSetAccessor",
-    "common.StructureTemplatePoolAccessor"
+    "common.StructureTemplatePoolAccessor",
+    "common.StructureTemplatePoolMixin"
   ],
   "client": [
     "client.IntegratedServerMixin"
