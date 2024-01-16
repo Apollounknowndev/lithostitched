@@ -7,7 +7,7 @@ license = "MIT"
     modId = "lithostitched"
     version = "${file.jarVersion}"
     displayName = "Lithostitched"
-    logoFile = "logo.png"
+    logoFile = "pack.png"
     authors = "Apollo, SmellyModder"
     description = '''Library mod with new configurability and compatibility enhancements for worldgen.'''
 

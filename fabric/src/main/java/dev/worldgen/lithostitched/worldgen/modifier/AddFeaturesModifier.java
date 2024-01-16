@@ -50,7 +50,7 @@ public class AddFeaturesModifier extends Modifier {
     public void applyModifier(Biome biome) {
         int index = this.step().ordinal();
         List<HolderSet<PlacedFeature>> biomeFeatures = new ArrayList<>(biome.getGenerationSettings().features());
-        if (biomeFeatures.size() < index) {
+        if (biomeFeatures.size() <= index) {
             for (int i = biomeFeatures.size(); i <= index; i++) {
                 biomeFeatures.add(HolderSet.direct());
             }

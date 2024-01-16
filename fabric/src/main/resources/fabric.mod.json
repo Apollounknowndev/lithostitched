@@ -14,7 +14,7 @@
         "issues": "https://github.com/Apollounknowndev/lithostitched/issues"
     },
     "license": "MIT",
-    "icon": "assets/lithostitched/icon.png",
+    "icon": "pack.png",
     "environment": "*",
     "entrypoints": {
         "main": [
