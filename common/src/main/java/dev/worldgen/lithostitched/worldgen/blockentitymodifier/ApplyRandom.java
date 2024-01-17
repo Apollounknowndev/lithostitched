@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public record ApplyRandom(SimpleWeightedRandomList<RuleBlockEntityModifier> modifiers) implements RuleBlockEntityModifier {
     public static final Codec<ApplyRandom> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            SimpleWeightedRandomList.wrappedCodec(RuleBlockEntityModifier.CODEC).fieldOf("modifiers").forGetter(ApplyRandom::modifiers)
+        SimpleWeightedRandomList.wrappedCodec(RuleBlockEntityModifier.CODEC).fieldOf("modifiers").forGetter(ApplyRandom::modifiers)
     ).apply(instance, ApplyRandom::new));
 
     public static final RuleBlockEntityModifierType<ApplyRandom> APPLY_RANDOM_TYPE = () -> CODEC;

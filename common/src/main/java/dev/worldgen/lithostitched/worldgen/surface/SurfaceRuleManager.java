@@ -2,6 +2,7 @@ package dev.worldgen.lithostitched.worldgen.surface;
 
 import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.LithostitchedCommon;
+import dev.worldgen.lithostitched.mixin.common.NoiseBasedChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
 import net.minecraft.core.Holder;
@@ -47,12 +48,16 @@ public class SurfaceRuleManager {
             ResourceLocation location = entry.getKey().location();
             var surfaceRulesForKey = assignedSurfaceRules.get(location);
             if (surfaceRulesForKey != null) {
+                //if (surfaceRulesForKey.isEmpty()) {
+                //    LithostitchedCommon.LOGGER.info("Skipped applying surface rule additions for '" + location + "' dimension as none exist");
+                //    continue;
+                //}
                 ChunkGenerator chunkGenerator = entry.getValue().generator();
                 if (!(chunkGenerator instanceof NoiseBasedChunkGenerator)) continue;
                 NoiseGeneratorSettings settings = ((NoiseBasedChunkGenerator) chunkGenerator).generatorSettings().value();
                 SurfaceRules.RuleSource oldRules = settings.surfaceRule();
                 // Noise generator settings must be rebuilt due to Forge not allowing surface rules to be directly modified.
-                ((NoiseBasedChunkGenerator) chunkGenerator).settings = Holder.direct(new NoiseGeneratorSettings(
+                ((NoiseBasedChunkGenerator)chunkGenerator).settings = Holder.direct(new NoiseGeneratorSettings(
                     settings.noiseSettings(),
                     settings.defaultBlock(),
                     settings.defaultFluid(),
