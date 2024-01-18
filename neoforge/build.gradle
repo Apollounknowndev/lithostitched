@@ -3,6 +3,7 @@ plugins {
     id 'maven-publish'
     id 'net.neoforged.gradle.userdev' version '7.0.81'
     id 'java-library'
+    id "me.modmuss50.mod-publish-plugin" version "0.4.5"
 }
 
 base {
@@ -76,3 +77,23 @@ publishing {
         }
     }
 }
+
+/*publishMods {
+    file = jar.archiveFile
+    changelog = "Neoforge support, crash fix"
+    type = STABLE
+    modLoaders.add("neoforge")
+    displayName = "%s ~ Neoforge 1.20.4".formatted(project.version)
+
+    modrinth {
+        accessToken = providers.environmentVariable("TOKEN_MR")
+        projectId = "XaDC71GB"
+        minecraftVersions.add("1.20.4")
+    }
+
+    curseforge {
+        accessToken = providers.environmentVariable("TOKEN_CF")
+        projectId = "936015"
+        minecraftVersions.add("1.20.4")
+    }
+}*/

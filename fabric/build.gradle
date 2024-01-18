@@ -2,7 +2,8 @@ plugins {
     id 'java'
     id 'idea'
     id 'maven-publish'
-    id 'fabric-loom'
+    id 'fabric-loom' version '1.2-SNAPSHOT'
+    id "me.modmuss50.mod-publish-plugin" version "0.4.5"
 }
 
 base {
@@ -18,8 +19,8 @@ dependencies {
 }
 
 loom {
-    if (project(":common").file("src/main/resources/${mod_id}.accesswidener").exists()) {
-        accessWidenerPath.set(project(":common").file("src/main/resources/${mod_id}.accesswidener"))
+    if (project(":common").file("src/main/resources/lithostitched.accesswidener").exists()) {
+        accessWidenerPath.set(project(":common").file("src/main/resources/lithostitched.accesswidener"))
     }
     mixin {
         defaultRefmapName.set("${mod_id}.refmap.json")
@@ -67,5 +68,25 @@ publishing {
         maven {
             url "file://" + System.getenv("local_maven")
         }
+    }
+}
+
+publishMods {
+    file = remapJar.archiveFile
+    changelog = "Crash fix"
+    type = STABLE
+    modLoaders.add("fabric")
+    displayName = "%s ~ Fabric 1.20.4".formatted(project.version)
+
+    modrinth {
+        accessToken = providers.environmentVariable("TOKEN_MR")
+        projectId = "XaDC71GB"
+        minecraftVersions.add("1.20.4")
+    }
+
+    curseforge {
+        accessToken = providers.environmentVariable("TOKEN_CF")
+        projectId = "936015"
+        minecraftVersions.add("1.20.4")
     }
 }
