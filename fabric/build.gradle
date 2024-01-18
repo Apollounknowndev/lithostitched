@@ -3,6 +3,7 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'fabric-loom'
+    id "me.modmuss50.mod-publish-plugin" version "0.4.5"
 }
 
 base {
@@ -67,5 +68,27 @@ publishing {
         maven {
             url "file://" + System.getenv("local_maven")
         }
+    }
+}
+
+publishMods {
+    file = remapJar.archiveFile
+    changelog = "Crash fix"
+    type = STABLE
+    modLoaders.add("fabric")
+    displayName = "%s ~ Fabric 1.20.1-2".formatted(project.version)
+
+    modrinth {
+        accessToken = providers.environmentVariable("TOKEN_MR")
+        projectId = "XaDC71GB"
+        minecraftVersions.add("1.20.1")
+        minecraftVersions.add("1.20.2")
+    }
+
+    curseforge {
+        accessToken = providers.environmentVariable("TOKEN_CF")
+        projectId = "936015"
+        minecraftVersions.add("1.20.1")
+        minecraftVersions.add("1.20.2")
     }
 }

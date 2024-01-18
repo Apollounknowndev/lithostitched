@@ -3,6 +3,7 @@ plugins {
     id 'maven-publish'
     id 'net.minecraftforge.gradle'
     id 'org.spongepowered.mixin'
+    id "me.modmuss50.mod-publish-plugin" version "0.4.5"
 }
 
 base {
@@ -109,3 +110,23 @@ publishing {
         }
     }
 }
+
+/*publishMods {
+    file = jar.archiveFile
+    changelog = "Neoforge support, crash fix"
+    type = STABLE
+    modLoaders.add("forge")
+    displayName = "%s ~ Forge 1.20.1".formatted(project.version)
+
+    modrinth {
+        accessToken = providers.environmentVariable("TOKEN_MR")
+        projectId = "XaDC71GB"
+        minecraftVersions.add("1.20.1")
+    }
+
+    curseforge {
+        accessToken = providers.environmentVariable("TOKEN_CF")
+        projectId = "936015"
+        minecraftVersions.add("1.20.1")
+    }
+}*/
