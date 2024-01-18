@@ -2,7 +2,6 @@ package dev.worldgen.lithostitched.worldgen.surface;
 
 import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.LithostitchedCommon;
-import dev.worldgen.lithostitched.mixin.common.NoiseBasedChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
 import net.minecraft.core.Holder;
