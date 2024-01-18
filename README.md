@@ -9,7 +9,7 @@ This mod introduces new tools for datapack and modded worldgen developers to uti
 - Template pool injectors
 - Surface rule modifiers
 
-All of these new capabilities are **data-driven**! Take a look at the [Lithostitched Docs](https://lithostitched.worldgen.dev/) website for more information.
+All of these new capabilities are **data-driven**! Take a look at the wiki page for more information.
 
 
 *(Code for the mod is accessible in the other branches.)*
