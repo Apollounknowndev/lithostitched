@@ -7,6 +7,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.List;
 import java.util.Optional;
 
+import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
+import dev.worldgen.lithostitched.worldgen.modifier.predicate.TrueModifierPredicate;
+import dev.worldgen.lithostitched.worldgen.processor.ConditionStructureProcessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -67,7 +70,7 @@ public class AlternateJigsawStructure extends Structure {
         this.useExpansionHack = useExpansionHack;
         this.projectStartToHeightmap = projectStartToHeightmap;
         this.maxDistanceFromCenter = maxDistanceFromCenter;
-        this.guaranteedElements = guaranteedElements;
+        this.guaranteedElements = guaranteedElements.stream().filter(guaranteedElement -> guaranteedElement.predicate().test()).toList();
     }
 
     public Holder<StructureTemplatePool> startPool() {
@@ -108,8 +111,9 @@ public class AlternateJigsawStructure extends Structure {
         return AlternateJigsawStructure.ALTERNATE_JIGSAW_TYPE;
     }
 
-    public record GuaranteedElement(StructurePoolElement element, HolderSet<StructureTemplatePool> acceptablePools, int minDepth) {
+    public record GuaranteedElement(ModifierPredicate predicate, StructurePoolElement element, HolderSet<StructureTemplatePool> acceptablePools, int minDepth) {
         public static final Codec<GuaranteedElement> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            ModifierPredicate.CODEC.fieldOf("predicate").orElse(TrueModifierPredicate.INSTANCE).forGetter(GuaranteedElement::predicate),
             StructurePoolElement.CODEC.fieldOf("element").forGetter(GuaranteedElement::element),
             RegistryCodecs.homogeneousList(Registries.TEMPLATE_POOL).fieldOf("acceptable_pools").forGetter(GuaranteedElement::acceptablePools),
             ExtraCodecs.POSITIVE_INT.fieldOf("min_depth").forGetter(GuaranteedElement::minDepth)

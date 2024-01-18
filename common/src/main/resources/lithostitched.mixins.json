@@ -6,7 +6,6 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "common.GameTestServerMixin",
-    "common.NoiseBasedChunkGeneratorAccessor",
     "common.PlacedFeatureAccessor",
     "common.StructureSetAccessor",
     "common.StructureTemplatePoolAccessor",

@@ -7,6 +7,7 @@ import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.*;
 import dev.worldgen.lithostitched.worldgen.processor.ApplyRandomStructureProcessor;
 import dev.worldgen.lithostitched.worldgen.processor.BlockSwapStructureProcessor;
+import dev.worldgen.lithostitched.worldgen.processor.ConditionStructureProcessor;
 import dev.worldgen.lithostitched.worldgen.processor.ReferenceStructureProcessor;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import net.minecraft.core.Registry;
@@ -63,6 +64,7 @@ public final class LithostitchedCommon {
 		consumer.accept("reference", ReferenceStructureProcessor.CODEC);
 		consumer.accept("apply_random", ApplyRandomStructureProcessor.CODEC);
 		consumer.accept("block_swap", BlockSwapStructureProcessor.CODEC);
+		consumer.accept("condition", ConditionStructureProcessor.CODEC);
 	}
 
 	public static void registerCommonBlockEntityModifiers(BiConsumer<String, Codec<? extends RuleBlockEntityModifier>> consumer) {

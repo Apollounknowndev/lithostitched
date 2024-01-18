@@ -17,11 +17,16 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 @Mixin(StructureTemplatePool.class)
 public class StructureTemplatePoolMixin implements StructurePoolAccess {
     @Unique
-    private final ShufflingList<StructurePoolElement> lithostitched$structurePoolElements = new ShufflingList<>();
+    private ShufflingList<StructurePoolElement> lithostitched$structurePoolElements = new ShufflingList<>();
 
     @Override
     public ShufflingList<StructurePoolElement> lithostitched$getStructurePoolElements() {
         return this.lithostitched$structurePoolElements;
+    }
+
+    @Override
+    public void lithostitched$setStructurePoolElements(ShufflingList<StructurePoolElement> elements) {
+        this.lithostitched$structurePoolElements = elements;
     }
 
     @Inject(

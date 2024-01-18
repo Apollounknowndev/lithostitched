@@ -5,4 +5,6 @@ import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 
 public interface StructurePoolAccess {
     ShufflingList<StructurePoolElement> lithostitched$getStructurePoolElements();
+
+    void lithostitched$setStructurePoolElements(ShufflingList<StructurePoolElement> elements);
 }

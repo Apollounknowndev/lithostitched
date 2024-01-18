@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.LithostitchedCommon;
+import dev.worldgen.lithostitched.access.StructurePoolAccess;
 import dev.worldgen.lithostitched.mixin.common.StructureTemplatePoolAccessor;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -13,6 +14,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.behavior.ShufflingList;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
@@ -24,7 +26,7 @@ import java.util.List;
  *
  * @author Apollo
  */
-public class AddTemplatePoolElementsModifier extends Modifier {
+public class  AddTemplatePoolElementsModifier extends Modifier {
     public static final Codec<AddTemplatePoolElementsModifier> CODEC = RecordCodecBuilder.create(instance -> addModifierFields(instance).and(instance.group(
         ResourceLocation.CODEC.fieldOf("template_pool").forGetter(AddTemplatePoolElementsModifier::rawTemplatePoolLocation),
         Codec.mapPair(
@@ -66,13 +68,18 @@ public class AddTemplatePoolElementsModifier extends Modifier {
     @Override
     public void applyModifier() {
         if (this.templatePool.is(EMPTY_TEMPLATE_POOL)) return;
+
         StructureTemplatePoolAccessor structurePoolAccessor = ((StructureTemplatePoolAccessor)this.templatePool().value());
+
         List<Pair<StructurePoolElement, Integer>> originalElementCounts = new ArrayList<>(structurePoolAccessor.getRawTemplates());
         originalElementCounts.addAll(this.elements());
         structurePoolAccessor.setRawTemplates(originalElementCounts);
-        ObjectArrayList<StructurePoolElement> originalElements = new ObjectArrayList<>(structurePoolAccessor.getTemplates());
 
+
+        ObjectArrayList<StructurePoolElement> originalElements = new ObjectArrayList<>(structurePoolAccessor.getTemplates());
+        ShufflingList<StructurePoolElement> lithostitchedPoolElements = new ShufflingList<>();
         for (Pair<StructurePoolElement, Integer> pair : this.elements()) {
+            lithostitchedPoolElements.add(pair.getFirst(), pair.getSecond());
             StructurePoolElement structurePoolElement = pair.getFirst();
 
             for (int i = 0; i < pair.getSecond(); ++i) {
@@ -80,5 +87,6 @@ public class AddTemplatePoolElementsModifier extends Modifier {
             }
         }
         structurePoolAccessor.setTemplates(originalElements);
+        ((StructurePoolAccess)this.templatePool().value()).lithostitched$setStructurePoolElements(lithostitchedPoolElements);
     }
 }
