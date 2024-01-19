@@ -113,7 +113,7 @@ publishing {
 
 publishMods {
     file = jar.archiveFile
-    changelog = "- Template pool injections now function with Lithostitched's alternate jigsaw structure\n- Added a new processor type and modified the guaranteed elements system, check the wiki for details"
+    changelog = "- Lithostitched's jigsaw structure type should actually function again.\n- Changes/additions around guaranteed elements, check wiki for details"
     type = STABLE
     modLoaders.add("forge")
     displayName = "%s ~ Forge 1.20.1".formatted(project.version)

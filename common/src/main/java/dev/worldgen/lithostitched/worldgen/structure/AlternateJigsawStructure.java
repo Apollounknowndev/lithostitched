@@ -3,17 +3,8 @@ package dev.worldgen.lithostitched.worldgen.structure;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
-import java.util.List;
-import java.util.Optional;
-
-import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
-import dev.worldgen.lithostitched.worldgen.modifier.predicate.TrueModifierPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.RegistryCodecs;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.valueproviders.IntProvider;
@@ -23,9 +14,10 @@ import net.minecraft.world.level.levelgen.WorldGenerationContext;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public class AlternateJigsawStructure extends Structure {
     public static final Codec<AlternateJigsawStructure> CODEC = ExtraCodecs.validate(
@@ -37,8 +29,7 @@ public class AlternateJigsawStructure extends Structure {
             HeightProvider.CODEC.fieldOf("start_height").forGetter(AlternateJigsawStructure::startHeight),
             Codec.BOOL.fieldOf("use_expansion_hack").forGetter(AlternateJigsawStructure::useExpansionHack),
             Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(AlternateJigsawStructure::projectStartToHeightmap),
-            Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(AlternateJigsawStructure::maxDistanceFromCenter),
-            GuaranteedElement.CODEC.listOf().fieldOf("guaranteed_elements").orElse(List.of()).forGetter(AlternateJigsawStructure::guaranteedElements)
+            Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(AlternateJigsawStructure::maxDistanceFromCenter)
         ).apply(instance, (AlternateJigsawStructure::new))),
         AlternateJigsawStructure::validate
     ).codec();
@@ -52,7 +43,6 @@ public class AlternateJigsawStructure extends Structure {
     private final boolean useExpansionHack;
     private final Optional<Heightmap.Types> projectStartToHeightmap;
     private final int maxDistanceFromCenter;
-    private final List<GuaranteedElement> guaranteedElements;
     private static DataResult<AlternateJigsawStructure> validate(AlternateJigsawStructure structure) {
         int i = switch (structure.terrainAdaptation()) {
             case NONE -> 0;
@@ -60,7 +50,7 @@ public class AlternateJigsawStructure extends Structure {
         };
         return structure.maxDistanceFromCenter + i > 128 ? DataResult.error(() -> "Structure size including terrain adaptation must not exceed 128") : DataResult.success(structure);
     }
-    protected AlternateJigsawStructure(StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, IntProvider size, HeightProvider startHeight, boolean useExpansionHack, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter, List<GuaranteedElement> guaranteedElements) {
+    protected AlternateJigsawStructure(StructureSettings config, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, IntProvider size, HeightProvider startHeight, boolean useExpansionHack, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter) {
         super(config);
         this.startPool = startPool;
         this.startJigsawName = startJigsawName;
@@ -69,7 +59,6 @@ public class AlternateJigsawStructure extends Structure {
         this.useExpansionHack = useExpansionHack;
         this.projectStartToHeightmap = projectStartToHeightmap;
         this.maxDistanceFromCenter = maxDistanceFromCenter;
-        this.guaranteedElements = guaranteedElements.stream().filter(guaranteedElement -> guaranteedElement.predicate().test()).toList();
     }
 
     public Holder<StructureTemplatePool> startPool() {
@@ -93,29 +82,17 @@ public class AlternateJigsawStructure extends Structure {
     public int maxDistanceFromCenter() {
         return this.maxDistanceFromCenter;
     }
-    public List<GuaranteedElement> guaranteedElements() {
-        return this.guaranteedElements;
-    }
 
     @Override
     public @NotNull Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
         ChunkPos chunkPos = context.chunkPos();
         int i = this.startHeight.sample(context.random(), new WorldGenerationContext(context.chunkGenerator(), context.heightAccessor()));
         BlockPos blockPos = new BlockPos(chunkPos.getMinBlockX(), i, chunkPos.getMinBlockZ());
-        return AlternateJigsawGenerator.generate(context, this.startPool, this.startJigsawName, this.size.sample(context.random()), blockPos, this.useExpansionHack, this.projectStartToHeightmap, this.maxDistanceFromCenter, this.guaranteedElements);
+        return AlternateJigsawGenerator.generate(context, this.startPool, this.startJigsawName, this.size.sample(context.random()), blockPos, this.useExpansionHack, this.projectStartToHeightmap, this.maxDistanceFromCenter);
     }
 
     @Override
     public @NotNull StructureType<?> type() {
         return AlternateJigsawStructure.ALTERNATE_JIGSAW_TYPE;
-    }
-
-    public record GuaranteedElement(ModifierPredicate predicate, StructurePoolElement element, HolderSet<StructureTemplatePool> acceptablePools, int minDepth) {
-        public static final Codec<GuaranteedElement> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                ModifierPredicate.CODEC.fieldOf("predicate").orElse(TrueModifierPredicate.INSTANCE).forGetter(GuaranteedElement::predicate),
-                StructurePoolElement.CODEC.fieldOf("element").forGetter(GuaranteedElement::element),
-                RegistryCodecs.homogeneousList(Registries.TEMPLATE_POOL).fieldOf("acceptable_pools").forGetter(GuaranteedElement::acceptablePools),
-                ExtraCodecs.POSITIVE_INT.fieldOf("min_depth").forGetter(GuaranteedElement::minDepth)
-        ).apply(instance, GuaranteedElement::new));
     }
 }
