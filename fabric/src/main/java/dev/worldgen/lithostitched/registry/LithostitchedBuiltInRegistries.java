@@ -14,6 +14,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockentity.RuleBlockEntityModifier;
 
@@ -46,6 +47,9 @@ public final class LithostitchedBuiltInRegistries {
 		});
 
 
+		LithostitchedCommon.registerCommonPoolElementTypes((name, codec) -> {
+			Registry.register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, createResourceKey(Registries.STRUCTURE_POOL_ELEMENT, name), () -> (Codec<StructurePoolElement>)codec);
+		});
 		LithostitchedCommon.registerCommonStructureTypes((name, codec) -> {
 			Registry.register(BuiltInRegistries.STRUCTURE_TYPE, createResourceKey(Registries.STRUCTURE_TYPE, name), () -> (Codec<Structure>)codec);
 		});
