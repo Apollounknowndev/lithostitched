@@ -6,6 +6,7 @@ import com.google.common.collect.Queues;
 import dev.worldgen.lithostitched.LithostitchedCommon;
 import dev.worldgen.lithostitched.access.StructurePoolAccess;
 import dev.worldgen.lithostitched.worldgen.poolelement.ExclusivePoolElement;
+import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.LimitedPoolElement;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -17,7 +18,7 @@ import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.Tuple;
+import net.minecraft.world.entity.ai.behavior.ShufflingList;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.block.JigsawBlock;
 import net.minecraft.world.level.block.Rotation;
@@ -41,7 +42,7 @@ import java.util.*;
 
 public class AlternateJigsawGenerator {
 
-    public static Optional<Structure.GenerationStub> generate(Structure.GenerationContext context, Holder<StructureTemplatePool> structurePool, Optional<ResourceLocation> id, int size, BlockPos pos, boolean useExpansionHack, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter, List<AlternateJigsawStructure.GuaranteedElement> guaranteedElements) {
+    public static Optional<Structure.GenerationStub> generate(Structure.GenerationContext context, Holder<StructureTemplatePool> structurePool, Optional<ResourceLocation> id, int size, BlockPos pos, boolean useExpansionHack, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter) {
         RegistryAccess dynamicRegistryManager = context.registryAccess();
         ChunkGenerator chunkGenerator = context.chunkGenerator();
         StructureTemplateManager structureTemplateManager = context.structureTemplateManager();
@@ -88,7 +89,7 @@ public class AlternateJigsawGenerator {
                 if (size > 0) {
                     AABB box = new AABB((i - maxDistanceFromCenter), (m - maxDistanceFromCenter), (j - maxDistanceFromCenter), (i + maxDistanceFromCenter + 1), (m + maxDistanceFromCenter + 1), (j + maxDistanceFromCenter + 1));
                     VoxelShape voxelShape = Shapes.join(Shapes.create(box), Shapes.create(AABB.of(blockBox)), BooleanOp.ONLY_FIRST);
-                    generate(context.randomState(), size, useExpansionHack, chunkGenerator, structureTemplateManager, heightLimitView, chunkRandom, registry, poolStructurePiece, list, voxelShape, guaranteedElements);
+                    generate(context.randomState(), size, useExpansionHack, chunkGenerator, structureTemplateManager, heightLimitView, chunkRandom, registry, poolStructurePiece, list, voxelShape);
                     Objects.requireNonNull(collector);
                     list.forEach(collector::addPiece);
                 }
@@ -111,8 +112,8 @@ public class AlternateJigsawGenerator {
         return optional;
     }
 
-    private static void generate(RandomState noiseConfig, int maxSize, boolean useExpansionHack, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, LevelHeightAccessor heightLimitView, RandomSource random, Registry<StructureTemplatePool> structurePoolRegistry, PoolElementStructurePiece firstPiece, List<PoolElementStructurePiece> pieces, VoxelShape pieceShape, List<AlternateJigsawStructure.GuaranteedElement> guaranteedElements) {
-        StructurePoolGenerator structurePoolGenerator = new StructurePoolGenerator(structurePoolRegistry, maxSize, chunkGenerator, structureTemplateManager, pieces, random, guaranteedElements);
+    private static void generate(RandomState noiseConfig, int maxSize, boolean useExpansionHack, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, LevelHeightAccessor heightLimitView, RandomSource random, Registry<StructureTemplatePool> structurePoolRegistry, PoolElementStructurePiece firstPiece, List<PoolElementStructurePiece> pieces, VoxelShape pieceShape) {
+        StructurePoolGenerator structurePoolGenerator = new StructurePoolGenerator(structurePoolRegistry, maxSize, chunkGenerator, structureTemplateManager, pieces, random);
         structurePoolGenerator.structurePieces.addLast(new ShapedPoolStructurePiece(firstPiece, new MutableObject<>(pieceShape), 0));
 
         while(!structurePoolGenerator.structurePieces.isEmpty()) {
@@ -129,24 +130,17 @@ public class AlternateJigsawGenerator {
         private final StructureTemplateManager structureTemplateManager;
         private final List<? super PoolElementStructurePiece> piecesToPlace;
         private final RandomSource random;
-
-        private final ArrayList<AlternateJigsawStructure.GuaranteedElement> guaranteedElements;
-        private final ArrayList<Integer> depthsWithGuaranteedElements;
-        private final Map<LimitedPoolElement, Integer> elementsToLimits;
-
-
+        private final Map<ExclusivePoolElement, Integer> elementsToCounts;
         final Deque<ShapedPoolStructurePiece> structurePieces = Queues.newArrayDeque();
 
-        StructurePoolGenerator(Registry<StructureTemplatePool> registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List<? super PoolElementStructurePiece> children, RandomSource random, List<AlternateJigsawStructure.GuaranteedElement> guaranteedElements) {
+        StructurePoolGenerator(Registry<StructureTemplatePool> registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List<? super PoolElementStructurePiece> children, RandomSource random) {
             this.registry = registry;
             this.maxSize = maxSize;
             this.chunkGenerator = chunkGenerator;
             this.structureTemplateManager = structureTemplateManager;
             this.piecesToPlace = children;
             this.random = random;
-            this.guaranteedElements = new ArrayList<>(guaranteedElements);
-            this.depthsWithGuaranteedElements = new ArrayList<>(this.guaranteedElements.stream().map(AlternateJigsawStructure.GuaranteedElement::minDepth).distinct().toList());
-            this.elementsToLimits = new HashMap<>();
+            this.elementsToCounts = new HashMap<>();
         }
 
         void generatePiece(PoolElementStructurePiece parentPiece, MutableObject<VoxelShape> voxelShape, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig) {
@@ -171,6 +165,7 @@ public class AlternateJigsawGenerator {
                 }
 
 
+                /*
                 List<Tuple<StructurePoolElement, Optional<AlternateJigsawStructure.GuaranteedElement>>> childCandidates = Lists.newArrayList();
                 if (this.depthsWithGuaranteedElements.stream().sorted().findFirst().orElse(64) <= depth) {
                     List<AlternateJigsawStructure.GuaranteedElement> forcedElementsInStep = this.guaranteedElements.stream().filter(element -> element.minDepth() <= depth && element.acceptablePools().contains(poolEntry)).toList();
@@ -179,8 +174,9 @@ public class AlternateJigsawGenerator {
                     }
                 }
                 childCandidates.addAll(collectChildCandidateList(getPoolKey(anchorJigsawInfo), depth, true));
+                */
 
-                findAndTestChildCandidates(poolEntry, childCandidates, parentPiece, anchorJigsawInfo, childShape, k, depth, useExpansionHack, world, noiseConfig);
+                findAndTestChildCandidates(poolEntry, collectChildCandidateList(getPoolKey(anchorJigsawInfo), depth, true), parentPiece, anchorJigsawInfo, childShape, k, depth, useExpansionHack, world, noiseConfig);
             }
         }
 
@@ -188,7 +184,7 @@ public class AlternateJigsawGenerator {
          * Find a valid child from a pool of child candidates.
          * If none are found, go to the template pool's fallback and try again.
          */
-        private void findAndTestChildCandidates(Holder<StructureTemplatePool> fallbackEntry, List<Tuple<StructurePoolElement, Optional<AlternateJigsawStructure.GuaranteedElement>>> childCandidates, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig) {
+        private void findAndTestChildCandidates(Holder<StructureTemplatePool> fallbackEntry, List<StructurePoolElement> childCandidates, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig) {
             if (childCandidates.isEmpty()) return;
             boolean foundChild = findValidChildPiece(childCandidates, parentPiece, anchorJigsawInfo, mutableObject2, k, depth, useExpansionHack, world, noiseConfig);
             if (!foundChild) {
@@ -196,7 +192,7 @@ public class AlternateJigsawGenerator {
             }
         }
 
-        private List<Tuple<StructurePoolElement, Optional<AlternateJigsawStructure.GuaranteedElement>>> collectChildCandidateList(ResourceKey<StructureTemplatePool> poolKey, int depth, boolean firstIteration) {
+        private List<StructurePoolElement> collectChildCandidateList(ResourceKey<StructureTemplatePool> poolKey, int depth, boolean firstIteration) {
             Holder<StructureTemplatePool> pool = this.registry.getHolder(poolKey).orElseThrow();
 
             if (depth == this.maxSize && firstIteration) {
@@ -210,17 +206,20 @@ public class AlternateJigsawGenerator {
                 return List.of();
             }
 
+            // Create the list of child candidates, always giving priority to guaranteed elements.
+            ShufflingList<StructurePoolElement> structurePoolElementsList = ((StructurePoolAccess)pool.value()).lithostitched$getStructurePoolElements().shuffle();
 
-            List<Tuple<StructurePoolElement, Optional<AlternateJigsawStructure.GuaranteedElement>>> childCandidates = Lists.newArrayList();
-            ((StructurePoolAccess)pool.value()).lithostitched$getStructurePoolElements().shuffle().forEach(poolElement -> childCandidates.add(new Tuple<>(poolElement, Optional.empty())));
-            return childCandidates;
+            List<StructurePoolElement> elements = new ArrayList<>(structurePoolElementsList.stream().filter(element -> element instanceof GuaranteedPoolElement guaranteedElement && guaranteedElement.minDepth() <= depth).toList());
+            elements.addAll(structurePoolElementsList.stream().filter(element -> !elements.contains(element)).toList());
+
+            return elements.stream().toList();
         }
 
         /**
          * Iterate through list of child candidate pieces to find a valid one to use.
          */
         @SuppressWarnings("deprecation")
-        private boolean findValidChildPiece(List<Tuple<StructurePoolElement, Optional<AlternateJigsawStructure.GuaranteedElement>>> childCandidates, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig) {
+        private boolean findValidChildPiece(List<StructurePoolElement> childCandidates, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig) {
             BlockPos anchorPos = anchorJigsawInfo.pos();
             BlockPos candidateConnectorPos = anchorPos.relative(JigsawBlock.getFrontFacing(anchorJigsawInfo.state()));
             int parentMinY = parentPiece.getBoundingBox().minY();
@@ -228,32 +227,38 @@ public class AlternateJigsawGenerator {
             StructureTemplatePool.Projection parentProjection = parentPiece.getElement().getProjection();
             boolean parentRigid = parentProjection == StructureTemplatePool.Projection.RIGID;
 
-            for (var poolAndGuaranteedElements : childCandidates.stream().distinct().toList()) {
-                StructurePoolElement rawConnectorElement = poolAndGuaranteedElements.getA();
-                if (rawConnectorElement == EmptyPoolElement.INSTANCE) {
+            for (StructurePoolElement candidateElement : childCandidates.stream().distinct().toList()) {
+                if (candidateElement == EmptyPoolElement.INSTANCE) {
                     return true;
                 }
 
                 // Handle Lithostitched-exclusive pool element types
-                StructurePoolElement connectorElement;
-                if (rawConnectorElement instanceof ExclusivePoolElement exclusiveElement) {
+                StructurePoolElement processedCandidateElement;
+                if (candidateElement instanceof ExclusivePoolElement exclusiveElement) {
                     if (exclusiveElement instanceof LimitedPoolElement limitedElement) {
-                        if (!this.elementsToLimits.containsKey(limitedElement)) {
-                            this.elementsToLimits.put(limitedElement, limitedElement.limit());
+                        if (!this.elementsToCounts.containsKey(limitedElement)) {
+                            this.elementsToCounts.put(limitedElement, limitedElement.limit());
                         }
-                        if (this.elementsToLimits.get(limitedElement) < 1) {
+                        if (this.elementsToCounts.get(limitedElement) < 1) {
+                            continue;
+                        }
+                    } else if (exclusiveElement instanceof GuaranteedPoolElement guaranteedElement) {
+                        if (!this.elementsToCounts.containsKey(guaranteedElement)) {
+                            this.elementsToCounts.put(guaranteedElement, 0);
+                        }
+                        if (this.elementsToCounts.get(guaranteedElement) >= guaranteedElement.count()) {
                             continue;
                         }
                     }
-                    connectorElement = exclusiveElement.delegate();
+                    processedCandidateElement = exclusiveElement.delegate();
                 } else {
-                    connectorElement = rawConnectorElement;
+                    processedCandidateElement = candidateElement;
                 }
 
                 label125:
                 for (Rotation rotation : Rotation.getShuffled(this.random)) {
-                    List<StructureTemplate.StructureBlockInfo> connectorJigsaws = connectorElement.getShuffledJigsawBlocks(this.structureTemplateManager, BlockPos.ZERO, rotation, this.random);
-                    BoundingBox connectorBoundingBox = connectorElement.getBoundingBox(this.structureTemplateManager, BlockPos.ZERO, rotation);
+                    List<StructureTemplate.StructureBlockInfo> connectorJigsaws = processedCandidateElement.getShuffledJigsawBlocks(this.structureTemplateManager, BlockPos.ZERO, rotation, this.random);
+                    BoundingBox connectorBoundingBox = processedCandidateElement.getBoundingBox(this.structureTemplateManager, BlockPos.ZERO, rotation);
 
 
                     // Expansion hack
@@ -279,9 +284,9 @@ public class AlternateJigsawGenerator {
                         if (JigsawBlock.canAttach(anchorJigsawInfo, connectorJigsawInfo)) {
                             BlockPos connectorPos = connectorJigsawInfo.pos();
                             BlockPos blockPos5 = candidateConnectorPos.subtract(connectorPos);
-                            BoundingBox blockBox3 = connectorElement.getBoundingBox(this.structureTemplateManager, blockPos5, rotation);
+                            BoundingBox blockBox3 = processedCandidateElement.getBoundingBox(this.structureTemplateManager, blockPos5, rotation);
                             int m = blockBox3.minY();
-                            StructureTemplatePool.Projection connectorProjection = connectorElement.getProjection();
+                            StructureTemplatePool.Projection connectorProjection = processedCandidateElement.getProjection();
                             boolean connectorProjectionRigid = connectorProjection == StructureTemplatePool.Projection.RIGID;
                             int connectorY = connectorPos.getY();
                             int o = anchorDistanceToFloor - connectorY + JigsawBlock.getFrontFacing(anchorJigsawInfo.state()).getStepY();
@@ -309,9 +314,11 @@ public class AlternateJigsawGenerator {
 
 
                             if (!Shapes.joinIsNotEmpty(mutableObject2.getValue(), Shapes.create(AABB.of(blockBox4).deflate(0.25)), BooleanOp.ONLY_SECOND)) {
-                                if (rawConnectorElement instanceof ExclusivePoolElement exclusiveElement) {
+                                if (candidateElement instanceof ExclusivePoolElement exclusiveElement) {
                                     if (exclusiveElement instanceof LimitedPoolElement limitedElement) {
-                                        this.elementsToLimits.put(limitedElement, this.elementsToLimits.get(limitedElement) - 1);
+                                        this.elementsToCounts.put(limitedElement, this.elementsToCounts.get(limitedElement) - 1);
+                                    } else if (exclusiveElement instanceof GuaranteedPoolElement guaranteedElement) {
+                                        this.elementsToCounts.put(guaranteedElement, this.elementsToCounts.get(guaranteedElement) + 1);
                                     }
                                 }
 
@@ -322,10 +329,10 @@ public class AlternateJigsawGenerator {
                                 if (connectorProjectionRigid) {
                                     s = r - o;
                                 } else {
-                                    s = connectorElement.getGroundLevelDelta();
+                                    s = processedCandidateElement.getGroundLevelDelta();
                                 }
 
-                                PoolElementStructurePiece poolStructurePiece = new PoolElementStructurePiece(this.structureTemplateManager, connectorElement, blockPos6, s, rotation, blockBox4);
+                                PoolElementStructurePiece poolStructurePiece = new PoolElementStructurePiece(this.structureTemplateManager, processedCandidateElement, blockPos6, s, rotation, blockBox4);
 
                                 int t;
                                 if (parentRigid) {
@@ -347,13 +354,6 @@ public class AlternateJigsawGenerator {
                                 this.piecesToPlace.add(poolStructurePiece);
                                 if (depth + 1 <= this.maxSize) {
                                     this.structurePieces.addLast(new ShapedPoolStructurePiece(poolStructurePiece, mutableObject2, depth + 1));
-
-                                    if (poolAndGuaranteedElements.getB().isPresent()) {
-                                        this.guaranteedElements.remove(poolAndGuaranteedElements.getB().get());
-                                        if (this.guaranteedElements.stream().map(AlternateJigsawStructure.GuaranteedElement::minDepth).noneMatch(minDepth -> minDepth <= depth)) {
-                                            this.depthsWithGuaranteedElements.removeIf(depthWithGuaranteedElements -> depthWithGuaranteedElements <= depth);
-                                        }
-                                    }
                                 }
                                 return true;
                             }

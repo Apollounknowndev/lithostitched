@@ -5,6 +5,7 @@ import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.*;
+import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.LimitedPoolElement;
 import dev.worldgen.lithostitched.worldgen.processor.ApplyRandomStructureProcessor;
 import dev.worldgen.lithostitched.worldgen.processor.BlockSwapStructureProcessor;
@@ -60,6 +61,7 @@ public final class LithostitchedCommon {
 
 	public static void registerCommonPoolElementTypes(BiConsumer<String, Codec<? extends StructurePoolElement>> consumer) {
 		consumer.accept("limited", LimitedPoolElement.CODEC);
+		consumer.accept("guaranteed", GuaranteedPoolElement.CODEC);
 	}
 
 	public static void registerCommonStructureTypes(BiConsumer<String, Codec<? extends Structure>> consumer) {
