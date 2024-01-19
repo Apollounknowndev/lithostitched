@@ -5,6 +5,8 @@ import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.*;
+import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
+import dev.worldgen.lithostitched.worldgen.poolelement.LimitedPoolElement;
 import dev.worldgen.lithostitched.worldgen.processor.ApplyRandomStructureProcessor;
 import dev.worldgen.lithostitched.worldgen.processor.BlockSwapStructureProcessor;
 import dev.worldgen.lithostitched.worldgen.processor.ConditionStructureProcessor;
@@ -14,6 +16,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockentity.RuleBlockEntityModifier;
 import org.slf4j.Logger;
@@ -54,6 +57,11 @@ public final class LithostitchedCommon {
 		consumer.accept("mod_loaded", ModLoadedModifierPredicate.CODEC);
 		consumer.accept("not", NotModifierPredicate.CODEC);
 		consumer.accept("true", TrueModifierPredicate.CODEC);
+	}
+
+	public static void registerCommonPoolElementTypes(BiConsumer<String, Codec<? extends StructurePoolElement>> consumer) {
+		consumer.accept("limited", LimitedPoolElement.CODEC);
+		consumer.accept("guaranteed", GuaranteedPoolElement.CODEC);
 	}
 
 	public static void registerCommonStructureTypes(BiConsumer<String, Codec<? extends Structure>> consumer) {

@@ -8,6 +8,7 @@ import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockentity.RuleBlockEntityModifier;
 import net.neoforged.bus.api.IEventBus;
@@ -34,6 +35,7 @@ public final class LithostitchedBuiltInRegistries {
 		bus.addListener((RegisterEvent event) -> {
 			event.register(Registries.MATERIAL_RULE, helper -> helper.register(createResourceKey(Registries.MATERIAL_RULE, "transient_merged"), LithostitchedSurfaceRules.TransientMergedRuleSource.CODEC.codec()));
 
+			LithostitchedCommon.registerCommonPoolElementTypes((name, codec) -> event.register(Registries.STRUCTURE_POOL_ELEMENT, helper -> helper.register(createResourceKey(Registries.STRUCTURE_POOL_ELEMENT, name), () -> (Codec<StructurePoolElement>)codec)));
 			LithostitchedCommon.registerCommonStructureTypes((name, codec) -> event.register(Registries.STRUCTURE_TYPE, helper -> helper.register(createResourceKey(Registries.STRUCTURE_TYPE, name), () -> (Codec<Structure>)codec)));
 			LithostitchedCommon.registerCommonStructureProcessors((name, codec) -> event.register(Registries.STRUCTURE_PROCESSOR, helper -> helper.register(createResourceKey(Registries.STRUCTURE_PROCESSOR, name), () -> (Codec<StructureProcessor>)codec)));
 			LithostitchedCommon.registerCommonBlockEntityModifiers((name, codec) -> event.register(Registries.RULE_BLOCK_ENTITY_MODIFIER, helper -> helper.register(createResourceKey(Registries.RULE_BLOCK_ENTITY_MODIFIER, name), () -> (Codec<RuleBlockEntityModifier>)codec)));
