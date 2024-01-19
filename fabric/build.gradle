@@ -73,7 +73,7 @@ publishing {
 
 publishMods {
     file = remapJar.archiveFile
-    changelog = "- Lithostitched's jigsaw structure type should actually function again.\n- Changes/additions around guaranteed elements, check wiki for details"
+    changelog = "- Change to apply_random processor type, check wiki for details"
     type = STABLE
     modLoaders.add("fabric")
     displayName = "%s ~ Fabric 1.20.4".formatted(project.version)
