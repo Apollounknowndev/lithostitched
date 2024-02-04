@@ -24,6 +24,7 @@ public class GuaranteedPoolElement extends ExclusivePoolElement {
     public int count() {
         return this.count;
     }
+
     public int minDepth() {
         return this.minDepth;
     }

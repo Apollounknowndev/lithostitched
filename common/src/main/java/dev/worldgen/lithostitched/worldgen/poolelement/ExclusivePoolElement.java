@@ -53,4 +53,9 @@ public abstract class ExclusivePoolElement extends StructurePoolElement {
     public boolean place(StructureTemplateManager structureTemplateManager, WorldGenLevel worldGenLevel, StructureManager structureManager, ChunkGenerator chunkGenerator, BlockPos blockPos, BlockPos blockPos1, Rotation rotation, BoundingBox boundingBox, RandomSource randomSource, boolean b) {
         throw new IllegalStateException("Cannot use Lithostitched's limiting pool element outside of the lithostitched:jigsaw structure type!");
     }
+
+    @Override
+    public String toString() {
+        return delegate().toString();
+    }
 }

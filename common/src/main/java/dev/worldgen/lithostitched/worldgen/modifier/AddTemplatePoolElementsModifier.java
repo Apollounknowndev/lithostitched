@@ -78,7 +78,7 @@ public class  AddTemplatePoolElementsModifier extends Modifier {
 
         ObjectArrayList<StructurePoolElement> originalElements = new ObjectArrayList<>(structurePoolAccessor.getTemplates());
         ShufflingList<StructurePoolElement> lithostitchedPoolElements = new ShufflingList<>();
-        for (Pair<StructurePoolElement, Integer> pair : this.elements()) {
+        for (final Pair<StructurePoolElement, Integer> pair : originalElementCounts) {
             lithostitchedPoolElements.add(pair.getFirst(), pair.getSecond());
             StructurePoolElement structurePoolElement = pair.getFirst();
 
