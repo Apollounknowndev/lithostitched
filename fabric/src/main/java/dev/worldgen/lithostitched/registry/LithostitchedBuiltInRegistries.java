@@ -47,6 +47,9 @@ public final class LithostitchedBuiltInRegistries {
 		});
 
 
+		LithostitchedCommon.registerCommonFeatureTypes((name, feature) -> {
+			Registry.register(BuiltInRegistries.FEATURE, createResourceKey(Registries.FEATURE, name), feature);
+		});
 		LithostitchedCommon.registerCommonPoolElementTypes((name, codec) -> {
 			Registry.register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, createResourceKey(Registries.STRUCTURE_POOL_ELEMENT, name), () -> (Codec<StructurePoolElement>)codec);
 		});

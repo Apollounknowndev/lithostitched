@@ -69,24 +69,23 @@ public class  AddTemplatePoolElementsModifier extends Modifier {
     public void applyModifier() {
         if (this.templatePool.is(EMPTY_TEMPLATE_POOL)) return;
 
-        StructureTemplatePoolAccessor structurePoolAccessor = ((StructureTemplatePoolAccessor)this.templatePool().value());
+        StructureTemplatePoolAccessor poolAccessor = ((StructureTemplatePoolAccessor)this.templatePool().value());
+        StructurePoolAccess lithostitchedPoolAccessor = ((StructurePoolAccess)this.templatePool().value());
 
-        List<Pair<StructurePoolElement, Integer>> originalElementCounts = new ArrayList<>(structurePoolAccessor.getRawTemplates());
-        originalElementCounts.addAll(this.elements());
-        structurePoolAccessor.setRawTemplates(originalElementCounts);
+        List<Pair<StructurePoolElement, Integer>> rawTemplates = new ArrayList<>(poolAccessor.getRawTemplates());
+        rawTemplates.addAll(this.elements());
+        poolAccessor.setRawTemplates(rawTemplates);
 
 
-        ObjectArrayList<StructurePoolElement> originalElements = new ObjectArrayList<>(structurePoolAccessor.getTemplates());
-        ShufflingList<StructurePoolElement> lithostitchedPoolElements = new ShufflingList<>();
+        ObjectArrayList<StructurePoolElement> vanillaTemplates = new ObjectArrayList<>(poolAccessor.getVanillaTemplates());
+        ShufflingList<StructurePoolElement> lithostitchedTemplates = lithostitchedPoolAccessor.getLithostitchedTemplates();
         for (Pair<StructurePoolElement, Integer> pair : this.elements()) {
-            lithostitchedPoolElements.add(pair.getFirst(), pair.getSecond());
-            StructurePoolElement structurePoolElement = pair.getFirst();
-
+            lithostitchedTemplates.add(pair.getFirst(), pair.getSecond());
             for (int i = 0; i < pair.getSecond(); ++i) {
-                originalElements.add(structurePoolElement);
+                vanillaTemplates.add(pair.getFirst());
             }
         }
-        structurePoolAccessor.setTemplates(originalElements);
-        ((StructurePoolAccess)this.templatePool().value()).lithostitched$setStructurePoolElements(lithostitchedPoolElements);
+        poolAccessor.setVanillaTemplates(vanillaTemplates);
+        lithostitchedPoolAccessor.setLithostitchedTemplates(lithostitchedTemplates);
     }
 }

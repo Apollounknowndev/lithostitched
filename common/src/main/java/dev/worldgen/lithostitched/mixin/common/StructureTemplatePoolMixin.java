@@ -17,16 +17,16 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 @Mixin(StructureTemplatePool.class)
 public class StructureTemplatePoolMixin implements StructurePoolAccess {
     @Unique
-    private ShufflingList<StructurePoolElement> lithostitched$structurePoolElements = new ShufflingList<>();
+    private ShufflingList<StructurePoolElement> lithostitchedTemplates = new ShufflingList<>();
 
     @Override
-    public ShufflingList<StructurePoolElement> lithostitched$getStructurePoolElements() {
-        return this.lithostitched$structurePoolElements;
+    public ShufflingList<StructurePoolElement> getLithostitchedTemplates() {
+        return this.lithostitchedTemplates;
     }
 
     @Override
-    public void lithostitched$setStructurePoolElements(ShufflingList<StructurePoolElement> elements) {
-        this.lithostitched$structurePoolElements = elements;
+    public void setLithostitchedTemplates(ShufflingList<StructurePoolElement> templates) {
+        this.lithostitchedTemplates = templates;
     }
 
     @Inject(
@@ -34,6 +34,6 @@ public class StructureTemplatePoolMixin implements StructurePoolAccess {
             at = @At("TAIL")
     )
     private void lithostitched$addStructurePoolElementWeightedList(Holder<StructureTemplatePool> fallback, List<Pair<StructurePoolElement, Integer>> elementCounts, CallbackInfo ci) {
-        elementCounts.forEach(pair -> lithostitched$structurePoolElements.add(pair.getFirst(), pair.getSecond()));
+        elementCounts.forEach(pair -> lithostitchedTemplates.add(pair.getFirst(), pair.getSecond()));
     }
 }

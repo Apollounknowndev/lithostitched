@@ -164,18 +164,6 @@ public class AlternateJigsawGenerator {
                     childShape = voxelShape;
                 }
 
-
-                /*
-                List<Tuple<StructurePoolElement, Optional<AlternateJigsawStructure.GuaranteedElement>>> childCandidates = Lists.newArrayList();
-                if (this.depthsWithGuaranteedElements.stream().sorted().findFirst().orElse(64) <= depth) {
-                    List<AlternateJigsawStructure.GuaranteedElement> forcedElementsInStep = this.guaranteedElements.stream().filter(element -> element.minDepth() <= depth && element.acceptablePools().contains(poolEntry)).toList();
-                    for (AlternateJigsawStructure.GuaranteedElement forcedElement : forcedElementsInStep) {
-                        childCandidates.add(new Tuple<>(forcedElement.element(), Optional.of(forcedElement)));
-                    }
-                }
-                childCandidates.addAll(collectChildCandidateList(getPoolKey(anchorJigsawInfo), depth, true));
-                */
-
                 findAndTestChildCandidates(poolEntry, collectChildCandidateList(getPoolKey(anchorJigsawInfo), depth, true), parentPiece, anchorJigsawInfo, childShape, k, depth, useExpansionHack, world, noiseConfig);
             }
         }
@@ -207,7 +195,7 @@ public class AlternateJigsawGenerator {
             }
 
             // Create the list of child candidates, always giving priority to guaranteed elements.
-            ShufflingList<StructurePoolElement> structurePoolElementsList = ((StructurePoolAccess)pool.value()).lithostitched$getStructurePoolElements().shuffle();
+            ShufflingList<StructurePoolElement> structurePoolElementsList = ((StructurePoolAccess)pool.value()).getLithostitchedTemplates().shuffle();
 
             List<StructurePoolElement> elements = new ArrayList<>(structurePoolElementsList.stream().filter(element -> element instanceof GuaranteedPoolElement guaranteedElement && guaranteedElement.minDepth() <= depth).toList());
             elements.addAll(structurePoolElementsList.stream().filter(element -> !elements.contains(element)).toList());
@@ -352,7 +340,7 @@ public class AlternateJigsawGenerator {
                                 poolStructurePiece.addJunction(new JigsawJunction(anchorPos.getX(), t - connectorY + s, anchorPos.getZ(), -o, parentProjection));
 
                                 this.piecesToPlace.add(poolStructurePiece);
-                                if (depth + 1 <= this.maxSize) {
+                                if (depth < this.maxSize) {
                                     this.structurePieces.addLast(new ShapedPoolStructurePiece(poolStructurePiece, mutableObject2, depth + 1));
                                 }
                                 return true;
