@@ -33,6 +33,7 @@ public final class LithostitchedBuiltInRegistries {
 		bus.addListener((RegisterEvent event) -> {
 			event.register(Registries.MATERIAL_RULE, helper -> helper.register("transient_merged", LithostitchedSurfaceRules.TransientMergedRuleSource.CODEC.codec()));
 
+			LithostitchedCommon.registerCommonFeatureTypes((name, feature) -> event.register(Registries.FEATURE, helper -> helper.register(name, feature)));
 			LithostitchedCommon.registerCommonPoolElementTypes((name, codec) -> event.register(Registries.STRUCTURE_POOL_ELEMENT, helper -> helper.register(name, () -> (Codec<StructurePoolElement>)codec)));
 			LithostitchedCommon.registerCommonStructureTypes((name, codec) -> event.register(Registries.STRUCTURE_TYPE, helper -> helper.register(name, () -> (Codec<Structure>)codec)));
 			LithostitchedCommon.registerCommonStructureProcessors((name, codec) -> event.register(Registries.STRUCTURE_PROCESSOR, helper -> helper.register(name, () -> (Codec<StructureProcessor>)codec)));

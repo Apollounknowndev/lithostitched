@@ -17,7 +17,7 @@ public interface StructureTemplatePoolAccessor {
 
     @Accessor("templates")
     @Mutable
-    ObjectArrayList<StructurePoolElement> getTemplates();
+    ObjectArrayList<StructurePoolElement> getVanillaTemplates();
 
     @Accessor("rawTemplates")
     @Mutable
@@ -25,5 +25,5 @@ public interface StructureTemplatePoolAccessor {
 
     @Accessor("templates")
     @Mutable
-    void setTemplates(ObjectArrayList<StructurePoolElement> elements);
+    void setVanillaTemplates(ObjectArrayList<StructurePoolElement> elements);
 }

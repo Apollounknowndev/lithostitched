@@ -7,7 +7,11 @@ import dev.worldgen.lithostitched.access.StructurePoolAccess;
 import dev.worldgen.lithostitched.worldgen.poolelement.ExclusivePoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.LimitedPoolElement;
-import net.minecraft.core.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.Vec3i;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceKey;
@@ -36,10 +40,15 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.apache.commons.lang3.mutable.MutableObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Deque;
+import java.util.HashMap;
 
 public class AlternateJigsawGenerator {
-
     public static Optional<Structure.GenerationStub> generate(Structure.GenerationContext context, Holder<StructureTemplatePool> structurePool, Optional<ResourceLocation> id, int size, BlockPos pos, boolean useExpansionHack, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter) {
         RegistryAccess dynamicRegistryManager = context.registryAccess();
         ChunkGenerator chunkGenerator = context.chunkGenerator();
@@ -162,18 +171,6 @@ public class AlternateJigsawGenerator {
                     childShape = voxelShape;
                 }
 
-
-                /*
-                List<Tuple<StructurePoolElement, Optional<AlternateJigsawStructure.GuaranteedElement>>> childCandidates = Lists.newArrayList();
-                if (this.depthsWithGuaranteedElements.stream().sorted().findFirst().orElse(64) <= depth) {
-                    List<AlternateJigsawStructure.GuaranteedElement> forcedElementsInStep = this.guaranteedElements.stream().filter(element -> element.minDepth() <= depth && element.acceptablePools().contains(poolEntry)).toList();
-                    for (AlternateJigsawStructure.GuaranteedElement forcedElement : forcedElementsInStep) {
-                        childCandidates.add(new Tuple<>(forcedElement.element(), Optional.of(forcedElement)));
-                    }
-                }
-                childCandidates.addAll(collectChildCandidateList(getPoolKey(anchorJigsawInfo), depth, true));
-                */
-
                 findAndTestChildCandidates(poolEntry, collectChildCandidateList(getPoolKey(anchorJigsawInfo), depth, true), parentPiece, anchorJigsawInfo, childShape, k, depth, useExpansionHack, world, noiseConfig);
             }
         }
@@ -205,7 +202,7 @@ public class AlternateJigsawGenerator {
             }
 
             // Create the list of child candidates, always giving priority to guaranteed elements.
-            ShufflingList<StructurePoolElement> structurePoolElementsList = ((StructurePoolAccess)pool.value()).lithostitched$getStructurePoolElements().shuffle();
+            ShufflingList<StructurePoolElement> structurePoolElementsList = ((StructurePoolAccess)pool.value()).getLithostitchedTemplates().shuffle();
 
             List<StructurePoolElement> elements = new ArrayList<>(structurePoolElementsList.stream().filter(element -> element instanceof GuaranteedPoolElement guaranteedElement && guaranteedElement.minDepth() <= depth).toList());
             elements.addAll(structurePoolElementsList.stream().filter(element -> !elements.contains(element)).toList());
@@ -253,7 +250,6 @@ public class AlternateJigsawGenerator {
                     processedCandidateElement = candidateElement;
                 }
 
-                label125:
                 for (Rotation rotation : Rotation.getShuffled(this.random)) {
                     List<StructureTemplate.StructureBlockInfo> connectorJigsaws = processedCandidateElement.getShuffledJigsawBlocks(this.structureTemplateManager, BlockPos.ZERO, rotation, this.random);
                     BoundingBox connectorBoundingBox = processedCandidateElement.getBoundingBox(this.structureTemplateManager, BlockPos.ZERO, rotation);
@@ -350,7 +346,7 @@ public class AlternateJigsawGenerator {
                                 poolStructurePiece.addJunction(new JigsawJunction(anchorPos.getX(), t - connectorY + s, anchorPos.getZ(), -o, parentProjection));
 
                                 this.piecesToPlace.add(poolStructurePiece);
-                                if (depth + 1 <= this.maxSize) {
+                                if (depth < this.maxSize) {
                                     this.structurePieces.addLast(new ShapedPoolStructurePiece(poolStructurePiece, mutableObject2, depth + 1));
                                 }
                                 return true;

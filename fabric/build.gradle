@@ -73,7 +73,7 @@ publishing {
 
 publishMods {
     file = remapJar.archiveFile
-    changelog = "- Change to apply_random processor type, check wiki for details"
+    changelog = "- Fixed template pool injection with Lithostitched's custom jigsaw structure type\n- Added `dungeon` and `well` feature types, see wiki for details"
     type = STABLE
     modLoaders.add("fabric")
     displayName = "%s ~ Fabric 1.20.1-2".formatted(project.version)

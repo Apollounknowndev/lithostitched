@@ -32,6 +32,7 @@ public final class LithostitchedBuiltInRegistries {
 	public static final WritableRegistry<Codec<? extends Modifier>> MODIFIER_TYPE = FabricRegistryBuilder.createSimple(LithostitchedRegistries.MODIFIER_TYPE).buildAndRegister();
 	public static final WritableRegistry<Codec<? extends ModifierPredicate>> MODIFIER_PREDICATE_TYPE = FabricRegistryBuilder.createSimple(LithostitchedRegistries.MODIFIER_PREDICATE_TYPE).buildAndRegister();
 
+	@SuppressWarnings("unchecked")
 	public static void init() {
 		Registry.register(BuiltInRegistries.MATERIAL_RULE, LithostitchedMaterialRules.TRANSIENT_MERGED, LithostitchedSurfaceRules.TransientMergedRuleSource.CODEC.codec());
 
@@ -47,6 +48,9 @@ public final class LithostitchedBuiltInRegistries {
 		});
 
 
+		LithostitchedCommon.registerCommonFeatureTypes((name, feature) -> {
+			Registry.register(BuiltInRegistries.FEATURE, createResourceKey(Registries.FEATURE, name), feature);
+		});
 		LithostitchedCommon.registerCommonPoolElementTypes((name, codec) -> {
 			Registry.register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, createResourceKey(Registries.STRUCTURE_POOL_ELEMENT, name), () -> (Codec<StructurePoolElement>)codec);
 		});
