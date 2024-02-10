@@ -3,6 +3,10 @@ package dev.worldgen.lithostitched;
 import com.mojang.serialization.Codec;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
+import dev.worldgen.lithostitched.worldgen.feature.DungeonFeature;
+import dev.worldgen.lithostitched.worldgen.feature.WellFeature;
+import dev.worldgen.lithostitched.worldgen.feature.config.DungeonFeatureConfig;
+import dev.worldgen.lithostitched.worldgen.feature.config.WellFeatureConfig;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.*;
 import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
@@ -15,6 +19,7 @@ import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
@@ -57,6 +62,11 @@ public final class LithostitchedCommon {
 		consumer.accept("mod_loaded", ModLoadedModifierPredicate.CODEC);
 		consumer.accept("not", NotModifierPredicate.CODEC);
 		consumer.accept("true", TrueModifierPredicate.CODEC);
+	}
+
+	public static void registerCommonFeatureTypes(BiConsumer<String, Feature<?>> consumer) {
+		consumer.accept("dungeon", new DungeonFeature(DungeonFeatureConfig.CODEC));
+		consumer.accept("well", new WellFeature(WellFeatureConfig.CODEC));
 	}
 
 	public static void registerCommonPoolElementTypes(BiConsumer<String, Codec<? extends StructurePoolElement>> consumer) {

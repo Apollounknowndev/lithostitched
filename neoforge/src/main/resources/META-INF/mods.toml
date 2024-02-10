@@ -5,7 +5,7 @@ license = "MIT"
 
 [[mods]]
     modId = "lithostitched"
-    version = "1.1.0"
+    version = "${file.jarVersion}"
     displayName = "Lithostitched"
     logoFile = "pack.png"
     authors = "Apollo, SmellyModder"
