@@ -9,14 +9,13 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
-import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
+import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class DungeonFeature extends Feature<DungeonFeatureConfig> {
@@ -29,7 +28,7 @@ public class DungeonFeature extends Feature<DungeonFeatureConfig> {
     public boolean place(FeaturePlaceContext<DungeonFeatureConfig> context) {
         BlockPos startPos = context.origin();
         RandomSource random = context.random();
-        WorldGenLevel level = context.level();
+        WorldGenLevel world = context.level();
         DungeonFeatureConfig config = context.config();
         Predicate<BlockState> predicate = state -> !state.is(config.dungeonInvalidBlocks());
         int xRadius = config.radius().sample(random);
@@ -48,7 +47,7 @@ public class DungeonFeature extends Feature<DungeonFeatureConfig> {
             for(y = -1; y <= 4; ++y) {
                 for(z = minZ; z <= maxZ; ++z) {
                     currentPos = startPos.offset(x, y, z);
-                    boolean bl = level.getBlockState(currentPos).isSolid();
+                    boolean bl = world.getBlockState(currentPos).isSolid();
                     if (y == -1 && !bl) {
                         return false;
                     }
@@ -57,7 +56,7 @@ public class DungeonFeature extends Feature<DungeonFeatureConfig> {
                         return false;
                     }
 
-                    if ((x == minX || x == maxX || z == minZ || z == maxZ) && y == 0 && level.isEmptyBlock(currentPos) && level.isEmptyBlock(currentPos.above())) {
+                    if ((x == minX || x == maxX || z == minZ || z == maxZ) && y == 0 && world.isEmptyBlock(currentPos) && world.isEmptyBlock(currentPos.above())) {
                         ++openings;
                     }
                 }
@@ -69,15 +68,15 @@ public class DungeonFeature extends Feature<DungeonFeatureConfig> {
                 for(y = 3; y >= -1; --y) {
                     for(z = minZ; z <= maxZ; ++z) {
                         currentPos = startPos.offset(x, y, z);
-                        BlockState currentState = level.getBlockState(currentPos);
+                        BlockState currentState = world.getBlockState(currentPos);
                         if (x != minX && y != -1 && z != minZ && x != maxX && y != 4 && z != maxZ) {
                             if (!currentState.is(Blocks.CHEST) && !currentState.is(Blocks.SPAWNER)) {
-                                this.safeSetBlock(level, currentPos, Blocks.CAVE_AIR.defaultBlockState(), predicate);
+                                this.safeSetBlock(world, currentPos, Blocks.CAVE_AIR.defaultBlockState(), predicate);
                             }
-                        } else if (currentPos.getY() >= level.getMinBuildHeight() && !level.getBlockState(currentPos.below()).isSolid()) {
-                            level.setBlock(currentPos, Blocks.CAVE_AIR.defaultBlockState(), 2);
+                        } else if (currentPos.getY() >= world.getMinBuildHeight() && !world.getBlockState(currentPos.below()).isSolid()) {
+                            world.setBlock(currentPos, Blocks.CAVE_AIR.defaultBlockState(), 2);
                         } else if (currentState.isSolid() && !currentState.is(Blocks.CHEST)) {
-                            this.safeSetBlock(level, currentPos, y == -1 ? config.floorProvider().getState(random, currentPos) : config.wallProvider().getState(random, currentPos), predicate);
+                            this.safeSetBlock(world, currentPos, y == -1 ? config.floorProvider().getState(random, currentPos) : config.wallProvider().getState(random, currentPos), predicate);
                         }
                     }
                 }
@@ -89,26 +88,29 @@ public class DungeonFeature extends Feature<DungeonFeatureConfig> {
                     int v = startPos.getY();
                     int w = startPos.getZ() + random.nextInt(zRadius * 2 + 1) - zRadius;
                     BlockPos chestPos = new BlockPos(z, v, w);
-                    if (level.isEmptyBlock(chestPos)) {
+                    if (world.isEmptyBlock(chestPos)) {
                         int solidFaces = 0;
 
                         for (Direction direction : Direction.Plane.HORIZONTAL) {
-                            if (level.getBlockState(chestPos.relative(direction)).isSolid()) {
+                            if (world.getBlockState(chestPos.relative(direction)).isSolid()) {
                                 ++solidFaces;
                             }
                         }
 
                         if (solidFaces == 1) {
-                            this.safeSetBlock(level, chestPos, StructurePiece.reorient(level, chestPos, Blocks.CHEST.defaultBlockState()), predicate);
-                            RandomizableContainerBlockEntity.setLootTable(level, random, chestPos, config.lootTable());
+                            this.safeSetBlock(world, chestPos, StructurePiece.reorient(world, chestPos, Blocks.CHEST.defaultBlockState()), predicate);
+                            Optional<ChestBlockEntity> chestEntity = world.getBlockEntity(chestPos, BlockEntityType.CHEST);
+                            if (chestEntity.isPresent()) {
+                                chestEntity.get().setLootTable(config.lootTable(), random.nextLong());
+                            }
                             break;
                         }
                     }
                 }
             }
 
-            this.safeSetBlock(level, startPos, Blocks.SPAWNER.defaultBlockState(), predicate);
-            BlockEntity blockEntity = level.getBlockEntity(startPos);
+            this.safeSetBlock(world, startPos, Blocks.SPAWNER.defaultBlockState(), predicate);
+            BlockEntity blockEntity = world.getBlockEntity(startPos);
             if (blockEntity instanceof SpawnerBlockEntity spawner) {
                 spawner.setEntityId(config.spawnerMobs().getRandomValue(random).orElse(EntityType.PIG), random);
             } else {
