@@ -23,7 +23,7 @@ file = "META-INF/accesstransformer.cfg"
 [[dependencies.lithostitched]]
     modId = "neoforge"
     type = "required"
-    versionRange = "[21,)"
+    versionRange = "[21.0.64,)"
     ordering = "NONE"
     side = "BOTH"
 

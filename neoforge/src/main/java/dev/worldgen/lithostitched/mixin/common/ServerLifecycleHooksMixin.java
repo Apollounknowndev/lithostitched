@@ -5,12 +5,8 @@ import dev.worldgen.lithostitched.worldgen.modifier.AbstractBiomeModifier;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,35 +14,23 @@ import java.util.stream.Collectors;
 
 @Mixin(value = net.neoforged.neoforge.server.ServerLifecycleHooks.class, remap = false)
 public class ServerLifecycleHooksMixin {
-    @Unique
-    private static MinecraftServer serverInstance;
-    @Inject(
-        method = "runModifiers(Lnet/minecraft/server/MinecraftServer;)V",
-        at = @At("HEAD"),
-        locals = LocalCapture.CAPTURE_FAILHARD
-    )
-    private static void lithostitched$captureServer(MinecraftServer server, CallbackInfo ci) {
-        serverInstance = server;
-    }
 
-    @ModifyArg(
-        method = "lambda$runModifiers$1(Ljava/util/List;Lnet/minecraft/core/Holder$Reference;)V",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/neoforged/neoforge/common/world/ModifiableBiomeInfo;applyBiomeModifiers(Lnet/minecraft/core/Holder;Ljava/util/List;)V"
-        ),
-        index = 1
+    @ModifyVariable(
+        method = "runModifiers",
+        at = @At("STORE"),
+        ordinal = 0
     )
-    private static List<BiomeModifier> lithostitched$injectBiomeModifers(List<BiomeModifier> biomeModifiers) {
+    private static List<BiomeModifier> lithostitched$injectBiomeModifers(List<BiomeModifier> biomeModifiers, MinecraftServer server) {
         List<BiomeModifier> allBiomeModifiers = new ArrayList<>(biomeModifiers);
-        var lithostitchedBiomeModifiers = serverInstance.registryAccess().registryOrThrow(LithostitchedRegistries.WORLDGEN_MODIFIER).entrySet().stream().filter((entry) -> entry.getValue() instanceof AbstractBiomeModifier).collect(Collectors.toSet());
+
+        var lithostitchedBiomeModifiers = server.registryAccess().registryOrThrow(LithostitchedRegistries.WORLDGEN_MODIFIER).entrySet().stream().filter(entry -> entry.getValue() instanceof AbstractBiomeModifier).collect(Collectors.toSet());
         lithostitchedBiomeModifiers.forEach(
-            (entry) -> {
+            entry -> {
                 AbstractBiomeModifier modifier = ((AbstractBiomeModifier)entry.getValue());
                 allBiomeModifiers.add(modifier.neoforgeBiomeModifier());
             }
         );
+
         return allBiomeModifiers;
     }
-
 }

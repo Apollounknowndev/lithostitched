@@ -5,8 +5,10 @@ import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistries;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
@@ -25,6 +27,10 @@ public interface Modifier {
         return ((Registry<MapCodec<? extends Modifier>>) modifierRegistry).byNameCodec();
     }).dispatch(Modifier::codec, Function.identity());
 
+    default void stripKnownPackInfo(Registry<Biome> registry) {
+
+    }
+
     void applyModifier();
 
     ModifierPhase getPhase();
@@ -38,6 +44,7 @@ public interface Modifier {
             if (phase == ModifierPhase.NONE) continue;
             for (Modifier modifier : modifiers.stream().filter(modifier -> modifier.getPhase() == phase).collect(Collectors.toSet())) {
                 modifier.applyModifier();
+                modifier.stripKnownPackInfo(server.registryAccess().registryOrThrow(Registries.BIOME));
             }
         }
     }

@@ -7,8 +7,10 @@
   "mixins": [
     "common.GameTestServerMixin",
     "common.JigsawStructureAccessor",
+    "common.MappedRegistryAccessor",
     "common.PlacedFeatureAccessor",
     "common.PoolAliasLookupMixin",
+    "common.RandomStateAccessor",
     "common.StructureSetAccessor",
     "common.StructureTemplatePoolAccessor",
     "common.StructureTemplatePoolMixin"

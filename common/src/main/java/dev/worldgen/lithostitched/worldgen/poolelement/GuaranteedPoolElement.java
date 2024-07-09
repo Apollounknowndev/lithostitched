@@ -15,7 +15,7 @@ public class GuaranteedPoolElement extends ExclusivePoolElement {
     private final int count;
     private final int minDepth;
 
-    protected GuaranteedPoolElement(StructurePoolElement delegate, int count, int minDepth) {
+    public GuaranteedPoolElement(StructurePoolElement delegate, int count, int minDepth) {
         super(delegate);
         this.count = count;
         this.minDepth = minDepth;

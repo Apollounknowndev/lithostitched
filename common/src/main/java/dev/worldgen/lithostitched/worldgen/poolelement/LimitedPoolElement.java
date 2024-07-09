@@ -1,6 +1,5 @@
 package dev.worldgen.lithostitched.worldgen.poolelement;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.ExtraCodecs;
@@ -14,7 +13,7 @@ public class LimitedPoolElement extends ExclusivePoolElement {
     public static final StructurePoolElementType<LimitedPoolElement> LIMITED_TYPE = () -> CODEC;
     private final int limit;
 
-    protected LimitedPoolElement(StructurePoolElement delegate, int limit) {
+    public LimitedPoolElement(StructurePoolElement delegate, int limit) {
         super(delegate);
         this.limit = limit;
     }
