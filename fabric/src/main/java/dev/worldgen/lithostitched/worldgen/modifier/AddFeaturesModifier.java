@@ -45,6 +45,11 @@ public record AddFeaturesModifier(HolderSet<Biome> biomes, HolderSet<PlacedFeatu
     }
 
     @Override
+    public boolean internal$modifiesFabricFeatures() {
+        return true;
+    }
+
+    @Override
     public void applyModifier() {
         List<Holder<Biome>> biomes = this.biomes().stream().toList();
         for (Holder<Biome> entry : biomes.stream().toList()) {

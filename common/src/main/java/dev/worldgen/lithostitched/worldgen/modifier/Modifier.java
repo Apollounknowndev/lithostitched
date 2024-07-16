@@ -1,7 +1,9 @@
 package dev.worldgen.lithostitched.worldgen.modifier;
 
+import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistries;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -9,8 +11,12 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.biome.FeatureSorter;
+import net.minecraft.world.level.dimension.LevelStem;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -39,14 +45,34 @@ public interface Modifier {
 
     // Apply all worldgen modifiers in the worldgen modifier registry
     static void applyModifiers(MinecraftServer server) {
+        boolean fabricFeaturesModified = false;
         Registry<Modifier> modifiers = server.registryAccess().registryOrThrow(LithostitchedRegistries.WORLDGEN_MODIFIER);
         for (ModifierPhase phase : ModifierPhase.values()) {
             if (phase == ModifierPhase.NONE) continue;
             for (Modifier modifier : modifiers.stream().filter(modifier -> modifier.getPhase() == phase).collect(Collectors.toSet())) {
                 modifier.applyModifier();
                 modifier.stripKnownPackInfo(server.registryAccess().registryOrThrow(Registries.BIOME));
+
+                if (modifier.internal$modifiesFabricFeatures()) {
+                    fabricFeaturesModified = true;
+                }
             }
         }
+
+        if (fabricFeaturesModified) {
+            Registry<LevelStem> dimensions = server.registryAccess().registryOrThrow(Registries.LEVEL_STEM);
+            for (LevelStem dimension : dimensions) {
+                var accessor = ((ChunkGeneratorAccessor)dimension.generator());
+                BiomeSource source = accessor.getBiomeSource();
+                accessor.setFeaturesPerStep(
+                    Suppliers.memoize(() -> FeatureSorter.buildFeaturesPerStep(List.copyOf(source.possibleBiomes()), biome -> accessor.getGetter().apply(biome).features(), true))
+                );
+            }
+        }
+    }
+
+    default boolean internal$modifiesFabricFeatures() {
+        return false;
     }
 
     enum ModifierPhase implements StringRepresentable {
