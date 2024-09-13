@@ -6,6 +6,7 @@ import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistries;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
@@ -37,6 +38,10 @@ public interface Modifier {
 
     }
 
+    default void applyModifier(RegistryAccess registryAccess) {
+        this.applyModifier();
+    }
+
     void applyModifier();
 
     ModifierPhase getPhase();
@@ -46,12 +51,13 @@ public interface Modifier {
     // Apply all worldgen modifiers in the worldgen modifier registry
     static void applyModifiers(MinecraftServer server) {
         boolean fabricFeaturesModified = false;
-        Registry<Modifier> modifiers = server.registryAccess().registryOrThrow(LithostitchedRegistries.WORLDGEN_MODIFIER);
+        RegistryAccess registries = server.registryAccess();
+        Registry<Modifier> modifiers = registries.registryOrThrow(LithostitchedRegistries.WORLDGEN_MODIFIER);
         for (ModifierPhase phase : ModifierPhase.values()) {
             if (phase == ModifierPhase.NONE) continue;
             for (Modifier modifier : modifiers.stream().filter(modifier -> modifier.getPhase() == phase).collect(Collectors.toSet())) {
-                modifier.applyModifier();
-                modifier.stripKnownPackInfo(server.registryAccess().registryOrThrow(Registries.BIOME));
+                modifier.applyModifier(registries);
+                modifier.stripKnownPackInfo(registries.registryOrThrow(Registries.BIOME));
 
                 if (modifier.internal$modifiesFabricFeatures()) {
                     fabricFeaturesModified = true;
@@ -60,7 +66,7 @@ public interface Modifier {
         }
 
         if (fabricFeaturesModified) {
-            Registry<LevelStem> dimensions = server.registryAccess().registryOrThrow(Registries.LEVEL_STEM);
+            Registry<LevelStem> dimensions = registries.registryOrThrow(Registries.LEVEL_STEM);
             for (LevelStem dimension : dimensions) {
                 var accessor = ((ChunkGeneratorAccessor)dimension.generator());
                 BiomeSource source = accessor.getBiomeSource();

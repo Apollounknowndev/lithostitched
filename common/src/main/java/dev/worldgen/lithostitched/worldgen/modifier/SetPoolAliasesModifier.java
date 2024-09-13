@@ -14,13 +14,14 @@ import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
 import java.util.ArrayList;
 import java.util.List;
 
-public record AddPoolAliasesModifier(Holder<Structure> structure, List<PoolAliasBinding> poolAliases) implements Modifier {
-    public static final MapCodec<AddPoolAliasesModifier> CODEC = RecordCodecBuilder.<AddPoolAliasesModifier>mapCodec(instance -> instance.group(
-        Structure.CODEC.fieldOf("structure").forGetter(AddPoolAliasesModifier::structure),
-        Codec.list(PoolAliasBinding.CODEC).fieldOf("pool_aliases").forGetter(AddPoolAliasesModifier::poolAliases)
-    ).apply(instance, AddPoolAliasesModifier::new)).validate(AddPoolAliasesModifier::validate);
+public record SetPoolAliasesModifier(Holder<Structure> structure, List<PoolAliasBinding> poolAliases, boolean append) implements Modifier {
+    public static final MapCodec<SetPoolAliasesModifier> CODEC = RecordCodecBuilder.<SetPoolAliasesModifier>mapCodec(instance -> instance.group(
+        Structure.CODEC.fieldOf("structure").forGetter(SetPoolAliasesModifier::structure),
+        Codec.list(PoolAliasBinding.CODEC).fieldOf("pool_aliases").forGetter(SetPoolAliasesModifier::poolAliases),
+        Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetPoolAliasesModifier::append)
+    ).apply(instance, SetPoolAliasesModifier::new)).validate(SetPoolAliasesModifier::validate);
 
-    private static DataResult<AddPoolAliasesModifier> validate(AddPoolAliasesModifier modifier) {
+    private static DataResult<SetPoolAliasesModifier> validate(SetPoolAliasesModifier modifier) {
         Structure structure = modifier.structure.value();
         if (!(structure instanceof JigsawStructure || structure instanceof AlternateJigsawStructure)) {
             return DataResult.error(() -> "Target structure for pool alias additions should be a jigsaw structure");
@@ -38,9 +39,11 @@ public record AddPoolAliasesModifier(Holder<Structure> structure, List<PoolAlias
         Structure structure = this.structure.value();
 
         if (structure instanceof AlternateJigsawStructure alternateJigsaw) {
-            alternateJigsaw.addPoolAliases(this.poolAliases);
+            alternateJigsaw.setPoolAliases(this.poolAliases, this.append);
         } else {
-            List<PoolAliasBinding> mergedAliases = new ArrayList<>(((JigsawStructureAccessor)structure).getPoolAliases());
+            List<PoolAliasBinding> mergedAliases = new ArrayList<>();
+            if (this.append) mergedAliases.addAll(((JigsawStructureAccessor)structure).getPoolAliases());
+
             mergedAliases.addAll(this.poolAliases);
             ((JigsawStructureAccessor)structure).setPoolAliases(mergedAliases);
         }

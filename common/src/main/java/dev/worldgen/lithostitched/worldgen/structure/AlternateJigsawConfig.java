@@ -32,8 +32,9 @@ public record AlternateJigsawConfig(Holder<StructureTemplatePool> startPool, Opt
         LiquidSettings.CODEC.optionalFieldOf("liquid_settings", LiquidSettings.APPLY_WATERLOGGING).forGetter(AlternateJigsawConfig::liquidSettings)
     ).apply(instance, (AlternateJigsawConfig::new)));
 
-    public AlternateJigsawConfig addPoolAliases(List<PoolAliasBinding> poolAliases) {
-        List<PoolAliasBinding> mergedAliases = new ArrayList<>(this.poolAliases);
+    public AlternateJigsawConfig setPoolAliases(List<PoolAliasBinding> poolAliases, boolean append) {
+        List<PoolAliasBinding> mergedAliases = new ArrayList<>();
+        if (append) mergedAliases.addAll(this.poolAliases);
         mergedAliases.addAll(poolAliases);
 
         return new AlternateJigsawConfig(

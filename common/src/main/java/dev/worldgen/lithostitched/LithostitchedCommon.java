@@ -51,13 +51,13 @@ public final class LithostitchedCommon {
 	}
 
 	public static void registerCommonModifiers(BiConsumer<String, MapCodec<? extends Modifier>> consumer) {
-		consumer.accept("add_pool_aliases", AddPoolAliasesModifier.CODEC);
 		consumer.accept("add_structure_set_entries", AddStructureSetEntriesModifier.CODEC);
 		consumer.accept("add_surface_rule", AddSurfaceRuleModifier.CODEC);
 		consumer.accept("add_template_pool_elements", AddTemplatePoolElementsModifier.CODEC);
 		consumer.accept("no_op", NoOpModifier.CODEC);
 		consumer.accept("redirect_feature", RedirectFeatureModifier.CODEC);
 		consumer.accept("remove_structures_from_structure_set", RemoveStructuresFromStructureSetModifier.CODEC);
+		consumer.accept("set_pool_aliases", SetPoolAliasesModifier.CODEC);
 	}
 
 	public static void registerCommonFeatureTypes(BiConsumer<String, Feature<?>> consumer) {

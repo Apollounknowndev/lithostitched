@@ -35,8 +35,8 @@ public class AlternateJigsawStructure extends Structure {
         super(settings);
         this.config = config;
     }
-    public void addPoolAliases(List<PoolAliasBinding> poolAliases) {
-        this.config = this.config.addPoolAliases(poolAliases);
+    public void setPoolAliases(List<PoolAliasBinding> poolAliases, boolean append) {
+        this.config = this.config.setPoolAliases(poolAliases, append);
     }
 
     public AlternateJigsawConfig config() {
