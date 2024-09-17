@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class DelegatingStructure extends Structure {
     public static final MapCodec<DelegatingStructure> CODEC = DelegatingConfig.CODEC.xmap(DelegatingStructure::new, DelegatingStructure::config);
-    public static final StructureType<DelegatingStructure> DELEGATING_TYPE = () -> DelegatingStructure.CODEC;
+    public static final StructureType<DelegatingStructure> TYPE = () -> DelegatingStructure.CODEC;
     private final DelegatingConfig config;
 
     protected DelegatingStructure(DelegatingConfig config) {
@@ -44,7 +44,7 @@ public class DelegatingStructure extends Structure {
 
     @Override
     public StructureType<?> type() {
-        return DELEGATING_TYPE;
+        return TYPE;
     }
 
     private static StructureSettings createSettings(DelegatingConfig config) {

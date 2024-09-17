@@ -17,7 +17,7 @@ public class ApplyRandomStructureProcessor extends StructureProcessor {
         Mode.CODEC.fieldOf("mode").forGetter(ApplyRandomStructureProcessor::mode)
     ).apply(instance, ApplyRandomStructureProcessor::new));
 
-    public static final StructureProcessorType<ApplyRandomStructureProcessor> APPLY_RANDOM_TYPE = () -> CODEC;
+    public static final StructureProcessorType<ApplyRandomStructureProcessor> TYPE = () -> CODEC;
     private final SimpleWeightedRandomList<Holder<StructureProcessorList>> processorLists;
     private final Mode mode;
 
@@ -49,7 +49,7 @@ public class ApplyRandomStructureProcessor extends StructureProcessor {
 
     @Override
     protected @NotNull StructureProcessorType<?> getType() {
-        return APPLY_RANDOM_TYPE;
+        return TYPE;
     }
 
     public enum Mode implements StringRepresentable {

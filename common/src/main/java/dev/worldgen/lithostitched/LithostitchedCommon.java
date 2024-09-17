@@ -4,17 +4,19 @@ import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
 import dev.worldgen.lithostitched.worldgen.feature.DungeonFeature;
+import dev.worldgen.lithostitched.worldgen.feature.StructureTemplateFeature;
 import dev.worldgen.lithostitched.worldgen.feature.WellFeature;
 import dev.worldgen.lithostitched.worldgen.feature.config.DungeonFeatureConfig;
+import dev.worldgen.lithostitched.worldgen.feature.config.StructureTemplateConfig;
 import dev.worldgen.lithostitched.worldgen.feature.config.WellFeatureConfig;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
-import dev.worldgen.lithostitched.worldgen.poolalias.ApplyWithChance;
 import dev.worldgen.lithostitched.worldgen.poolalias.RandomEntries;
 import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.LimitedPoolElement;
 import dev.worldgen.lithostitched.worldgen.processor.ApplyRandomStructureProcessor;
 import dev.worldgen.lithostitched.worldgen.processor.BlockSwapStructureProcessor;
 import dev.worldgen.lithostitched.worldgen.processor.ReferenceStructureProcessor;
+import dev.worldgen.lithostitched.worldgen.ruletest.MatchingBlocksRuleTest;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
 import dev.worldgen.lithostitched.worldgen.structure.condition.*;
@@ -22,11 +24,12 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockentity.RuleBlockEntityModifier;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
+import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockentity.RuleBlockEntityModifierType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,10 +50,15 @@ public final class LithostitchedCommon {
 	public static void init() {}
 
 	public static <T> ResourceKey<T> createResourceKey(ResourceKey<? extends Registry<T>> resourceKey, String name) {
-		return ResourceKey.create(resourceKey, ResourceLocation.fromNamespaceAndPath(MOD_ID, name));
+		return ResourceKey.create(resourceKey, id(name));
+	}
+
+	public static ResourceLocation id(String name) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
 	}
 
 	public static void registerCommonModifiers(BiConsumer<String, MapCodec<? extends Modifier>> consumer) {
+		consumer.accept("add_processor_list_processors", AddProcessorListProcessorsModifier.CODEC);
 		consumer.accept("add_structure_set_entries", AddStructureSetEntriesModifier.CODEC);
 		consumer.accept("add_surface_rule", AddSurfaceRuleModifier.CODEC);
 		consumer.accept("add_template_pool_elements", AddTemplatePoolElementsModifier.CODEC);
@@ -62,23 +70,22 @@ public final class LithostitchedCommon {
 
 	public static void registerCommonFeatureTypes(BiConsumer<String, Feature<?>> consumer) {
 		consumer.accept("dungeon", new DungeonFeature(DungeonFeatureConfig.CODEC));
+		consumer.accept("structure_template", new StructureTemplateFeature(StructureTemplateConfig.CODEC));
 		consumer.accept("well", new WellFeature(WellFeatureConfig.CODEC));
 	}
 
-	public static void registerCommonPoolElementTypes(BiConsumer<String, MapCodec<? extends StructurePoolElement>> consumer) {
-		consumer.accept("guaranteed", GuaranteedPoolElement.CODEC);
-		consumer.accept("limited", LimitedPoolElement.CODEC);
+	public static void registerCommonPoolElementTypes(BiConsumer<String, StructurePoolElementType<?>> consumer) {
+		consumer.accept("guaranteed", GuaranteedPoolElement.TYPE);
+		consumer.accept("limited", LimitedPoolElement.TYPE);
 	}
 
 	public static void registerCommonPoolAliasBindings(BiConsumer<String, MapCodec<? extends PoolAliasBinding>> consumer) {
-		consumer.accept("apply_with_chance", ApplyWithChance.CODEC);
 		consumer.accept("internal/random_entries", RandomEntries.CODEC);
 	}
 
-
-	public static void registerCommonStructureTypes(BiConsumer<String, MapCodec<? extends Structure>> consumer) {
-		consumer.accept("delegating", DelegatingStructure.CODEC);
-		consumer.accept("jigsaw", AlternateJigsawStructure.CODEC);
+	public static void registerCommonStructureTypes(BiConsumer<String, StructureType<?>> consumer) {
+		consumer.accept("delegating", DelegatingStructure.TYPE);
+		consumer.accept("jigsaw", AlternateJigsawStructure.TYPE);
 	}
 
 	public static void registerCommonStructureConditions(BiConsumer<String, MapCodec<? extends StructureCondition>> consumer) {
@@ -92,14 +99,18 @@ public final class LithostitchedCommon {
 		consumer.accept("true", TrueStructureCondition.CODEC);
 	}
 
-	public static void registerCommonStructureProcessors(BiConsumer<String, MapCodec<? extends StructureProcessor>> consumer) {
-		consumer.accept("apply_random", ApplyRandomStructureProcessor.CODEC);
-		consumer.accept("block_swap", BlockSwapStructureProcessor.CODEC);
-		consumer.accept("reference", ReferenceStructureProcessor.CODEC);
+	public static void registerCommonStructureProcessors(BiConsumer<String, StructureProcessorType<?>> consumer) {
+		consumer.accept("apply_random", ApplyRandomStructureProcessor.TYPE);
+		consumer.accept("block_swap", BlockSwapStructureProcessor.TYPE);
+		consumer.accept("reference", ReferenceStructureProcessor.TYPE);
 	}
 
-	public static void registerCommonBlockEntityModifiers(BiConsumer<String, MapCodec<? extends RuleBlockEntityModifier>> consumer) {
-		consumer.accept("apply_all", ApplyAll.CODEC);
-		consumer.accept("apply_random", ApplyRandom.CODEC);
+	public static void registerCommonRuleTests(BiConsumer<String, RuleTestType<?>> consumer) {
+		consumer.accept("matching_blocks", MatchingBlocksRuleTest.TYPE);
+	}
+
+	public static void registerCommonBlockEntityModifiers(BiConsumer<String, RuleBlockEntityModifierType<?>> consumer) {
+		consumer.accept("apply_all", ApplyAll.TYPE);
+		consumer.accept("apply_random", ApplyRandom.TYPE);
 	}
 }

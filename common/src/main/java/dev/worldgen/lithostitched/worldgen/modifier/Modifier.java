@@ -4,7 +4,7 @@ import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistries;
+import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public interface Modifier {
     @SuppressWarnings("unchecked")
     Codec<Modifier> CODEC = Codec.lazyInitialized(() -> {
-        var modifierRegistry = BuiltInRegistries.REGISTRY.get(LithostitchedRegistries.MODIFIER_TYPE.location());
+        var modifierRegistry = BuiltInRegistries.REGISTRY.get(LithostitchedRegistryKeys.MODIFIER_TYPE.location());
         if (modifierRegistry == null) throw new NullPointerException("Worldgen modifier registry does not exist yet!");
         return ((Registry<MapCodec<? extends Modifier>>) modifierRegistry).byNameCodec();
     }).dispatch(Modifier::codec, Function.identity());
@@ -52,7 +52,7 @@ public interface Modifier {
     static void applyModifiers(MinecraftServer server) {
         boolean fabricFeaturesModified = false;
         RegistryAccess registries = server.registryAccess();
-        Registry<Modifier> modifiers = registries.registryOrThrow(LithostitchedRegistries.WORLDGEN_MODIFIER);
+        Registry<Modifier> modifiers = registries.registryOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER);
         for (ModifierPhase phase : ModifierPhase.values()) {
             if (phase == ModifierPhase.NONE) continue;
             for (Modifier modifier : modifiers.stream().filter(modifier -> modifier.getPhase() == phase).collect(Collectors.toSet())) {

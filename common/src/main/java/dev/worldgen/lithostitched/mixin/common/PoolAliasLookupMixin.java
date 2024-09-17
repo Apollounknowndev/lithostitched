@@ -12,6 +12,7 @@ public interface PoolAliasLookupMixin {
         method = "create",
         at = @At(
             value = "INVOKE",
+            remap = false,
             target = "Lcom/google/common/collect/ImmutableMap$Builder;build()Lcom/google/common/collect/ImmutableMap;"
         )
     )

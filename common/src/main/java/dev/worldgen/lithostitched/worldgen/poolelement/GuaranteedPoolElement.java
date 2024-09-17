@@ -11,7 +11,7 @@ public class GuaranteedPoolElement extends ExclusivePoolElement {
         ExtraCodecs.POSITIVE_INT.fieldOf("count").forGetter(GuaranteedPoolElement::count),
         ExtraCodecs.NON_NEGATIVE_INT.fieldOf("min_depth").forGetter(GuaranteedPoolElement::minDepth)
     )).apply(instance, GuaranteedPoolElement::new));
-    public static final StructurePoolElementType<GuaranteedPoolElement> GUARANTEED_TYPE = () -> CODEC;
+    public static final StructurePoolElementType<GuaranteedPoolElement> TYPE = () -> CODEC;
     private final int count;
     private final int minDepth;
 
@@ -30,6 +30,6 @@ public class GuaranteedPoolElement extends ExclusivePoolElement {
 
     @Override
     public StructurePoolElementType<?> getType() {
-        return GUARANTEED_TYPE;
+        return TYPE;
     }
 }

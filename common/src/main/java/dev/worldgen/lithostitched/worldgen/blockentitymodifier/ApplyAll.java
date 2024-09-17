@@ -16,7 +16,7 @@ public record ApplyAll(List<RuleBlockEntityModifier> modifiers) implements RuleB
         RuleBlockEntityModifier.CODEC.listOf().fieldOf("modifiers").forGetter(ApplyAll::modifiers)
     ).apply(instance, ApplyAll::new));
 
-    public static final RuleBlockEntityModifierType<ApplyAll> APPLY_ALL_TYPE = () -> CODEC;
+    public static final RuleBlockEntityModifierType<ApplyAll> TYPE = () -> CODEC;
 
     @Nullable
     @Override
@@ -29,6 +29,6 @@ public record ApplyAll(List<RuleBlockEntityModifier> modifiers) implements RuleB
 
     @Override
     public @NotNull RuleBlockEntityModifierType<?> getType() {
-        return APPLY_ALL_TYPE;
+        return TYPE;
     }
 }

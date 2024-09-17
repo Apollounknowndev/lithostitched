@@ -12,6 +12,7 @@
     "common.PlacedFeatureAccessor",
     "common.PoolAliasLookupMixin",
     "common.RandomStateAccessor",
+    "common.StructureProcessorListAccessor",
     "common.StructureSetAccessor",
     "common.StructureTemplatePoolAccessor",
     "common.StructureTemplatePoolMixin"

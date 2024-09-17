@@ -117,12 +117,12 @@ public class AlternateJigsawGenerator {
     }
 
     private static void generate(RandomState noiseConfig, int maxSize, boolean useExpansionHack, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, LevelHeightAccessor heightLimitView, RandomSource random, Registry<StructureTemplatePool> structurePoolRegistry, PoolElementStructurePiece firstPiece, List<PoolElementStructurePiece> pieces, VoxelShape pieceShape, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
-        StructurePoolGenerator structurePoolGenerator = new StructurePoolGenerator(structurePoolRegistry, maxSize, chunkGenerator, structureTemplateManager, pieces, random);
-        structurePoolGenerator.generatePiece(firstPiece, new MutableObject<>(pieceShape), 0, useExpansionHack, heightLimitView, noiseConfig, aliasLookup, liquidSettings);
+        StructurePoolGenerator generator = new StructurePoolGenerator(structurePoolRegistry, maxSize, chunkGenerator, structureTemplateManager, pieces, random);
+        generator.generatePiece(firstPiece, new MutableObject<>(pieceShape), 0, useExpansionHack, heightLimitView, noiseConfig, aliasLookup, liquidSettings);
 
-        while(structurePoolGenerator.structurePieces.hasNext()) {
-            ShapedPoolStructurePiece shapedPoolStructurePiece = structurePoolGenerator.structurePieces.next();
-            structurePoolGenerator.generatePiece(shapedPoolStructurePiece.piece, shapedPoolStructurePiece.pieceShape, shapedPoolStructurePiece.currentSize, useExpansionHack, heightLimitView, noiseConfig, aliasLookup, liquidSettings);
+        while(generator.pieces.hasNext()) {
+            ShapedPoolStructurePiece shapedPoolStructurePiece = generator.pieces.next();
+            generator.generatePiece(shapedPoolStructurePiece.piece, shapedPoolStructurePiece.pieceShape, shapedPoolStructurePiece.currentSize, useExpansionHack, heightLimitView, noiseConfig, aliasLookup, liquidSettings);
         }
 
     }
@@ -135,7 +135,7 @@ public class AlternateJigsawGenerator {
         private final List<? super PoolElementStructurePiece> piecesToPlace;
         private final RandomSource random;
         private final Map<ExclusivePoolElement, Integer> elementsToCounts;
-        final SequencedPriorityIterator<ShapedPoolStructurePiece> structurePieces = new SequencedPriorityIterator<>();
+        final SequencedPriorityIterator<ShapedPoolStructurePiece> pieces = new SequencedPriorityIterator<>();
 
         private StructurePoolGenerator(Registry<StructureTemplatePool> registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List<? super PoolElementStructurePiece> children, RandomSource random) {
             this.registry = registry;
@@ -155,7 +155,7 @@ public class AlternateJigsawGenerator {
                 BoundingBox parentBoundingBox = parentPiece.getBoundingBox();
                 BlockPos candidateConnectorPos = anchorJigsawInfo.pos().relative(JigsawBlock.getFrontFacing(anchorJigsawInfo.state()));
                 int k = -1;
-                Holder<StructureTemplatePool> poolEntry = getStructurePoolEntry(getPoolKey(anchorJigsawInfo, aliasLookup));
+                Holder<StructureTemplatePool> poolEntry = getTemplatePoolHolder(getTemplatePoolKey(anchorJigsawInfo, aliasLookup));
                 if (poolEntry == null) continue;
                 boolean connectorInParentBoundingBox = parentBoundingBox.isInside(candidateConnectorPos);
                 MutableObject<VoxelShape> childShape;
@@ -178,7 +178,7 @@ public class AlternateJigsawGenerator {
          * If none are found, go to the template pool's fallback and try again.
          */
         private void findAndTestChildCandidates(Holder<StructureTemplatePool> entry, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig, boolean firstIteration, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
-            List<StructurePoolElement> childCandidates = this.collectChildCandidateList(entry.unwrapKey().orElse(Pools.EMPTY), checkedPools, depth, firstIteration);
+            List<StructurePoolElement> childCandidates = this.getPoolElements(entry.unwrapKey().orElse(Pools.EMPTY), checkedPools, depth, firstIteration);
 
             if (childCandidates.isEmpty()) return;
             boolean foundChild = findValidChildPiece(childCandidates, parentPiece, anchorJigsawInfo, mutableObject2, k, depth, useExpansionHack, world, noiseConfig, aliasLookup, liquidSettings);
@@ -187,7 +187,7 @@ public class AlternateJigsawGenerator {
             }
         }
 
-        private List<StructurePoolElement> collectChildCandidateList(ResourceKey<StructureTemplatePool> poolKey, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, int depth, boolean firstIteration) {
+        private List<StructurePoolElement> getPoolElements(ResourceKey<StructureTemplatePool> poolKey, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, int depth, boolean firstIteration) {
             // No point grabbing the pool if it's the empty pool
             if (poolKey == Pools.EMPTY) return List.of();
 
@@ -208,6 +208,7 @@ public class AlternateJigsawGenerator {
             // Get pool to get the elements, start with fallback pool if at max size
             Holder<StructureTemplatePool> pool = this.registry.getHolder(poolKey).orElseThrow();
 
+            // Skip straight to fallback if on max depth
             if (depth == this.maxSize && firstIteration) {
                 pool = pool.value().getFallback();
             }
@@ -272,7 +273,7 @@ public class AlternateJigsawGenerator {
                             if (!connectorBoundingBox.isInside(blockInfo.pos().relative(JigsawBlock.getFrontFacing(blockInfo.state())))) {
                                 return 0;
                             } else {
-                                ResourceKey<StructureTemplatePool> registryKey2 = getPoolKey(blockInfo, aliasLookup);
+                                ResourceKey<StructureTemplatePool> registryKey2 = getTemplatePoolKey(blockInfo, aliasLookup);
                                 Optional<? extends Holder<StructureTemplatePool>> optional1 = this.registry.getHolder(registryKey2);
                                 Optional<Holder<StructureTemplatePool>> optional2 = optional1.map(entry -> entry.value().getFallback());
                                 int i2 = optional1.map(entry -> entry.value().getMaxSize(this.structureTemplateManager)).orElse(0);
@@ -359,7 +360,7 @@ public class AlternateJigsawGenerator {
                                 this.piecesToPlace.add(poolStructurePiece);
                                 if (depth + 1 <= this.maxSize) {
                                     int priority = anchorJigsawInfo.nbt() != null ? anchorJigsawInfo.nbt().getInt("placement_priority") : 0;
-                                    this.structurePieces.add(new ShapedPoolStructurePiece(poolStructurePiece, mutableObject2, depth + 1), priority);
+                                    this.pieces.add(new ShapedPoolStructurePiece(poolStructurePiece, mutableObject2, depth + 1), priority);
                                 }
                                 return true;
                             }
@@ -370,7 +371,7 @@ public class AlternateJigsawGenerator {
             return false;
         }
 
-        private Holder<StructureTemplatePool> getStructurePoolEntry(ResourceKey<StructureTemplatePool> key) {
+        private Holder<StructureTemplatePool> getTemplatePoolHolder(ResourceKey<StructureTemplatePool> key) {
             Optional<? extends Holder<StructureTemplatePool>> optional = this.registry.getHolder(key);
             if (optional.isEmpty()) {
                 LithostitchedCommon.LOGGER.warn("Couldn't find template pool reference: {}", key.location());
@@ -387,7 +388,7 @@ public class AlternateJigsawGenerator {
             return null;
         }
 
-        private static ResourceKey<StructureTemplatePool> getPoolKey(StructureTemplate.StructureBlockInfo info, PoolAliasLookup aliasLookup) {
+        private static ResourceKey<StructureTemplatePool> getTemplatePoolKey(StructureTemplate.StructureBlockInfo info, PoolAliasLookup aliasLookup) {
             CompoundTag compoundTag = Objects.requireNonNull(info.nbt(), () -> info + " nbt was null");
             ResourceKey<StructureTemplatePool> resourceKey = Pools.parseKey(compoundTag.getString("pool"));
 

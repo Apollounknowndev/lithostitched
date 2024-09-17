@@ -29,7 +29,7 @@ public record AddBiomeSpawnsModifier(HolderSet<Biome> biomes, List<MobSpawnSetti
             MobSpawnSettings.SpawnerData.CODEC.listOf().fieldOf("spawners"),
             MobSpawnSettings.SpawnerData.CODEC.fieldOf("spawners")
         ).xmap(
-            to -> to.map(
+            either -> either.map(
                 list -> list,
                 List::of
             ),

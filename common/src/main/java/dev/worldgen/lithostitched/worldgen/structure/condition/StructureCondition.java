@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.worldgen.structure.condition;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistries;
+import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,7 +19,7 @@ import java.util.function.Function;
 public interface StructureCondition {
     @SuppressWarnings("unchecked")
     Codec<StructureCondition> CODEC = Codec.lazyInitialized(() -> {
-        var registry = BuiltInRegistries.REGISTRY.get(LithostitchedRegistries.STRUCTURE_CONDITION_TYPE.location());
+        var registry = BuiltInRegistries.REGISTRY.get(LithostitchedRegistryKeys.STRUCTURE_CONDITION_TYPE.location());
         if (registry == null) throw new NullPointerException("Worldgen modifier registry does not exist yet!");
         return ((Registry<MapCodec<? extends StructureCondition>>) registry).byNameCodec();
     }).dispatch(StructureCondition::codec, Function.identity());

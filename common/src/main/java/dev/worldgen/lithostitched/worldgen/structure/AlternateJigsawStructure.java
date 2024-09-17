@@ -21,7 +21,7 @@ public class AlternateJigsawStructure extends Structure {
         AlternateJigsawConfig.CODEC.forGetter(AlternateJigsawStructure::config)
     )).apply(instance, (AlternateJigsawStructure::new))).validate(AlternateJigsawStructure::validate);
 
-    public static final StructureType<AlternateJigsawStructure> ALTERNATE_JIGSAW_TYPE = () -> AlternateJigsawStructure.CODEC;
+    public static final StructureType<AlternateJigsawStructure> TYPE = () -> AlternateJigsawStructure.CODEC;
     private AlternateJigsawConfig config;
 
     private static DataResult<AlternateJigsawStructure> validate(AlternateJigsawStructure structure) {
@@ -53,6 +53,6 @@ public class AlternateJigsawStructure extends Structure {
 
     @Override
     public @NotNull StructureType<?> type() {
-        return AlternateJigsawStructure.ALTERNATE_JIGSAW_TYPE;
+        return AlternateJigsawStructure.TYPE;
     }
 }
