@@ -113,10 +113,10 @@ publishing {
 
 publishMods {
     file = jar.archiveFile
-    changelog = "- Fixed the Lithostitched jigsaw structure sometimes failing to place pieces"
+    changelog = "View changes in the technical changelog [here](https://github.com/Apollounknowndev/lithostitched/wiki/Technical-Changelog)."
     type = STABLE
     modLoaders.add("forge")
-    displayName = "%s ~ Forge 1.20.1".formatted(project.version)
+    displayName = "%s ~ Forge 1.20".formatted(project.version)
 
     modrinth {
         accessToken = providers.environmentVariable("TOKEN_MR")

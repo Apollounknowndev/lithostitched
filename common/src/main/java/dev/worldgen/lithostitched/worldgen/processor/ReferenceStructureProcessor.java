@@ -16,7 +16,7 @@ public class ReferenceStructureProcessor extends StructureProcessor {
         RegistryCodecs.homogeneousList(Registries.PROCESSOR_LIST, StructureProcessorType.DIRECT_CODEC).fieldOf("processor_lists").forGetter(ReferenceStructureProcessor::processorLists)
     ).apply(instance, ReferenceStructureProcessor::new));
 
-    public static final StructureProcessorType<ReferenceStructureProcessor> REFERENCE_TYPE = () -> CODEC;
+    public static final StructureProcessorType<ReferenceStructureProcessor> TYPE = () -> CODEC;
     private final HolderSet<StructureProcessorList> processorLists;
 
     public ReferenceStructureProcessor(HolderSet<StructureProcessorList> processorLists) {
@@ -42,6 +42,6 @@ public class ReferenceStructureProcessor extends StructureProcessor {
 
     @Override
     protected @NotNull StructureProcessorType<?> getType() {
-        return REFERENCE_TYPE;
+        return TYPE;
     }
 }

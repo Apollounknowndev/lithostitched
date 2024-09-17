@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.mixin.common;
 
-import dev.worldgen.lithostitched.registry.LithostitchedRegistries;
+import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
 import dev.worldgen.lithostitched.worldgen.modifier.AbstractBiomeModifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.world.BiomeModifier;
@@ -41,7 +41,7 @@ public class ServerLifecycleHooksMixin {
     )
     private static List<BiomeModifier> lithostitched$injectBiomeModifers(List<BiomeModifier> biomeModifiers) {
         List<BiomeModifier> allBiomeModifiers = new ArrayList<>(biomeModifiers);
-        var lithostitchedBiomeModifiers = serverInstance.registryAccess().registryOrThrow(LithostitchedRegistries.WORLDGEN_MODIFIER).entrySet().stream().filter((entry) -> entry.getValue() instanceof AbstractBiomeModifier).collect(Collectors.toSet());
+        var lithostitchedBiomeModifiers = serverInstance.registryAccess().registryOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER).entrySet().stream().filter((entry) -> entry.getValue() instanceof AbstractBiomeModifier).collect(Collectors.toSet());
         lithostitchedBiomeModifiers.forEach(
             (entry) -> {
                 AbstractBiomeModifier modifier = ((AbstractBiomeModifier)entry.getValue());

@@ -28,12 +28,12 @@ import java.util.List;
  */
 public class  AddTemplatePoolElementsModifier extends Modifier {
     public static final Codec<AddTemplatePoolElementsModifier> CODEC = RecordCodecBuilder.create(instance -> addModifierFields(instance).and(instance.group(
-            ResourceLocation.CODEC.fieldOf("template_pool").forGetter(AddTemplatePoolElementsModifier::rawTemplatePoolLocation),
-            Codec.mapPair(
-                StructurePoolElement.CODEC.fieldOf("element"),
-                Codec.intRange(1, 150).fieldOf("weight")
-            ).codec().listOf().fieldOf("elements").forGetter(AddTemplatePoolElementsModifier::elements),
-            RegistryOps.retrieveGetter(Registries.TEMPLATE_POOL)
+        ResourceLocation.CODEC.fieldOf("template_pool").forGetter(AddTemplatePoolElementsModifier::rawTemplatePoolLocation),
+        Codec.mapPair(
+            StructurePoolElement.CODEC.fieldOf("element"),
+            Codec.intRange(1, 150).fieldOf("weight")
+        ).codec().listOf().fieldOf("elements").forGetter(AddTemplatePoolElementsModifier::elements),
+        RegistryOps.retrieveGetter(Registries.TEMPLATE_POOL)
     )).apply(instance, AddTemplatePoolElementsModifier::new));
 
     private final ResourceKey<StructureTemplatePool> EMPTY_TEMPLATE_POOL = ResourceKey.create(Registries.TEMPLATE_POOL, new ResourceLocation(LithostitchedCommon.MOD_ID, "empty"));

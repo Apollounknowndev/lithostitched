@@ -1,0 +1,98 @@
+package dev.worldgen.lithostitched.worldgen.structure.condition;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.mixin.common.RandomStateAccessor;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.levelgen.*;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.synth.BlendedNoise;
+import net.minecraft.world.level.levelgen.synth.NormalNoise;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+public record SampleDensityStructureCondition(Holder<DensityFunction> densityFunction, Optional<Double> minInclusive, Optional<Double> maxInclusive) implements StructureCondition {
+    public static final MapCodec<SampleDensityStructureCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        DensityFunction.CODEC.fieldOf("density_function").forGetter(SampleDensityStructureCondition::densityFunction),
+        Codec.DOUBLE.optionalFieldOf("min_inclusive").forGetter(SampleDensityStructureCondition::minInclusive),
+        Codec.DOUBLE.optionalFieldOf("max_inclusive").forGetter(SampleDensityStructureCondition::maxInclusive)
+    ).apply(instance, SampleDensityStructureCondition::new));
+
+    @Override
+    public boolean test(Structure.GenerationContext context, BlockPos pos) {
+        if (!(context.chunkGenerator() instanceof NoiseBasedChunkGenerator chunkGenerator)) return false;
+
+        DensityFunction df = this.densityFunction.value().mapAll(new NoiseWiringHelper(context.seed(), chunkGenerator.settings.value().useLegacyRandomSource(), context.randomState(), ((RandomStateAccessor)(Object)context.randomState()).getRandom()));
+        double density = df.compute(new DensityFunction.SinglePointContext(pos.getX(), pos.getY(), pos.getZ()));
+
+        boolean min = this.minInclusive.isEmpty() || density >= this.minInclusive.get();
+        boolean max = this.maxInclusive.isEmpty() || density <= this.maxInclusive.get();
+        return min && max;
+    }
+
+    @Override
+    public MapCodec<? extends StructureCondition> codec() {
+        return CODEC;
+    }
+
+    private static class NoiseWiringHelper implements DensityFunction.Visitor {
+        private final Map<DensityFunction, DensityFunction> wrapped = new HashMap<>();
+        private final boolean useLegacySource;
+        private final long seed;
+        final RandomState randomState;
+        final PositionalRandomFactory random;
+        private RandomSource newLegacyInstance(long noiseSeed) {
+            return new LegacyRandomSource(this.seed + noiseSeed);
+        }
+
+        NoiseWiringHelper(long seed, boolean useLegacySource, RandomState randomState, PositionalRandomFactory random) {
+            this.seed = seed;
+            this.useLegacySource = useLegacySource;
+            this.randomState = randomState;
+            this.random = random;
+        }
+
+        public DensityFunction.NoiseHolder visitNoise(DensityFunction.NoiseHolder noiseHolder) {
+            Holder<NormalNoise.NoiseParameters> noiseData = noiseHolder.noiseData();
+            NormalNoise noise;
+            if (this.useLegacySource) {
+                if (noiseData.is(Noises.TEMPERATURE)) {
+                    noise = NormalNoise.createLegacyNetherBiome(this.newLegacyInstance(0L), new NormalNoise.NoiseParameters(-7, 1.0, new double[]{1.0}));
+                    return new DensityFunction.NoiseHolder(noiseData, noise);
+                }
+
+                if (noiseData.is(Noises.VEGETATION)) {
+                    noise = NormalNoise.createLegacyNetherBiome(this.newLegacyInstance(1L), new NormalNoise.NoiseParameters(-7, 1.0, new double[]{1.0}));
+                    return new DensityFunction.NoiseHolder(noiseData, noise);
+                }
+
+                if (noiseData.is(Noises.SHIFT)) {
+                    noise = NormalNoise.create(this.random.fromHashOf(Noises.SHIFT.location()), new NormalNoise.NoiseParameters(0, 0.0, new double[0]));
+                    return new DensityFunction.NoiseHolder(noiseData, noise);
+                }
+            }
+
+            noise = this.randomState.getOrCreateNoise(noiseData.unwrapKey().orElseThrow());
+            return new DensityFunction.NoiseHolder(noiseData, noise);
+        }
+
+        private DensityFunction wrapNew(DensityFunction densityFunction) {
+            if (densityFunction instanceof BlendedNoise $$1) {
+                RandomSource $$2x = this.useLegacySource ? this.newLegacyInstance(0L) : this.random.fromHashOf(new ResourceLocation("terrain"));
+                return $$1.withNewRandom($$2x);
+            } else {
+                return (densityFunction instanceof DensityFunctions.EndIslandDensityFunction ? new DensityFunctions.EndIslandDensityFunction(this.seed) : densityFunction);
+            }
+        }
+
+        public DensityFunction apply(DensityFunction densityFunction) {
+            return this.wrapped.computeIfAbsent(densityFunction, this::wrapNew);
+        }
+    }
+}

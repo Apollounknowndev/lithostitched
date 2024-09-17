@@ -10,7 +10,7 @@ public class LimitedPoolElement extends ExclusivePoolElement {
     public static final Codec<LimitedPoolElement> CODEC = RecordCodecBuilder.create(instance -> addDelegateField(instance).and(
         ExtraCodecs.POSITIVE_INT.fieldOf("limit").forGetter(LimitedPoolElement::limit)
     ).apply(instance, LimitedPoolElement::new));
-    public static final StructurePoolElementType<LimitedPoolElement> LIMITED_TYPE = () -> CODEC;
+    public static final StructurePoolElementType<LimitedPoolElement> TYPE = () -> CODEC;
     private final int limit;
 
     protected LimitedPoolElement(StructurePoolElement delegate, int limit) {
@@ -24,6 +24,6 @@ public class LimitedPoolElement extends ExclusivePoolElement {
 
     @Override
     public StructurePoolElementType<?> getType() {
-        return LIMITED_TYPE;
+        return TYPE;
     }
 }

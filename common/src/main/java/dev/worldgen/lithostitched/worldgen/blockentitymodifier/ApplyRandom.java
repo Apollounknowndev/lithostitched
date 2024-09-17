@@ -17,7 +17,7 @@ public record ApplyRandom(SimpleWeightedRandomList<RuleBlockEntityModifier> modi
             SimpleWeightedRandomList.wrappedCodec(RuleBlockEntityModifier.CODEC).fieldOf("modifiers").forGetter(ApplyRandom::modifiers)
     ).apply(instance, ApplyRandom::new));
 
-    public static final RuleBlockEntityModifierType<ApplyRandom> APPLY_RANDOM_TYPE = () -> CODEC;
+    public static final RuleBlockEntityModifierType<ApplyRandom> TYPE = () -> CODEC;
 
     @Nullable
     @Override
@@ -31,6 +31,6 @@ public record ApplyRandom(SimpleWeightedRandomList<RuleBlockEntityModifier> modi
 
     @Override
     public @NotNull RuleBlockEntityModifierType<?> getType() {
-        return APPLY_RANDOM_TYPE;
+        return TYPE;
     }
 }

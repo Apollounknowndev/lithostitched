@@ -1,7 +1,11 @@
+buildscript {
+    dependencies.add 'classpath', 'org.spongepowered:vanillagradle:0.2.1-20240507.024226-82'
+}
+
 plugins {
     id 'fabric-loom' version '1.2-SNAPSHOT' apply(false)
     id 'net.minecraftforge.gradle' version '[6.0,6.2)' apply(false)
-    id 'org.spongepowered.gradle.vanilla' version '0.2.1-SNAPSHOT' apply(false)
+    id 'org.spongepowered.gradle.vanilla' version '0.2.1-20240507.024226-82' apply(false)
     id("org.spongepowered.mixin") version "0.7-SNAPSHOT" apply(false)
 }
 

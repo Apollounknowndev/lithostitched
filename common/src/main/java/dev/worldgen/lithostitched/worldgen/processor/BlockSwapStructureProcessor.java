@@ -2,12 +2,8 @@ package dev.worldgen.lithostitched.worldgen.processor;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.LithostitchedCommon;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -22,7 +18,7 @@ public class BlockSwapStructureProcessor extends StructureProcessor {
         Codec.unboundedMap(ResourceLocation.CODEC, ResourceLocation.CODEC).fieldOf("blocks").forGetter(BlockSwapStructureProcessor::blockSwapMap)
     ).apply(instance, BlockSwapStructureProcessor::new));
 
-    public static final StructureProcessorType<BlockSwapStructureProcessor> BLOCK_SWAP_TYPE = () -> CODEC;
+    public static final StructureProcessorType<BlockSwapStructureProcessor> TYPE = () -> CODEC;
     private final Map<ResourceLocation, ResourceLocation> blockSwapMap;
 
     public BlockSwapStructureProcessor(Map<ResourceLocation, ResourceLocation> blockSwapMap) {
@@ -45,7 +41,7 @@ public class BlockSwapStructureProcessor extends StructureProcessor {
 
     @Override
     protected @NotNull StructureProcessorType<?> getType() {
-        return BLOCK_SWAP_TYPE;
+        return TYPE;
     }
 }
 
