@@ -44,12 +44,13 @@ public final class LithostitchedBuiltInRegistries {
 		bus.addListener((RegisterEvent event) -> {
 			event.register(Registries.MATERIAL_RULE, helper -> helper.register("transient_merged", LithostitchedSurfaceRules.TransientMergedRuleSource.CODEC.codec()));
 
+			LithostitchedCommon.registerCommonBlockEntityModifiers((name, type) -> register(event, Registries.RULE_BLOCK_ENTITY_MODIFIER, name, type));
+			LithostitchedCommon.registerCommonDensityFunctions((name, codec) -> register(event, Registries.DENSITY_FUNCTION_TYPE, name, codec));
 			LithostitchedCommon.registerCommonFeatureTypes((name, feature) -> register(event, Registries.FEATURE, name, feature));
 			LithostitchedCommon.registerCommonPoolElementTypes((name, type) -> register(event, Registries.STRUCTURE_POOL_ELEMENT, name, type));
-			LithostitchedCommon.registerCommonStructureTypes((name, type) -> register(event, Registries.STRUCTURE_TYPE, name, type));
 			LithostitchedCommon.registerCommonStructureProcessors((name, type) -> register(event, Registries.STRUCTURE_PROCESSOR, name, type));
+			LithostitchedCommon.registerCommonStructureTypes((name, type) -> register(event, Registries.STRUCTURE_TYPE, name, type));
 			LithostitchedCommon.registerCommonRuleTests((name, type) -> register(event, Registries.RULE_TEST, name, type));
-			LithostitchedCommon.registerCommonBlockEntityModifiers((name, type) -> register(event, Registries.RULE_BLOCK_ENTITY_MODIFIER, name, type));
 		});
 
 		bus.addListener((DataPackRegistryEvent.NewRegistry event) -> {

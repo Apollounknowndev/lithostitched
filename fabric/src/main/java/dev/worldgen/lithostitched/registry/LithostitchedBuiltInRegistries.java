@@ -43,11 +43,12 @@ public final class LithostitchedBuiltInRegistries {
 		LithostitchedCommon.registerCommonStructureConditions((name, codec) -> register(STRUCTURE_CONDITION_TYPE, name, codec));
 
 		LithostitchedCommon.registerCommonFeatureTypes((name, feature) -> register(BuiltInRegistries.FEATURE, name, feature));
-		LithostitchedCommon.registerCommonPoolElementTypes((name, type) -> register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, name, type));
-		LithostitchedCommon.registerCommonStructureTypes((name, type) -> register(BuiltInRegistries.STRUCTURE_TYPE, name, type));
-		LithostitchedCommon.registerCommonStructureProcessors((name, type) -> register(BuiltInRegistries.STRUCTURE_PROCESSOR, name, type));
-		LithostitchedCommon.registerCommonRuleTests((name, type) -> register(BuiltInRegistries.RULE_TEST, name, type));
 		LithostitchedCommon.registerCommonBlockEntityModifiers((name, type) -> register(BuiltInRegistries.RULE_BLOCK_ENTITY_MODIFIER, name, type));
+		LithostitchedCommon.registerCommonDensityFunctions((name, codec) -> register(BuiltInRegistries.DENSITY_FUNCTION_TYPE, name, codec));
+		LithostitchedCommon.registerCommonPoolElementTypes((name, type) -> register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, name, type));
+		LithostitchedCommon.registerCommonStructureProcessors((name, type) -> register(BuiltInRegistries.STRUCTURE_PROCESSOR, name, type));
+		LithostitchedCommon.registerCommonStructureTypes((name, type) -> register(BuiltInRegistries.STRUCTURE_TYPE, name, type));
+		LithostitchedCommon.registerCommonRuleTests((name, type) -> register(BuiltInRegistries.RULE_TEST, name, type));
 
 		Registry.register(BuiltInRegistries.MATERIAL_RULE, LithostitchedMaterialRules.TRANSIENT_MERGED, LithostitchedSurfaceRules.TransientMergedRuleSource.CODEC.codec());
 	}

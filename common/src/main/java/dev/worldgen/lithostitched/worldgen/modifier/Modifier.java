@@ -14,6 +14,9 @@ import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -64,12 +67,26 @@ public abstract class Modifier {
         Registry<Modifier> modifiers = registries.registryOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER);
         for (ModifierPhase phase : ModifierPhase.values()) {
             if (phase == ModifierPhase.NONE) continue;
-            for (Modifier modifier : modifiers.stream().filter(modifier -> modifier.phase() == phase).collect(Collectors.toSet())) {
-                if (modifier.predicate().test()) {
-                    modifier.applyModifier(registries);
-                }
+            List<Modifier> phaseModifiers = modifiers.stream().filter(modifier -> modifier.phase == phase).toList();
+            applyPhaseModifiers(registries, phaseModifiers);
+        }
+    }
+
+    private static void applyPhaseModifiers(RegistryAccess registries, List<Modifier> phaseModifiers) {
+        List<PriorityBasedModifier> priorityBasedModifiers = new ArrayList<>();
+        for (Modifier modifier : phaseModifiers) {
+            if (modifier instanceof PriorityBasedModifier priorityModifier) {
+                priorityBasedModifiers.add(priorityModifier);
+            } else {
+                modifier.applyModifier(registries);
             }
         }
+        for (Modifier modifier : sortByPriority(priorityBasedModifiers)) {
+            modifier.applyModifier(registries);
+        }
+    }
+    static List<PriorityBasedModifier> sortByPriority(List<PriorityBasedModifier> modifiers) {
+        return modifiers.stream().sorted(Comparator.comparingInt(PriorityBasedModifier::getPriority)).toList();
     }
 
     public enum ModifierPhase implements StringRepresentable {

@@ -5,8 +5,11 @@
     "name": "Lithostitched",
     "description": "Library mod with new configurability and compatibility enhancements for worldgen.",
     "authors": [
-        "Apollo",
-        "SmellyModder"
+        "Apollo"
+    ],
+    "contributors": [
+        "SmellyModder",
+        "ebo2022"
     ],
     "contact": {
         "homepage": "https://modrinth.com/mod/lithostitched/",
