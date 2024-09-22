@@ -3,7 +3,9 @@ package dev.worldgen.lithostitched;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
+import dev.worldgen.lithostitched.worldgen.densityfunction.MergedDensityFunction;
 import dev.worldgen.lithostitched.worldgen.densityfunction.WrappedMarkerDensityFunction;
+import dev.worldgen.lithostitched.worldgen.densityfunction.OriginalMarkerDensityFunction;
 import dev.worldgen.lithostitched.worldgen.feature.DungeonFeature;
 import dev.worldgen.lithostitched.worldgen.feature.StructureTemplateFeature;
 import dev.worldgen.lithostitched.worldgen.feature.WellFeature;
@@ -69,6 +71,7 @@ public final class LithostitchedCommon {
 		consumer.accept("remove_structures_from_structure_set", RemoveStructuresFromStructureSetModifier.CODEC);
 		consumer.accept("set_pool_aliases", SetPoolAliasesModifier.CODEC);
 
+		consumer.accept("wrap_density_function", WrapDensityFunctionModifier.CODEC);
 		consumer.accept("wrap_noise_router", WrapNoiseRouterModifier.CODEC);
 	}
 
@@ -84,7 +87,9 @@ public final class LithostitchedCommon {
 	}
 
 	public static void registerCommonDensityFunctions(BiConsumer<String, MapCodec<? extends DensityFunction>> consumer) {
+		consumer.accept("internal/merged", MergedDensityFunction.CODEC.codec());
 		consumer.accept("wrapped_marker", WrappedMarkerDensityFunction.CODEC.codec());
+		consumer.accept("original_marker", OriginalMarkerDensityFunction.CODEC.codec());
 	}
 
 	public static void registerCommonPoolAliasBindings(BiConsumer<String, MapCodec<? extends PoolAliasBinding>> consumer) {

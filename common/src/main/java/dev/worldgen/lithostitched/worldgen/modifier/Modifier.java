@@ -11,15 +11,15 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.FeatureSorter;
 import net.minecraft.world.level.dimension.LevelStem;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * The interface used for applying worldgen modifiers.
@@ -33,10 +33,6 @@ public interface Modifier {
         if (modifierRegistry == null) throw new NullPointerException("Worldgen modifier registry does not exist yet!");
         return ((Registry<MapCodec<? extends Modifier>>) modifierRegistry).byNameCodec();
     }).dispatch(Modifier::codec, Function.identity());
-
-    default void stripKnownPackInfo(Registry<Biome> registry) {
-
-    }
 
     default void applyModifier(RegistryAccess registryAccess) {
         this.applyModifier();
@@ -53,15 +49,15 @@ public interface Modifier {
         boolean fabricFeaturesModified = false;
         RegistryAccess registries = server.registryAccess();
         Registry<Modifier> modifiers = registries.registryOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER);
+
+
         for (ModifierPhase phase : ModifierPhase.values()) {
             if (phase == ModifierPhase.NONE) continue;
-            for (Modifier modifier : modifiers.stream().filter(modifier -> modifier.getPhase() == phase).collect(Collectors.toSet())) {
-                modifier.applyModifier(registries);
-                modifier.stripKnownPackInfo(registries.registryOrThrow(Registries.BIOME));
+            List<Modifier> phaseModifiers = modifiers.stream().filter(modifier -> modifier.getPhase() == phase).toList();
+            applyPhaseModifiers(registries, phaseModifiers);
 
-                if (modifier.internal$modifiesFabricFeatures()) {
-                    fabricFeaturesModified = true;
-                }
+            if (!phaseModifiers.stream().filter(Modifier::internal$modifiesFabricFeatures).toList().isEmpty()) {
+                fabricFeaturesModified = true;
             }
         }
 
@@ -75,6 +71,26 @@ public interface Modifier {
                 );
             }
         }
+    }
+
+    private static void applyPhaseModifiers(RegistryAccess registries, List<Modifier> phaseModifiers) {
+        List<PriorityBasedModifier> priorityBasedModifiers = new ArrayList<>();
+
+        for (Modifier modifier : phaseModifiers) {
+            if (modifier instanceof PriorityBasedModifier priorityModifier) {
+                priorityBasedModifiers.add(priorityModifier);
+            } else {
+                modifier.applyModifier(registries);
+            }
+        }
+
+        for (Modifier modifier : sortByPriority(priorityBasedModifiers)) {
+            modifier.applyModifier(registries);
+        }
+    }
+
+    static List<PriorityBasedModifier> sortByPriority(List<PriorityBasedModifier> modifiers) {
+        return modifiers.stream().sorted(Comparator.comparingInt(PriorityBasedModifier::getPriority)).toList();
     }
 
     default boolean internal$modifiesFabricFeatures() {

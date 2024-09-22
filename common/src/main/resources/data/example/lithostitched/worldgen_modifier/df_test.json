@@ -1,9 +1,0 @@
-{
-  "type": "lithostitched:wrap_noise_router",
-  "target": "continents",
-  "modifier": {
-    "type": "minecraft:add",
-    "argument1": "lithostitched:wrapped_marker",
-    "argument2": 0.2
-  }
-}

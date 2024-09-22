@@ -8,7 +8,8 @@ license = "MIT"
     version = "${file.jarVersion}"
     displayName = "Lithostitched"
     logoFile = "pack.png"
-    authors = "Apollo, SmellyModder"
+    authors = "Apollo"
+    credits = "SmellyModder, ebo2022"
     description = '''Library mod with new configurability and compatibility enhancements for worldgen.'''
 
 [[mixins]]
