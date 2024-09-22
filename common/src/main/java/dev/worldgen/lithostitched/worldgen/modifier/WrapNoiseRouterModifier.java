@@ -8,10 +8,12 @@ import net.minecraft.core.Holder;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.NoiseRouter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 
 public record WrapNoiseRouterModifier(int priority, Target target, Holder<DensityFunction> wrapperFunction) implements Modifier {
     public static final MapCodec<WrapNoiseRouterModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -33,7 +35,7 @@ public record WrapNoiseRouterModifier(int priority, Target target, Holder<Densit
         return CODEC;
     }
 
-    public static DensityFunction modifyDensityFunction(Target target, DensityFunction wrapped, List<WrapNoiseRouterModifier> modifiers) {
+    public static DensityFunction modifyDensityFunction(NoiseRouter router, Target target, DensityFunction wrapped, List<WrapNoiseRouterModifier> modifiers) {
         List<DensityFunction> orderedFunctions = modifiers.stream()
             .filter(modifier -> modifier.target == target)
             .sorted(Comparator.comparingInt(WrapNoiseRouterModifier::priority))
@@ -44,39 +46,45 @@ public record WrapNoiseRouterModifier(int priority, Target target, Holder<Densit
 
         DensityFunction mergedFunction = wrapped;
         for (DensityFunction function : orderedFunctions) {
-            mergedFunction = DensityFunctionWrapper.wrap(mergedFunction, function);
+            mergedFunction = DensityFunctionWrapper.wrap(mergedFunction, function, router);
         }
 
         return mergedFunction;
     }
 
     public enum Target implements StringRepresentable {
-        BARRIER("barrier"),
-        FLUID_LEVEL_FLOODEDNESS("fluid_level_floodedness"),
-        FLUID_LEVEL_SPREAD("fluid_level_spread"),
-        LAVA("lava"),
-        TEMPERATURE("temperature"),
-        VEGETATION("vegetation"),
-        CONTINENTS("continents"),
-        EROSION("erosion"),
-        DEPTH("depth"),
-        RIDGES("ridges"),
-        INITIAL_DENSITY("initial_density_without_jaggedness"),
-        FINAL_DENSITY("final_density"),
-        VEIN_TOGGLE("vein_toggle"),
-        VEIN_RIDGED("vein_ridged"),
-        VEIN_GAP("vein_gap");
+        BARRIER("barrier", NoiseRouter::barrierNoise),
+        FLUID_LEVEL_FLOODEDNESS("fluid_level_floodedness", NoiseRouter::fluidLevelFloodednessNoise),
+        FLUID_LEVEL_SPREAD("fluid_level_spread", NoiseRouter::fluidLevelSpreadNoise),
+        LAVA("lava", NoiseRouter::lavaNoise),
+        TEMPERATURE("temperature", NoiseRouter::temperature),
+        VEGETATION("vegetation", NoiseRouter::vegetation),
+        CONTINENTS("continents", NoiseRouter::continents),
+        EROSION("erosion", NoiseRouter::erosion),
+        DEPTH("depth", NoiseRouter::depth),
+        RIDGES("ridges", NoiseRouter::ridges),
+        INITIAL_DENSITY("initial_density_without_jaggedness", NoiseRouter::initialDensityWithoutJaggedness),
+        FINAL_DENSITY("final_density", NoiseRouter::finalDensity),
+        VEIN_TOGGLE("vein_toggle", NoiseRouter::veinToggle),
+        VEIN_RIDGED("vein_ridged", NoiseRouter::veinRidged),
+        VEIN_GAP("vein_gap", NoiseRouter::veinGap);
 
         public static final Codec<Target> CODEC = StringRepresentable.fromEnum(Target::values);
         private final String name;
+        private final Function<NoiseRouter, DensityFunction> getter;
 
-        Target(String name) {
+        Target(String name, Function<NoiseRouter, DensityFunction> getter) {
             this.name = name;
+            this.getter = getter;
         }
 
         @Override
         public @NotNull String getSerializedName() {
             return this.name;
+        }
+
+        public DensityFunction get(NoiseRouter router) {
+            return this.getter.apply(router);
         }
     }
 }

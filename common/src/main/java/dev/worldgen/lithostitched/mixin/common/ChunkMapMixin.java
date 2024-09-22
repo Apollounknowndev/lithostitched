@@ -40,21 +40,21 @@ public class ChunkMapMixin {
             .toList();
 
         accessor.setNoiseRouter(new NoiseRouter(
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.BARRIER, router.barrierNoise(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.FLUID_LEVEL_FLOODEDNESS, router.fluidLevelFloodednessNoise(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.FLUID_LEVEL_SPREAD, router.fluidLevelSpreadNoise(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.LAVA, router.lavaNoise(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.TEMPERATURE, router.temperature(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.VEGETATION, router.vegetation(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.CONTINENTS, router.continents(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.EROSION, router.erosion(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.DEPTH, router.depth(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.RIDGES, router.ridges(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.INITIAL_DENSITY, router.initialDensityWithoutJaggedness(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.FINAL_DENSITY, router.finalDensity(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.VEIN_TOGGLE, router.veinToggle(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.VEIN_RIDGED, router.veinRidged(), modifiers),
-            modifyDensityFunction(WrapNoiseRouterModifier.Target.VEIN_GAP, router.veinGap(), modifiers)
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.BARRIER, router.barrierNoise(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.FLUID_LEVEL_FLOODEDNESS, router.fluidLevelFloodednessNoise(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.FLUID_LEVEL_SPREAD, router.fluidLevelSpreadNoise(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.LAVA, router.lavaNoise(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.TEMPERATURE, router.temperature(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.VEGETATION, router.vegetation(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.CONTINENTS, router.continents(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.EROSION, router.erosion(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.DEPTH, router.depth(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.RIDGES, router.ridges(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.INITIAL_DENSITY, router.initialDensityWithoutJaggedness(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.FINAL_DENSITY, router.finalDensity(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.VEIN_TOGGLE, router.veinToggle(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.VEIN_RIDGED, router.veinRidged(), modifiers),
+            modifyDensityFunction(router, WrapNoiseRouterModifier.Target.VEIN_GAP, router.veinGap(), modifiers)
         ));
 
         return init.call(noiseSettings, noiseGetter, seed);

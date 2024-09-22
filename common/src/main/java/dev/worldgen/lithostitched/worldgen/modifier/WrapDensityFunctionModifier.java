@@ -24,7 +24,7 @@ public record WrapDensityFunctionModifier(int priority, Holder<DensityFunction> 
     public void applyModifier() {
         if (this.targetFunction instanceof Holder.Reference<DensityFunction> reference) {
             var accessor = ((HolderReferenceAccessor<DensityFunction>)reference);
-            accessor.setValue(DensityFunctionWrapper.wrap(this.targetFunction.value(), this.wrapperFunction.value()));
+            accessor.setValue(DensityFunctionWrapper.wrap(this.targetFunction.value(), this.wrapperFunction.value(), null));
         }
     }
 

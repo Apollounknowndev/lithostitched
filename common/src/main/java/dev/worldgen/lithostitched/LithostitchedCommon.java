@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
 import dev.worldgen.lithostitched.worldgen.densityfunction.MergedDensityFunction;
+import dev.worldgen.lithostitched.worldgen.densityfunction.ReferenceMarkerDensityFunction;
 import dev.worldgen.lithostitched.worldgen.densityfunction.WrappedMarkerDensityFunction;
 import dev.worldgen.lithostitched.worldgen.densityfunction.OriginalMarkerDensityFunction;
 import dev.worldgen.lithostitched.worldgen.feature.DungeonFeature;
@@ -90,6 +91,7 @@ public final class LithostitchedCommon {
 		consumer.accept("internal/merged", MergedDensityFunction.CODEC.codec());
 		consumer.accept("wrapped_marker", WrappedMarkerDensityFunction.CODEC.codec());
 		consumer.accept("original_marker", OriginalMarkerDensityFunction.CODEC.codec());
+		consumer.accept("reference_marker", ReferenceMarkerDensityFunction.CODEC.codec());
 	}
 
 	public static void registerCommonPoolAliasBindings(BiConsumer<String, MapCodec<? extends PoolAliasBinding>> consumer) {
