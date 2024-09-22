@@ -70,7 +70,6 @@ public final class LithostitchedCommon {
 		consumer.accept("redirect_feature", RedirectFeatureModifier.CODEC);
 		consumer.accept("remove_structures_from_structure_set", RemoveStructuresFromStructureSetModifier.CODEC);
 		consumer.accept("set_pool_aliases", SetPoolAliasesModifier.CODEC);
-
 		consumer.accept("wrap_density_function", WrapDensityFunctionModifier.CODEC);
 		consumer.accept("wrap_noise_router", WrapNoiseRouterModifier.CODEC);
 	}
