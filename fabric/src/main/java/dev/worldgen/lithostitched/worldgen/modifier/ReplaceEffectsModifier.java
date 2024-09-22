@@ -5,10 +5,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.RegistrationInfo;
-import net.minecraft.core.Registry;
+import net.minecraft.core.*;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
@@ -29,6 +27,25 @@ public record ReplaceEffectsModifier(HolderSet<Biome> biomes, ModdedBiomeEffects
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceEffectsModifier::biomes),
         ModdedBiomeEffects.CODEC.fieldOf("effects").forGetter(ReplaceEffectsModifier::effects)
     ).apply(instance, ReplaceEffectsModifier::new));
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void applyModifier(RegistryAccess registryAccess) {
+        List<Holder<Biome>> biomes = this.biomes().stream().toList();
+        Registry<Biome> registry = registryAccess.registryOrThrow(Registries.BIOME);
+        for (Holder<Biome> entry : biomes.stream().toList()) {
+            this.applyModifier(entry.value());
+
+            if (entry.unwrapKey().isPresent()) {
+                ResourceKey<Biome> key = entry.unwrapKey().get();
+                Optional<RegistrationInfo> knownPackInfo = registry.registrationInfo(key);
+                knownPackInfo.ifPresent(registrationInfo -> ((MappedRegistryAccessor<Biome>)registry).lithostitched$getRegistrationInfos().put(key, new RegistrationInfo(Optional.empty(), registrationInfo.lifecycle())));
+            }
+        }
+    }
+
+    @Override
+    public void applyModifier() {}
 
     public void applyModifier(Biome biome) {
         //TODO: Make this code not terrible
@@ -66,27 +83,6 @@ public record ReplaceEffectsModifier(HolderSet<Biome> biomes, ModdedBiomeEffects
         }
 
         ((BiomeAccessor) (Object) biome).setSpecialEffects(mergedEffectsBuilder.build());
-    }
-
-    @Override
-    public void applyModifier() {
-        List<Holder<Biome>> biomes = this.biomes().stream().toList();
-        for (Holder<Biome> entry : biomes.stream().toList()) {
-            this.applyModifier(entry.value());
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public void stripKnownPackInfo(Registry<Biome> registry) {
-        List<Holder<Biome>> biomes = this.biomes().stream().toList();
-        for (Holder<Biome> entry : biomes.stream().toList()) {
-            if (entry.unwrapKey().isPresent()) {
-                ResourceKey<Biome> key = entry.unwrapKey().get();
-                Optional<RegistrationInfo> knownPackInfo = registry.registrationInfo(key);
-                knownPackInfo.ifPresent(registrationInfo -> ((MappedRegistryAccessor<Biome>)registry).lithostitched$getRegistrationInfos().put(key, new RegistrationInfo(Optional.empty(), registrationInfo.lifecycle())));
-            }
-        }
     }
 
     @Override

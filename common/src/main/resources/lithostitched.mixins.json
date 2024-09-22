@@ -6,9 +6,12 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "common.ChunkGeneratorAccessor",
+    "common.ChunkMapMixin",
     "common.GameTestServerMixin",
+    "common.HolderReferenceAccessor",
     "common.JigsawStructureAccessor",
     "common.MappedRegistryAccessor",
+    "common.NoiseGeneratorSettingsAccessor",
     "common.PlacedFeatureAccessor",
     "common.PoolAliasLookupMixin",
     "common.RandomStateAccessor",

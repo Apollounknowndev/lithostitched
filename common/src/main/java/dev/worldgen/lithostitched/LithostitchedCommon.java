@@ -3,6 +3,9 @@ package dev.worldgen.lithostitched;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
+import dev.worldgen.lithostitched.worldgen.densityfunction.MergedDensityFunction;
+import dev.worldgen.lithostitched.worldgen.densityfunction.WrappedMarkerDensityFunction;
+import dev.worldgen.lithostitched.worldgen.densityfunction.OriginalMarkerDensityFunction;
 import dev.worldgen.lithostitched.worldgen.feature.DungeonFeature;
 import dev.worldgen.lithostitched.worldgen.feature.StructureTemplateFeature;
 import dev.worldgen.lithostitched.worldgen.feature.WellFeature;
@@ -23,6 +26,7 @@ import dev.worldgen.lithostitched.worldgen.structure.condition.*;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
@@ -66,6 +70,9 @@ public final class LithostitchedCommon {
 		consumer.accept("redirect_feature", RedirectFeatureModifier.CODEC);
 		consumer.accept("remove_structures_from_structure_set", RemoveStructuresFromStructureSetModifier.CODEC);
 		consumer.accept("set_pool_aliases", SetPoolAliasesModifier.CODEC);
+
+		consumer.accept("wrap_density_function", WrapDensityFunctionModifier.CODEC);
+		consumer.accept("wrap_noise_router", WrapNoiseRouterModifier.CODEC);
 	}
 
 	public static void registerCommonFeatureTypes(BiConsumer<String, Feature<?>> consumer) {
@@ -77,6 +84,12 @@ public final class LithostitchedCommon {
 	public static void registerCommonPoolElementTypes(BiConsumer<String, StructurePoolElementType<?>> consumer) {
 		consumer.accept("guaranteed", GuaranteedPoolElement.TYPE);
 		consumer.accept("limited", LimitedPoolElement.TYPE);
+	}
+
+	public static void registerCommonDensityFunctions(BiConsumer<String, MapCodec<? extends DensityFunction>> consumer) {
+		consumer.accept("internal/merged", MergedDensityFunction.CODEC.codec());
+		consumer.accept("wrapped_marker", WrappedMarkerDensityFunction.CODEC.codec());
+		consumer.accept("original_marker", OriginalMarkerDensityFunction.CODEC.codec());
 	}
 
 	public static void registerCommonPoolAliasBindings(BiConsumer<String, MapCodec<? extends PoolAliasBinding>> consumer) {
