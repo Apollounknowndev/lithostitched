@@ -1,13 +1,18 @@
 package dev.worldgen.lithostitched.worldgen.modifier;
 
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.worldgen.modifier.util.DensityFunctionWrapper;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.NoiseRouter;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,9 +20,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
-public record WrapNoiseRouterModifier(int priority, Target target, Holder<DensityFunction> wrapperFunction) implements Modifier {
+public record WrapNoiseRouterModifier(int priority, Either<ResourceKey<Level>, ResourceKey<NoiseGeneratorSettings>> dimension, Target target, Holder<DensityFunction> wrapperFunction) implements Modifier {
     public static final MapCodec<WrapNoiseRouterModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("priority", 1000).forGetter(WrapNoiseRouterModifier::priority),
+        Codec.mapEither(ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension"), ResourceKey.codec(Registries.NOISE_SETTINGS).fieldOf("noise_settings")).forGetter(WrapNoiseRouterModifier::dimension),
         Target.CODEC.fieldOf("target").forGetter(WrapNoiseRouterModifier::target),
         DensityFunction.CODEC.fieldOf("wrapper_function").forGetter(WrapNoiseRouterModifier::wrapperFunction)
     ).apply(instance, WrapNoiseRouterModifier::new));

@@ -5,14 +5,19 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
 import dev.worldgen.lithostitched.worldgen.modifier.WrapNoiseRouterModifier;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.level.ChunkMap;
+import net.minecraft.server.level.GenerationChunkHolder;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.NoiseRouter;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.List;
@@ -20,22 +25,32 @@ import java.util.List;
 import static dev.worldgen.lithostitched.worldgen.modifier.WrapNoiseRouterModifier.modifyDensityFunction;
 
 @Mixin(ChunkMap.class)
-public class ChunkMapMixin {
+public abstract class ChunkMapMixin {
+
     @WrapOperation(
         method = "<init>",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/level/levelgen/RandomState;create(Lnet/minecraft/world/level/levelgen/NoiseGeneratorSettings;Lnet/minecraft/core/HolderGetter;J)Lnet/minecraft/world/level/levelgen/RandomState;"
+            target = "Lnet/minecraft/world/level/levelgen/RandomState;create(Lnet/minecraft/world/level/levelgen/NoiseGeneratorSettings;Lnet/minecraft/core/HolderGetter;J)Lnet/minecraft/world/level/levelgen/RandomState;",
+            ordinal = 0
         )
     )
-    private RandomState wrapNoiseRouter(NoiseGeneratorSettings noiseSettings, HolderGetter<NormalNoise.NoiseParameters> noiseGetter, long seed, Operation<RandomState> init, @Local(ordinal = 0) RegistryAccess registries) {
+    private RandomState wrapNoiseRouter(NoiseGeneratorSettings noiseSettings, HolderGetter<NormalNoise.NoiseParameters> noiseGetter, long seed, Operation<RandomState> init, ServerLevel level, @Local(ordinal = 0) RegistryAccess registries, @Local NoiseBasedChunkGenerator chunkGenerator) {
         NoiseGeneratorSettingsAccessor accessor = ((NoiseGeneratorSettingsAccessor)(Object)noiseSettings);
         NoiseRouter router = noiseSettings.noiseRouter();
 
         List<WrapNoiseRouterModifier> modifiers = registries
             .registryOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER)
             .stream()
-            .filter(WrapNoiseRouterModifier.class::isInstance)
+            .filter(modifier -> {
+                if (modifier instanceof WrapNoiseRouterModifier wrapNoiseRouter) {
+                    return wrapNoiseRouter.dimension().map(
+                            dimension -> dimension.equals(level.dimension()),
+                            noiseSetting -> chunkGenerator.settings.is(noiseSetting)
+                    );
+                }
+                return false;
+            })
             .map(WrapNoiseRouterModifier.class::cast)
             .toList();
 
