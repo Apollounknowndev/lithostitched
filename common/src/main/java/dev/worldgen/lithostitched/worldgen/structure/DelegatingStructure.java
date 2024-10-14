@@ -9,7 +9,7 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 import java.util.Optional;
 
 public class DelegatingStructure extends Structure {
-    public static final Codec<DelegatingStructure> CODEC = DelegatingConfig.CODEC.xmap(DelegatingStructure::new, DelegatingStructure::config);
+    public static final Codec<DelegatingStructure> CODEC = DelegatingConfig.CODEC.xmap(DelegatingStructure::new, DelegatingStructure::config).codec();
     public static final StructureType<DelegatingStructure> TYPE = () -> DelegatingStructure.CODEC;
     private final DelegatingConfig config;
 
