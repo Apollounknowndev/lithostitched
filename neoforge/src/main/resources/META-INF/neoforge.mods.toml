@@ -22,15 +22,8 @@ config = "lithostitched.neoforge.mixins.json"
 file = "META-INF/accesstransformer.cfg"
 
 [[dependencies.lithostitched]]
-    modId = "neoforge"
-    type = "required"
-    versionRange = "[21.0.64,)"
-    ordering = "NONE"
-    side = "BOTH"
-
-[[dependencies.lithostitched]]
     modId = "minecraft"
     type = "required"
-    versionRange = "[1.21,1.21.2)"
+    versionRange = "[1.21.2,1.21.3)"
     ordering = "NONE"
     side = "BOTH"
