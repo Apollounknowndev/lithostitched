@@ -34,7 +34,7 @@ public class ChunkMapMixin {
         NoiseRouter router = noiseSettings.noiseRouter();
 
         List<WrapNoiseRouterModifier> modifiers = registries
-            .registryOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER)
+            .lookupOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER)
             .stream()
             .filter(modifier -> modifier instanceof WrapNoiseRouterModifier wrapNoiseRouter && wrapNoiseRouter.dimension().equals(level.dimension()))
             .map(WrapNoiseRouterModifier.class::cast)

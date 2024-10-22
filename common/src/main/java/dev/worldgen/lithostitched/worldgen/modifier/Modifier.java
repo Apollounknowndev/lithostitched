@@ -30,8 +30,8 @@ public interface Modifier {
     @SuppressWarnings("unchecked")
     Codec<Modifier> CODEC = Codec.lazyInitialized(() -> {
         var modifierRegistry = BuiltInRegistries.REGISTRY.get(LithostitchedRegistryKeys.MODIFIER_TYPE.location());
-        if (modifierRegistry == null) throw new NullPointerException("Worldgen modifier registry does not exist yet!");
-        return ((Registry<MapCodec<? extends Modifier>>) modifierRegistry).byNameCodec();
+        if (modifierRegistry.isEmpty()) throw new NullPointerException("Worldgen modifier registry does not exist yet!");
+        return ((Registry<MapCodec<? extends Modifier>>) modifierRegistry.get().value()).byNameCodec();
     }).dispatch(Modifier::codec, Function.identity());
 
     default void applyModifier(RegistryAccess registryAccess) {
@@ -48,7 +48,7 @@ public interface Modifier {
     static void applyModifiers(MinecraftServer server) {
         boolean fabricFeaturesModified = false;
         RegistryAccess registries = server.registryAccess();
-        Registry<Modifier> modifiers = registries.registryOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER);
+        Registry<Modifier> modifiers = registries.lookupOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER);
 
 
         for (ModifierPhase phase : ModifierPhase.values()) {
@@ -62,7 +62,7 @@ public interface Modifier {
         }
 
         if (fabricFeaturesModified) {
-            Registry<LevelStem> dimensions = registries.registryOrThrow(Registries.LEVEL_STEM);
+            Registry<LevelStem> dimensions = registries.lookupOrThrow(Registries.LEVEL_STEM);
             for (LevelStem dimension : dimensions) {
                 var accessor = ((ChunkGeneratorAccessor)dimension.generator());
                 BiomeSource source = accessor.getBiomeSource();

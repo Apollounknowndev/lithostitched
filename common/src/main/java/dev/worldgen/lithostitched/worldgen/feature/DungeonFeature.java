@@ -5,6 +5,7 @@ import dev.worldgen.lithostitched.LithostitchedCommon;
 import dev.worldgen.lithostitched.worldgen.feature.config.DungeonFeatureConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.data.worldgen.SurfaceRuleData;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.WorldGenLevel;
@@ -73,7 +74,7 @@ public class DungeonFeature extends Feature<DungeonFeatureConfig> {
                             if (!currentState.is(Blocks.CHEST) && !currentState.is(Blocks.SPAWNER)) {
                                 this.safeSetBlock(world, currentPos, Blocks.CAVE_AIR.defaultBlockState(), predicate);
                             }
-                        } else if (currentPos.getY() >= world.getMinBuildHeight() && !world.getBlockState(currentPos.below()).isSolid()) {
+                        } else if (currentPos.getY() >= world.getMinY() && !world.getBlockState(currentPos.below()).isSolid()) {
                             world.setBlock(currentPos, Blocks.CAVE_AIR.defaultBlockState(), 2);
                         } else if (currentState.isSolid() && !currentState.is(Blocks.CHEST)) {
                             this.safeSetBlock(world, currentPos, y == -1 ? config.floorProvider().getState(random, currentPos) : config.wallProvider().getState(random, currentPos), predicate);

@@ -23,4 +23,3 @@ plugins {
 rootProject.name = 'lithostitched'
 include("common")
 include("fabric")
-include("neoforge")

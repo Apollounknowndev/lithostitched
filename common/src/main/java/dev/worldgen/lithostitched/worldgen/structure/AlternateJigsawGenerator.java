@@ -6,10 +6,13 @@ import dev.worldgen.lithostitched.access.StructurePoolAccess;
 import dev.worldgen.lithostitched.worldgen.poolelement.ExclusivePoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.LimitedPoolElement;
-import net.minecraft.core.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.Pools;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -41,79 +44,73 @@ import java.util.*;
 public class AlternateJigsawGenerator {
 
     public static Optional<Structure.GenerationStub> generate(Structure.GenerationContext context, AlternateJigsawConfig config, int size, BlockPos pos, PoolAliasLookup aliasLookup) {
-        RegistryAccess dynamicRegistryManager = context.registryAccess();
+        RegistryAccess registries = context.registryAccess();
         ChunkGenerator chunkGenerator = context.chunkGenerator();
         StructureTemplateManager structureTemplateManager = context.structureTemplateManager();
-        LevelHeightAccessor heightLimitView = context.heightAccessor();
+        LevelHeightAccessor heightView = context.heightAccessor();
         WorldgenRandom random = context.random();
 
-        Registry<StructureTemplatePool> registry = dynamicRegistryManager.registryOrThrow(Registries.TEMPLATE_POOL);
-        Rotation blockRotation = Rotation.getRandom(random);
+        Registry<StructureTemplatePool> templatePoolRegistry = registries.lookupOrThrow(Registries.TEMPLATE_POOL);
+        Rotation rotation = Rotation.getRandom(random);
 
         StructurePoolElement startingElement = config.startPool().unwrapKey().flatMap(
-            (resourceKey) -> registry.getOptional(aliasLookup.lookup(resourceKey))
+            resourceKey -> templatePoolRegistry.getOptional(aliasLookup.lookup(resourceKey))
         ).orElse(config.startPool().value()).getRandomTemplate(random);
 
         if (startingElement == EmptyPoolElement.INSTANCE) {
             return Optional.empty();
-        } else {
-            BlockPos blockPos;
-            Optional<ResourceLocation> startJigsawName = config.startJigsawName();
-            if (startJigsawName.isPresent()) {
-                ResourceLocation identifier = startJigsawName.get();
-                Optional<BlockPos> optional = findStartingJigsawPos(startingElement, identifier, pos, blockRotation, structureTemplateManager, random);
-                if (optional.isEmpty()) {
-                    LithostitchedCommon.LOGGER.error("No starting jigsaw {} found in start pool {}", identifier, config.startPool().unwrapKey().map((key) -> key.location().toString()).orElse("<unregistered>"));
-                    return Optional.empty();
-                }
+        }
 
-                blockPos = optional.get();
-            } else {
-                blockPos = pos;
+        BlockPos blockPos = pos;
+        Optional<ResourceLocation> startJigsawName = config.startJigsawName();
+        if (startJigsawName.isPresent()) {
+            Optional<BlockPos> optional = findNamedJigsaw(startingElement, startJigsawName.get(), pos, rotation, structureTemplateManager, random);
+            if (optional.isEmpty()) {
+                LithostitchedCommon.LOGGER.error("No starting jigsaw {} found in start pool {}", startJigsawName.get(), config.startPool().unwrapKey().map(key -> key.location().toString()).orElse("<unregistered>"));
+                return Optional.empty();
             }
 
-            Vec3i vec3i = blockPos.subtract(pos);
-            BlockPos blockPos2 = pos.subtract(vec3i);
-            PoolElementStructurePiece poolStructurePiece = new PoolElementStructurePiece(structureTemplateManager, startingElement, blockPos2, startingElement.getGroundLevelDelta(), blockRotation, startingElement.getBoundingBox(structureTemplateManager, blockPos2, blockRotation), config.liquidSettings());
-            BoundingBox blockBox = poolStructurePiece.getBoundingBox();
-            int i = (blockBox.maxX() + blockBox.minX()) / 2;
-            int j = (blockBox.maxZ() + blockBox.minZ()) / 2;
-            int k;
-            k = config.projectStartToHeightmap().map(
-                type -> pos.getY() + chunkGenerator.getFirstFreeHeight(i, j, type, heightLimitView, context.randomState())
-            ).orElseGet(blockPos2::getY);
-
-            int l = blockBox.minY() + poolStructurePiece.getGroundLevelDelta();
-            poolStructurePiece.move(0, k - l, 0);
-            int m = k + vec3i.getY();
-            return Optional.of(new Structure.GenerationStub(new BlockPos(i, m, j), (collector) -> {
-                List<PoolElementStructurePiece> list = Lists.newArrayList();
-                list.add(poolStructurePiece);
-                if (size > 0) {
-                    int maxDistanceFromCenter = config.maxDistanceFromCenter();
-                    AABB box = new AABB((i - maxDistanceFromCenter), Math.max(m - maxDistanceFromCenter, heightLimitView.getMinBuildHeight() + config.dimensionPadding().bottom()), (j - maxDistanceFromCenter), (i + maxDistanceFromCenter + 1), Math.min(m + maxDistanceFromCenter + 1, heightLimitView.getMaxBuildHeight() - config.dimensionPadding().top()), (j + maxDistanceFromCenter + 1));
-                    VoxelShape voxelShape = Shapes.join(Shapes.create(box), Shapes.create(AABB.of(blockBox)), BooleanOp.ONLY_FIRST);
-                    generate(context.randomState(), size, config.useExpansionHack(), chunkGenerator, structureTemplateManager, heightLimitView, random, registry, poolStructurePiece, list, voxelShape, aliasLookup, config.liquidSettings());
-                    Objects.requireNonNull(collector);
-                    list.forEach(collector::addPiece);
-                }
-            }));
+            blockPos = optional.get();
         }
+
+        Vec3i vec3i = blockPos.subtract(pos);
+        BlockPos blockPos2 = pos.subtract(vec3i);
+        PoolElementStructurePiece poolStructurePiece = new PoolElementStructurePiece(structureTemplateManager, startingElement, blockPos2, startingElement.getGroundLevelDelta(), rotation, startingElement.getBoundingBox(structureTemplateManager, blockPos2, rotation), config.liquidSettings());
+        BoundingBox blockBox = poolStructurePiece.getBoundingBox();
+        int x = (blockBox.maxX() + blockBox.minX()) / 2;
+        int z = (blockBox.maxZ() + blockBox.minZ()) / 2;
+        int startHeight;
+        startHeight = config.projectStartToHeightmap().map(
+            type -> pos.getY() + chunkGenerator.getFirstFreeHeight(x, z, type, heightView, context.randomState())
+        ).orElseGet(blockPos2::getY);
+
+        int l = blockBox.minY() + poolStructurePiece.getGroundLevelDelta();
+        poolStructurePiece.move(0, startHeight - l, 0);
+        int y = startHeight + vec3i.getY();
+        return Optional.of(new Structure.GenerationStub(new BlockPos(x, y, z), (collector) -> {
+            List<PoolElementStructurePiece> pieces = Lists.newArrayList();
+            pieces.add(poolStructurePiece);
+            if (size > 0) {
+                int maxDistanceFromCenter = config.maxDistanceFromCenter();
+                AABB box = new AABB((x - maxDistanceFromCenter), Math.max(y - maxDistanceFromCenter, heightView.getMinY() + config.dimensionPadding().bottom()), (z - maxDistanceFromCenter), (x + maxDistanceFromCenter + 1), Math.min(y + maxDistanceFromCenter + 1, heightView.getMaxY() - config.dimensionPadding().top()), (z + maxDistanceFromCenter + 1));
+                VoxelShape voxelShape = Shapes.join(Shapes.create(box), Shapes.create(AABB.of(blockBox)), BooleanOp.ONLY_FIRST);
+                generate(context.randomState(), size, config.useExpansionHack(), chunkGenerator, structureTemplateManager, heightView, random, templatePoolRegistry, poolStructurePiece, pieces, voxelShape, aliasLookup, config.liquidSettings());
+                Objects.requireNonNull(collector);
+                pieces.forEach(collector::addPiece);
+            }
+        }));
     }
 
-    private static Optional<BlockPos> findStartingJigsawPos(StructurePoolElement pool, ResourceLocation id, BlockPos pos, Rotation rotation, StructureTemplateManager structureManager, WorldgenRandom random) {
-        List<StructureTemplate.StructureBlockInfo> list = pool.getShuffledJigsawBlocks(structureManager, pos, rotation, random);
-        Optional<BlockPos> optional = Optional.empty();
-        for (StructureTemplate.StructureBlockInfo structureBlockInfo : list) {
-            if (structureBlockInfo.nbt() == null) continue;
-            ResourceLocation identifier = ResourceLocation.tryParse(structureBlockInfo.nbt().getString("name"));
-            if (id.equals(identifier)) {
-                optional = Optional.of(structureBlockInfo.pos());
-                break;
+    private static Optional<BlockPos> findNamedJigsaw(StructurePoolElement pool, ResourceLocation name, BlockPos pos, Rotation rotation, StructureTemplateManager structureManager, WorldgenRandom random) {
+        List<StructureTemplate.JigsawBlockInfo> list = pool.getShuffledJigsawBlocks(structureManager, pos, rotation, random);
+
+        for (StructureTemplate.JigsawBlockInfo jigsawBlock : list) {
+            if (name.equals(jigsawBlock.name())) {
+                return Optional.of(jigsawBlock.info().pos());
             }
         }
 
-        return optional;
+        return Optional.empty();
     }
 
     private static void generate(RandomState noiseConfig, int maxSize, boolean useExpansionHack, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, LevelHeightAccessor heightLimitView, RandomSource random, Registry<StructureTemplatePool> structurePoolRegistry, PoolElementStructurePiece firstPiece, List<PoolElementStructurePiece> pieces, VoxelShape pieceShape, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
@@ -121,10 +118,9 @@ public class AlternateJigsawGenerator {
         generator.generatePiece(firstPiece, new MutableObject<>(pieceShape), 0, useExpansionHack, heightLimitView, noiseConfig, aliasLookup, liquidSettings);
 
         while(generator.pieces.hasNext()) {
-            ShapedPoolStructurePiece shapedPoolStructurePiece = generator.pieces.next();
-            generator.generatePiece(shapedPoolStructurePiece.piece, shapedPoolStructurePiece.pieceShape, shapedPoolStructurePiece.currentSize, useExpansionHack, heightLimitView, noiseConfig, aliasLookup, liquidSettings);
+            PieceState pieceState = generator.pieces.next();
+            generator.generatePiece(pieceState.piece, pieceState.pieceShape, pieceState.depth, useExpansionHack, heightLimitView, noiseConfig, aliasLookup, liquidSettings);
         }
-
     }
 
     static final class StructurePoolGenerator {
@@ -135,7 +131,7 @@ public class AlternateJigsawGenerator {
         private final List<? super PoolElementStructurePiece> piecesToPlace;
         private final RandomSource random;
         private final Map<ExclusivePoolElement, Integer> elementsToCounts;
-        final SequencedPriorityIterator<ShapedPoolStructurePiece> pieces = new SequencedPriorityIterator<>();
+        final SequencedPriorityIterator<PieceState> pieces = new SequencedPriorityIterator<>();
 
         private StructurePoolGenerator(Registry<StructureTemplatePool> registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List<? super PoolElementStructurePiece> children, RandomSource random) {
             this.registry = registry;
@@ -149,13 +145,15 @@ public class AlternateJigsawGenerator {
 
         private void generatePiece(PoolElementStructurePiece parentPiece, MutableObject<VoxelShape> voxelShape, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
             StructurePoolElement anchorElement = parentPiece.getElement();
+            BoundingBox parentBoundingBox = parentPiece.getBoundingBox();
             MutableObject<VoxelShape> parentShape = new MutableObject<>();
 
-            for (StructureTemplate.StructureBlockInfo anchorJigsawInfo : anchorElement.getShuffledJigsawBlocks(this.structureTemplateManager, parentPiece.getPosition(), parentPiece.getRotation(), this.random)) {
-                BoundingBox parentBoundingBox = parentPiece.getBoundingBox();
-                BlockPos candidateConnectorPos = anchorJigsawInfo.pos().relative(JigsawBlock.getFrontFacing(anchorJigsawInfo.state()));
-                int k = -1;
-                Holder<StructureTemplatePool> poolEntry = getTemplatePoolHolder(getTemplatePoolKey(anchorJigsawInfo, aliasLookup));
+            for (StructureTemplate.JigsawBlockInfo anchorJigsaw : anchorElement.getShuffledJigsawBlocks(this.structureTemplateManager, parentPiece.getPosition(), parentPiece.getRotation(), this.random)) {
+                StructureTemplate.StructureBlockInfo anchorInfo = anchorJigsaw.info();
+
+                BlockPos candidateConnectorPos = adjustJigsawPos(anchorInfo);
+
+                Holder<StructureTemplatePool> poolEntry = getTemplatePoolHolder(getTemplatePoolKey(anchorJigsaw, aliasLookup));
                 if (poolEntry == null) continue;
                 boolean connectorInParentBoundingBox = parentBoundingBox.isInside(candidateConnectorPos);
                 MutableObject<VoxelShape> childShape;
@@ -169,7 +167,7 @@ public class AlternateJigsawGenerator {
                 }
 
                 MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools = new MutableObject<>(new ArrayList<>());
-                findAndTestChildCandidates(poolEntry, checkedPools, parentPiece, anchorJigsawInfo, childShape, k, depth, useExpansionHack, world, noiseConfig, true, aliasLookup, liquidSettings);
+                findAndTestChildCandidates(poolEntry, checkedPools, parentPiece, anchorJigsaw, childShape, -1, depth, useExpansionHack, world, noiseConfig, true, aliasLookup, liquidSettings);
             }
         }
 
@@ -177,7 +175,7 @@ public class AlternateJigsawGenerator {
          * Find a valid child from a pool of child candidates.
          * If none are found, go to the template pool's fallback and try again.
          */
-        private void findAndTestChildCandidates(Holder<StructureTemplatePool> entry, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig, boolean firstIteration, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+        private void findAndTestChildCandidates(Holder<StructureTemplatePool> entry, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, PoolElementStructurePiece parentPiece, StructureTemplate.JigsawBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig, boolean firstIteration, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
             List<StructurePoolElement> childCandidates = this.getPoolElements(entry.unwrapKey().orElse(Pools.EMPTY), checkedPools, depth, firstIteration);
 
             if (childCandidates.isEmpty()) return;
@@ -206,7 +204,7 @@ public class AlternateJigsawGenerator {
             checkedPools.getValue().add(poolKey);
 
             // Get pool to get the elements, start with fallback pool if at max size
-            Holder<StructureTemplatePool> pool = this.registry.getHolder(poolKey).orElseThrow();
+            Holder<StructureTemplatePool> pool = this.registry.get(poolKey).orElseThrow();
 
             // Skip straight to fallback if on max depth
             if (depth == this.maxSize && firstIteration) {
@@ -226,9 +224,11 @@ public class AlternateJigsawGenerator {
          * Iterate through list of child candidate pieces to find a valid one to use.
          */
         @SuppressWarnings("deprecation")
-        private boolean findValidChildPiece(List<StructurePoolElement> childCandidates, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
-            BlockPos anchorPos = anchorJigsawInfo.pos();
-            BlockPos candidateConnectorPos = anchorPos.relative(JigsawBlock.getFrontFacing(anchorJigsawInfo.state()));
+        private boolean findValidChildPiece(List<StructurePoolElement> childCandidates, PoolElementStructurePiece parentPiece, StructureTemplate.JigsawBlockInfo anchorJigsaw, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+            StructureTemplate.StructureBlockInfo anchorInfo = anchorJigsaw.info();
+
+            BlockPos anchorPos = anchorInfo.pos();
+            BlockPos candidateConnectorPos = adjustJigsawPos(anchorInfo);
             int parentMinY = parentPiece.getBoundingBox().minY();
             int anchorDistanceToFloor = anchorPos.getY() - parentMinY;
             StructureTemplatePool.Projection parentProjection = parentPiece.getElement().getProjection();
@@ -263,18 +263,19 @@ public class AlternateJigsawGenerator {
                 }
 
                 for (Rotation rotation : Rotation.getShuffled(this.random)) {
-                    List<StructureTemplate.StructureBlockInfo> connectorJigsaws = processedCandidateElement.getShuffledJigsawBlocks(this.structureTemplateManager, BlockPos.ZERO, rotation, this.random);
+                    List<StructureTemplate.JigsawBlockInfo> connectorJigsaws = processedCandidateElement.getShuffledJigsawBlocks(this.structureTemplateManager, BlockPos.ZERO, rotation, this.random);
                     BoundingBox connectorBoundingBox = processedCandidateElement.getBoundingBox(this.structureTemplateManager, BlockPos.ZERO, rotation);
 
                     // Expansion hack
                     int l;
                     if (useExpansionHack && connectorBoundingBox.getYSpan() <= 16) {
-                        l = connectorJigsaws.stream().mapToInt((blockInfo) -> {
-                            if (!connectorBoundingBox.isInside(blockInfo.pos().relative(JigsawBlock.getFrontFacing(blockInfo.state())))) {
+                        l = connectorJigsaws.stream().mapToInt((jigsawInfo) -> {
+                            StructureTemplate.StructureBlockInfo blockInfo = jigsawInfo.info();
+                            if (!connectorBoundingBox.isInside(adjustJigsawPos(blockInfo))) {
                                 return 0;
                             } else {
-                                ResourceKey<StructureTemplatePool> registryKey2 = getTemplatePoolKey(blockInfo, aliasLookup);
-                                Optional<? extends Holder<StructureTemplatePool>> optional1 = this.registry.getHolder(registryKey2);
+                                ResourceKey<StructureTemplatePool> registryKey2 = getTemplatePoolKey(jigsawInfo, aliasLookup);
+                                Optional<? extends Holder<StructureTemplatePool>> optional1 = this.registry.get(registryKey2);
                                 Optional<Holder<StructureTemplatePool>> optional2 = optional1.map(entry -> entry.value().getFallback());
                                 int i2 = optional1.map(entry -> entry.value().getMaxSize(this.structureTemplateManager)).orElse(0);
                                 int j2 = optional2.map(entry -> entry.value().getMaxSize(this.structureTemplateManager)).orElse(0);
@@ -286,16 +287,16 @@ public class AlternateJigsawGenerator {
                     }
 
                     // Find valid jigsaw block to attach
-                    for (StructureTemplate.StructureBlockInfo connectorJigsawInfo: connectorJigsaws) {
-                        if (JigsawBlock.canAttach(anchorJigsawInfo, connectorJigsawInfo)) {
-                            BlockPos connectorPos = connectorJigsawInfo.pos();
+                    for (StructureTemplate.JigsawBlockInfo connectorJigsawInfo: connectorJigsaws) {
+                        if (JigsawBlock.canAttach(anchorJigsaw, connectorJigsawInfo)) {
+                            BlockPos connectorPos = connectorJigsawInfo.info().pos();
                             BlockPos blockPos5 = candidateConnectorPos.subtract(connectorPos);
                             BoundingBox blockBox3 = processedCandidateElement.getBoundingBox(this.structureTemplateManager, blockPos5, rotation);
                             int m = blockBox3.minY();
                             StructureTemplatePool.Projection connectorProjection = processedCandidateElement.getProjection();
                             boolean connectorProjectionRigid = connectorProjection == StructureTemplatePool.Projection.RIGID;
                             int connectorY = connectorPos.getY();
-                            int o = anchorDistanceToFloor - connectorY + JigsawBlock.getFrontFacing(anchorJigsawInfo.state()).getStepY();
+                            int o = anchorDistanceToFloor - connectorY + JigsawBlock.getFrontFacing(anchorInfo.state()).getStepY();
                             int p;
                             if (parentRigid && connectorProjectionRigid) {
                                 p = parentMinY + o;
@@ -353,14 +354,13 @@ public class AlternateJigsawGenerator {
                                     t = k + o / 2;
                                 }
 
-                                parentPiece.addJunction(new JigsawJunction(candidateConnectorPos.getX(), t - anchorDistanceToFloor + r,
-                                        candidateConnectorPos.getZ(), o, connectorProjection));
+                                parentPiece.addJunction(new JigsawJunction(candidateConnectorPos.getX(), t - anchorDistanceToFloor + r, candidateConnectorPos.getZ(), o, connectorProjection));
                                 poolStructurePiece.addJunction(new JigsawJunction(anchorPos.getX(), t - connectorY + s, anchorPos.getZ(), -o, parentProjection));
 
                                 this.piecesToPlace.add(poolStructurePiece);
                                 if (depth + 1 <= this.maxSize) {
-                                    int priority = anchorJigsawInfo.nbt() != null ? anchorJigsawInfo.nbt().getInt("placement_priority") : 0;
-                                    this.pieces.add(new ShapedPoolStructurePiece(poolStructurePiece, mutableObject2, depth + 1), priority);
+                                    PieceState pieceState = new PieceState(poolStructurePiece, mutableObject2, depth + 1);
+                                    this.pieces.add(pieceState, anchorJigsaw.placementPriority());
                                 }
                                 return true;
                             }
@@ -372,7 +372,7 @@ public class AlternateJigsawGenerator {
         }
 
         private Holder<StructureTemplatePool> getTemplatePoolHolder(ResourceKey<StructureTemplatePool> key) {
-            Optional<? extends Holder<StructureTemplatePool>> optional = this.registry.getHolder(key);
+            Optional<? extends Holder<StructureTemplatePool>> optional = this.registry.get(key);
             if (optional.isEmpty()) {
                 LithostitchedCommon.LOGGER.warn("Couldn't find template pool reference: {}", key.location());
             } else {
@@ -388,13 +388,14 @@ public class AlternateJigsawGenerator {
             return null;
         }
 
-        private static ResourceKey<StructureTemplatePool> getTemplatePoolKey(StructureTemplate.StructureBlockInfo info, PoolAliasLookup aliasLookup) {
-            CompoundTag compoundTag = Objects.requireNonNull(info.nbt(), () -> info + " nbt was null");
-            ResourceKey<StructureTemplatePool> resourceKey = Pools.parseKey(compoundTag.getString("pool"));
+        private static ResourceKey<StructureTemplatePool> getTemplatePoolKey(StructureTemplate.JigsawBlockInfo jigsaw, PoolAliasLookup aliasLookup) {
+            return aliasLookup.lookup(Pools.createKey(jigsaw.pool()));
+        }
 
-            return aliasLookup.lookup(resourceKey);
+        private static BlockPos adjustJigsawPos(StructureTemplate.StructureBlockInfo jigsawInfo) {
+            return jigsawInfo.pos().relative(JigsawBlock.getFrontFacing(jigsawInfo.state()));
         }
     }
 
-    private record ShapedPoolStructurePiece(PoolElementStructurePiece piece, MutableObject<VoxelShape> pieceShape, int currentSize) {}
+    private record PieceState(PoolElementStructurePiece piece, MutableObject<VoxelShape> pieceShape, int depth) {}
 }

@@ -42,7 +42,7 @@ public abstract class ExclusivePoolElement extends StructurePoolElement {
     }
 
     @Override
-    public List<StructureTemplate.StructureBlockInfo> getShuffledJigsawBlocks(StructureTemplateManager structureTemplateManager, BlockPos blockPos, Rotation rotation, RandomSource randomSource) {
+    public List<StructureTemplate.JigsawBlockInfo> getShuffledJigsawBlocks(StructureTemplateManager structureTemplateManager, BlockPos blockPos, Rotation rotation, RandomSource randomSource) {
         return this.delegate.getShuffledJigsawBlocks(structureTemplateManager, blockPos, rotation, randomSource);
     }
 

@@ -27,7 +27,7 @@ public record ReplaceClimateModifier(HolderSet<Biome> biomes, Biome.ClimateSetti
     @Override
     public void applyModifier(RegistryAccess registryAccess) {
         List<Holder<Biome>> biomes = this.biomes().stream().toList();
-        Registry<Biome> registry = registryAccess.registryOrThrow(Registries.BIOME);
+        Registry<Biome> registry = registryAccess.lookupOrThrow(Registries.BIOME);
         for (Holder<Biome> entry : biomes.stream().toList()) {
             this.applyModifier(entry.value());
 

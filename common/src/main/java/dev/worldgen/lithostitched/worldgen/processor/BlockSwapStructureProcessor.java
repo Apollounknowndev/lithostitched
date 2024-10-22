@@ -4,10 +4,12 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.structure.templatesystem.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +37,7 @@ public class BlockSwapStructureProcessor extends StructureProcessor {
         Block block = currentBlockInfo.state().getBlock();
         ResourceLocation blockKey = BuiltInRegistries.BLOCK.getKey(block);
         if (blockSwapMap.containsKey(blockKey)) {
-            return new StructureTemplate.StructureBlockInfo(currentBlockInfo.pos(), BuiltInRegistries.BLOCK.get(blockSwapMap.get(blockKey)).withPropertiesOf(currentBlockInfo.state()), currentBlockInfo.nbt());
+            return new StructureTemplate.StructureBlockInfo(currentBlockInfo.pos(), BuiltInRegistries.BLOCK.get(blockSwapMap.get(blockKey)).get().value().withPropertiesOf(currentBlockInfo.state()), currentBlockInfo.nbt());
         }
         return currentBlockInfo;
     }

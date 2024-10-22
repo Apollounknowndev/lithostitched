@@ -17,11 +17,11 @@ import java.util.Map;
 public interface BiomeGenerationSettingsAccessor {
 
     @Invoker("<init>")
-    static BiomeGenerationSettings createGenerationSettings(Map<GenerationStep.Carving, HolderSet<ConfiguredWorldCarver<?>>> carvers, List<HolderSet<PlacedFeature>> features) {
+    static BiomeGenerationSettings createGenerationSettings(HolderSet<ConfiguredWorldCarver<?>> carvers, List<HolderSet<PlacedFeature>> features) {
         throw new AssertionError();
     };
 
     @Accessor("carvers")
     @Mutable
-    Map<GenerationStep.Carving, HolderSet<ConfiguredWorldCarver<?>>> getCarvers();
+    HolderSet<ConfiguredWorldCarver<?>> getCarvers();
 }

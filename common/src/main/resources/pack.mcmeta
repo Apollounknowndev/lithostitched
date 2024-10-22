@@ -1,6 +1,7 @@
 {
     "pack": {
         "description": "Lithostitched resources",
+        "supported_formats": [50, 99],
         "pack_format": 15
     }
 }

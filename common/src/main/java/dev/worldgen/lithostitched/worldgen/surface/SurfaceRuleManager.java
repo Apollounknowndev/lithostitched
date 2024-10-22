@@ -33,7 +33,7 @@ public class SurfaceRuleManager {
     @SuppressWarnings("deprecation")
     public static void applySurfaceRules(MinecraftServer server) {
         RegistryAccess registryAccess = server.registryAccess();
-        var surfaceRules = registryAccess.registryOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER).entrySet().stream().filter((entry) -> entry.getValue() instanceof AddSurfaceRuleModifier).collect(Collectors.toSet());
+        var surfaceRules = registryAccess.lookupOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER).entrySet().stream().filter((entry) -> entry.getValue() instanceof AddSurfaceRuleModifier).collect(Collectors.toSet());
         if (surfaceRules.isEmpty()) return;
 
         HashMap<ResourceLocation, ArrayList<Pair<ResourceLocation, AddSurfaceRuleModifier>>> assignedSurfaceRules = new HashMap<>();
@@ -42,7 +42,7 @@ public class SurfaceRuleManager {
             slice.levels().forEach(levelStemResourceKey -> assignedSurfaceRules.computeIfAbsent(levelStemResourceKey.location(), __ -> new ArrayList<>()).add(Pair.of(assignedSurfaceRule.getKey().location(), slice)));
         }
 
-        Registry<LevelStem> dimensions = registryAccess.registryOrThrow(Registries.LEVEL_STEM);
+        Registry<LevelStem> dimensions = registryAccess.lookupOrThrow(Registries.LEVEL_STEM);
         for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : dimensions.entrySet()) {
             ResourceLocation location = entry.getKey().location();
             var surfaceRulesForKey = assignedSurfaceRules.get(location);
