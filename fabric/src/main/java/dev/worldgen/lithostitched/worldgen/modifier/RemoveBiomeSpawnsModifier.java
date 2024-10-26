@@ -24,26 +24,22 @@ import java.util.List;
  *
  * @author Apollo
  */
-public class RemoveBiomeSpawnsModifier extends Modifier {
-    public static final Codec<RemoveBiomeSpawnsModifier> CODEC = RecordCodecBuilder.create(instance -> addModifierFields(instance).and(instance.group(
+public record RemoveBiomeSpawnsModifier(ModifierPredicate predicate, HolderSet<Biome> biomes, HolderSet<EntityType<?>> mobs) implements Modifier {
+    public static final Codec<RemoveBiomeSpawnsModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(RemoveBiomeSpawnsModifier::biomes),
         RegistryCodecs.homogeneousList(Registries.ENTITY_TYPE).fieldOf("mobs").forGetter(RemoveBiomeSpawnsModifier::mobs)
     )).apply(instance, RemoveBiomeSpawnsModifier::new));
-    private final HolderSet<Biome> biomes;
-    private final HolderSet<EntityType<?>> mobs;
-    protected RemoveBiomeSpawnsModifier(ModifierPredicate predicate, HolderSet<Biome> biomes, HolderSet<EntityType<?>> mobs) {
-        super(predicate, ModifierPhase.REMOVE);
-        this.biomes = biomes;
-        this.mobs = mobs;
+
+    @Override
+    public ModifierPredicate getPredicate() {
+        return this.predicate;
     }
 
-    public HolderSet<Biome> biomes() {
-        return this.biomes;
+    @Override
+    public ModifierPhase getPhase() {
+        return ModifierPhase.REMOVE;
     }
 
-    public HolderSet<EntityType<?>> mobs() {
-        return this.mobs;
-    }
     public List<EntityType<?>> entityTypes() {
         List<EntityType<?>> entityTypes = new ArrayList<>();
         for (Holder<EntityType<?>> entry : this.mobs()) {

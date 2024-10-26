@@ -15,7 +15,7 @@ import net.minecraft.world.level.biome.BiomeSpecialEffects;
  * @author Apollo
  */
 public class ReplaceEffectsModifier extends AbstractBiomeModifier {
-    public static final Codec<ReplaceEffectsModifier> CODEC = RecordCodecBuilder.create((instance) -> addModifierFields(instance).and(instance.group(
+    public static final Codec<ReplaceEffectsModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceEffectsModifier::biomes),
         BiomeEffects.CODEC.fieldOf("effects").forGetter(ReplaceEffectsModifier::effects)
     )).apply(instance, ReplaceEffectsModifier::new));

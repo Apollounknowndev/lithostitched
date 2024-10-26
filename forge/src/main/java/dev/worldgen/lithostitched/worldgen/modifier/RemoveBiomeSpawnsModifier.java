@@ -16,7 +16,7 @@ import net.minecraftforge.common.world.ForgeBiomeModifiers;
  * @author Apollo
  */
 public class RemoveBiomeSpawnsModifier extends AbstractBiomeModifier {
-    public static final Codec<RemoveBiomeSpawnsModifier> CODEC = RecordCodecBuilder.create(instance -> addModifierFields(instance).and(instance.group(
+    public static final Codec<RemoveBiomeSpawnsModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(RemoveBiomeSpawnsModifier::biomes),
         RegistryCodecs.homogeneousList(Registries.ENTITY_TYPE).fieldOf("mobs").forGetter(RemoveBiomeSpawnsModifier::mobs)
     )).apply(instance, RemoveBiomeSpawnsModifier::new));

@@ -17,24 +17,20 @@ import java.util.HashSet;
  *
  * @author Apollo
  */
-public class AddSurfaceRuleModifier extends Modifier {
-    public static final Codec<AddSurfaceRuleModifier> CODEC = RecordCodecBuilder.create(instance -> addModifierFields(instance).and(instance.group(
+public record AddSurfaceRuleModifier(ModifierPredicate predicate, HashSet<ResourceKey<LevelStem>> levels, SurfaceRules.RuleSource surfaceRule) implements Modifier {
+    public static final Codec<AddSurfaceRuleModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         ResourceKey.codec(Registries.LEVEL_STEM).listOf().xmap(HashSet::new, ArrayList::new).fieldOf("levels").forGetter(AddSurfaceRuleModifier::levels),
         SurfaceRules.RuleSource.CODEC.fieldOf("surface_rule").forGetter(AddSurfaceRuleModifier::surfaceRule)
     )).apply(instance, AddSurfaceRuleModifier::new));
-    private final HashSet<ResourceKey<LevelStem>> levels;
-    private final SurfaceRules.RuleSource surfaceRule;
-    public AddSurfaceRuleModifier(ModifierPredicate predicate, HashSet<ResourceKey<LevelStem>> levels, SurfaceRules.RuleSource surfaceRule) {
-        super(predicate, ModifierPhase.NONE);
-        this.levels = levels;
-        this.surfaceRule = surfaceRule;
-    }
-    public HashSet<ResourceKey<LevelStem>> levels() {
-        return this.levels;
+
+    @Override
+    public ModifierPredicate getPredicate() {
+        return this.predicate;
     }
 
-    public SurfaceRules.RuleSource surfaceRule() {
-        return this.surfaceRule;
+    @Override
+    public ModifierPhase getPhase() {
+        return ModifierPhase.ADD;
     }
 
     @Override

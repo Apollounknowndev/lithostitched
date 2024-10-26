@@ -45,9 +45,7 @@ public class ServerLifecycleHooksMixin {
         lithostitchedBiomeModifiers.forEach(
             (entry) -> {
                 AbstractBiomeModifier modifier = ((AbstractBiomeModifier)entry.getValue());
-                if (modifier.predicate().test()) {
-                    allBiomeModifiers.add(modifier.forgeBiomeModifier());
-                }
+                allBiomeModifiers.add(modifier.forgeBiomeModifier());
             }
         );
         return allBiomeModifiers;

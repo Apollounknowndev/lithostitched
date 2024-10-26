@@ -8,10 +8,11 @@ import net.minecraftforge.common.world.BiomeModifier;
  *
  * @author Apollo
  */
-public abstract class AbstractBiomeModifier extends Modifier {
+public abstract class AbstractBiomeModifier implements Modifier {
+    private final ModifierPredicate predicate;
     private final BiomeModifier forgeBiomeModifier;
     protected AbstractBiomeModifier(ModifierPredicate predicate, BiomeModifier forgeBiomeModifier) {
-        super(predicate, ModifierPhase.NONE);
+        this.predicate = predicate;
         this.forgeBiomeModifier = forgeBiomeModifier;
     }
 
@@ -20,6 +21,16 @@ public abstract class AbstractBiomeModifier extends Modifier {
      */
     public BiomeModifier forgeBiomeModifier() {
         return this.forgeBiomeModifier;
+    }
+
+    @Override
+    public ModifierPredicate getPredicate() {
+        return this.predicate;
+    }
+
+    @Override
+    public ModifierPhase getPhase() {
+        return ModifierPhase.NONE;
     }
 
     @Override

@@ -23,26 +23,21 @@ import java.util.Optional;
  *
  * @author Apollo
  */
-public class ReplaceEffectsModifier extends Modifier {
+public record ReplaceEffectsModifier(ModifierPredicate predicate, HolderSet<Biome> biomes, ModdedBiomeEffects effects) implements Modifier {
 
-    public static final Codec<ReplaceEffectsModifier> CODEC = RecordCodecBuilder.create((instance) -> addModifierFields(instance).and(instance.group(
+    public static final Codec<ReplaceEffectsModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceEffectsModifier::biomes),
         ModdedBiomeEffects.CODEC.fieldOf("effects").forGetter(ReplaceEffectsModifier::effects)
     )).apply(instance, ReplaceEffectsModifier::new));
-    private final HolderSet<Biome> biomes;
-    private final ModdedBiomeEffects effects;
-    public ReplaceEffectsModifier(ModifierPredicate predicate, HolderSet<Biome> biomes, ModdedBiomeEffects effects) {
-        super(predicate, ModifierPhase.MODIFY);
-        this.biomes = biomes;
-        this.effects = effects;
+
+    @Override
+    public ModifierPredicate getPredicate() {
+        return this.predicate;
     }
 
-    public HolderSet<Biome> biomes() {
-        return this.biomes;
-    }
-
-    public ModdedBiomeEffects effects() {
-        return this.effects;
+    @Override
+    public ModifierPhase getPhase() {
+        return ModifierPhase.MODIFY;
     }
 
     public void applyModifier(Biome biome) {

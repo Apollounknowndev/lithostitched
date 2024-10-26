@@ -1,44 +1,35 @@
 package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
 import dev.worldgen.lithostitched.worldgen.modifier.util.DensityFunctionWrapper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.DensityFunction;
-import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
-import net.minecraft.world.level.levelgen.NoiseSettings;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
-public class WrapNoiseRouterModifier extends Modifier {
-    public static final Codec<WrapNoiseRouterModifier> CODEC = RecordCodecBuilder.create(instance -> addModifierFields(instance).and(instance.group(
+public record WrapNoiseRouterModifier(ModifierPredicate predicate, int priority, ResourceKey<Level> dimension, Target target, Holder<DensityFunction> wrapperFunction) implements Modifier {
+    public static final Codec<WrapNoiseRouterModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         PriorityBasedModifier.PRIORITY_CODEC.forGetter(WrapNoiseRouterModifier::priority),
         ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension").forGetter(WrapNoiseRouterModifier::dimension),
         Target.CODEC.fieldOf("target").forGetter(WrapNoiseRouterModifier::target),
         DensityFunction.CODEC.fieldOf("wrapper_function").forGetter(WrapNoiseRouterModifier::wrapperFunction)
     )).apply(instance, WrapNoiseRouterModifier::new));
-    private final int priority;
-    private final ResourceKey<Level> dimension;
-    private final Target target;
-    private final Holder<DensityFunction> wrapperFunction;
+    @Override
+    public ModifierPredicate getPredicate() {
+        return this.predicate;
+    }
 
-    public WrapNoiseRouterModifier(ModifierPredicate predicate, int priority, ResourceKey<Level> dimension, Target target, Holder<DensityFunction> wrapperFunction) {
-        super(predicate, ModifierPhase.MODIFY);
-        this.priority = priority;
-        this.dimension = dimension;
-        this.target = target;
-        this.wrapperFunction = wrapperFunction;
+    @Override
+    public ModifierPhase getPhase() {
+        return ModifierPhase.NONE;
     }
 
     @Override
@@ -66,46 +57,6 @@ public class WrapNoiseRouterModifier extends Modifier {
 
         return mergedFunction;
     }
-
-    public int priority() {
-        return priority;
-    }
-
-    public ResourceKey<Level> dimension() {
-        return dimension;
-    }
-
-    public Target target() {
-        return target;
-    }
-
-    public Holder<DensityFunction> wrapperFunction() {
-        return wrapperFunction;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (WrapNoiseRouterModifier) obj;
-        return this.priority == that.priority &&
-                Objects.equals(this.target, that.target) &&
-                Objects.equals(this.wrapperFunction, that.wrapperFunction);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(priority, target, wrapperFunction);
-    }
-
-    @Override
-    public String toString() {
-        return "WrapNoiseRouterModifier[" +
-                "priority=" + priority + ", " +
-                "target=" + target + ", " +
-                "wrapperFunction=" + wrapperFunction + ']';
-    }
-
 
     public enum Target implements StringRepresentable {
         BARRIER("barrier"),

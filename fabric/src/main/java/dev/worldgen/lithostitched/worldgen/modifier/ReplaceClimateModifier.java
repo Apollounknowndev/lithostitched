@@ -15,25 +15,20 @@ import java.util.List;
  *
  * @author Apollo
  */
-public class ReplaceClimateModifier extends Modifier {
-    public static final Codec<ReplaceClimateModifier> CODEC = RecordCodecBuilder.create((instance) -> addModifierFields(instance).and(instance.group(
+public record ReplaceClimateModifier(ModifierPredicate predicate, HolderSet<Biome> biomes, Biome.ClimateSettings climateSettings) implements Modifier {
+    public static final Codec<ReplaceClimateModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceClimateModifier::biomes),
         Biome.ClimateSettings.CODEC.fieldOf("climate").forGetter(ReplaceClimateModifier::climateSettings)
     )).apply(instance, ReplaceClimateModifier::new));
-    private final HolderSet<Biome> biomes;
-    private final Biome.ClimateSettings climateSettings;
-    public ReplaceClimateModifier(ModifierPredicate predicate, HolderSet<Biome> biomes, Biome.ClimateSettings climateSettings) {
-        super(predicate, ModifierPhase.MODIFY);
-        this.biomes = biomes;
-        this.climateSettings = climateSettings;
+
+    @Override
+    public ModifierPredicate getPredicate() {
+        return this.predicate;
     }
 
-    public HolderSet<Biome> biomes() {
-        return biomes;
-    }
-
-    public Biome.ClimateSettings climateSettings() {
-        return climateSettings;
+    @Override
+    public ModifierPhase getPhase() {
+        return ModifierPhase.MODIFY;
     }
 
     public void applyModifier(Biome biome) {

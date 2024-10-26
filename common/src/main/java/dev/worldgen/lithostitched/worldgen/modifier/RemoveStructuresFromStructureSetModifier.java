@@ -23,40 +23,24 @@ import java.util.stream.Collectors;
  *
  * @author Apollo
  */
-public class RemoveStructuresFromStructureSetModifier extends Modifier {
-    public static final Codec<RemoveStructuresFromStructureSetModifier> CODEC = RecordCodecBuilder.create(instance -> addModifierFields(instance).and(instance.group(
-        ResourceLocation.CODEC.fieldOf("structure_set").forGetter(RemoveStructuresFromStructureSetModifier::rawStructureSetLocation),
-        Structure.CODEC.listOf().fieldOf("structures").forGetter(RemoveStructuresFromStructureSetModifier::entries),
-        RegistryOps.retrieveGetter(Registries.STRUCTURE_SET)
+public record RemoveStructuresFromStructureSetModifier(ModifierPredicate predicate, Holder<StructureSet> structureSet, List<Holder<Structure>> entries) implements Modifier {
+    public static final Codec<RemoveStructuresFromStructureSetModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
+        StructureSet.CODEC.fieldOf("structure_set").forGetter(RemoveStructuresFromStructureSetModifier::structureSet),
+        Structure.CODEC.listOf().fieldOf("structures").forGetter(RemoveStructuresFromStructureSetModifier::entries)
     )).apply(instance, RemoveStructuresFromStructureSetModifier::new));
-    private final ResourceKey<StructureSet> EMPTY_STRUCTURE_SET = ResourceKey.create(Registries.STRUCTURE_SET, new ResourceLocation(LithostitchedCommon.MOD_ID, "empty"));
-    private final ResourceLocation rawStructureSetLocation;
-    private final Holder<StructureSet> structureSet;
-    private final List<Holder<Structure>> entries;
 
-    public RemoveStructuresFromStructureSetModifier(ModifierPredicate predicate, ResourceLocation rawStructureSetLocation, List<Holder<Structure>> entries, HolderGetter<StructureSet> getter) {
-        super(predicate, ModifierPhase.REMOVE);
-        this.rawStructureSetLocation = rawStructureSetLocation;
-        var structureSetEntry = getter.get(predicate.test() ? ResourceKey.create(Registries.STRUCTURE_SET, rawStructureSetLocation) : EMPTY_STRUCTURE_SET);
-        this.structureSet = structureSetEntry.get();
-        this.entries = entries;
+    @Override
+    public ModifierPredicate getPredicate() {
+        return this.predicate;
     }
 
-    public ResourceLocation rawStructureSetLocation() {
-        return this.rawStructureSetLocation;
-    }
-
-    public Holder<StructureSet> structureSet() {
-        return this.structureSet;
-    }
-
-    public List<Holder<Structure>> entries() {
-        return this.entries;
+    @Override
+    public ModifierPhase getPhase() {
+        return ModifierPhase.REMOVE;
     }
 
     @Override
     public void applyModifier() {
-        if (this.structureSet.is(EMPTY_STRUCTURE_SET)) return;
         StructureSetAccessor structureSetAccessor = ((StructureSetAccessor)(Object)this.structureSet().value());
         List<StructureSet.StructureSelectionEntry> structureSelectionEntries = new ArrayList<>(this.structureSet().value().structures());
         structureSetAccessor.setStructures(structureSelectionEntries.stream().filter(setEntry -> !entries.contains(setEntry.structure())).collect(Collectors.toList()));

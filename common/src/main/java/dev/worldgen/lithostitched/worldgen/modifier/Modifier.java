@@ -25,49 +25,37 @@ import java.util.stream.Collectors;
  *
  * @author Apollo
  */
-public abstract class Modifier {
+public interface Modifier {
     @SuppressWarnings("unchecked")
-    public static final Codec<Modifier> CODEC = ExtraCodecs.lazyInitializedCodec(() -> {
+    Codec<Modifier> CODEC = ExtraCodecs.lazyInitializedCodec(() -> {
         var modifierRegistry = BuiltInRegistries.REGISTRY.get(LithostitchedRegistryKeys.MODIFIER_TYPE.location());
         if (modifierRegistry == null) throw new NullPointerException("Worldgen modifier registry does not exist yet!");
         return ((Registry<Codec<? extends Modifier>>) modifierRegistry).byNameCodec();
     }).dispatch(Modifier::codec, Function.identity());
 
-    private final ModifierPredicate predicate;
-    private final ModifierPhase phase;
-
-    protected Modifier(ModifierPredicate modifierPredicate, ModifierPhase phase) {
-        this.predicate = modifierPredicate;
-        this.phase = phase;
+    static <P extends Modifier> Products.P1<RecordCodecBuilder.Mu<P>, ModifierPredicate> addModifierFields(RecordCodecBuilder.Instance<P> codec) {
+        return codec.group(ModifierPredicate.CODEC.fieldOf("predicate").orElse(TrueModifierPredicate.INSTANCE).forGetter(Modifier::getPredicate));
     }
 
-    public static <P extends Modifier> Products.P1<RecordCodecBuilder.Mu<P>, ModifierPredicate> addModifierFields(RecordCodecBuilder.Instance<P> codec) {
-        return codec.group(ModifierPredicate.CODEC.fieldOf("predicate").orElse(TrueModifierPredicate.INSTANCE).forGetter(Modifier::predicate));
-    }
+    ModifierPredicate getPredicate();
 
-    public ModifierPredicate predicate() {
-        return this.predicate;
-    }
+    ModifierPhase getPhase();
 
-    public ModifierPhase phase() {
-        return this.phase;
-    }
-
-    public void applyModifier(RegistryAccess registryAccess) {
+    default void applyModifier(RegistryAccess registryAccess) {
         this.applyModifier();
     }
 
-    public abstract void applyModifier();
+    void applyModifier();
 
-    public abstract Codec<? extends Modifier> codec();
+    Codec<? extends Modifier> codec();
 
     // Apply all worldgen modifiers in the worldgen modifier registry
-    public static void applyModifiers(MinecraftServer server) {
+    static void applyModifiers(MinecraftServer server) {
         RegistryAccess registries = server.registryAccess();
         Registry<Modifier> modifiers = registries.registryOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER);
         for (ModifierPhase phase : ModifierPhase.values()) {
             if (phase == ModifierPhase.NONE) continue;
-            List<Modifier> phaseModifiers = modifiers.stream().filter(modifier -> modifier.phase == phase).toList();
+            List<Modifier> phaseModifiers = modifiers.stream().filter(modifier -> modifier.getPhase() == phase).toList();
             applyPhaseModifiers(registries, phaseModifiers);
         }
     }
@@ -89,7 +77,7 @@ public abstract class Modifier {
         return modifiers.stream().sorted(Comparator.comparingInt(PriorityBasedModifier::getPriority)).toList();
     }
 
-    public enum ModifierPhase implements StringRepresentable {
+    enum ModifierPhase implements StringRepresentable {
         /**
          * Phase for modifiers to never apply.
          * Useful for modifiers that don't use the regular modifier system for applying modifications, like Forge biome modifiers and the AddSurfaceRule modifier.

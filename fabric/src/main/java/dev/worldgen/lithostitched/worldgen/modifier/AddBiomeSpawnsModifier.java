@@ -22,8 +22,8 @@ import java.util.List;
  *
  * @author Apollo
  */
-public class AddBiomeSpawnsModifier extends Modifier {
-    public static final Codec<AddBiomeSpawnsModifier> CODEC = RecordCodecBuilder.create(instance -> addModifierFields(instance).and(instance.group(
+public record AddBiomeSpawnsModifier(ModifierPredicate predicate, HolderSet<Biome> biomes, List<MobSpawnSettings.SpawnerData> biomeSpawns) implements Modifier {
+    public static final Codec<AddBiomeSpawnsModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddBiomeSpawnsModifier::biomes),
         Codec.mapEither(
             MobSpawnSettings.SpawnerData.CODEC.listOf().fieldOf("spawners"),
@@ -36,20 +36,15 @@ public class AddBiomeSpawnsModifier extends Modifier {
             Either::left
         ).forGetter(AddBiomeSpawnsModifier::biomeSpawns)
     )).apply(instance, AddBiomeSpawnsModifier::new));
-    private final HolderSet<Biome> biomes;
-    private final List<MobSpawnSettings.SpawnerData> biomeSpawns;
-    protected AddBiomeSpawnsModifier(ModifierPredicate predicate, HolderSet<Biome> biomes, List<MobSpawnSettings.SpawnerData> biomeSpawns) {
-        super(predicate, ModifierPhase.ADD);
-        this.biomes = biomes;
-        this.biomeSpawns = biomeSpawns;
+
+    @Override
+    public ModifierPredicate getPredicate() {
+        return this.predicate;
     }
 
-    public HolderSet<Biome> biomes() {
-        return this.biomes;
-    }
-
-    public List<MobSpawnSettings.SpawnerData> biomeSpawns() {
-        return this.biomeSpawns;
+    @Override
+    public ModifierPhase getPhase() {
+        return ModifierPhase.ADD;
     }
 
     public void applyModifier(Biome biome) {

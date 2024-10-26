@@ -15,7 +15,7 @@ import net.minecraftforge.common.world.ForgeBiomeModifiers;
  * @author Apollo
  */
 public class AddFeaturesModifier extends AbstractBiomeModifier {
-    public static final Codec<AddFeaturesModifier> CODEC = RecordCodecBuilder.create((instance) -> addModifierFields(instance).and(instance.group(
+    public static final Codec<AddFeaturesModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddFeaturesModifier::biomes),
         PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(AddFeaturesModifier::features),
         GenerationStep.Decoration.CODEC.fieldOf("step").forGetter(AddFeaturesModifier::step)

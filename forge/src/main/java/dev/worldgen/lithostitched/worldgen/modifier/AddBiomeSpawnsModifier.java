@@ -17,7 +17,7 @@ import java.util.List;
  * @author Apollo
  */
 public class AddBiomeSpawnsModifier extends AbstractBiomeModifier {
-    public static final Codec<AddBiomeSpawnsModifier> CODEC = RecordCodecBuilder.create(instance -> addModifierFields(instance).and(instance.group(
+    public static final Codec<AddBiomeSpawnsModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddBiomeSpawnsModifier::biomes),
         Codec.mapEither(
             SpawnerData.CODEC.listOf().fieldOf("spawners"),

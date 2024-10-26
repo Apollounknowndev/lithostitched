@@ -13,7 +13,7 @@ import net.minecraft.world.level.biome.Biome;
  * @author Apollo
  */
 public class ReplaceClimateModifier extends AbstractBiomeModifier {
-    public static final Codec<ReplaceClimateModifier> CODEC = RecordCodecBuilder.create((instance) -> addModifierFields(instance).and(instance.group(
+    public static final Codec<ReplaceClimateModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceClimateModifier::biomes),
         Biome.ClimateSettings.CODEC.fieldOf("climate").forGetter(ReplaceClimateModifier::climateSettings)
     )).apply(instance, ReplaceClimateModifier::new));

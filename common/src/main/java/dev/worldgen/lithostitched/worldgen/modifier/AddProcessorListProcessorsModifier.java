@@ -34,18 +34,20 @@ import java.util.List;
  *
  * @author Apollo
  */
-public class AddProcessorListProcessorsModifier extends Modifier {
-    public static final Codec<AddProcessorListProcessorsModifier> CODEC = RecordCodecBuilder.create(instance -> addModifierFields(instance).and(instance.group(
+public record AddProcessorListProcessorsModifier(ModifierPredicate predicate, Holder<StructureProcessorList> processorList, StructureProcessorList processors) implements Modifier {
+    public static final Codec<AddProcessorListProcessorsModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         RegistryFileCodec.create(Registries.PROCESSOR_LIST, StructureProcessorType.DIRECT_CODEC, false).fieldOf("processor_list").forGetter(AddProcessorListProcessorsModifier::processorList),
         StructureProcessorType.LIST_OBJECT_CODEC.fieldOf("processors").forGetter(AddProcessorListProcessorsModifier::processors)
     )).apply(instance, AddProcessorListProcessorsModifier::new));
-    private final Holder<StructureProcessorList> processorList;
-    private final StructureProcessorList processors;
 
-    public AddProcessorListProcessorsModifier(ModifierPredicate predicate, Holder<StructureProcessorList> processorList, StructureProcessorList processors) {
-        super(predicate, ModifierPhase.ADD);
-        this.processorList = processorList;
-        this.processors = processors;
+    @Override
+    public ModifierPredicate getPredicate() {
+        return this.predicate;
+    }
+
+    @Override
+    public ModifierPhase getPhase() {
+        return ModifierPhase.ADD;
     }
 
     @Override
@@ -61,13 +63,5 @@ public class AddProcessorListProcessorsModifier extends Modifier {
     @Override
     public Codec<? extends Modifier> codec() {
         return CODEC;
-    }
-
-    public Holder<StructureProcessorList> processorList() {
-        return processorList;
-    }
-
-    public StructureProcessorList processors() {
-        return processors;
     }
 }

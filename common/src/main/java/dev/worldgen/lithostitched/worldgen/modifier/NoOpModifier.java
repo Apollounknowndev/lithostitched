@@ -3,6 +3,7 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
+import dev.worldgen.lithostitched.worldgen.modifier.predicate.TrueModifierPredicate;
 
 /**
  * A {@link Modifier} implementation that does nothing.
@@ -10,12 +11,18 @@ import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
  *
  * @author Apollo
  */
-public class NoOpModifier extends Modifier {
+public record NoOpModifier(ModifierPredicate predicate) implements Modifier {
 
-    public static final Codec<NoOpModifier> CODEC = RecordCodecBuilder.create(instance -> addModifierFields(instance).apply(instance, NoOpModifier::new));
+    public static final Codec<NoOpModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).apply(instance, NoOpModifier::new));
 
-    protected NoOpModifier(ModifierPredicate predicate) {
-        super(predicate, ModifierPhase.NONE);
+    @Override
+    public ModifierPredicate getPredicate() {
+        return this.predicate;
+    }
+
+    @Override
+    public ModifierPhase getPhase() {
+        return ModifierPhase.NONE;
     }
 
     @Override

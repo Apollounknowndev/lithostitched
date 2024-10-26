@@ -19,32 +19,21 @@ import java.util.List;
  *
  * @author Apollo
  */
-public class AddFeaturesModifier extends Modifier {
-    public static final Codec<AddFeaturesModifier> CODEC = RecordCodecBuilder.create((instance) -> addModifierFields(instance).and(instance.group(
+public record AddFeaturesModifier(ModifierPredicate predicate, HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) implements Modifier {
+    public static final Codec<AddFeaturesModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddFeaturesModifier::biomes),
         PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(AddFeaturesModifier::features),
         GenerationStep.Decoration.CODEC.fieldOf("step").forGetter(AddFeaturesModifier::step)
     )).apply(instance, AddFeaturesModifier::new));
-    private final HolderSet<Biome> biomes;
-    private final HolderSet<PlacedFeature> features;
-    private final GenerationStep.Decoration step;
-    public AddFeaturesModifier(ModifierPredicate predicate, HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) {
-        super(predicate, ModifierPhase.ADD);
-        this.biomes = biomes;
-        this.features = features;
-        this.step = step;
+
+    @Override
+    public ModifierPredicate getPredicate() {
+        return this.predicate;
     }
 
-    public HolderSet<Biome> biomes() {
-        return this.biomes;
-    }
-
-    public HolderSet<PlacedFeature> features() {
-        return this.features;
-    }
-
-    public GenerationStep.Decoration step() {
-        return this.step;
+    @Override
+    public ModifierPhase getPhase() {
+        return ModifierPhase.ADD;
     }
 
     public void applyModifier(Biome biome) {
