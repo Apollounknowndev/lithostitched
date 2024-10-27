@@ -12,8 +12,10 @@
     "common.PlacedFeatureAccessor",
     "common.RandomStateAccessor",
     "common.RegistryDataLoaderMixin",
+    "common.ShipwreckPieceMixin",
     "common.StructureProcessorListAccessor",
     "common.StructureSetAccessor",
+    "common.StructureTemplateMixin",
     "common.StructureTemplatePoolAccessor",
     "common.StructureTemplatePoolMixin"
   ],

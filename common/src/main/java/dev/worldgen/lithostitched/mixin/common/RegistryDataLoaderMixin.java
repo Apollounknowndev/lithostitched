@@ -44,7 +44,8 @@ public abstract class RegistryDataLoaderMixin {
 		at = @At(
 			value = "INVOKE",
 			target = "Lcom/mojang/serialization/Decoder;parse(Lcom/mojang/serialization/DynamicOps;Ljava/lang/Object;)Lcom/mojang/serialization/DataResult;",
-			shift = At.Shift.BEFORE
+			shift = At.Shift.BEFORE,
+			remap = false
 		),
 		locals = LocalCapture.CAPTURE_FAILHARD
 	)
@@ -64,7 +65,8 @@ public abstract class RegistryDataLoaderMixin {
 		method = "loadRegistryContents",
 		at = @At(
 			value = "INVOKE",
-			target = "Lcom/mojang/serialization/Decoder;parse(Lcom/mojang/serialization/DynamicOps;Ljava/lang/Object;)Lcom/mojang/serialization/DataResult;"
+			target = "Lcom/mojang/serialization/Decoder;parse(Lcom/mojang/serialization/DynamicOps;Ljava/lang/Object;)Lcom/mojang/serialization/DataResult;",
+			remap = false
 		),
 		index = 1
 	)

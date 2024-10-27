@@ -1,0 +1,6 @@
+{
+    "pack": {
+        "description": "Mod compat features that break seed parity",
+        "pack_format": 15
+    }
+}
