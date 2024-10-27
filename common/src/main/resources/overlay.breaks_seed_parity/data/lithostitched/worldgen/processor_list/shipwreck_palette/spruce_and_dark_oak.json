@@ -1,0 +1,20 @@
+{
+  "processors": [
+    {
+      "processor_type": "lithostitched:block_swap",
+      "blocks": {
+        "minecraft:oak_log": "minecraft:spruce_log",
+        "minecraft:oak_planks": "minecraft:spruce_planks",
+        "minecraft:oak_stairs": "minecraft:spruce_stairs",
+        "minecraft:oak_slab": "minecraft:spruce_slab",
+        "minecraft:oak_fence": "minecraft:spruce_fence",
+        "minecraft:oak_door": "minecraft:spruce_door",
+        "minecraft:oak_trapdoor": "minecraft:spruce_trapdoor",
+        "minecraft:spruce_planks": "minecraft:dark_oak_planks",
+        "minecraft:spruce_stairs": "minecraft:dark_oak_stairs",
+        "minecraft:spruce_slab": "minecraft:dark_oak_slab",
+        "minecraft:spruce_fence": "minecraft:dark_oak_fence"
+      }
+    }
+  ]
+}

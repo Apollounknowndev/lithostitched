@@ -19,6 +19,7 @@ import dev.worldgen.lithostitched.worldgen.poolelement.LimitedPoolElement;
 import dev.worldgen.lithostitched.worldgen.processor.ApplyRandomStructureProcessor;
 import dev.worldgen.lithostitched.worldgen.processor.BlockSwapStructureProcessor;
 import dev.worldgen.lithostitched.worldgen.processor.ReferenceStructureProcessor;
+import dev.worldgen.lithostitched.worldgen.processor.UnboundTagStructureProcessor;
 import dev.worldgen.lithostitched.worldgen.ruletest.MatchingBlocksRuleTest;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
@@ -108,6 +109,7 @@ public final class LithostitchedCommon {
 	}
 
 	public static void registerCommonStructureProcessors(BiConsumer<String, StructureProcessorType<?>> consumer) {
+		consumer.accept("internal/unbound_tag", UnboundTagStructureProcessor.TYPE);
 		consumer.accept("apply_random", ApplyRandomStructureProcessor.TYPE);
 		consumer.accept("block_swap", BlockSwapStructureProcessor.TYPE);
 		consumer.accept("reference", ReferenceStructureProcessor.TYPE);

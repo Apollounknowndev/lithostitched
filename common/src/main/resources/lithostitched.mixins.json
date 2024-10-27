@@ -15,8 +15,10 @@
     "common.PlacedFeatureAccessor",
     "common.PoolAliasLookupMixin",
     "common.RandomStateAccessor",
+    "common.ShipwreckPieceMixin",
     "common.StructureProcessorListAccessor",
     "common.StructureSetAccessor",
+    "common.StructureTemplateMixin",
     "common.StructureTemplatePoolAccessor",
     "common.StructureTemplatePoolMixin"
   ],

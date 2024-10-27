@@ -12,12 +12,12 @@ import net.minecraft.resources.ResourceKey;
  *
  * @author SmellyModder (Luke Tonon)
  */
-public final class LithostitchedRegistryKeys {
-	public static final ResourceKey<Registry<Modifier>> WORLDGEN_MODIFIER = createRegistryKey("worldgen_modifier");
-	public static final ResourceKey<Registry<MapCodec<? extends Modifier>>> MODIFIER_TYPE = createRegistryKey("modifier_type");
-	public static final ResourceKey<Registry<MapCodec<? extends StructureCondition>>> STRUCTURE_CONDITION_TYPE = createRegistryKey("structure_condition_type");
+public interface LithostitchedRegistryKeys {
+	ResourceKey<Registry<Modifier>> WORLDGEN_MODIFIER = create("worldgen_modifier");
+	ResourceKey<Registry<MapCodec<? extends Modifier>>> MODIFIER_TYPE = create("modifier_type");
+	ResourceKey<Registry<MapCodec<? extends StructureCondition>>> STRUCTURE_CONDITION_TYPE = create("structure_condition_type");
 
-	private static <T> ResourceKey<Registry<T>> createRegistryKey(String name) {
+	private static <T> ResourceKey<Registry<T>> create(String name) {
 		return ResourceKey.createRegistryKey(LithostitchedCommon.id(name));
 	}
 }
