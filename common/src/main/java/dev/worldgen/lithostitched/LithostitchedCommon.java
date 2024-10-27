@@ -49,10 +49,6 @@ public final class LithostitchedCommon {
 	public static final String MOD_ID = "lithostitched";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-	private LithostitchedCommon() {}
-
-	public static void init() {}
-
 	public static <T> ResourceKey<T> createResourceKey(ResourceKey<? extends Registry<T>> resourceKey, String name) {
 		return ResourceKey.create(resourceKey, id(name));
 	}
