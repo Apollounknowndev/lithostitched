@@ -3,11 +3,14 @@ package dev.worldgen.lithostitched.worldgen.structure.condition;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.levelgen.structure.Structure;
+
+import java.util.function.Function;
 
 /**
  * The interface used for structure conditions.
@@ -17,11 +20,13 @@ import net.minecraft.world.level.levelgen.structure.Structure;
  */
 public interface StructureCondition {
     @SuppressWarnings("unchecked")
-    Codec<StructureCondition> CODEC = ExtraCodecs.lazyInitializedCodec(() -> {
+    Codec<StructureCondition> BASE_CODEC = ExtraCodecs.lazyInitializedCodec(() -> {
         var registry = BuiltInRegistries.REGISTRY.get(LithostitchedRegistryKeys.STRUCTURE_CONDITION_TYPE.location());
-        if (registry == null) throw new NullPointerException("Worldgen modifier registry does not exist yet!");
+        if (registry == null) throw new NullPointerException("Structure condition registry does not exist yet!");
         return ((Registry<MapCodec<? extends StructureCondition>>) registry).byNameCodec();
     }).dispatch(StructureCondition::codec, MapCodec::codec);
+
+    Codec<StructureCondition> CODEC = LithostitchedCodecs.withAlternative(BASE_CODEC, BASE_CODEC.listOf(), AllOfStructureCondition::new);
 
     boolean test(Structure.GenerationContext context, BlockPos pos);
 

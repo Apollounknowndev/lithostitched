@@ -27,7 +27,12 @@ public class LithostitchedSurfaceRules extends SurfaceRules {
      * @author SmellyModder (Luke Tonon)
      */
     public record TransientMergedRuleSource(List<RuleSource> sequence, RuleSource original) implements SurfaceRules.RuleSource {
-        public static final KeyDispatchDataCodec<SurfaceRules.RuleSource> CODEC = KeyDispatchDataCodec.of(RuleSource.CODEC.xmap(source -> source, source -> source instanceof TransientMergedRuleSource transientMergedRuleSource ? transientMergedRuleSource.original : source).fieldOf("original_source"));
+        public static final KeyDispatchDataCodec<SurfaceRules.RuleSource> CODEC = KeyDispatchDataCodec.of(
+            RuleSource.CODEC.xmap(
+                source -> source,
+                source -> source instanceof TransientMergedRuleSource transientMergedRuleSource ? transientMergedRuleSource.original : source
+            ).fieldOf("original_source")
+        );
 
         @Override
         public KeyDispatchDataCodec<? extends SurfaceRules.RuleSource> codec() {

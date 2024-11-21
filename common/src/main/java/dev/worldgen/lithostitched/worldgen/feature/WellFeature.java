@@ -1,7 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
-import com.mojang.serialization.Codec;
-import dev.worldgen.lithostitched.worldgen.feature.config.WellFeatureConfig;
+import dev.worldgen.lithostitched.worldgen.feature.config.WellConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -16,17 +15,17 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 
 import java.util.Optional;
 
-public class WellFeature extends Feature<WellFeatureConfig> {
-
-    public WellFeature(Codec<WellFeatureConfig> codec) {
-        super(codec);
+public class WellFeature extends Feature<WellConfig> {
+    public static final WellFeature FEATURE = new WellFeature();
+    public WellFeature() {
+        super(WellConfig.CODEC);
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<WellFeatureConfig> context) {
+    public boolean place(FeaturePlaceContext<WellConfig> context) {
         WorldGenLevel world = context.level();
         BlockPos origin = context.origin();
-        WellFeatureConfig config = context.config();
+        WellConfig config = context.config();
         RandomSource random = context.random();
 
         BlockPos pos;

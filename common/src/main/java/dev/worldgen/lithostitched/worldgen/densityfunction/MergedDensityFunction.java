@@ -1,45 +1,49 @@
 package dev.worldgen.lithostitched.worldgen.densityfunction;
 
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.DensityFunctions;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Holds two density functions, one of which runs.
  * Used for density function wrapping to maintain access to the root density function.
  */
-public record MergedDensityFunction(DensityFunction original, DensityFunction merged) implements DensityFunction {
-    public static final KeyDispatchDataCodec<MergedDensityFunction> CODEC = KeyDispatchDataCodec.of(
-        RecordCodecBuilder.create(instance -> instance.group(
-            HOLDER_HELPER_CODEC.fieldOf("original").forGetter(MergedDensityFunction::original),
-            HOLDER_HELPER_CODEC.fieldOf("merged").forGetter(MergedDensityFunction::merged)
-        ).apply(instance, MergedDensityFunction::new))
+public record MergedDensityFunction(DensityFunction original, DensityFunction wrapped, DensityFunction full) implements DensityFunction {
+    public static final KeyDispatchDataCodec<DensityFunction> CODEC = KeyDispatchDataCodec.of(
+        HOLDER_HELPER_CODEC.xmap(
+            df -> df instanceof DensityFunctions.HolderHolder hh ? hh.function().value() : df,
+            MergedDensityFunction::unwrappedOriginal
+        ).fieldOf("original")
     );
+
+    private static DensityFunction unwrappedOriginal(DensityFunction df) {
+        return df instanceof MergedDensityFunction merged ? unwrappedOriginal(merged.original()) : df;
+    }
 
     @Override
     public double compute(FunctionContext context) {
-        return this.merged.compute(context);
+        return this.full.compute(context);
     }
 
     @Override
     public void fillArray(double[] doubles, ContextProvider contextProvider) {
-        this.merged.fillArray(doubles, contextProvider);
+        this.full.fillArray(doubles, contextProvider);
     }
 
     @Override
     public DensityFunction mapAll(Visitor visitor) {
-        return this.merged.mapAll(visitor);
+        return this.full.mapAll(visitor);
     }
 
     @Override
     public double minValue() {
-        return this.merged.minValue();
+        return this.full.minValue();
     }
 
     @Override
     public double maxValue() {
-        return this.merged.maxValue();
+        return this.full.maxValue();
     }
 
     @Override

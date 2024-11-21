@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 import dev.worldgen.lithostitched.LithostitchedCommon;
 import dev.worldgen.lithostitched.access.StructurePoolAccess;
+import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.worldgen.poolelement.ExclusivePoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.LimitedPoolElement;
@@ -198,35 +199,47 @@ public class AlternateJigsawGenerator {
             // No point grabbing the pool if it's the empty pool
             if (poolKey == Pools.EMPTY) return List.of();
 
-            // If we've already iterated over this pool, don't iterate over it again to prevent infinite looping
-            if (checkedPools.getValue().contains(poolKey)) {
-                StringBuilder stringBuilder = new StringBuilder();
-                for (ResourceKey<StructureTemplatePool> checkedPoolKey : checkedPools.getValue()) {
-                    stringBuilder.append(checkedPoolKey.location()).append(" -> ");
-                }
-                stringBuilder.append(poolKey.location());
+            if (ConfigHandler.getConfig().breaksSeedParity()) {
+                // If we've already iterated over this pool, don't iterate over it again to prevent infinite looping
+                if (checkedPools.getValue().contains(poolKey)) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (ResourceKey<StructureTemplatePool> checkedPoolKey : checkedPools.getValue()) {
+                        stringBuilder.append(checkedPoolKey.location()).append(" -> ");
+                    }
+                    stringBuilder.append(poolKey.location());
 
-                LithostitchedCommon.LOGGER.warn("Template pool fallback chain found: {}", stringBuilder);
-                return List.of();
+                    LithostitchedCommon.LOGGER.warn("Template pool fallback chain found: {}", stringBuilder);
+                    return List.of();
+                }
+
+                checkedPools.getValue().add(poolKey);
+
+                // Get pool to get the elements, start with fallback pool if at max size
+                Holder<StructureTemplatePool> pool = this.registry.getHolder(poolKey).orElseThrow();
+
+                // Skip straight to fallback if on max depth
+                if (depth == this.maxSize && firstIteration) {
+                    pool = pool.value().getFallback();
+                }
+
+                return ((StructurePoolAccess)pool.value()).getLithostitchedTemplates().shuffle(random, depth).stream().toList();
             }
 
-            checkedPools.getValue().add(poolKey);
+            if (!firstIteration) return List.of();
 
             // Get pool to get the elements, start with fallback pool if at max size
             Holder<StructureTemplatePool> pool = this.registry.getHolder(poolKey).orElseThrow();
+            Holder<StructureTemplatePool> fallback = pool.value().getFallback();
 
-            // Skip straight to fallback if on max depth
-            if (depth == this.maxSize && firstIteration) {
-                pool = pool.value().getFallback();
+            List<StructurePoolElement> elements = new ArrayList<>();
+
+            if (depth != this.maxSize) {
+                elements.addAll(pool.value().getShuffledTemplates(this.random));
             }
 
-            // Create the list of child candidates, always giving priority to guaranteed elements.
-            ShufflingList<StructurePoolElement> structurePoolElementsList = ((StructurePoolAccess)pool.value()).getLithostitchedTemplates().shuffle();
+            elements.addAll(fallback.value().getShuffledTemplates(this.random));
 
-            List<StructurePoolElement> elements = new ArrayList<>(structurePoolElementsList.stream().filter(element -> element instanceof GuaranteedPoolElement guaranteedElement && guaranteedElement.minDepth() <= depth).toList());
-            elements.addAll(structurePoolElementsList.stream().filter(element -> !elements.contains(element)).toList());
-
-            return elements.stream().toList();
+            return elements;
         }
 
         /**

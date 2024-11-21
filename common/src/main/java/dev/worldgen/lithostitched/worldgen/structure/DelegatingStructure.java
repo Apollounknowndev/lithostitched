@@ -13,7 +13,7 @@ public class DelegatingStructure extends Structure {
     public static final StructureType<DelegatingStructure> TYPE = () -> DelegatingStructure.CODEC;
     private final DelegatingConfig config;
 
-    protected DelegatingStructure(DelegatingConfig config) {
+    public DelegatingStructure(DelegatingConfig config) {
         super(createSettings(config));
         this.config = config;
     }

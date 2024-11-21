@@ -2,13 +2,14 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.access.StructurePoolAccess;
 import dev.worldgen.lithostitched.mixin.common.StructureTemplatePoolAccessor;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
+import dev.worldgen.lithostitched.worldgen.structure.LithostitchedTemplates;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.Holder;
-import net.minecraft.world.entity.ai.behavior.ShufflingList;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
@@ -29,10 +30,14 @@ public record AddTemplatePoolElementsModifier(ModifierPredicate predicate, Holde
         ).codec().listOf().fieldOf("elements").forGetter(AddTemplatePoolElementsModifier::elements)
     )).apply(instance, AddTemplatePoolElementsModifier::new));
 
-
     @Override
     public ModifierPredicate getPredicate() {
         return this.predicate;
+    }
+
+    @Override
+    public Codec<? extends Modifier> codec() {
+        return CODEC;
     }
 
     @Override
@@ -49,23 +54,16 @@ public record AddTemplatePoolElementsModifier(ModifierPredicate predicate, Holde
         rawTemplates.addAll(this.elements());
         poolAccessor.setRawTemplates(rawTemplates);
 
-
         ObjectArrayList<StructurePoolElement> vanillaTemplates = new ObjectArrayList<>(poolAccessor.getVanillaTemplates());
-        ShufflingList<StructurePoolElement> lithostitchedTemplates = lithostitchedPoolAccessor.getLithostitchedTemplates();
+        LithostitchedTemplates lithostitchedTemplates = lithostitchedPoolAccessor.getLithostitchedTemplates();
 
         for (Pair<StructurePoolElement, Integer> pair : this.elements()) {
             lithostitchedTemplates.add(pair.getFirst(), pair.getSecond());
-
             for (int i = 0; i < pair.getSecond(); ++i) {
                 vanillaTemplates.add(pair.getFirst());
             }
         }
-        poolAccessor.setVanillaTemplates(vanillaTemplates);
-        lithostitchedPoolAccessor.setLithostitchedTemplates(lithostitchedTemplates);
-    }
 
-    @Override
-    public Codec<? extends Modifier> codec() {
-        return CODEC;
+        poolAccessor.setVanillaTemplates(vanillaTemplates);
     }
 }
