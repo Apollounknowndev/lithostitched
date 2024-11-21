@@ -1,8 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
-import com.mojang.serialization.Codec;
 import dev.worldgen.lithostitched.LithostitchedCommon;
-import dev.worldgen.lithostitched.worldgen.feature.config.DungeonFeatureConfig;
+import dev.worldgen.lithostitched.worldgen.feature.config.DungeonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.data.worldgen.SurfaceRuleData;
@@ -10,7 +9,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -19,18 +21,19 @@ import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class DungeonFeature extends Feature<DungeonFeatureConfig> {
+public class DungeonFeature extends Feature<DungeonConfig> {
+    public static final DungeonFeature FEATURE = new DungeonFeature();
 
-    public DungeonFeature(Codec<DungeonFeatureConfig> codec) {
-        super(codec);
+    public DungeonFeature() {
+        super(DungeonConfig.CODEC);
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<DungeonFeatureConfig> context) {
+    public boolean place(FeaturePlaceContext<DungeonConfig> context) {
         BlockPos startPos = context.origin();
         RandomSource random = context.random();
         WorldGenLevel world = context.level();
-        DungeonFeatureConfig config = context.config();
+        DungeonConfig config = context.config();
         Predicate<BlockState> predicate = state -> !state.is(config.dungeonInvalidBlocks());
         int xRadius = config.radius().sample(random);
         int minX = -xRadius - 1;

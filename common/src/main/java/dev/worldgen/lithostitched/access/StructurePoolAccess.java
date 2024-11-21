@@ -1,9 +1,8 @@
 package dev.worldgen.lithostitched.access;
 
-import net.minecraft.world.entity.ai.behavior.ShufflingList;
-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
+import dev.worldgen.lithostitched.worldgen.structure.LithostitchedTemplates;
 
 public interface StructurePoolAccess {
-    ShufflingList<StructurePoolElement> getLithostitchedTemplates();
-    void setLithostitchedTemplates(ShufflingList<StructurePoolElement> templates);
+    LithostitchedTemplates getLithostitchedTemplates();
+    void setLithostitchedTemplates(LithostitchedTemplates templates);
 }

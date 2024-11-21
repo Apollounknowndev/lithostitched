@@ -16,6 +16,7 @@
     "common.PoolAliasLookupMixin",
     "common.RandomStateAccessor",
     "common.ShipwreckPieceMixin",
+    "common.SinglePoolElementAccessor",
     "common.StructureProcessorListAccessor",
     "common.StructureSetAccessor",
     "common.StructureTemplateMixin",

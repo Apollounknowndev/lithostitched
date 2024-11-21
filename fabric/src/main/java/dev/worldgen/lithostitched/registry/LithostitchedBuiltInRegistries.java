@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.LithostitchedCommon;
 import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
+import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorCondition;
 import dev.worldgen.lithostitched.worldgen.structure.condition.StructureCondition;
 import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
@@ -26,6 +27,7 @@ import static dev.worldgen.lithostitched.registry.LithostitchedMaterialRules.TRA
 public final class LithostitchedBuiltInRegistries {
 	public static final WritableRegistry<MapCodec<? extends Modifier>> MODIFIER_TYPE = FabricRegistryBuilder.createSimple(LithostitchedRegistryKeys.MODIFIER_TYPE).buildAndRegister();
 	public static final WritableRegistry<MapCodec<? extends StructureCondition>> STRUCTURE_CONDITION_TYPE = FabricRegistryBuilder.createSimple(LithostitchedRegistryKeys.STRUCTURE_CONDITION_TYPE).buildAndRegister();
+	public static final WritableRegistry<MapCodec<? extends ProcessorCondition>> PROCESSOR_CONDITION_TYPE = FabricRegistryBuilder.createSimple(LithostitchedRegistryKeys.PROCESSOR_CONDITION_TYPE).buildAndRegister();
 
 	public static void init() {
 		DynamicRegistries.register(LithostitchedRegistryKeys.WORLDGEN_MODIFIER, Modifier.CODEC);
@@ -33,14 +35,16 @@ public final class LithostitchedBuiltInRegistries {
 		LithostitchedCommon.registerCommonModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));
 		registerFabricModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));
 		LithostitchedCommon.registerCommonStructureConditions((name, codec) -> register(STRUCTURE_CONDITION_TYPE, name, codec));
+		LithostitchedCommon.registerCommonProcessorConditions((name, codec) -> register(PROCESSOR_CONDITION_TYPE, name, codec));
 
+		LithostitchedCommon.registerCommonBlockPredicateTypes((name, type) -> register(BuiltInRegistries.BLOCK_PREDICATE_TYPE, name, type));
+		LithostitchedCommon.registerCommonStateProviders((name, type) -> register(BuiltInRegistries.BLOCKSTATE_PROVIDER_TYPE, name, type));
 		LithostitchedCommon.registerCommonFeatureTypes((name, feature) -> register(BuiltInRegistries.FEATURE, name, feature));
 		LithostitchedCommon.registerCommonPoolElementTypes((name, type) -> register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, name, type));
 		LithostitchedCommon.registerCommonDensityFunctions((name, codec) -> register(BuiltInRegistries.DENSITY_FUNCTION_TYPE, name, codec));
 		LithostitchedCommon.registerCommonPoolAliasBindings((name, codec) -> register(BuiltInRegistries.POOL_ALIAS_BINDING_TYPE, name, codec));
 		LithostitchedCommon.registerCommonStructureTypes((name, type) -> register(BuiltInRegistries.STRUCTURE_TYPE, name, type));
 		LithostitchedCommon.registerCommonStructureProcessors((name, type) -> register(BuiltInRegistries.STRUCTURE_PROCESSOR, name, type));
-		LithostitchedCommon.registerCommonRuleTests((name, type) -> register(BuiltInRegistries.RULE_TEST, name, type));
 		LithostitchedCommon.registerCommonBlockEntityModifiers((name, type) -> register(BuiltInRegistries.RULE_BLOCK_ENTITY_MODIFIER, name, type));
 
 		Registry.register(BuiltInRegistries.MATERIAL_RULE, TRANSIENT_MERGED, LithostitchedSurfaceRules.TransientMergedRuleSource.CODEC.codec());

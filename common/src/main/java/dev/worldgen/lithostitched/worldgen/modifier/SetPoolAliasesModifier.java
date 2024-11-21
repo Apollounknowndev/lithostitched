@@ -31,7 +31,7 @@ public record SetPoolAliasesModifier(Holder<Structure> structure, List<PoolAlias
 
     @Override
     public ModifierPhase getPhase() {
-        return ModifierPhase.ADD;
+        return this.append ? ModifierPhase.REPLACE : ModifierPhase.ADD;
     }
 
     @Override

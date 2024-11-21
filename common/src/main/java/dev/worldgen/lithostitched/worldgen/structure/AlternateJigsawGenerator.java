@@ -17,7 +17,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.SequencedPriorityIterator;
-import net.minecraft.world.entity.ai.behavior.ShufflingList;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.block.JigsawBlock;
 import net.minecraft.world.level.block.Rotation;
@@ -28,7 +27,10 @@ import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.pools.*;
+import net.minecraft.world.level.levelgen.structure.pools.EmptyPoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.JigsawJunction;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
 import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
@@ -212,10 +214,10 @@ public class AlternateJigsawGenerator {
             }
 
             // Create the list of child candidates, always giving priority to guaranteed elements.
-            ShufflingList<StructurePoolElement> structurePoolElementsList = ((StructurePoolAccess)pool.value()).getLithostitchedTemplates().shuffle();
+            List<StructurePoolElement> structurePoolElementsList = ((StructurePoolAccess)pool.value()).getLithostitchedTemplates().shuffle(random, depth).stream().toList();
 
-            List<StructurePoolElement> elements = new ArrayList<>(structurePoolElementsList.stream().filter(element -> element instanceof GuaranteedPoolElement guaranteedElement && guaranteedElement.minDepth() <= depth).toList());
-            elements.addAll(structurePoolElementsList.stream().filter(element -> !elements.contains(element)).toList());
+            List<StructurePoolElement> elements = new ArrayList<>(structurePoolElementsList.stream().filter(element -> element instanceof GuaranteedPoolElement guaranteedElement && guaranteedElement.minDepth() <= depth).distinct().toList());
+            elements.addAll(structurePoolElementsList.stream().filter(element -> !elements.contains(element)).distinct().toList());
 
             return elements.stream().toList();
         }

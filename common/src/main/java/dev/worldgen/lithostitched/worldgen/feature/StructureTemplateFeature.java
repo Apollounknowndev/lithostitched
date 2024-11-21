@@ -1,6 +1,5 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
-import com.mojang.serialization.Codec;
 import dev.worldgen.lithostitched.worldgen.feature.config.StructureTemplateConfig;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
@@ -20,8 +19,9 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import java.util.Objects;
 
 public class StructureTemplateFeature extends Feature<StructureTemplateConfig> {
-    public StructureTemplateFeature(Codec<StructureTemplateConfig> codec) {
-        super(codec);
+    public static final StructureTemplateFeature FEATURE = new StructureTemplateFeature();
+    public StructureTemplateFeature() {
+        super(StructureTemplateConfig.CODEC);
     }
 
     @Override

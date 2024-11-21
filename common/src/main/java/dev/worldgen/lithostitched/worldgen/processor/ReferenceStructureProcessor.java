@@ -28,16 +28,18 @@ public class ReferenceStructureProcessor extends StructureProcessor {
     }
 
     @Override
-    public StructureTemplate.StructureBlockInfo processBlock(LevelReader levelReader, BlockPos blockPos, BlockPos blockPos2, StructureTemplate.StructureBlockInfo structureBlockInfo, StructureTemplate.StructureBlockInfo currentBlockInfo, StructurePlaceSettings structurePlaceSettings) {
-        for (Holder<StructureProcessorList> processorList : processorLists) {
+    public StructureTemplate.StructureBlockInfo processBlock(LevelReader levelReader, BlockPos pos, BlockPos pivot, StructureTemplate.StructureBlockInfo relative, StructureTemplate.StructureBlockInfo absolute, StructurePlaceSettings settings) {
+        StructureTemplate.StructureBlockInfo processedBlock = absolute;
+
+        for (Holder<StructureProcessorList> processorList : this.processorLists) {
             for (StructureProcessor processor : processorList.value().list()) {
-                StructureTemplate.StructureBlockInfo candidateBlockInfo = processor.processBlock(levelReader, blockPos, blockPos2, structureBlockInfo, currentBlockInfo, structurePlaceSettings);
-                if (candidateBlockInfo != currentBlockInfo) {
-                    return candidateBlockInfo;
-                }
+                processedBlock = processor.processBlock(levelReader, pos, pivot, relative, processedBlock, settings);
+
+                if (processedBlock == null) return null;
             }
         }
-        return currentBlockInfo;
+
+        return absolute;
     }
 
     @Override
