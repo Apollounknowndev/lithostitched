@@ -17,8 +17,8 @@ public interface ProcessorCondition {
     @SuppressWarnings("unchecked")
     Codec<ProcessorCondition> BASE_CODEC = Codec.lazyInitialized(() -> {
         var registry = BuiltInRegistries.REGISTRY.get(LithostitchedRegistryKeys.PROCESSOR_CONDITION_TYPE.location());
-        if (registry == null) throw new NullPointerException("Processor condition registry does not exist yet!");
-        return ((Registry<MapCodec<? extends ProcessorCondition>>) registry).byNameCodec();
+        if (registry.isEmpty()) throw new NullPointerException("Processor condition registry does not exist yet!");
+        return ((Registry<MapCodec<? extends ProcessorCondition>>) registry.get().value()).byNameCodec();
     }).dispatch(ProcessorCondition::codec, Function.identity());
 
     Codec<ProcessorCondition> CODEC = Codec.withAlternative(BASE_CODEC, BASE_CODEC.listOf(), AllOf::new);

@@ -18,11 +18,13 @@ import java.util.function.Function;
  */
 public interface StructureCondition {
     @SuppressWarnings("unchecked")
-    Codec<StructureCondition> CODEC = Codec.lazyInitialized(() -> {
+    Codec<StructureCondition> BASE_CODEC = Codec.lazyInitialized(() -> {
         var registry = BuiltInRegistries.REGISTRY.get(LithostitchedRegistryKeys.STRUCTURE_CONDITION_TYPE.location());
         if (registry.isEmpty()) throw new NullPointerException("Worldgen modifier registry does not exist yet!");
         return ((Registry<MapCodec<? extends StructureCondition>>) registry.get().value()).byNameCodec();
     }).dispatch(StructureCondition::codec, Function.identity());
+
+    Codec<StructureCondition> CODEC = Codec.withAlternative(BASE_CODEC, BASE_CODEC.listOf(), AllOfStructureCondition::new);
 
     boolean test(Structure.GenerationContext context, BlockPos pos);
 
