@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.mixin.common;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.RegistrationInfo;
 import net.minecraft.resources.ResourceKey;
@@ -14,4 +15,8 @@ public interface MappedRegistryAccessor<T> {
     @Accessor("registrationInfos")
     @Mutable
     Map<ResourceKey<T>, RegistrationInfo> lithostitched$getRegistrationInfos();
+
+
+    @Accessor("byValue")
+    Map<T, Holder.Reference<T>> getByValue();
 }

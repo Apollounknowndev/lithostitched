@@ -110,6 +110,11 @@ public interface Modifier {
         BEFORE_ALL("before_all"),
 
         /**
+         * Phase for modifiers that replace parts of worldgen such as pool alias bindings.
+         */
+        REPLACE("replace"),
+
+        /**
          * Phase for modifiers that add to worldgen, such as template pool and structure set additions.
          */
         ADD("add"),
@@ -120,7 +125,7 @@ public interface Modifier {
         REMOVE("remove"),
 
         /**
-         * Phase for modifiers that replace/modify parts of worldgen, like climate replacements and placed feature redirections.
+         * Phase for modifiers that modify parts of worldgen such as placed feature redirections.
          */
         MODIFY("modify"),
 

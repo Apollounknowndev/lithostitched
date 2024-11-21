@@ -7,8 +7,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 
 /**
  * A {@link Modifier} implementation that adds surface rules to given level stems.
@@ -16,9 +15,9 @@ import java.util.HashSet;
  *
  * @author Apollo
  */
-public record AddSurfaceRuleModifier(HashSet<ResourceKey<LevelStem>> levels, SurfaceRules.RuleSource surfaceRule) implements Modifier {
+public record AddSurfaceRuleModifier(List<ResourceKey<LevelStem>> levels, SurfaceRules.RuleSource surfaceRule) implements Modifier {
     public static final MapCodec<AddSurfaceRuleModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        ResourceKey.codec(Registries.LEVEL_STEM).listOf().xmap(HashSet::new, ArrayList::new).fieldOf("levels").forGetter(AddSurfaceRuleModifier::levels),
+        ResourceKey.codec(Registries.LEVEL_STEM).listOf().fieldOf("levels").forGetter(AddSurfaceRuleModifier::levels),
         SurfaceRules.RuleSource.CODEC.fieldOf("surface_rule").forGetter(AddSurfaceRuleModifier::surfaceRule)
     ).apply(instance, AddSurfaceRuleModifier::new));
 

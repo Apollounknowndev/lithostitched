@@ -2,6 +2,8 @@ package dev.worldgen.lithostitched.worldgen.processor;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.LithostitchedCommon;
+import dev.worldgen.lithostitched.worldgen.processor.enums.RandomMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
@@ -33,7 +35,7 @@ public class UnboundTagStructureProcessor extends StructureProcessor {
 
     public ApplyRandomStructureProcessor bind(ServerLevel level) {
         var set = level.registryAccess().registryOrThrow(Registries.PROCESSOR_LIST).getTag(tag);
-        return new ApplyRandomStructureProcessor(set.isPresent() ? set.get() : HolderSet.empty(), ApplyRandomStructureProcessor.Mode.PER_PIECE);
+        return new ApplyRandomStructureProcessor(set.isPresent() ? set.get() : HolderSet.empty(), new RandomSettings(RandomMode.PER_PIECE, LithostitchedCommon.id("rebound_reference")));
     }
 
     @Override

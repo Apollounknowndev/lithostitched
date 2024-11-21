@@ -7,7 +7,7 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 
 public record OffsetStructureCondition(StructureCondition condition, BlockPos offset) implements StructureCondition {
     public static final MapCodec<OffsetStructureCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        StructureCondition.CODEC.fieldOf("condition").forGetter(OffsetStructureCondition::condition),
+        StructureCondition.BASE_CODEC.fieldOf("condition").forGetter(OffsetStructureCondition::condition),
         BlockPos.CODEC.fieldOf("offset").forGetter(OffsetStructureCondition::offset)
     ).apply(instance, OffsetStructureCondition::new));
 
