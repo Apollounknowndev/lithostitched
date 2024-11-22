@@ -52,8 +52,6 @@ public final class LithostitchedBuiltInRegistries {
 			LithostitchedCommon.registerCommonStructureTypes((name, type) -> register(event, Registries.STRUCTURE_TYPE, name, type));
 			LithostitchedCommon.registerCommonStructureProcessors((name, type) -> register(event, Registries.STRUCTURE_PROCESSOR, name, type));
 			LithostitchedCommon.registerCommonBlockEntityModifiers((name, type) -> register(event, Registries.RULE_BLOCK_ENTITY_MODIFIER, name, type));
-
-			LithostitchedCommon.registerCommonProcessorConditions((name, codec) -> register(event, LithostitchedRegistryKeys.PROCESSOR_CONDITION_TYPE, name, codec));
 		});
 
 		bus.addListener((DataPackRegistryEvent.NewRegistry event) -> {
@@ -66,6 +64,9 @@ public final class LithostitchedBuiltInRegistries {
 
 		LithostitchedCommon.registerCommonStructureConditions((name, codec) -> DEFERRED_STRUCTURE_CONDITION_TYPES.register(name, () -> codec));
 		DEFERRED_STRUCTURE_CONDITION_TYPES.register(bus);
+
+		LithostitchedCommon.registerCommonProcessorConditions((name, codec) -> DEFERRED_PROCESSOR_CONDITION_TYPES.register(name, () -> codec));
+		DEFERRED_PROCESSOR_CONDITION_TYPES.register(bus);
 
 		registerForgeBiomeModifiers((name, codec) -> BIOME_MODIFIER_TYPES.register(name, () -> codec));
 		BIOME_MODIFIER_TYPES.register(bus);
