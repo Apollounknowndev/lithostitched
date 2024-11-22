@@ -25,17 +25,15 @@ public class LithostitchedTemplates implements Iterable<StructurePoolElement> {
     }
 
     public LithostitchedTemplates shuffle(RandomSource random, int depth) {
+        this.entries.sort(Comparator.comparingInt(WeightedEntry::getIndex));
+
         this.entries.forEach(entry -> entry.setRandom(random.nextFloat(), depth));
         this.entries.sort(Comparator.comparingDouble(WeightedEntry::getRandWeight));
         return this;
     }
 
     public Stream<StructurePoolElement> stream() {
-        Stream<StructurePoolElement> stream = this.entries.stream().map(WeightedEntry::getData);
-
-        this.entries.sort(Comparator.comparingInt(WeightedEntry::getIndex));
-
-        return stream;
+        return this.entries.stream().map(WeightedEntry::getData);
     }
 
     @Override
@@ -67,7 +65,7 @@ public class LithostitchedTemplates implements Iterable<StructurePoolElement> {
         }
 
         private double getOffset(int depth) {
-            return this.guaranteed && ((GuaranteedPoolElement)data).minDepth() >= depth ? -2 : 0;
+            return this.guaranteed && depth >= ((GuaranteedPoolElement)data).minDepth() ? -2 : 0;
         }
 
         public StructurePoolElement getData() {
