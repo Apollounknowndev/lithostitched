@@ -19,7 +19,7 @@ public record MatchingBlocks(HolderSet<Block> blocks, StatePropertiesPredicate p
     public static final MapCodec<MatchingBlocks> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LithostitchedCodecs.BLOCK_SET.fieldOf("blocks").forGetter(MatchingBlocks::blocks),
         StatePropertiesPredicate.CODEC.fieldOf("properties").orElse(DEFAULT_PREDICATE).forGetter(MatchingBlocks::properties),
-        BlockType.CODEC.fieldOf("match_type").forGetter(MatchingBlocks::matchType)
+        BlockType.CODEC.fieldOf("match_type").orElse(BlockType.INPUT).forGetter(MatchingBlocks::matchType)
     ).apply(instance, MatchingBlocks::new));
 
     @Override

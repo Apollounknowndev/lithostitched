@@ -38,6 +38,6 @@ public class JigsawStructureMixin {
         )
     )
     private Optional<Structure.GenerationStub> init(Structure.GenerationContext context, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, BlockPos pos, boolean useExpansionHack, Optional<Heightmap.Types> heightmapProjection, int maxDistToCenter, PoolAliasLookup lookup, DimensionPadding padding, LiquidSettings liquidSettings) {
-        return AlternateJigsawGenerator.generate(context, new AlternateJigsawConfig(startPool, startJigsawName, ConstantInt.of(size), ConstantHeight.of(VerticalAnchor.BOTTOM), useExpansionHack, heightmapProjection, maxDistToCenter, poolAliases, padding, liquidSettings), size, pos, lookup);
+        return AlternateJigsawGenerator.generate(context, new AlternateJigsawConfig(startPool, startJigsawName, ConstantInt.of(size), ConstantHeight.of(VerticalAnchor.BOTTOM), useExpansionHack, heightmapProjection, maxDistToCenter, poolAliases, padding, liquidSettings), true, size, pos, lookup);
     }
 }

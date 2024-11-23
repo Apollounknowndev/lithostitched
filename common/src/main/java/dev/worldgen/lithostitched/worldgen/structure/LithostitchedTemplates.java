@@ -2,6 +2,7 @@ package dev.worldgen.lithostitched.worldgen.structure;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
+import dev.worldgen.lithostitched.worldgen.poolelement.ExclusivePoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
@@ -53,7 +54,7 @@ public class LithostitchedTemplates implements Iterable<StructurePoolElement> {
             this.data = element;
             this.index = index;
             this.weight = weight;
-            this.guaranteed = element instanceof GuaranteedPoolElement;
+            this.guaranteed = element instanceof ExclusivePoolElement;
         }
 
         private double getRandWeight() {
@@ -65,7 +66,7 @@ public class LithostitchedTemplates implements Iterable<StructurePoolElement> {
         }
 
         private double getOffset(int depth) {
-            return this.guaranteed && depth >= ((GuaranteedPoolElement)data).minDepth() ? -2 : 0;
+            return this.guaranteed && depth >= ((ExclusivePoolElement)data).minDepth() ? -2 : 0;
         }
 
         public StructurePoolElement getData() {
