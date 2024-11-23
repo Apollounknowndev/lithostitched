@@ -71,10 +71,7 @@ public class SetBlockProcessor extends StructureProcessor {
     }
 
     private StructureTemplate.StructureBlockInfo withState(RandomSource random, StructureTemplate.StructureBlockInfo info, BlockState state) {
-        if (info.nbt() != null) {
-            return new StructureTemplate.StructureBlockInfo(info.pos(), state, this.modifier.apply(random, info.nbt().copy()));
-        }
-        return new StructureTemplate.StructureBlockInfo(info.pos(), state, null);
+        return new StructureTemplate.StructureBlockInfo(info.pos(), state, this.modifier.apply(random, info.nbt()));
     }
 
     @Override

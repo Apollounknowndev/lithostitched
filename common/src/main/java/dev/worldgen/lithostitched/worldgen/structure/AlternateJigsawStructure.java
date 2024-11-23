@@ -48,7 +48,7 @@ public class AlternateJigsawStructure extends Structure {
         ChunkPos chunkPos = context.chunkPos();
         int i = config.startHeight().sample(context.random(), new WorldGenerationContext(context.chunkGenerator(), context.heightAccessor()));
         BlockPos blockPos = new BlockPos(chunkPos.getMinBlockX(), i, chunkPos.getMinBlockZ());
-        return AlternateJigsawGenerator.generate(context, config, config.size().sample(context.random()), blockPos, PoolAliasLookup.create(config.poolAliases(), blockPos, context.seed()));
+        return AlternateJigsawGenerator.generate(context, config, false, config.size().sample(context.random()), blockPos, PoolAliasLookup.create(config.poolAliases(), blockPos, context.seed()));
     }
 
     @Override

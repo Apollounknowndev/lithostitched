@@ -7,14 +7,14 @@ import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 
 public class LimitedPoolElement extends ExclusivePoolElement {
-    public static final MapCodec<LimitedPoolElement> CODEC = RecordCodecBuilder.mapCodec(instance -> addDelegateField(instance).and(
+    public static final MapCodec<LimitedPoolElement> CODEC = RecordCodecBuilder.mapCodec(instance -> addFields(instance).and(
         ExtraCodecs.POSITIVE_INT.fieldOf("limit").forGetter(LimitedPoolElement::limit)
     ).apply(instance, LimitedPoolElement::new));
     public static final StructurePoolElementType<LimitedPoolElement> TYPE = () -> CODEC;
     private final int limit;
 
-    public LimitedPoolElement(StructurePoolElement delegate, int limit) {
-        super(delegate);
+    public LimitedPoolElement(StructurePoolElement delegate, int minDepth, int limit) {
+        super(delegate, minDepth);
         this.limit = limit;
     }
 
