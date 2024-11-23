@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.worldgen.processor.enums.RandomMode;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.WorldGenLevel;
@@ -71,10 +72,7 @@ public class SetBlockProcessor extends StructureProcessor {
     }
 
     private StructureTemplate.StructureBlockInfo withState(RandomSource random, StructureTemplate.StructureBlockInfo info, BlockState state) {
-        if (info.nbt() != null) {
-            return new StructureTemplate.StructureBlockInfo(info.pos(), state, this.modifier.apply(random, info.nbt().copy()));
-        }
-        return new StructureTemplate.StructureBlockInfo(info.pos(), state, null);
+        return new StructureTemplate.StructureBlockInfo(info.pos(), state, this.modifier.apply(random, info.nbt()));
     }
 
     @Override

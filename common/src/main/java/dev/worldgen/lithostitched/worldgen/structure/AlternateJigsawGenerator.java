@@ -50,7 +50,7 @@ import java.util.Deque;
 import java.util.HashMap;
 
 public class AlternateJigsawGenerator {
-    public static Optional<Structure.GenerationStub> generate(Structure.GenerationContext context, AlternateJigsawConfig config, int size, BlockPos pos) {
+    public static Optional<Structure.GenerationStub> generate(Structure.GenerationContext context, AlternateJigsawConfig config, boolean vanilla, int size, BlockPos pos) {
         RegistryAccess dynamicRegistryManager = context.registryAccess();
         ChunkGenerator chunkGenerator = context.chunkGenerator();
         StructureTemplateManager structureTemplateManager = context.structureTemplateManager();
@@ -101,7 +101,7 @@ public class AlternateJigsawGenerator {
                     int maxDistanceFromCenter = config.maxDistanceFromCenter();
                     AABB box = new AABB((i - maxDistanceFromCenter), m - maxDistanceFromCenter, j - maxDistanceFromCenter, i + maxDistanceFromCenter + 1, m + maxDistanceFromCenter + 1, j + maxDistanceFromCenter + 1);
                     VoxelShape voxelShape = Shapes.join(Shapes.create(box), Shapes.create(AABB.of(blockBox)), BooleanOp.ONLY_FIRST);
-                    generate(context.randomState(), size, config.useExpansionHack(), chunkGenerator, structureTemplateManager, heightLimitView, random, registry, poolStructurePiece, list, voxelShape);
+                    generate(vanilla, context.randomState(), size, config.useExpansionHack(), chunkGenerator, structureTemplateManager, heightLimitView, random, registry, poolStructurePiece, list, voxelShape);
                     Objects.requireNonNull(collector);
                     list.forEach(collector::addPiece);
                 }
@@ -124,8 +124,8 @@ public class AlternateJigsawGenerator {
         return optional;
     }
 
-    private static void generate(RandomState noiseConfig, int maxSize, boolean useExpansionHack, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, LevelHeightAccessor heightLimitView, RandomSource random, Registry<StructureTemplatePool> structurePoolRegistry, PoolElementStructurePiece firstPiece, List<PoolElementStructurePiece> pieces, VoxelShape pieceShape) {
-        StructurePoolGenerator structurePoolGenerator = new StructurePoolGenerator(structurePoolRegistry, maxSize, chunkGenerator, structureTemplateManager, pieces, random);
+    private static void generate(boolean vanilla, RandomState noiseConfig, int maxSize, boolean useExpansionHack, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, LevelHeightAccessor heightLimitView, RandomSource random, Registry<StructureTemplatePool> structurePoolRegistry, PoolElementStructurePiece firstPiece, List<PoolElementStructurePiece> pieces, VoxelShape pieceShape) {
+        StructurePoolGenerator structurePoolGenerator = new StructurePoolGenerator(vanilla, structurePoolRegistry, maxSize, chunkGenerator, structureTemplateManager, pieces, random);
         structurePoolGenerator.structurePieces.addLast(new ShapedPoolStructurePiece(firstPiece, new MutableObject<>(pieceShape), 0));
 
         while(!structurePoolGenerator.structurePieces.isEmpty()) {
@@ -136,6 +136,7 @@ public class AlternateJigsawGenerator {
     }
 
     static final class StructurePoolGenerator {
+        private final boolean vanilla;
         private final Registry<StructureTemplatePool> registry;
         private final int maxSize;
         private final ChunkGenerator chunkGenerator;
@@ -145,7 +146,8 @@ public class AlternateJigsawGenerator {
         private final Map<ExclusivePoolElement, Integer> elementsToCounts;
         final Deque<ShapedPoolStructurePiece> structurePieces = Queues.newArrayDeque();
 
-        StructurePoolGenerator(Registry<StructureTemplatePool> registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List<? super PoolElementStructurePiece> children, RandomSource random) {
+        StructurePoolGenerator(boolean vanilla, Registry<StructureTemplatePool> registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List<? super PoolElementStructurePiece> children, RandomSource random) {
+            this.vanilla = vanilla;
             this.registry = registry;
             this.maxSize = maxSize;
             this.chunkGenerator = chunkGenerator;
@@ -199,7 +201,7 @@ public class AlternateJigsawGenerator {
             // No point grabbing the pool if it's the empty pool
             if (poolKey == Pools.EMPTY) return List.of();
 
-            if (ConfigHandler.getConfig().breaksSeedParity()) {
+            if (ConfigHandler.getConfig().breaksSeedParity() || !this.vanilla) {
                 // If we've already iterated over this pool, don't iterate over it again to prevent infinite looping
                 if (checkedPools.getValue().contains(poolKey)) {
                     StringBuilder stringBuilder = new StringBuilder();

@@ -46,7 +46,7 @@ public class AlternateJigsawStructure extends Structure {
         ChunkPos chunkPos = context.chunkPos();
         int i = this.config.startHeight().sample(context.random(), new WorldGenerationContext(context.chunkGenerator(), context.heightAccessor()));
         BlockPos blockPos = new BlockPos(chunkPos.getMinBlockX(), i, chunkPos.getMinBlockZ());
-        return AlternateJigsawGenerator.generate(context, this.config, this.config.size().sample(context.random()), blockPos);
+        return AlternateJigsawGenerator.generate(context, this.config, false, this.config.size().sample(context.random()), blockPos);
     }
 
     @Override
