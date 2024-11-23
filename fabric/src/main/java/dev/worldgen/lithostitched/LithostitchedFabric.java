@@ -4,7 +4,6 @@ import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.registry.LithostitchedBuiltInRegistries;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.resources.RegistryDataLoader;
 
 /**
  * Mod class for Lithostitched on Fabric.

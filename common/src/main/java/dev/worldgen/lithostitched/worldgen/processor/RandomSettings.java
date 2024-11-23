@@ -16,10 +16,14 @@ public record RandomSettings(RandomMode mode, ResourceLocation name) {
         ResourceLocation.CODEC.fieldOf("name").forGetter(RandomSettings::name)
     ).apply(instance, RandomSettings::new));
 
+    public RandomSettings(RandomMode mode) {
+        this(mode, LithostitchedCommon.id("default"));
+    }
+
     public static final Codec<RandomSettings> CODEC = Codec.withAlternative(
         FULL_CODEC,
         RandomMode.CODEC,
-        mode -> new RandomSettings(mode, LithostitchedCommon.id("default"))
+        RandomSettings::new
     );
 
     public RandomSource create(WorldGenLevel level, BlockPos piecePos, StructureTemplate.StructureBlockInfo blockPos) {
