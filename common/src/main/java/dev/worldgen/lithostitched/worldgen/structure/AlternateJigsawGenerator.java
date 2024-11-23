@@ -219,7 +219,7 @@ public class AlternateJigsawGenerator {
                     pool = pool.value().getFallback();
                 }
 
-                return ((StructurePoolAccess)pool.value()).getLithostitchedTemplates().shuffle(random, depth).stream().toList();
+                return ((StructurePoolAccess)pool.value()).getLithostitchedTemplates().shuffle(random, depth);
             }
 
             if (!firstIteration) return List.of();

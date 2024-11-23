@@ -39,7 +39,7 @@ public class ReferenceStructureProcessor extends StructureProcessor {
             }
         }
 
-        return absolute;
+        return processedBlock;
     }
 
     @Override

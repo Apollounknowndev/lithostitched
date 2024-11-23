@@ -132,6 +132,7 @@ public final class LithostitchedCommon {
 
 		consumer.accept("condition", ConditionProcessor.TYPE);
 		consumer.accept("discard_input", DiscardInputProcessor.TYPE);
+		consumer.accept("schedule_tick", ScheduleTickProcessor.TYPE);
 		consumer.accept("set_block", SetBlockProcessor.TYPE);
 	}
 
