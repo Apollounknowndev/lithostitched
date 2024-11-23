@@ -25,12 +25,12 @@ public class LithostitchedTemplates implements Iterable<StructurePoolElement> {
         return this;
     }
 
-    public LithostitchedTemplates shuffle(RandomSource random, int depth) {
-        this.entries.sort(Comparator.comparingInt(WeightedEntry::getIndex));
+    public List<StructurePoolElement> shuffle(RandomSource random, int depth) {
+        List<WeightedEntry> shuffled = Lists.newArrayList(this.entries.stream().map(WeightedEntry::copy).toList());
+        shuffled.forEach(entry -> entry.setRandom(random.nextFloat(), depth));
+        shuffled.sort(Comparator.comparingDouble(WeightedEntry::getRandWeight));
 
-        this.entries.forEach(entry -> entry.setRandom(random.nextFloat(), depth));
-        this.entries.sort(Comparator.comparingDouble(WeightedEntry::getRandWeight));
-        return this;
+        return shuffled.stream().map(WeightedEntry::getData).toList();
     }
 
     public Stream<StructurePoolElement> stream() {
@@ -55,6 +55,10 @@ public class LithostitchedTemplates implements Iterable<StructurePoolElement> {
             this.index = index;
             this.weight = weight;
             this.guaranteed = element instanceof ExclusivePoolElement;
+        }
+
+        private WeightedEntry copy() {
+            return new WeightedEntry(this.data, this.index, this.weight);
         }
 
         private double getRandWeight() {
