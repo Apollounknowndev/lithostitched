@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.LithostitchedCommon;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
+import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
 import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorCondition;
 import dev.worldgen.lithostitched.worldgen.structure.condition.StructureCondition;
 import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules;
@@ -26,6 +27,9 @@ import static dev.worldgen.lithostitched.LithostitchedCommon.createResourceKey;
 public final class LithostitchedBuiltInRegistries {
 	private static final DeferredRegister<Codec<? extends Modifier>> DEFERRED_MODIFIER_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.MODIFIER_TYPE, MOD_ID);
 	public static final Supplier<IForgeRegistry<Codec<? extends Modifier>>> MODIFIER_TYPE = DEFERRED_MODIFIER_TYPES.makeRegistry(() -> new RegistryBuilder<Codec<? extends Modifier>>().hasTags().disableSync().disableSaving());
+
+	private static final DeferredRegister<Codec<? extends ModifierPredicate>> DEFERRED_MODIFIER_PREDICATE_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.MODIFIER_PREDICATE_TYPE, MOD_ID);
+	public static final Supplier<IForgeRegistry<Codec<? extends ModifierPredicate>>> MODIFIER_PREDICATE_TYPE = DEFERRED_MODIFIER_PREDICATE_TYPES.makeRegistry(() -> new RegistryBuilder<Codec<? extends ModifierPredicate>>().hasTags().disableSync().disableSaving());
 
 	private static final DeferredRegister<MapCodec<? extends StructureCondition>> DEFERRED_STRUCTURE_CONDITION_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.STRUCTURE_CONDITION_TYPE, MOD_ID);
 	public static final Supplier<IForgeRegistry<MapCodec<? extends StructureCondition>>> STRUCTURE_CONDITION_TYPE = DEFERRED_STRUCTURE_CONDITION_TYPES.makeRegistry(() -> new RegistryBuilder<MapCodec<? extends StructureCondition>>().hasTags().disableSync().disableSaving());
@@ -56,6 +60,9 @@ public final class LithostitchedBuiltInRegistries {
 		LithostitchedCommon.registerCommonModifiers((name, codec) -> DEFERRED_MODIFIER_TYPES.register(name, () -> codec));
 		registerForgeModifiers((name, codec) -> DEFERRED_MODIFIER_TYPES.register(name, () -> codec));
 		DEFERRED_MODIFIER_TYPES.register(bus);
+
+		LithostitchedCommon.registerCommonModifierPredicates((name, codec) -> DEFERRED_MODIFIER_PREDICATE_TYPES.register(name, () -> codec));
+		DEFERRED_MODIFIER_PREDICATE_TYPES.register(bus);
 
 		LithostitchedCommon.registerCommonStructureConditions((name, codec) -> DEFERRED_STRUCTURE_CONDITION_TYPES.register(name, () -> codec));
 		DEFERRED_STRUCTURE_CONDITION_TYPES.register(bus);

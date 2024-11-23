@@ -11,6 +11,7 @@ import dev.worldgen.lithostitched.worldgen.densityfunction.OriginalMarkerDensity
 import dev.worldgen.lithostitched.worldgen.densityfunction.WrappedMarkerDensityFunction;
 import dev.worldgen.lithostitched.worldgen.feature.*;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
+import dev.worldgen.lithostitched.worldgen.modifier.predicate.*;
 import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.LimitedPoolElement;
 import dev.worldgen.lithostitched.worldgen.processor.*;
@@ -66,6 +67,14 @@ public final class LithostitchedCommon {
 		consumer.accept("stack_feature", StackFeatureModifier.CODEC);
 		consumer.accept("wrap_density_function", WrapDensityFunctionModifier.CODEC);
 		consumer.accept("wrap_noise_router", WrapNoiseRouterModifier.CODEC);
+	}
+
+	public static void registerCommonModifierPredicates(BiConsumer<String, Codec<? extends ModifierPredicate>> consumer) {
+		consumer.accept("all_of", AllOfModifierPredicate.CODEC);
+		consumer.accept("any_of", AnyOfModifierPredicate.CODEC);
+		consumer.accept("mod_loaded", ModLoadedModifierPredicate.CODEC);
+		consumer.accept("not", NotModifierPredicate.CODEC);
+		consumer.accept("true", TrueModifierPredicate.CODEC);
 	}
 
 	public static void registerCommonBlockPredicateTypes(BiConsumer<String, BlockPredicateType<?>> consumer) {
