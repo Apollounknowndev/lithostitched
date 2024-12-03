@@ -39,6 +39,7 @@ public final class LithostitchedBuiltInRegistries {
 
 		LithostitchedCommon.registerCommonBlockPredicateTypes((name, type) -> register(BuiltInRegistries.BLOCK_PREDICATE_TYPE, name, type));
 		LithostitchedCommon.registerCommonStateProviders((name, type) -> register(BuiltInRegistries.BLOCKSTATE_PROVIDER_TYPE, name, type));
+		LithostitchedCommon.registerCommonPlacementModifiers((name, type) -> register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, name, type));
 		LithostitchedCommon.registerCommonFeatureTypes((name, feature) -> register(BuiltInRegistries.FEATURE, name, feature));
 		LithostitchedCommon.registerCommonPoolElementTypes((name, type) -> register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, name, type));
 		LithostitchedCommon.registerCommonDensityFunctions((name, codec) -> register(BuiltInRegistries.DENSITY_FUNCTION_TYPE, name, codec));

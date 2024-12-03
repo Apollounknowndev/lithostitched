@@ -32,10 +32,6 @@ runs {
     gameTestServer {
         systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
     }
-
-    data {
-        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
-    }
 }
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
@@ -83,21 +79,19 @@ publishMods {
     changelog = "${update_changelog}"
     type = STABLE
     modLoaders.add("neoforge")
-    displayName = "%s ~ Neoforge 1.21.2".formatted(project.version)
+    displayName = "%s ~ Neoforge 1.21.4".formatted(project.version)
 
     dryRun = false
 
     modrinth {
         accessToken = providers.environmentVariable("TOKEN_MR")
         projectId = "XaDC71GB"
-        minecraftVersions.add("1.21.2")
-        minecraftVersions.add("1.21.3")
+        minecraftVersions.add("1.21.4")
     }
 
     curseforge {
         accessToken = providers.environmentVariable("TOKEN_CF")
         projectId = "936015"
-        minecraftVersions.add("1.21.2")
-        minecraftVersions.add("1.21.3")
+        minecraftVersions.add("1.21.4")
     }
 }

@@ -5,11 +5,13 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
+import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.biome.BiomeSpecialEffects.Builder;
 
@@ -56,7 +58,8 @@ public record ReplaceEffectsModifier(HolderSet<Biome> biomes, ModdedBiomeEffects
             .waterColor(this.effects().waterColor().orElse(originalEffects.getWaterColor()))
             .waterFogColor(this.effects().waterFogColor().orElse(originalEffects.getWaterFogColor()))
             .grassColorModifier(this.effects().grassColorModifier().orElse(originalEffects.getGrassColorModifier()))
-            .backgroundMusic(this.effects().backgroundMusic().orElse(originalEffects.getBackgroundMusic().orElse(null)));
+            .backgroundMusic(this.effects().backgroundMusic().orElse(originalEffects.getBackgroundMusic().orElse(SimpleWeightedRandomList.empty())))
+            .backgroundMusicVolume(this.effects().musicVolume().orElse(originalEffects.getBackgroundMusicVolume()));
         Integer grassColorOverride = this.effects.grassColorOverride().orElse(originalEffects.getGrassColorOverride().orElse(null));
         if (grassColorOverride != null) {
             mergedEffectsBuilder = mergedEffectsBuilder.grassColorOverride(grassColorOverride);
@@ -100,7 +103,7 @@ public record ReplaceEffectsModifier(HolderSet<Biome> biomes, ModdedBiomeEffects
      *
      * @author Apollo
      */
-    public record ModdedBiomeEffects(Optional<Integer> skyColor, Optional<Integer> fogColor, Optional<Integer> waterColor, Optional<Integer> waterFogColor, Optional<Integer> foliageColorOverride, Optional<Integer> grassColorOverride, Optional<BiomeSpecialEffects.GrassColorModifier> grassColorModifier, Optional<AmbientParticleSettings> ambientParticleSettings, Optional<Holder<SoundEvent>> ambientLoopSoundEvent, Optional<AmbientMoodSettings> ambientMoodSettings, Optional<AmbientAdditionsSettings> ambientAdditionsSettings, Optional<Music> backgroundMusic) {
+    public record ModdedBiomeEffects(Optional<Integer> skyColor, Optional<Integer> fogColor, Optional<Integer> waterColor, Optional<Integer> waterFogColor, Optional<Integer> foliageColorOverride, Optional<Integer> grassColorOverride, Optional<BiomeSpecialEffects.GrassColorModifier> grassColorModifier, Optional<AmbientParticleSettings> ambientParticleSettings, Optional<Holder<SoundEvent>> ambientLoopSoundEvent, Optional<AmbientMoodSettings> ambientMoodSettings, Optional<AmbientAdditionsSettings> ambientAdditionsSettings, Optional<SimpleWeightedRandomList<Music>> backgroundMusic, Optional<Float> musicVolume) {
         public static final Codec<ModdedBiomeEffects> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
             Codec.INT.optionalFieldOf("sky_color").forGetter(ModdedBiomeEffects::skyColor),
             Codec.INT.optionalFieldOf("fog_color").forGetter(ModdedBiomeEffects::fogColor),
@@ -113,9 +116,9 @@ public record ReplaceEffectsModifier(HolderSet<Biome> biomes, ModdedBiomeEffects
             SoundEvent.CODEC.optionalFieldOf("ambient_sound").forGetter(ModdedBiomeEffects::ambientLoopSoundEvent),
             AmbientMoodSettings.CODEC.optionalFieldOf("mood_sound").forGetter(ModdedBiomeEffects::ambientMoodSettings),
             AmbientAdditionsSettings.CODEC.optionalFieldOf("additions_sound").forGetter(ModdedBiomeEffects::ambientAdditionsSettings),
-            Music.CODEC.optionalFieldOf("music").forGetter(ModdedBiomeEffects::backgroundMusic)
+            LithostitchedCodecs.singleOrWeightedList(Music.CODEC, true).optionalFieldOf("music").forGetter(ModdedBiomeEffects::backgroundMusic),
+            Codec.floatRange(0f, 1f).optionalFieldOf("music_volume").forGetter(ModdedBiomeEffects::musicVolume)
         ).apply(instance, ModdedBiomeEffects::new));
     }
-
 }
 
