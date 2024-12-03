@@ -9,6 +9,8 @@ import dev.worldgen.lithostitched.mixin.common.StructureTemplatePoolAccessor;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import dev.worldgen.lithostitched.worldgen.poolelement.ExclusivePoolElement;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
@@ -21,14 +23,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
+
 /**
  * A {@link Modifier} implementation that sets/adds structure processors to a template pool element entry.
  *
  * @author Apollo
  */
-public record SetPoolElementProcessorsModifier(Holder<StructureTemplatePool> templatePool, Optional<List<ResourceLocation>> locations, Holder<StructureProcessorList> processorList, boolean append) implements Modifier {
+public record SetPoolElementProcessorsModifier(HolderSet<StructureTemplatePool> templatePools, Optional<List<ResourceLocation>> locations, Holder<StructureProcessorList> processorList, boolean append) implements Modifier {
     public static final MapCodec<SetPoolElementProcessorsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        StructureTemplatePool.CODEC.fieldOf("template_pool").forGetter(SetPoolElementProcessorsModifier::templatePool),
+        registrySet(Registries.TEMPLATE_POOL, "template_pool").forGetter(SetPoolElementProcessorsModifier::templatePools),
         LithostitchedCodecs.singleOrList(ResourceLocation.CODEC).optionalFieldOf("locations").forGetter(SetPoolElementProcessorsModifier::locations),
         StructureProcessorType.LIST_CODEC.fieldOf("processor_list").forGetter(SetPoolElementProcessorsModifier::processorList),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetPoolElementProcessorsModifier::append)
@@ -36,10 +40,12 @@ public record SetPoolElementProcessorsModifier(Holder<StructureTemplatePool> tem
 
     @Override
     public void applyModifier() {
-        StructureTemplatePoolAccessor pool = ((StructureTemplatePoolAccessor)this.templatePool().value());
+        for (Holder<StructureTemplatePool> templatePool : this.templatePools) {
+            StructureTemplatePoolAccessor pool = ((StructureTemplatePoolAccessor)templatePool.value());
 
-        for (StructurePoolElement element : pool.getRawTemplates().stream().map(Pair::getFirst).toList()) {
-            applyModifier(element);
+            for (StructurePoolElement element : pool.getRawTemplates().stream().map(Pair::getFirst).toList()) {
+                applyModifier(element);
+            }
         }
     }
 

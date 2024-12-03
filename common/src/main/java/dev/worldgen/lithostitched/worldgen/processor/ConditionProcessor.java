@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.processor;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
@@ -17,22 +18,26 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import java.util.List;
 
 public class ConditionProcessor extends StructureProcessor {
+    private static final Codec<List<StructureProcessor>> PROCESSOR_CODEC = LithostitchedCodecs.singleOrList(StructureProcessorType.SINGLE_CODEC);
     public static final MapCodec<ConditionProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         RandomSettings.CODEC.fieldOf("random_mode").orElse(new RandomSettings(RandomMode.PER_BLOCK)).forGetter(ConditionProcessor::randomSettings),
         ProcessorCondition.CODEC.fieldOf("if_true").forGetter(ConditionProcessor::condition),
-        LithostitchedCodecs.singleOrList(StructureProcessorType.SINGLE_CODEC).fieldOf("then").forGetter(ConditionProcessor::processors)
+        PROCESSOR_CODEC.fieldOf("then").forGetter(ConditionProcessor::thenRun),
+        PROCESSOR_CODEC.fieldOf("else").orElse(List.of()).forGetter(ConditionProcessor::elseRun)
     ).apply(instance, ConditionProcessor::new));
 
     public static final StructureProcessorType<ConditionProcessor> TYPE = () -> CODEC;
 
     private final RandomSettings randomSettings;
     private final ProcessorCondition condition;
-    private final List<StructureProcessor> processors;
+    private final List<StructureProcessor> thenRun;
+    private final List<StructureProcessor> elseRun;
 
-    public ConditionProcessor(RandomSettings randomSettings, ProcessorCondition condition, List<StructureProcessor> processors) {
+    public ConditionProcessor(RandomSettings randomSettings, ProcessorCondition condition, List<StructureProcessor> thenRun, List<StructureProcessor> elseRun) {
         this.randomSettings = randomSettings;
         this.condition = condition;
-        this.processors = processors;
+        this.thenRun = thenRun;
+        this.elseRun = elseRun;
     }
 
     public RandomSettings randomSettings() {
@@ -43,8 +48,12 @@ public class ConditionProcessor extends StructureProcessor {
         return condition;
     }
 
-    private List<StructureProcessor> processors() {
-        return this.processors;
+    private List<StructureProcessor> thenRun() {
+        return this.thenRun;
+    }
+
+    private List<StructureProcessor> elseRun() {
+        return this.elseRun;
     }
 
     @Override
@@ -53,17 +62,17 @@ public class ConditionProcessor extends StructureProcessor {
             RandomSource random = this.randomSettings.create(level, pos, absolute);
             StructureBlockInfo corrected = new StructureBlockInfo(absolute.pos(), level.getBlockState(absolute.pos()), absolute.nbt());
 
-            if (this.condition.test(level, new ProcessorCondition.Data(pos, pivot, relative, corrected), settings, random)) {
-                StructureBlockInfo processedBlock = absolute;
+            boolean passed = this.condition.test(level, new ProcessorCondition.Data(pos, pivot, relative, corrected), settings, random);
 
-                for (StructureProcessor processor : this.processors) {
-                    processedBlock = processor.processBlock(levelReader, pos, pivot, relative, processedBlock, settings);
+            StructureBlockInfo processedBlock = absolute;
 
-                    if (processedBlock == null) break;
-                }
+            for (StructureProcessor processor : passed ? this.thenRun : this.elseRun) {
+                processedBlock = processor.processBlock(levelReader, pos, pivot, relative, processedBlock, settings);
 
-                return processedBlock;
+                if (processedBlock == null) break;
             }
+
+            return processedBlock;
         }
         return absolute;
     }

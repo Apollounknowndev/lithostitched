@@ -9,20 +9,24 @@ import dev.worldgen.lithostitched.mixin.common.StructureTemplatePoolAccessor;
 import dev.worldgen.lithostitched.worldgen.structure.LithostitchedTemplates;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
+
 /**
  * A {@link Modifier} implementation that adds template pool elements to a {@link StructureTemplatePool} entry.
  *
  * @author Apollo
  */
-public record AddTemplatePoolElementsModifier(Holder<StructureTemplatePool> templatePool, List<Pair<StructurePoolElement, Integer>> elements) implements Modifier {
+public record AddTemplatePoolElementsModifier(HolderSet<StructureTemplatePool> templatePools, List<Pair<StructurePoolElement, Integer>> elements) implements Modifier {
     public static final MapCodec<AddTemplatePoolElementsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        StructureTemplatePool.CODEC.fieldOf("template_pool").forGetter(AddTemplatePoolElementsModifier::templatePool),
+        registrySet(Registries.TEMPLATE_POOL, "template_pool").forGetter(AddTemplatePoolElementsModifier::templatePools),
         Codec.mapPair(
             StructurePoolElement.CODEC.fieldOf("element"),
             Codec.intRange(1, 150).fieldOf("weight")
@@ -41,8 +45,12 @@ public record AddTemplatePoolElementsModifier(Holder<StructureTemplatePool> temp
 
     @Override
     public void applyModifier() {
-        StructureTemplatePoolAccessor poolAccessor = ((StructureTemplatePoolAccessor)this.templatePool().value());
-        StructurePoolAccess lithostitchedPoolAccessor = ((StructurePoolAccess)this.templatePool().value());
+        this.templatePools.stream().map(Holder::value).forEach(this::applyModifier);
+    }
+
+    private void applyModifier(StructureTemplatePool templatePool) {
+        StructureTemplatePoolAccessor poolAccessor = (StructureTemplatePoolAccessor)templatePool;
+        StructurePoolAccess lithostitchedPoolAccessor = (StructurePoolAccess)templatePool;
 
         List<Pair<StructurePoolElement, Integer>> rawTemplates = new ArrayList<>(poolAccessor.getRawTemplates());
         rawTemplates.addAll(this.elements());

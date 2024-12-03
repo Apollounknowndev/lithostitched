@@ -3,6 +3,7 @@ package dev.worldgen.lithostitched;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
+import dev.worldgen.lithostitched.worldgen.blockpredicate.BlockStatePredicate;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.MultipleOfPredicate;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.RandomChancePredicate;
 import dev.worldgen.lithostitched.worldgen.densityfunction.MergedDensityFunction;
@@ -10,6 +11,7 @@ import dev.worldgen.lithostitched.worldgen.densityfunction.OriginalMarkerDensity
 import dev.worldgen.lithostitched.worldgen.densityfunction.WrappedMarkerDensityFunction;
 import dev.worldgen.lithostitched.worldgen.feature.*;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
+import dev.worldgen.lithostitched.worldgen.placementmodifier.OffsetPlacement;
 import dev.worldgen.lithostitched.worldgen.poolalias.RandomEntries;
 import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.LimitedPoolElement;
@@ -27,6 +29,7 @@ import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicateType;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType;
+import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
@@ -61,7 +64,7 @@ public final class LithostitchedCommon {
 		consumer.accept("add_surface_rule", AddSurfaceRuleModifier.CODEC);
 		consumer.accept("add_template_pool_elements", AddTemplatePoolElementsModifier.CODEC);
 		consumer.accept("no_op", NoOpModifier.CODEC);
-		consumer.accept("remove_structures_from_structure_set", RemoveStructuresFromStructureSetModifier.CODEC);
+		consumer.accept("remove_structure_set_entries", RemoveStructureSetEntries.CODEC);
 		consumer.accept("set_pool_aliases", SetPoolAliasesModifier.CODEC);
 		consumer.accept("set_pool_element_processors", SetPoolElementProcessorsModifier.CODEC);
 		consumer.accept("set_structure_spawn_condition", SetStructureSpawnConditionModifier.CODEC);
@@ -71,6 +74,7 @@ public final class LithostitchedCommon {
 	}
 
 	public static void registerCommonBlockPredicateTypes(BiConsumer<String, BlockPredicateType<?>> consumer) {
+		consumer.accept("block_state", BlockStatePredicate.TYPE);
 		consumer.accept("multiple_of", MultipleOfPredicate.TYPE);
 		consumer.accept("random_chance", RandomChancePredicate.TYPE);
 	}
@@ -78,6 +82,10 @@ public final class LithostitchedCommon {
 	public static void registerCommonStateProviders(BiConsumer<String, BlockStateProviderType<?>> consumer) {
 		consumer.accept("weighted", WeightedProvider.TYPE);
 		consumer.accept("random_block", RandomBlockProvider.TYPE);
+	}
+
+	public static void registerCommonPlacementModifiers(BiConsumer<String, PlacementModifierType<?>> consumer) {
+		consumer.accept("offset", OffsetPlacement.TYPE);
 	}
 
 	public static void registerCommonFeatureTypes(BiConsumer<String, Feature<?>> consumer) {
