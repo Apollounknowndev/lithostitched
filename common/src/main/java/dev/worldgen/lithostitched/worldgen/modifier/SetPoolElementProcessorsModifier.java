@@ -10,7 +10,10 @@ import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
 import dev.worldgen.lithostitched.worldgen.poolelement.ExclusivePoolElement;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -22,16 +25,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
+
 /**
  * A {@link Modifier} implementation that sets/adds structure processors to a template pool element entry.
  *
  * @author Apollo
  */
-public record SetPoolElementProcessorsModifier(ModifierPredicate predicate, Holder<StructureTemplatePool> templatePool, Optional<List<ResourceLocation>> locations, Holder<StructureProcessorList> processorList, boolean append) implements Modifier {
+public record SetPoolElementProcessorsModifier(ModifierPredicate predicate, HolderSet<StructureTemplatePool> templatePools, Optional<List<ResourceLocation>> locations, Holder<StructureProcessorList> processorList, boolean append) implements Modifier {
     public static final Codec<SetPoolElementProcessorsModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
-        StructureTemplatePool.CODEC.fieldOf("template_pool").forGetter(SetPoolElementProcessorsModifier::templatePool),
+        registrySet(Registries.TEMPLATE_POOL, "template_pool").forGetter(SetPoolElementProcessorsModifier::templatePools),
         LithostitchedCodecs.singleOrList(ResourceLocation.CODEC).optionalFieldOf("locations").forGetter(SetPoolElementProcessorsModifier::locations),
-        StructureProcessorType.LIST_CODEC.fieldOf("processor_list").forGetter(SetPoolElementProcessorsModifier::processorList),
+            StructureProcessorType.LIST_CODEC.fieldOf("processor_list").forGetter(SetPoolElementProcessorsModifier::processorList),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetPoolElementProcessorsModifier::append)
     )).apply(instance, SetPoolElementProcessorsModifier::new));
 
@@ -42,10 +47,12 @@ public record SetPoolElementProcessorsModifier(ModifierPredicate predicate, Hold
 
     @Override
     public void applyModifier() {
-        StructureTemplatePoolAccessor pool = ((StructureTemplatePoolAccessor)this.templatePool().value());
+        for (Holder<StructureTemplatePool> templatePool : this.templatePools) {
+            StructureTemplatePoolAccessor pool = ((StructureTemplatePoolAccessor)templatePool.value());
 
-        for (StructurePoolElement element : pool.getRawTemplates().stream().map(Pair::getFirst).toList()) {
-            applyModifier(element);
+            for (StructurePoolElement element : pool.getRawTemplates().stream().map(Pair::getFirst).toList()) {
+                applyModifier(element);
+            }
         }
     }
 

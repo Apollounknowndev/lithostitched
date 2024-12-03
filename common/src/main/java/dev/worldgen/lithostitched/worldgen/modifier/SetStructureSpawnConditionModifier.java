@@ -10,13 +10,16 @@ import dev.worldgen.lithostitched.worldgen.structure.DelegatingConfig;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
 import dev.worldgen.lithostitched.worldgen.structure.condition.StructureCondition;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
-public record SetStructureSpawnConditionModifier(ModifierPredicate predicate, Holder<Structure> structure, StructureCondition spawnCondition, boolean append) implements Modifier {
+import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
+
+public record SetStructureSpawnConditionModifier(ModifierPredicate predicate, HolderSet<Structure> structures, StructureCondition spawnCondition, boolean append) implements Modifier {
     public static final Codec<SetStructureSpawnConditionModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
-        Structure.CODEC.fieldOf("structure").forGetter(SetStructureSpawnConditionModifier::structure),
+        registrySet(Registries.STRUCTURE, "structure").forGetter(SetStructureSpawnConditionModifier::structures),
         StructureCondition.CODEC.fieldOf("spawn_condition").forGetter(SetStructureSpawnConditionModifier::spawnCondition),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetStructureSpawnConditionModifier::append)
     )).apply(instance, SetStructureSpawnConditionModifier::new));
@@ -34,13 +37,17 @@ public record SetStructureSpawnConditionModifier(ModifierPredicate predicate, Ho
 
     @Override
     public void applyModifier(RegistryAccess registries) {
-        if (this.structure.value() instanceof DelegatingStructure delegating) {
+        this.structures.forEach(structure -> this.applyModifier(registries, structure));
+    }
+
+    private void applyModifier(RegistryAccess registries, Holder<Structure> structure) {
+        if (structure.value() instanceof DelegatingStructure delegating) {
             delegating.config().setSpawnCondition(this.spawnCondition, this.append);
         } else {
-            if (this.structure instanceof Holder.Reference<Structure> reference) {
-                final Structure delegating = new DelegatingStructure(new DelegatingConfig(Holder.direct(this.structure.value()), this.spawnCondition));
-                ((HolderReferenceAccessor<Structure>)this.structure).setValue(delegating);
-                ((MappedRegistryAccessor<Structure>)registries.registryOrThrow(Registries.STRUCTURE)).getByValue().put(delegating, reference);
+            if (structure instanceof Holder.Reference<Structure> reference) {
+                final Structure delegating = new DelegatingStructure(new DelegatingConfig(Holder.direct(structure.value()), this.spawnCondition));
+                ((HolderReferenceAccessor<Structure>)structure).setValue(delegating);
+                ((MappedRegistryAccessor<Structure>)registries.lookupOrThrow(Registries.STRUCTURE)).getByValue().put(delegating, reference);
             }
         }
     }
