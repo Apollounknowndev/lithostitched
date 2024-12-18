@@ -64,7 +64,7 @@ public final class LithostitchedCommon {
 		consumer.accept("add_surface_rule", AddSurfaceRuleModifier.CODEC);
 		consumer.accept("add_template_pool_elements", AddTemplatePoolElementsModifier.CODEC);
 		consumer.accept("no_op", NoOpModifier.CODEC);
-		consumer.accept("remove_structure_set_entries", RemoveStructureSetEntries.CODEC);
+		consumer.accept("remove_structure_set_entries", RemoveStructureSetEntriesModifier.CODEC);
 		consumer.accept("set_pool_aliases", SetPoolAliasesModifier.CODEC);
 		consumer.accept("set_pool_element_processors", SetPoolElementProcessorsModifier.CODEC);
 		consumer.accept("set_structure_spawn_condition", SetStructureSpawnConditionModifier.CODEC);
