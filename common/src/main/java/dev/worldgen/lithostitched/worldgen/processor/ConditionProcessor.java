@@ -60,9 +60,10 @@ public class ConditionProcessor extends StructureProcessor {
     public StructureBlockInfo processBlock(LevelReader levelReader, BlockPos pos, BlockPos pivot, StructureBlockInfo relative, StructureBlockInfo absolute, StructurePlaceSettings settings) {
         if (levelReader instanceof WorldGenLevel level) {
             RandomSource random = this.randomSettings.create(level, pos, absolute);
-            StructureBlockInfo corrected = new StructureBlockInfo(absolute.pos(), level.getBlockState(absolute.pos()), absolute.nbt());
+            StructureBlockInfo newInput = new StructureBlockInfo(relative.pos(), absolute.state(), absolute.nbt());
+            StructureBlockInfo newLocation = new StructureBlockInfo(absolute.pos(), level.getBlockState(absolute.pos()), absolute.nbt());
 
-            boolean passed = this.condition.test(level, new ProcessorCondition.Data(pos, pivot, relative, corrected), settings, random);
+            boolean passed = this.condition.test(level, new ProcessorCondition.Data(pos, pivot, newInput, newLocation), settings, random);
 
             StructureBlockInfo processedBlock = absolute;
 
