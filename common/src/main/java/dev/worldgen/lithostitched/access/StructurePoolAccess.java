@@ -4,5 +4,5 @@ import dev.worldgen.lithostitched.worldgen.structure.LithostitchedTemplates;
 
 public interface StructurePoolAccess {
     LithostitchedTemplates getLithostitchedTemplates();
-    void setLithostitchedTemplates(LithostitchedTemplates templates);
+    void compileRawTemplates();
 }

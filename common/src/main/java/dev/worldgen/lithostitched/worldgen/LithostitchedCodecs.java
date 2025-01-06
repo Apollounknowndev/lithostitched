@@ -12,6 +12,9 @@ import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.block.Block;
 
 import java.util.List;
+import java.util.function.Function;
+
+import static net.minecraft.util.random.SimpleWeightedRandomList.*;
 
 /**
  * Collection of Codecs used by Lithostitched.
@@ -19,24 +22,21 @@ import java.util.List;
  */
 public interface LithostitchedCodecs {
     Codec<HolderSet<Block>> BLOCK_SET = RegistryCodecs.homogeneousList(Registries.BLOCK);
-
     MapCodec<Float> CHANCE = Codec.floatRange(0.0F, 1.0F).fieldOf("chance");
 
-    @Deprecated(since = "1.3.9")
     static <T> MapCodec<HolderSet<T>> registrySet(ResourceKey<Registry<T>> registry, String name) {
-        Codec<HolderSet<T>> codec = RegistryCodecs.homogeneousList(registry);
-
-        return Codec.mapEither(
-                codec.fieldOf(name),
-                codec.fieldOf(name + "s")
-        ).xmap(Either::unwrap, Either::left);
+        return RegistryCodecs.homogeneousList(registry).fieldOf(name);
     }
 
-    static <T> Codec<List<T>> singleOrList(Codec<T> codec) {
-        return Codec.withAlternative(codec.listOf(), codec, List::of);
+    static <E> Codec<List<E>> compactList(Codec<E> codec) {
+        return Codec.either(codec.listOf(), codec).xmap(
+            either -> either.map(Function.identity(), List::of),
+            list -> list.size() == 1 ? Either.right(list.getFirst()) : Either.left(list)
+        );
     }
 
-    static <T> Codec<SimpleWeightedRandomList<T>> singleOrWeightedList(Codec<T> codec) {
-        return Codec.withAlternative(SimpleWeightedRandomList.wrappedCodec(codec), codec, SimpleWeightedRandomList::single);
+    static <T> Codec<SimpleWeightedRandomList<T>> singleOrWeightedList(Codec<T> codec, boolean allowsEmpty) {
+        Codec<SimpleWeightedRandomList<T>> weightedListCodec = allowsEmpty ? wrappedCodecAllowingEmpty(codec) : wrappedCodec(codec);
+        return Codec.withAlternative(weightedListCodec, codec, SimpleWeightedRandomList::single);
     }
 }

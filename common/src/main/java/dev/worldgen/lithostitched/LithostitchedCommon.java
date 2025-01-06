@@ -11,6 +11,9 @@ import dev.worldgen.lithostitched.worldgen.densityfunction.OriginalMarkerDensity
 import dev.worldgen.lithostitched.worldgen.densityfunction.WrappedMarkerDensityFunction;
 import dev.worldgen.lithostitched.worldgen.feature.*;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
+import dev.worldgen.lithostitched.worldgen.modifier.internal.CompileRawTemplatesModifier;
+import dev.worldgen.lithostitched.worldgen.placementcondition.*;
+import dev.worldgen.lithostitched.worldgen.placementmodifier.ConditionPlacement;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.OffsetPlacement;
 import dev.worldgen.lithostitched.worldgen.poolalias.RandomEntries;
 import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
@@ -21,7 +24,6 @@ import dev.worldgen.lithostitched.worldgen.stateprovider.RandomBlockProvider;
 import dev.worldgen.lithostitched.worldgen.stateprovider.WeightedProvider;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
-import dev.worldgen.lithostitched.worldgen.structure.condition.*;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -59,12 +61,13 @@ public final class LithostitchedCommon {
 	}
 
 	public static void registerCommonModifiers(BiConsumer<String, MapCodec<? extends Modifier>> consumer) {
+		consumer.accept("internal/compile_raw_templates", CompileRawTemplatesModifier.CODEC);
 		consumer.accept("add_processor_list_processors", AddProcessorListProcessorsModifier.CODEC);
 		consumer.accept("add_structure_set_entries", AddStructureSetEntriesModifier.CODEC);
 		consumer.accept("add_surface_rule", AddSurfaceRuleModifier.CODEC);
 		consumer.accept("add_template_pool_elements", AddTemplatePoolElementsModifier.CODEC);
 		consumer.accept("no_op", NoOpModifier.CODEC);
-		consumer.accept("remove_structure_set_entries", RemoveStructureSetEntries.CODEC);
+		consumer.accept("remove_structure_set_entries", RemoveStructureSetEntriesModifier.CODEC);
 		consumer.accept("set_pool_aliases", SetPoolAliasesModifier.CODEC);
 		consumer.accept("set_pool_element_processors", SetPoolElementProcessorsModifier.CODEC);
 		consumer.accept("set_structure_spawn_condition", SetStructureSpawnConditionModifier.CODEC);
@@ -85,6 +88,7 @@ public final class LithostitchedCommon {
 	}
 
 	public static void registerCommonPlacementModifiers(BiConsumer<String, PlacementModifierType<?>> consumer) {
+		consumer.accept("condition", ConditionPlacement.TYPE);
 		consumer.accept("offset", OffsetPlacement.TYPE);
 	}
 
@@ -120,16 +124,16 @@ public final class LithostitchedCommon {
 		consumer.accept("jigsaw", AlternateJigsawStructure.TYPE);
 	}
 
-	public static void registerCommonStructureConditions(BiConsumer<String, MapCodec<? extends StructureCondition>> consumer) {
-		consumer.accept("any_of", AnyOfStructureCondition.CODEC);
-		consumer.accept("all_of", AllOfStructureCondition.CODEC);
-		consumer.accept("height_filter", HeightFilterStructureCondition.CODEC);
-		consumer.accept("in_biome", InBiomeStructureCondition.CODEC);
-		consumer.accept("multiple_of", MultipleOfStructureCondition.CODEC);
-		consumer.accept("not", NotStructureCondition.CODEC);
-		consumer.accept("offset", OffsetStructureCondition.CODEC);
-		consumer.accept("sample_density", SampleDensityStructureCondition.CODEC);
-		consumer.accept("true", TrueStructureCondition.CODEC);
+	public static void registerCommonPlacementConditions(BiConsumer<String, MapCodec<? extends PlacementCondition>> consumer) {
+		consumer.accept("any_of", AnyOfPlacementCondition.CODEC);
+		consumer.accept("all_of", AllOfPlacementCondition.CODEC);
+		consumer.accept("height_filter", HeightFilterPlacementCondition.CODEC);
+		consumer.accept("in_biome", InBiomePlacementCondition.CODEC);
+		consumer.accept("multiple_of", MultipleOfPlacementCondition.CODEC);
+		consumer.accept("not", NotPlacementCondition.CODEC);
+		consumer.accept("offset", OffsetPlacementCondition.CODEC);
+		consumer.accept("sample_density", SampleDensityPlacementCondition.CODEC);
+		consumer.accept("true", TruePlacementCondition.CODEC);
 	}
 
 	public static void registerCommonStructureProcessors(BiConsumer<String, StructureProcessorType<?>> consumer) {

@@ -7,7 +7,7 @@ import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingConfig;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
-import dev.worldgen.lithostitched.worldgen.structure.condition.StructureCondition;
+import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
@@ -16,10 +16,10 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
-public record SetStructureSpawnConditionModifier(HolderSet<Structure> structures, StructureCondition spawnCondition, boolean append) implements Modifier {
+public record SetStructureSpawnConditionModifier(HolderSet<Structure> structures, PlacementCondition spawnCondition, boolean append) implements Modifier {
     public static final MapCodec<SetStructureSpawnConditionModifier> CODEC = RecordCodecBuilder.<SetStructureSpawnConditionModifier>mapCodec(instance -> instance.group(
-        registrySet(Registries.STRUCTURE, "structure").forGetter(SetStructureSpawnConditionModifier::structures),
-        StructureCondition.CODEC.fieldOf("spawn_condition").forGetter(SetStructureSpawnConditionModifier::spawnCondition),
+        registrySet(Registries.STRUCTURE, "structures").forGetter(SetStructureSpawnConditionModifier::structures),
+        PlacementCondition.CODEC.fieldOf("spawn_condition").forGetter(SetStructureSpawnConditionModifier::spawnCondition),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetStructureSpawnConditionModifier::append)
     ).apply(instance, SetStructureSpawnConditionModifier::new));
 

@@ -2,8 +2,8 @@ package dev.worldgen.lithostitched.worldgen.structure;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.worldgen.structure.condition.AllOfStructureCondition;
-import dev.worldgen.lithostitched.worldgen.structure.condition.StructureCondition;
+import dev.worldgen.lithostitched.worldgen.placementcondition.AllOfPlacementCondition;
+import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
@@ -12,12 +12,12 @@ import java.util.Arrays;
 public final class DelegatingConfig {
     public static final MapCodec<DelegatingConfig> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         Structure.CODEC.fieldOf("delegate").forGetter(DelegatingConfig::delegate),
-        StructureCondition.CODEC.fieldOf("spawn_condition").forGetter(DelegatingConfig::spawnCondition)
+        PlacementCondition.CODEC.fieldOf("spawn_condition").forGetter(DelegatingConfig::spawnCondition)
     ).apply(instance, DelegatingConfig::new));
     private final Holder<Structure> delegate;
-    private StructureCondition spawnCondition;
+    private PlacementCondition spawnCondition;
 
-    public DelegatingConfig(Holder<Structure> delegate, StructureCondition spawnCondition) {
+    public DelegatingConfig(Holder<Structure> delegate, PlacementCondition spawnCondition) {
         this.delegate = delegate;
         this.spawnCondition = spawnCondition;
     }
@@ -26,16 +26,16 @@ public final class DelegatingConfig {
         return delegate;
     }
 
-    public StructureCondition spawnCondition() {
+    public PlacementCondition spawnCondition() {
         return spawnCondition;
     }
 
-    public void setSpawnCondition(StructureCondition spawnCondition, boolean append) {
+    public void setSpawnCondition(PlacementCondition spawnCondition, boolean append) {
         if (append) {
-            if (this.spawnCondition instanceof AllOfStructureCondition all) {
+            if (this.spawnCondition instanceof AllOfPlacementCondition all) {
                 all.appendCondition(spawnCondition);
             } else {
-                this.spawnCondition = new AllOfStructureCondition(Arrays.asList(this.spawnCondition, spawnCondition));
+                this.spawnCondition = new AllOfPlacementCondition(Arrays.asList(this.spawnCondition, spawnCondition));
             }
         } else {
             this.spawnCondition = spawnCondition;

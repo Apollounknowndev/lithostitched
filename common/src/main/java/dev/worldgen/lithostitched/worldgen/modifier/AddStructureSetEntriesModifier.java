@@ -20,7 +20,7 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  */
 public record AddStructureSetEntriesModifier(HolderSet<StructureSet> structureSets, List<StructureSet.StructureSelectionEntry> entries) implements Modifier {
     public static final MapCodec<AddStructureSetEntriesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        registrySet(Registries.STRUCTURE_SET, "structure_set").forGetter(AddStructureSetEntriesModifier::structureSets),
+        registrySet(Registries.STRUCTURE_SET, "structure_sets").forGetter(AddStructureSetEntriesModifier::structureSets),
         StructureSet.StructureSelectionEntry.CODEC.listOf().fieldOf("entries").forGetter(AddStructureSetEntriesModifier::entries)
     ).apply(instance, AddStructureSetEntriesModifier::new));
 

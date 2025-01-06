@@ -17,7 +17,7 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
 
 public record StackFeatureModifier(HolderSet<ConfiguredFeature<?, ?>> baseFeatures, Holder<PlacedFeature> stackedFeature) implements Modifier {
     public static final MapCodec<StackFeatureModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        registrySet(Registries.CONFIGURED_FEATURE, "base_feature").forGetter(StackFeatureModifier::baseFeatures),
+        registrySet(Registries.CONFIGURED_FEATURE, "base_features").forGetter(StackFeatureModifier::baseFeatures),
         PlacedFeature.CODEC.fieldOf("stacked_feature").forGetter(StackFeatureModifier::stackedFeature)
     ).apply(instance, StackFeatureModifier::new));
 

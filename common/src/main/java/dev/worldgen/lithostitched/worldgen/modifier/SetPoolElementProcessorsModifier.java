@@ -6,7 +6,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.mixin.common.SinglePoolElementAccessor;
 import dev.worldgen.lithostitched.mixin.common.StructureTemplatePoolAccessor;
-import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import dev.worldgen.lithostitched.worldgen.poolelement.ExclusivePoolElement;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -23,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.compactList;
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
 /**
@@ -32,8 +32,8 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  */
 public record SetPoolElementProcessorsModifier(HolderSet<StructureTemplatePool> templatePools, Optional<List<ResourceLocation>> locations, Holder<StructureProcessorList> processorList, boolean append) implements Modifier {
     public static final MapCodec<SetPoolElementProcessorsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        registrySet(Registries.TEMPLATE_POOL, "template_pool").forGetter(SetPoolElementProcessorsModifier::templatePools),
-        LithostitchedCodecs.singleOrList(ResourceLocation.CODEC).optionalFieldOf("locations").forGetter(SetPoolElementProcessorsModifier::locations),
+        registrySet(Registries.TEMPLATE_POOL, "template_pools").forGetter(SetPoolElementProcessorsModifier::templatePools),
+        compactList(ResourceLocation.CODEC).optionalFieldOf("locations").forGetter(SetPoolElementProcessorsModifier::locations),
         StructureProcessorType.LIST_CODEC.fieldOf("processor_list").forGetter(SetPoolElementProcessorsModifier::processorList),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetPoolElementProcessorsModifier::append)
     ).apply(instance, SetPoolElementProcessorsModifier::new));

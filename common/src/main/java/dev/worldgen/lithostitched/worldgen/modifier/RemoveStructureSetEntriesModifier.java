@@ -20,11 +20,11 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  *
  * @author Apollo
  */
-public record RemoveStructureSetEntries(HolderSet<StructureSet> structureSets, List<Holder<Structure>> entries) implements Modifier {
-    public static final MapCodec<RemoveStructureSetEntries> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        registrySet(Registries.STRUCTURE_SET, "structure_set").forGetter(RemoveStructureSetEntries::structureSets),
-        Structure.CODEC.listOf().fieldOf("structures").forGetter(RemoveStructureSetEntries::entries)
-    ).apply(instance, RemoveStructureSetEntries::new));
+public record RemoveStructureSetEntriesModifier(HolderSet<StructureSet> structureSets, List<Holder<Structure>> entries) implements Modifier {
+    public static final MapCodec<RemoveStructureSetEntriesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        registrySet(Registries.STRUCTURE_SET, "structure_sets").forGetter(RemoveStructureSetEntriesModifier::structureSets),
+        Structure.CODEC.listOf().fieldOf("structures").forGetter(RemoveStructureSetEntriesModifier::entries)
+    ).apply(instance, RemoveStructureSetEntriesModifier::new));
 
     @Override
     public void applyModifier() {
