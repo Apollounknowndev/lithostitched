@@ -5,8 +5,8 @@ import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.LithostitchedCommon;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
+import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorCondition;
-import dev.worldgen.lithostitched.worldgen.structure.condition.StructureCondition;
 import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
@@ -27,7 +27,7 @@ import static dev.worldgen.lithostitched.registry.LithostitchedMaterialRules.TRA
 public final class LithostitchedBuiltInRegistries {
 	public static final WritableRegistry<Codec<? extends Modifier>> MODIFIER_TYPE = FabricRegistryBuilder.createSimple(LithostitchedRegistryKeys.MODIFIER_TYPE).buildAndRegister();
 	public static final WritableRegistry<Codec<? extends ModifierPredicate>> MODIFIER_PREDICATE_TYPE = FabricRegistryBuilder.createSimple(LithostitchedRegistryKeys.MODIFIER_PREDICATE_TYPE).buildAndRegister();
-	public static final WritableRegistry<MapCodec<? extends StructureCondition>> STRUCTURE_CONDITION_TYPE = FabricRegistryBuilder.createSimple(LithostitchedRegistryKeys.STRUCTURE_CONDITION_TYPE).buildAndRegister();
+	public static final WritableRegistry<MapCodec<? extends PlacementCondition>> PLACEMENT_CONDITION_TYPE = FabricRegistryBuilder.createSimple(LithostitchedRegistryKeys.PLACEMENT_CONDITION_TYPE).buildAndRegister();
 	public static final WritableRegistry<MapCodec<? extends ProcessorCondition>> PROCESSOR_CONDITION_TYPE = FabricRegistryBuilder.createSimple(LithostitchedRegistryKeys.PROCESSOR_CONDITION_TYPE).buildAndRegister();
 
 	public static void init() {
@@ -36,7 +36,7 @@ public final class LithostitchedBuiltInRegistries {
 		LithostitchedCommon.registerCommonModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));
 		registerFabricModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));
 		LithostitchedCommon.registerCommonModifierPredicates((name, codec) -> register(MODIFIER_PREDICATE_TYPE, name, codec));
-		LithostitchedCommon.registerCommonStructureConditions((name, codec) -> register(STRUCTURE_CONDITION_TYPE, name, codec));
+		LithostitchedCommon.registerCommonPlacementConditions((name, codec) -> register(PLACEMENT_CONDITION_TYPE, name, codec));
 		LithostitchedCommon.registerCommonProcessorConditions((name, codec) -> register(PROCESSOR_CONDITION_TYPE, name, codec));
 
 		LithostitchedCommon.registerCommonBlockPredicateTypes((name, type) -> register(BuiltInRegistries.BLOCK_PREDICATE_TYPE, name, type));

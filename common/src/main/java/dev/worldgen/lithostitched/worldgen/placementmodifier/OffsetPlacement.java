@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.placementmodifier;
+package dev.worldgen.lithostitched.worldgen.placementmodifier;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

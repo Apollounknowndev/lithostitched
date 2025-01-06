@@ -5,8 +5,8 @@ import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.LithostitchedCommon;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
+import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorCondition;
-import dev.worldgen.lithostitched.worldgen.structure.condition.StructureCondition;
 import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -31,8 +31,8 @@ public final class LithostitchedBuiltInRegistries {
 	private static final DeferredRegister<Codec<? extends ModifierPredicate>> DEFERRED_MODIFIER_PREDICATE_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.MODIFIER_PREDICATE_TYPE, MOD_ID);
 	public static final Supplier<IForgeRegistry<Codec<? extends ModifierPredicate>>> MODIFIER_PREDICATE_TYPE = DEFERRED_MODIFIER_PREDICATE_TYPES.makeRegistry(() -> new RegistryBuilder<Codec<? extends ModifierPredicate>>().hasTags().disableSync().disableSaving());
 
-	private static final DeferredRegister<MapCodec<? extends StructureCondition>> DEFERRED_STRUCTURE_CONDITION_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.STRUCTURE_CONDITION_TYPE, MOD_ID);
-	public static final Supplier<IForgeRegistry<MapCodec<? extends StructureCondition>>> STRUCTURE_CONDITION_TYPE = DEFERRED_STRUCTURE_CONDITION_TYPES.makeRegistry(() -> new RegistryBuilder<MapCodec<? extends StructureCondition>>().hasTags().disableSync().disableSaving());
+	private static final DeferredRegister<MapCodec<? extends PlacementCondition>> DEFERRED_PLACEMENT_CONDITION_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.PLACEMENT_CONDITION_TYPE, MOD_ID);
+	public static final Supplier<IForgeRegistry<MapCodec<? extends PlacementCondition>>> PLACEMENT_CONDITION_TYPE = DEFERRED_PLACEMENT_CONDITION_TYPES.makeRegistry(() -> new RegistryBuilder<MapCodec<? extends PlacementCondition>>().hasTags().disableSync().disableSaving());
 
 	private static final DeferredRegister<MapCodec<? extends ProcessorCondition>> DEFERRED_PROCESSOR_CONDITION_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.PROCESSOR_CONDITION_TYPE, MOD_ID);
 	public static final Supplier<IForgeRegistry<MapCodec<? extends ProcessorCondition>>> PROCESSOR_CONDITION_TYPE = DEFERRED_PROCESSOR_CONDITION_TYPES.makeRegistry(() -> new RegistryBuilder<MapCodec<? extends ProcessorCondition>>().hasTags().disableSync().disableSaving());
@@ -65,8 +65,8 @@ public final class LithostitchedBuiltInRegistries {
 		LithostitchedCommon.registerCommonModifierPredicates((name, codec) -> DEFERRED_MODIFIER_PREDICATE_TYPES.register(name, () -> codec));
 		DEFERRED_MODIFIER_PREDICATE_TYPES.register(bus);
 
-		LithostitchedCommon.registerCommonStructureConditions((name, codec) -> DEFERRED_STRUCTURE_CONDITION_TYPES.register(name, () -> codec));
-		DEFERRED_STRUCTURE_CONDITION_TYPES.register(bus);
+		LithostitchedCommon.registerCommonPlacementConditions((name, codec) -> DEFERRED_PLACEMENT_CONDITION_TYPES.register(name, () -> codec));
+		DEFERRED_PLACEMENT_CONDITION_TYPES.register(bus);
 
 		LithostitchedCommon.registerCommonProcessorConditions((name, codec) -> DEFERRED_PROCESSOR_CONDITION_TYPES.register(name, () -> codec));
 		DEFERRED_PROCESSOR_CONDITION_TYPES.register(bus);

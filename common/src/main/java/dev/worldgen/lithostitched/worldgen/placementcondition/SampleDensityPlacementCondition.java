@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.worldgen.structure.condition;
+package dev.worldgen.lithostitched.worldgen.placementcondition;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -17,16 +17,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public record SampleDensityStructureCondition(Holder<DensityFunction> densityFunction, Optional<Double> minInclusive, Optional<Double> maxInclusive) implements StructureCondition {
-    public static final MapCodec<SampleDensityStructureCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        DensityFunction.CODEC.fieldOf("density_function").forGetter(SampleDensityStructureCondition::densityFunction),
-        Codec.DOUBLE.optionalFieldOf("min_inclusive").forGetter(SampleDensityStructureCondition::minInclusive),
-        Codec.DOUBLE.optionalFieldOf("max_inclusive").forGetter(SampleDensityStructureCondition::maxInclusive)
-    ).apply(instance, SampleDensityStructureCondition::new));
+public record SampleDensityPlacementCondition(Holder<DensityFunction> densityFunction, Optional<Double> minInclusive, Optional<Double> maxInclusive) implements PlacementCondition {
+    public static final MapCodec<SampleDensityPlacementCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        DensityFunction.CODEC.fieldOf("density_function").forGetter(SampleDensityPlacementCondition::densityFunction),
+        Codec.DOUBLE.optionalFieldOf("min_inclusive").forGetter(SampleDensityPlacementCondition::minInclusive),
+        Codec.DOUBLE.optionalFieldOf("max_inclusive").forGetter(SampleDensityPlacementCondition::maxInclusive)
+    ).apply(instance, SampleDensityPlacementCondition::new));
 
     @Override
-    public boolean test(Structure.GenerationContext context, BlockPos pos) {
-        if (!(context.chunkGenerator() instanceof NoiseBasedChunkGenerator chunkGenerator)) return false;
+    public boolean test(Context context, BlockPos pos) {
+        if (!(context.generator() instanceof NoiseBasedChunkGenerator chunkGenerator)) return false;
 
         DensityFunction df = this.densityFunction.value().mapAll(new NoiseWiringHelper(context.seed(), chunkGenerator.settings.value().useLegacyRandomSource(), context.randomState(), ((RandomStateAccessor)(Object)context.randomState()).getRandom()));
         double density = df.compute(new DensityFunction.SinglePointContext(pos.getX(), pos.getY(), pos.getZ()));
@@ -37,7 +37,7 @@ public record SampleDensityStructureCondition(Holder<DensityFunction> densityFun
     }
 
     @Override
-    public MapCodec<? extends StructureCondition> codec() {
+    public MapCodec<? extends PlacementCondition> codec() {
         return CODEC;
     }
 
