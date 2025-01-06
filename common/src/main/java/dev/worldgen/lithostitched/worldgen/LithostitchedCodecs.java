@@ -21,14 +21,8 @@ public interface LithostitchedCodecs {
     Codec<HolderSet<Block>> BLOCK_SET = RegistryCodecs.homogeneousList(Registries.BLOCK);
     MapCodec<Float> CHANCE = Codec.floatRange(0.0F, 1.0F).fieldOf("chance");
 
-    @Deprecated(since = "1.3.9")
     static <T> MapCodec<HolderSet<T>> registrySet(ResourceKey<Registry<T>> registry, String name) {
-        Codec<HolderSet<T>> codec = RegistryCodecs.homogeneousList(registry);
-
-        return Codec.mapEither(
-            codec.fieldOf(name),
-            codec.fieldOf(name + "s")
-        ).xmap(Either::unwrap, Either::left);
+        return RegistryCodecs.homogeneousList(registry).fieldOf(name);
     }
 
     static <T> Codec<SimpleWeightedRandomList<T>> singleOrWeightedList(Codec<T> codec, boolean allowsEmpty) {
