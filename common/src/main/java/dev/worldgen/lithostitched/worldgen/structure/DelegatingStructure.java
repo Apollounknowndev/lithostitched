@@ -1,6 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.structure;
 
 import com.mojang.serialization.MapCodec;
+import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.QuartPos;
 import net.minecraft.world.level.levelgen.structure.Structure;

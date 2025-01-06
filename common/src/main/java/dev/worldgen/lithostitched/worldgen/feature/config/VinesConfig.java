@@ -22,7 +22,7 @@ public record VinesConfig(SimpleWeightedRandomList<Block> blocks, Optional<Holde
     private static final SimpleWeightedRandomList<Block> DEFAULT_BLOCK = SimpleWeightedRandomList.<Block>builder().add(Blocks.VINE).build();
 
     public static final Codec<VinesConfig> CODEC = RecordCodecBuilder.<VinesConfig>create(instance -> instance.group(
-        LithostitchedCodecs.singleOrWeightedList(BuiltInRegistries.BLOCK.byNameCodec()).fieldOf("block").orElse(DEFAULT_BLOCK).forGetter(VinesConfig::blocks),
+        LithostitchedCodecs.singleOrWeightedList(BuiltInRegistries.BLOCK.byNameCodec(), false).fieldOf("block").orElse(DEFAULT_BLOCK).forGetter(VinesConfig::blocks),
         LithostitchedCodecs.BLOCK_SET.optionalFieldOf("can_place_on").forGetter(VinesConfig::canPlaceOn),
         IntProvider.codec(1, 256).fieldOf("max_length").orElse(ConstantInt.of(1)).forGetter(VinesConfig::maxLength)
     ).apply(instance, VinesConfig::new)).validate(VinesConfig::validate);

@@ -20,7 +20,7 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
 
 public record SetPoolAliasesModifier(HolderSet<Structure> structures, List<PoolAliasBinding> poolAliases, boolean append) implements Modifier {
     public static final MapCodec<SetPoolAliasesModifier> CODEC = RecordCodecBuilder.<SetPoolAliasesModifier>mapCodec(instance -> instance.group(
-        registrySet(Registries.STRUCTURE, "structure").forGetter(SetPoolAliasesModifier::structures),
+        registrySet(Registries.STRUCTURE, "structures").forGetter(SetPoolAliasesModifier::structures),
         Codec.list(PoolAliasBinding.CODEC).fieldOf("pool_aliases").forGetter(SetPoolAliasesModifier::poolAliases),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetPoolAliasesModifier::append)
     ).apply(instance, SetPoolAliasesModifier::new)).validate(SetPoolAliasesModifier::validate);

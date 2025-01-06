@@ -54,22 +54,25 @@ public class ApplyRandomStructureProcessor extends StructureProcessor {
     }
 
     @Override
-    public StructureTemplate.StructureBlockInfo processBlock(LevelReader levelReader, BlockPos blockPos, BlockPos blockPos2, StructureTemplate.StructureBlockInfo structureBlockInfo, StructureTemplate.StructureBlockInfo currentBlockInfo, StructurePlaceSettings structurePlaceSettings) {
+    public StructureTemplate.StructureBlockInfo processBlock(LevelReader levelReader, BlockPos pos, BlockPos pivot, StructureTemplate.StructureBlockInfo relative, StructureTemplate.StructureBlockInfo absolute, StructurePlaceSettings settings) {
         if (levelReader instanceof WorldGenLevel level) {
-            RandomSource random = this.randomSettings.create(level, blockPos, currentBlockInfo);
+            RandomSource random = this.randomSettings.create(level, pos, absolute);
 
             var processorList = this.processorLists.getRandomValue(random);
             if (processorList.isPresent()) {
+                StructureTemplate.StructureBlockInfo processedBlock = absolute;
+
                 for (StructureProcessor processor : processorList.get().value().list()) {
-                    StructureTemplate.StructureBlockInfo candidateBlockInfo = processor.processBlock(levelReader, blockPos, blockPos2, structureBlockInfo, currentBlockInfo, structurePlaceSettings);
-                    if (candidateBlockInfo != currentBlockInfo) {
-                        return candidateBlockInfo;
-                    }
+                    processedBlock = processor.processBlock(levelReader, pos, pivot, relative, processedBlock, settings);
+
+                    if (processedBlock == null) break;
                 }
+
+                return processedBlock;
             }
         }
 
-        return currentBlockInfo;
+        return absolute;
     }
 
     @Override

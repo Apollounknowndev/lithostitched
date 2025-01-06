@@ -18,7 +18,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import java.util.List;
 
 public class ConditionProcessor extends StructureProcessor {
-    private static final Codec<List<StructureProcessor>> PROCESSOR_CODEC = LithostitchedCodecs.singleOrList(StructureProcessorType.SINGLE_CODEC);
+    private static final Codec<List<StructureProcessor>> PROCESSOR_CODEC = LithostitchedCodecs.compactList(StructureProcessorType.SINGLE_CODEC);
     public static final MapCodec<ConditionProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         RandomSettings.CODEC.fieldOf("random_mode").orElse(new RandomSettings(RandomMode.PER_BLOCK)).forGetter(ConditionProcessor::randomSettings),
         ProcessorCondition.CODEC.fieldOf("if_true").forGetter(ConditionProcessor::condition),
