@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.worldgen.structure.condition;
+package dev.worldgen.lithostitched.worldgen.placementcondition;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -12,14 +12,14 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 
 import java.util.Optional;
 
-public record HeightFilterStructureCondition(RangeType rangeType, Optional<Heightmap.Types> heightmap, InclusiveRange<Integer> permittedRange) implements StructureCondition {
-    public static final MapCodec<HeightFilterStructureCondition> CODEC = RecordCodecBuilder.<HeightFilterStructureCondition>mapCodec(instance -> instance.group(
-        RangeType.CODEC.fieldOf("range_type").forGetter(HeightFilterStructureCondition::rangeType),
-        Heightmap.Types.CODEC.optionalFieldOf("heightmap").forGetter(HeightFilterStructureCondition::heightmap),
-        InclusiveRange.INT.fieldOf("permitted_range").forGetter(HeightFilterStructureCondition::permittedRange)
-    ).apply(instance, HeightFilterStructureCondition::new)).validate(HeightFilterStructureCondition::validate);
+public record HeightFilterPlacementCondition(RangeType rangeType, Optional<Heightmap.Types> heightmap, InclusiveRange<Integer> permittedRange) implements PlacementCondition {
+    public static final MapCodec<HeightFilterPlacementCondition> CODEC = RecordCodecBuilder.<HeightFilterPlacementCondition>mapCodec(instance -> instance.group(
+        RangeType.CODEC.fieldOf("range_type").forGetter(HeightFilterPlacementCondition::rangeType),
+        Heightmap.Types.CODEC.optionalFieldOf("heightmap").forGetter(HeightFilterPlacementCondition::heightmap),
+        InclusiveRange.INT.fieldOf("permitted_range").forGetter(HeightFilterPlacementCondition::permittedRange)
+    ).apply(instance, HeightFilterPlacementCondition::new)).validate(HeightFilterPlacementCondition::validate);
 
-    private DataResult<HeightFilterStructureCondition> validate() {
+    private DataResult<HeightFilterPlacementCondition> validate() {
         if (this.rangeType == RangeType.HEIGHTMAP_RELATIVE && this.heightmap.isEmpty()) {
             return DataResult.error(() -> "Heightmap relative range type must be used with a heightmap");
         }
@@ -27,19 +27,19 @@ public record HeightFilterStructureCondition(RangeType rangeType, Optional<Heigh
     }
 
     @Override
-    public boolean test(Structure.GenerationContext context, BlockPos pos) {
+    public boolean test(Context context, BlockPos pos) {
         if (this.heightmap.isEmpty()) {
             return this.permittedRange.isValueInRange(pos.getY());
         }
 
-        int heightmapY = context.chunkGenerator().getFirstFreeHeight(pos.getX(), pos.getZ(), this.heightmap.get(), context.heightAccessor(), context.randomState());
+        int heightmapY = context.generator().getFirstFreeHeight(pos.getX(), pos.getZ(), this.heightmap.get(), context.heightAccessor(), context.randomState());
         int y = this.rangeType == RangeType.ABSOLUTE ? heightmapY : pos.getY() - heightmapY;
 
         return this.permittedRange.isValueInRange(y);
     }
 
     @Override
-    public MapCodec<? extends StructureCondition> codec() {
+    public MapCodec<? extends PlacementCondition> codec() {
         return CODEC;
     }
 

@@ -22,7 +22,7 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  */
 public record AddProcessorListProcessorsModifier(HolderSet<StructureProcessorList> processorLists, StructureProcessorList processors) implements Modifier {
     public static final MapCodec<AddProcessorListProcessorsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        registrySet(Registries.PROCESSOR_LIST, "processor_list").forGetter(AddProcessorListProcessorsModifier::processorLists),
+        registrySet(Registries.PROCESSOR_LIST, "processor_lists").forGetter(AddProcessorListProcessorsModifier::processorLists),
         StructureProcessorType.LIST_OBJECT_CODEC.fieldOf("processors").forGetter(AddProcessorListProcessorsModifier::processors)
     ).apply(instance, AddProcessorListProcessorsModifier::new));
 

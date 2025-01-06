@@ -26,7 +26,7 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.*;
  */
 public record AddTemplatePoolElementsModifier(HolderSet<StructureTemplatePool> templatePools, List<Pair<StructurePoolElement, Integer>> elements) implements Modifier {
     public static final MapCodec<AddTemplatePoolElementsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        registrySet(Registries.TEMPLATE_POOL, "template_pool").forGetter(AddTemplatePoolElementsModifier::templatePools),
+        registrySet(Registries.TEMPLATE_POOL, "template_pools").forGetter(AddTemplatePoolElementsModifier::templatePools),
         Codec.mapPair(
             StructurePoolElement.CODEC.fieldOf("element"),
             Codec.intRange(1, 150).fieldOf("weight")

@@ -33,7 +33,7 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  */
 public record SetPoolElementProcessorsModifier(HolderSet<StructureTemplatePool> templatePools, Optional<List<ResourceLocation>> locations, Holder<StructureProcessorList> processorList, boolean append) implements Modifier {
     public static final MapCodec<SetPoolElementProcessorsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        registrySet(Registries.TEMPLATE_POOL, "template_pool").forGetter(SetPoolElementProcessorsModifier::templatePools),
+        registrySet(Registries.TEMPLATE_POOL, "template_pools").forGetter(SetPoolElementProcessorsModifier::templatePools),
         ExtraCodecs.compactListCodec(ResourceLocation.CODEC).optionalFieldOf("locations").forGetter(SetPoolElementProcessorsModifier::locations),
         StructureProcessorType.LIST_CODEC.fieldOf("processor_list").forGetter(SetPoolElementProcessorsModifier::processorList),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetPoolElementProcessorsModifier::append)
