@@ -56,17 +56,13 @@ public record AddTemplatePoolElementsModifier(ModifierPredicate predicate, Holde
 
     private void applyModifier(StructureTemplatePool templatePool) {
         StructureTemplatePoolAccessor poolAccessor = (StructureTemplatePoolAccessor)templatePool;
-        StructurePoolAccess lithostitchedPoolAccessor = (StructurePoolAccess)templatePool;
 
         List<Pair<StructurePoolElement, Integer>> rawTemplates = new ArrayList<>(poolAccessor.getRawTemplates());
         rawTemplates.addAll(this.elements());
         poolAccessor.setRawTemplates(rawTemplates);
 
         ObjectArrayList<StructurePoolElement> vanillaTemplates = new ObjectArrayList<>(poolAccessor.getVanillaTemplates());
-        LithostitchedTemplates lithostitchedTemplates = lithostitchedPoolAccessor.getLithostitchedTemplates();
-
         for (Pair<StructurePoolElement, Integer> pair : this.elements()) {
-            lithostitchedTemplates.add(pair.getFirst(), pair.getSecond());
             for (int i = 0; i < pair.getSecond(); ++i) {
                 vanillaTemplates.add(pair.getFirst());
             }

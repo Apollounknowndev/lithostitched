@@ -16,6 +16,7 @@ import dev.worldgen.lithostitched.worldgen.modifier.internal.CompileRawTemplates
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.*;
 import dev.worldgen.lithostitched.worldgen.placementcondition.*;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.ConditionPlacement;
+import dev.worldgen.lithostitched.worldgen.placementmodifier.NoiseSlopePlacement;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.OffsetPlacement;
 import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.LimitedPoolElement;
@@ -96,6 +97,7 @@ public final class LithostitchedCommon {
 
 	public static void registerCommonPlacementModifiers(BiConsumer<String, PlacementModifierType<?>> consumer) {
 		consumer.accept("condition", ConditionPlacement.TYPE);
+		consumer.accept("noise_slope", NoiseSlopePlacement.TYPE);
 		consumer.accept("offset", OffsetPlacement.TYPE);
 	}
 
