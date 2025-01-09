@@ -14,6 +14,7 @@ import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.internal.CompileRawTemplatesModifier;
 import dev.worldgen.lithostitched.worldgen.placementcondition.*;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.ConditionPlacement;
+import dev.worldgen.lithostitched.worldgen.placementmodifier.NoiseSlopePlacement;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.OffsetPlacement;
 import dev.worldgen.lithostitched.worldgen.poolalias.RandomEntries;
 import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
@@ -89,6 +90,7 @@ public final class LithostitchedCommon {
 
 	public static void registerCommonPlacementModifiers(BiConsumer<String, PlacementModifierType<?>> consumer) {
 		consumer.accept("condition", ConditionPlacement.TYPE);
+		consumer.accept("noise_slope", NoiseSlopePlacement.TYPE);
 		consumer.accept("offset", OffsetPlacement.TYPE);
 	}
 
@@ -127,6 +129,7 @@ public final class LithostitchedCommon {
 	public static void registerCommonPlacementConditions(BiConsumer<String, MapCodec<? extends PlacementCondition>> consumer) {
 		consumer.accept("any_of", AnyOfPlacementCondition.CODEC);
 		consumer.accept("all_of", AllOfPlacementCondition.CODEC);
+		consumer.accept("grid", GridPlacementCondition.CODEC);
 		consumer.accept("height_filter", HeightFilterPlacementCondition.CODEC);
 		consumer.accept("in_biome", InBiomePlacementCondition.CODEC);
 		consumer.accept("multiple_of", MultipleOfPlacementCondition.CODEC);

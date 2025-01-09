@@ -1,6 +1,6 @@
 {
   "type": "lithostitched:set_pool_aliases",
-  "structure": "minecraft:trial_chambers",
+  "structures": "minecraft:trial_chambers",
   "pool_aliases": [
     {
       "type": "lithostitched:internal/random_entries",
