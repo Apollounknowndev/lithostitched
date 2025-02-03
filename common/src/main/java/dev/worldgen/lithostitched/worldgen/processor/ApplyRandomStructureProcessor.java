@@ -10,42 +10,44 @@ import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.util.random.WeightedEntry;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.structure.templatesystem.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ApplyRandomStructureProcessor extends StructureProcessor {
     private static final Codec<SimpleWeightedRandomList<Holder<StructureProcessorList>>> WEIGHTED_LIST_CODEC = SimpleWeightedRandomList.wrappedCodecAllowingEmpty(StructureProcessorType.LIST_CODEC);
     private static final Codec<HolderSet<StructureProcessorList>> SET_CODEC = RegistryCodecs.homogeneousList(Registries.PROCESSOR_LIST, StructureProcessorType.DIRECT_CODEC);
 
     public static final MapCodec<ApplyRandomStructureProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        Codec.withAlternative(WEIGHTED_LIST_CODEC, SET_CODEC, ApplyRandomStructureProcessor::convertToWeightedList).fieldOf("processor_lists").forGetter(ApplyRandomStructureProcessor::processorLists),
+        Codec.withAlternative(SET_CODEC, WEIGHTED_LIST_CODEC, ApplyRandomStructureProcessor::convertToSet).fieldOf("processor_lists").forGetter(ApplyRandomStructureProcessor::processorLists),
         RandomSettings.CODEC.fieldOf("mode").forGetter(ApplyRandomStructureProcessor::randomSettings)
     ).apply(instance, ApplyRandomStructureProcessor::new));
 
-    private static SimpleWeightedRandomList<Holder<StructureProcessorList>> convertToWeightedList(HolderSet<StructureProcessorList> set) {
-        var weightedList = SimpleWeightedRandomList.<Holder<StructureProcessorList>>builder();
-        for (Holder<StructureProcessorList> processor : set) {
-            weightedList.add(processor, 1);
+    private static HolderSet<StructureProcessorList> convertToSet(SimpleWeightedRandomList<Holder<StructureProcessorList>> weightedList) {
+        List<Holder<StructureProcessorList>> holders = new ArrayList<>();
+        for (WeightedEntry.Wrapper<Holder<StructureProcessorList>> processor : weightedList.unwrap()) {
+            for (int i = 0; i < processor.getWeight().asInt(); i++) {
+                holders.add(processor.data());
+            }
         }
-        return weightedList.build();
+        return HolderSet.direct(holders);
     }
 
     public static final StructureProcessorType<ApplyRandomStructureProcessor> TYPE = () -> CODEC;
-    private final SimpleWeightedRandomList<Holder<StructureProcessorList>> processorLists;
+    private final HolderSet<StructureProcessorList> processorLists;
     private final RandomSettings randomSettings;
 
-    public ApplyRandomStructureProcessor(SimpleWeightedRandomList<Holder<StructureProcessorList>> processorLists, RandomSettings randomSettings) {
+    public ApplyRandomStructureProcessor(HolderSet<StructureProcessorList> processorLists, RandomSettings randomSettings) {
         this.processorLists = processorLists;
         this.randomSettings = randomSettings;
     }
 
-    public ApplyRandomStructureProcessor(HolderSet<StructureProcessorList> set, RandomSettings mode) {
-        this(convertToWeightedList(set), mode);
-    }
-
-    public SimpleWeightedRandomList<Holder<StructureProcessorList>> processorLists() {
+    public HolderSet<StructureProcessorList> processorLists() {
         return this.processorLists;
     }
 
@@ -58,7 +60,7 @@ public class ApplyRandomStructureProcessor extends StructureProcessor {
         if (levelReader instanceof WorldGenLevel level) {
             RandomSource random = this.randomSettings.create(level, pos, absolute);
 
-            var processorList = this.processorLists.getRandomValue(random);
+            var processorList = this.processorLists.getRandomElement(random);
             if (processorList.isPresent()) {
                 StructureTemplate.StructureBlockInfo processedBlock = absolute;
 

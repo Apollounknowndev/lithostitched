@@ -1,9 +1,8 @@
 package dev.worldgen.lithostitched.mixin.common;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import dev.worldgen.lithostitched.LithostitchedCommon;
 import dev.worldgen.lithostitched.config.ConfigHandler;
-import dev.worldgen.lithostitched.registry.LithostitchedTags;
-import dev.worldgen.lithostitched.worldgen.processor.UnboundTagStructureProcessor;
+import dev.worldgen.lithostitched.worldgen.processor.UnboundReferenceProcessor;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.structure.structures.ShipwreckPieces;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
@@ -20,7 +19,7 @@ public class ShipwreckPieceMixin {
     )
     private static void addShipwreckProcessor(Rotation rot, CallbackInfoReturnable<StructurePlaceSettings> cir) {
         if (ConfigHandler.getConfig().breaksSeedParity()) {
-            cir.getReturnValue().addProcessor(new UnboundTagStructureProcessor(LithostitchedTags.SHIPWRECK_PALETTES));
+            cir.getReturnValue().addProcessor(new UnboundReferenceProcessor(LithostitchedCommon.id("shipwreck")));
         }
     }
 }
