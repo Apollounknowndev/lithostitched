@@ -2,11 +2,9 @@ package dev.worldgen.lithostitched;
 
 import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.registry.LithostitchedBuiltInRegistries;
-import dev.worldgen.lithostitched.registry.LithostitchedTags;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
-import net.fabricmc.fabric.impl.resource.loader.ModResourcePackUtil;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
 

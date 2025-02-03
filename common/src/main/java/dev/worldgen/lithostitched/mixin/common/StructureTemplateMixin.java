@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.mixin.common;
 
-import dev.worldgen.lithostitched.worldgen.processor.UnboundTagStructureProcessor;
+import dev.worldgen.lithostitched.worldgen.processor.UnboundReferenceProcessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -21,7 +21,7 @@ public class StructureTemplateMixin {
     private void bindUnboundProcessors(ServerLevelAccessor accessor, BlockPos pos1, BlockPos pos2, StructurePlaceSettings settings, RandomSource randomSource, int flags, CallbackInfoReturnable<Boolean> cir) {
         if (!settings.getProcessors().isEmpty()) {
             StructureProcessor lastProcessor = settings.getProcessors().get(settings.getProcessors().size() - 1);
-            if (lastProcessor instanceof UnboundTagStructureProcessor unboundReference) {
+            if (lastProcessor instanceof UnboundReferenceProcessor unboundReference) {
                 settings.popProcessor(unboundReference);
                 settings.addProcessor(unboundReference.bind(accessor.getLevel()));
             }

@@ -5,9 +5,9 @@ import com.google.common.collect.Queues;
 import dev.worldgen.lithostitched.LithostitchedCommon;
 import dev.worldgen.lithostitched.access.StructurePoolAccess;
 import dev.worldgen.lithostitched.config.ConfigHandler;
-import dev.worldgen.lithostitched.worldgen.poolelement.ExclusivePoolElement;
-import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
-import dev.worldgen.lithostitched.worldgen.poolelement.LimitedPoolElement;
+import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
+import dev.worldgen.lithostitched.worldgen.poolelement.legacy.GuaranteedPoolElement;
+import dev.worldgen.lithostitched.worldgen.poolelement.legacy.LimitedPoolElement;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -18,7 +18,6 @@ import net.minecraft.data.worldgen.Pools;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.ai.behavior.ShufflingList;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.block.JigsawBlock;
 import net.minecraft.world.level.block.Rotation;
@@ -143,7 +142,7 @@ public class AlternateJigsawGenerator {
         private final StructureTemplateManager structureTemplateManager;
         private final List<? super PoolElementStructurePiece> piecesToPlace;
         private final RandomSource random;
-        private final Map<ExclusivePoolElement, Integer> elementsToCounts;
+        private final Map<StructurePoolElement, Integer> groupCounts = new HashMap<>();
         final Deque<ShapedPoolStructurePiece> structurePieces = Queues.newArrayDeque();
 
         StructurePoolGenerator(boolean vanilla, Registry<StructureTemplatePool> registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List<? super PoolElementStructurePiece> children, RandomSource random) {
@@ -154,7 +153,6 @@ public class AlternateJigsawGenerator {
             this.structureTemplateManager = structureTemplateManager;
             this.piecesToPlace = children;
             this.random = random;
-            this.elementsToCounts = new HashMap<>();
         }
 
         void generatePiece(PoolElementStructurePiece parentPiece, MutableObject<VoxelShape> voxelShape, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig) {
@@ -224,7 +222,7 @@ public class AlternateJigsawGenerator {
                     pool = pool.value().getFallback();
                 }
 
-                return ((StructurePoolAccess)pool.value()).getLithostitchedTemplates().shuffle(random, depth);
+                return ((StructurePoolAccess)pool.value()).getLithostitchedTemplates().shuffle(random);
             }
 
             if (!firstIteration) return List.of();
@@ -248,7 +246,7 @@ public class AlternateJigsawGenerator {
          * Iterate through list of child candidate pieces to find a valid one to use.
          */
         @SuppressWarnings("deprecation")
-        private boolean findValidChildPiece(List<StructurePoolElement> childCandidates, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig) {
+        private boolean findValidChildPiece(List<StructurePoolElement> elements, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig) {
             BlockPos anchorPos = anchorJigsawInfo.pos();
             BlockPos candidateConnectorPos = anchorPos.relative(JigsawBlock.getFrontFacing(anchorJigsawInfo.state()));
             int parentMinY = parentPiece.getBoundingBox().minY();
@@ -256,37 +254,20 @@ public class AlternateJigsawGenerator {
             StructureTemplatePool.Projection parentProjection = parentPiece.getElement().getProjection();
             boolean parentRigid = parentProjection == StructureTemplatePool.Projection.RIGID;
 
-            for (StructurePoolElement candidateElement : childCandidates.stream().distinct().toList()) {
-                if (candidateElement == EmptyPoolElement.INSTANCE) {
+            for (StructurePoolElement element : elements) {
+                if (element == EmptyPoolElement.INSTANCE) {
                     return true;
                 }
 
-                // Handle Lithostitched-exclusive pool element types
-                StructurePoolElement processedCandidateElement;
-                if (candidateElement instanceof ExclusivePoolElement exclusiveElement) {
-                    if (exclusiveElement instanceof LimitedPoolElement limitedElement) {
-                        if (!this.elementsToCounts.containsKey(limitedElement)) {
-                            this.elementsToCounts.put(limitedElement, limitedElement.limit());
-                        }
-                        if (this.elementsToCounts.get(limitedElement) < 1) {
-                            continue;
-                        }
-                    } else if (exclusiveElement instanceof GuaranteedPoolElement guaranteedElement) {
-                        if (!this.elementsToCounts.containsKey(guaranteedElement)) {
-                            this.elementsToCounts.put(guaranteedElement, 0);
-                        }
-                        if (this.elementsToCounts.get(guaranteedElement) >= guaranteedElement.count()) {
-                            continue;
-                        }
+                if (element instanceof DelegatingPoolElement delegating) {
+                    if (delegating.config().shouldSkip(depth, this.groupCounts.getOrDefault(delegating, 0))) {
+                        continue;
                     }
-                    processedCandidateElement = exclusiveElement.delegate();
-                } else {
-                    processedCandidateElement = candidateElement;
                 }
 
                 for (Rotation rotation : Rotation.getShuffled(this.random)) {
-                    List<StructureTemplate.StructureBlockInfo> connectorJigsaws = processedCandidateElement.getShuffledJigsawBlocks(this.structureTemplateManager, BlockPos.ZERO, rotation, this.random);
-                    BoundingBox connectorBoundingBox = processedCandidateElement.getBoundingBox(this.structureTemplateManager, BlockPos.ZERO, rotation);
+                    List<StructureTemplate.StructureBlockInfo> connectorJigsaws = element.getShuffledJigsawBlocks(this.structureTemplateManager, BlockPos.ZERO, rotation, this.random);
+                    BoundingBox connectorBoundingBox = element.getBoundingBox(this.structureTemplateManager, BlockPos.ZERO, rotation);
 
 
                     // Expansion hack
@@ -312,9 +293,9 @@ public class AlternateJigsawGenerator {
                         if (JigsawBlock.canAttach(anchorJigsawInfo, connectorJigsawInfo)) {
                             BlockPos connectorPos = connectorJigsawInfo.pos();
                             BlockPos blockPos5 = candidateConnectorPos.subtract(connectorPos);
-                            BoundingBox blockBox3 = processedCandidateElement.getBoundingBox(this.structureTemplateManager, blockPos5, rotation);
+                            BoundingBox blockBox3 = element.getBoundingBox(this.structureTemplateManager, blockPos5, rotation);
                             int m = blockBox3.minY();
-                            StructureTemplatePool.Projection connectorProjection = processedCandidateElement.getProjection();
+                            StructureTemplatePool.Projection connectorProjection = element.getProjection();
                             boolean connectorProjectionRigid = connectorProjection == StructureTemplatePool.Projection.RIGID;
                             int connectorY = connectorPos.getY();
                             int o = anchorDistanceToFloor - connectorY + JigsawBlock.getFrontFacing(anchorJigsawInfo.state()).getStepY();
@@ -342,12 +323,8 @@ public class AlternateJigsawGenerator {
 
 
                             if (!Shapes.joinIsNotEmpty(mutableObject2.getValue(), Shapes.create(AABB.of(blockBox4).deflate(0.25)), BooleanOp.ONLY_SECOND)) {
-                                if (candidateElement instanceof ExclusivePoolElement exclusiveElement) {
-                                    if (exclusiveElement instanceof LimitedPoolElement limitedElement) {
-                                        this.elementsToCounts.put(limitedElement, this.elementsToCounts.get(limitedElement) - 1);
-                                    } else if (exclusiveElement instanceof GuaranteedPoolElement guaranteedElement) {
-                                        this.elementsToCounts.put(guaranteedElement, this.elementsToCounts.get(guaranteedElement) + 1);
-                                    }
+                                if (element instanceof DelegatingPoolElement delegating) {
+                                    this.groupCounts.put(delegating, this.groupCounts.getOrDefault(delegating, 0) + 1);
                                 }
 
                                 // At this point the piece is ready to be placed
@@ -357,10 +334,10 @@ public class AlternateJigsawGenerator {
                                 if (connectorProjectionRigid) {
                                     s = r - o;
                                 } else {
-                                    s = processedCandidateElement.getGroundLevelDelta();
+                                    s = element.getGroundLevelDelta();
                                 }
 
-                                PoolElementStructurePiece poolStructurePiece = new PoolElementStructurePiece(this.structureTemplateManager, processedCandidateElement, blockPos6, s, rotation, blockBox4);
+                                PoolElementStructurePiece poolStructurePiece = new PoolElementStructurePiece(this.structureTemplateManager, element, blockPos6, s, rotation, blockBox4);
 
                                 int t;
                                 if (parentRigid) {

@@ -1,13 +1,14 @@
 package dev.worldgen.lithostitched.worldgen.processor;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.LithostitchedCommon;
 import dev.worldgen.lithostitched.worldgen.processor.enums.RandomMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.LevelReader;
@@ -18,25 +19,25 @@ import org.jetbrains.annotations.NotNull;
  * Hack to allow tag references in structure processors without initially having registry access.
  * Meant for non-jigsaw structure template based structures like shipwrecks.
  */
-public class UnboundTagStructureProcessor extends StructureProcessor {
-    public static final Codec<UnboundTagStructureProcessor> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-        TagKey.codec(Registries.PROCESSOR_LIST).fieldOf("tag").forGetter(UnboundTagStructureProcessor::tag)
-    ).apply(instance, UnboundTagStructureProcessor::new));
+public class UnboundReferenceProcessor extends StructureProcessor {
+    public static final Codec<UnboundReferenceProcessor> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        ResourceLocation.CODEC.fieldOf("name").forGetter(UnboundReferenceProcessor::name)
+    ).apply(instance, UnboundReferenceProcessor::new));
 
-    public static final StructureProcessorType<UnboundTagStructureProcessor> TYPE = () -> CODEC;
-    private final TagKey<StructureProcessorList> tag;
+    public static final StructureProcessorType<UnboundReferenceProcessor> TYPE = () -> CODEC;
+    private final ResourceKey<StructureProcessorList> key;
 
-    public UnboundTagStructureProcessor(TagKey<StructureProcessorList> tag) {
-        this.tag = tag;
+    public UnboundReferenceProcessor(ResourceLocation name) {
+        this.key = ResourceKey.create(Registries.PROCESSOR_LIST, name);
     }
 
-    public TagKey<StructureProcessorList> tag() {
-        return this.tag;
+    public ResourceLocation name() {
+        return this.key.location();
     }
 
-    public ApplyRandomStructureProcessor bind(ServerLevel level) {
-        var set = level.registryAccess().registryOrThrow(Registries.PROCESSOR_LIST).getTag(tag);
-        return new ApplyRandomStructureProcessor(set.isPresent() ? set.get() : HolderSet.direct(), new RandomSettings(RandomMode.PER_PIECE, LithostitchedCommon.id("rebound_reference")));
+    public ReferenceStructureProcessor bind(ServerLevel level) {
+        var set = level.registryAccess().registryOrThrow(Registries.PROCESSOR_LIST).getHolder(this.key);
+        return new ReferenceStructureProcessor(set.map(HolderSet::direct).orElseGet(HolderSet::direct));
     }
 
     @Override

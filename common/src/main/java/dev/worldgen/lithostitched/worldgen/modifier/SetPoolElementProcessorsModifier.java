@@ -2,18 +2,16 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.mixin.common.SinglePoolElementAccessor;
 import dev.worldgen.lithostitched.mixin.common.StructureTemplatePoolAccessor;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
-import dev.worldgen.lithostitched.worldgen.poolelement.ExclusivePoolElement;
+import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -63,7 +61,7 @@ public record SetPoolElementProcessorsModifier(ModifierPredicate predicate, Hold
             if (locations.isEmpty() || (template.isPresent() && locations.get().contains(template.get()))) {
                 addProcessor(accessor);
             }
-        } else if (element instanceof ExclusivePoolElement exclusive) {
+        } else if (element instanceof DelegatingPoolElement exclusive) {
             applyModifier(exclusive.delegate());
         }
     }
