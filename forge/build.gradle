@@ -118,6 +118,8 @@ publishMods {
     modLoaders.add("forge")
     displayName = "%s ~ Forge 1.20".formatted(project.version)
 
+    dryRun = false
+
     modrinth {
         accessToken = providers.environmentVariable("TOKEN_MR")
         projectId = "XaDC71GB"

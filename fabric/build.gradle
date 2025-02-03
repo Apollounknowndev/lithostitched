@@ -78,6 +78,8 @@ publishMods {
     modLoaders.add("fabric")
     displayName = "%s ~ Fabric 1.20".formatted(project.version)
 
+    dryRun = false
+
     modrinth {
         accessToken = providers.environmentVariable("TOKEN_MR")
         projectId = "XaDC71GB"
