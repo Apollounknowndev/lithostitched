@@ -6,7 +6,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.mixin.common.SinglePoolElementAccessor;
 import dev.worldgen.lithostitched.mixin.common.StructureTemplatePoolAccessor;
-import dev.worldgen.lithostitched.worldgen.poolelement.ExclusivePoolElement;
+import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
@@ -56,8 +56,8 @@ public record SetPoolElementProcessorsModifier(HolderSet<StructureTemplatePool> 
             if (locations.isEmpty() || (template.isPresent() && locations.get().contains(template.get()))) {
                 addProcessor(accessor);
             }
-        } else if (element instanceof ExclusivePoolElement exclusive) {
-            applyModifier(exclusive.delegate());
+        } else if (element instanceof DelegatingPoolElement delegating) {
+            applyModifier(delegating.delegate());
         }
     }
 

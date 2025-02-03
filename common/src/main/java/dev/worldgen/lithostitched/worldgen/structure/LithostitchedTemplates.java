@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.worldgen.structure;
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import dev.worldgen.lithostitched.worldgen.poolelement.ExclusivePoolElement;
+import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import org.jetbrains.annotations.NotNull;
@@ -24,56 +24,52 @@ public class LithostitchedTemplates implements Iterable<StructurePoolElement> {
         return this;
     }
 
-    public List<StructurePoolElement> shuffle(RandomSource random, int depth) {
+    public List<StructurePoolElement> shuffle(RandomSource random) {
         List<WeightedEntry> shuffled = Lists.newArrayList(this.entries.stream().map(WeightedEntry::copy).toList());
-        shuffled.forEach(entry -> entry.setRandom(random.nextFloat(), depth));
+        shuffled.forEach(entry -> entry.setRandom(random.nextFloat()));
         shuffled.sort(Comparator.comparingDouble(WeightedEntry::getRandWeight));
 
-        return shuffled.stream().map(WeightedEntry::getData).toList();
+        return shuffled.stream().map(WeightedEntry::getElement).toList();
     }
 
     public Stream<StructurePoolElement> stream() {
-        return this.entries.stream().map(WeightedEntry::getData);
+        return this.entries.stream().map(WeightedEntry::getElement);
     }
 
     @Override
     @NotNull
     public Iterator<StructurePoolElement> iterator() {
-        return Iterators.transform(this.entries.iterator(), WeightedEntry::getData);
+        return Iterators.transform(this.entries.iterator(), WeightedEntry::getElement);
     }
 
     public static class WeightedEntry {
-        final StructurePoolElement data;
+        final StructurePoolElement element;
         final int index;
         final int weight;
         private double randWeight;
-        private final boolean guaranteed;
+        private final boolean prioritized;
 
         WeightedEntry(StructurePoolElement element, int index, int weight) {
-            this.data = element;
+            this.element = element;
             this.index = index;
             this.weight = weight;
-            this.guaranteed = element instanceof ExclusivePoolElement;
+            this.prioritized = element instanceof DelegatingPoolElement delegating && delegating.prioritized();
         }
 
         private WeightedEntry copy() {
-            return new WeightedEntry(this.data, this.index, this.weight);
+            return new WeightedEntry(this.element, this.index, this.weight);
         }
 
         private double getRandWeight() {
             return this.randWeight;
         }
 
-        void setRandom(float value, int depth) {
-            this.randWeight = -Math.pow(value, (1.0F / (float) this.weight)) + getOffset(depth);
+        void setRandom(float value) {
+            this.randWeight = -Math.pow(value, (1.0F / (float) this.weight)) + (this.prioritized ? -2 : 0);
         }
 
-        private double getOffset(int depth) {
-            return this.guaranteed && depth >= ((ExclusivePoolElement)data).minDepth() ? -2 : 0;
-        }
-
-        public StructurePoolElement getData() {
-            return this.data;
+        public StructurePoolElement getElement() {
+            return this.element;
         }
 
         public int getIndex() {
@@ -82,7 +78,7 @@ public class LithostitchedTemplates implements Iterable<StructurePoolElement> {
 
         @Override
         public String toString() {
-            return this.weight + ":" + this.data;
+            return this.weight + ":" + this.element;
         }
     }
 }

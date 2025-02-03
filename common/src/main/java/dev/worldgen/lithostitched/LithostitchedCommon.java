@@ -17,8 +17,9 @@ import dev.worldgen.lithostitched.worldgen.placementmodifier.ConditionPlacement;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.NoiseSlopePlacement;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.OffsetPlacement;
 import dev.worldgen.lithostitched.worldgen.poolalias.RandomEntries;
-import dev.worldgen.lithostitched.worldgen.poolelement.GuaranteedPoolElement;
-import dev.worldgen.lithostitched.worldgen.poolelement.LimitedPoolElement;
+import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
+import dev.worldgen.lithostitched.worldgen.poolelement.legacy.GuaranteedPoolElement;
+import dev.worldgen.lithostitched.worldgen.poolelement.legacy.LimitedPoolElement;
 import dev.worldgen.lithostitched.worldgen.processor.*;
 import dev.worldgen.lithostitched.worldgen.processor.condition.*;
 import dev.worldgen.lithostitched.worldgen.stateprovider.RandomBlockProvider;
@@ -107,6 +108,7 @@ public final class LithostitchedCommon {
 	}
 
 	public static void registerCommonPoolElementTypes(BiConsumer<String, StructurePoolElementType<?>> consumer) {
+		consumer.accept("delegating", DelegatingPoolElement.TYPE);
 		consumer.accept("guaranteed", GuaranteedPoolElement.TYPE);
 		consumer.accept("limited", LimitedPoolElement.TYPE);
 	}
@@ -140,7 +142,7 @@ public final class LithostitchedCommon {
 	}
 
 	public static void registerCommonStructureProcessors(BiConsumer<String, StructureProcessorType<?>> consumer) {
-		consumer.accept("internal/unbound_tag", UnboundTagStructureProcessor.TYPE);
+		consumer.accept("internal/unbound_reference", UnboundReferenceProcessor.TYPE);
 		consumer.accept("apply_random", ApplyRandomStructureProcessor.TYPE);
 		consumer.accept("block_swap", BlockSwapStructureProcessor.TYPE);
 		consumer.accept("reference", ReferenceStructureProcessor.TYPE);
