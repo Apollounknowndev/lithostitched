@@ -2,11 +2,9 @@ package dev.worldgen.lithostitched.registry;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.worldgen.biome.BiomeEffects;
+import dev.worldgen.lithostitched.worldgen.modifier.util.BiomeEffects;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.sounds.Music;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.biome.*;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.BiomeSpecialEffectsBuilder;
@@ -14,6 +12,8 @@ import net.minecraftforge.common.world.ClimateSettingsBuilder;
 import net.minecraftforge.common.world.ModifiableBiomeInfo;
 
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class LithostitchedForgeBiomeModifiers {
     public record ReplaceClimateBiomeModifier(HolderSet<Biome> biomes, Biome.ClimateSettings climateSettings) implements BiomeModifier {
@@ -34,61 +34,41 @@ public class LithostitchedForgeBiomeModifiers {
         }
 
         @Override
-        public Codec<? extends BiomeModifier> codec()
-        {
+        public Codec<? extends BiomeModifier> codec() {
             return CODEC;
         }
     }
-    public record ReplaceEffectsBiomeModifier(HolderSet<Biome> biomes, BiomeEffects specialEffects) implements BiomeModifier {
+    public record ReplaceEffectsBiomeModifier(HolderSet<Biome> biomes, BiomeEffects effects) implements BiomeModifier {
         public static final Codec<ReplaceEffectsBiomeModifier> CODEC = RecordCodecBuilder.create(builder -> builder.group(
             Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceEffectsBiomeModifier::biomes),
-            BiomeEffects.CODEC.fieldOf("effects").forGetter(ReplaceEffectsBiomeModifier::specialEffects)
+            BiomeEffects.CODEC.fieldOf("effects").forGetter(ReplaceEffectsBiomeModifier::effects)
         ).apply(builder, ReplaceEffectsBiomeModifier::new));
 
         @Override
-        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder info) {
             if (phase == Phase.MODIFY && this.biomes().contains(biome)) {
-                BiomeSpecialEffectsBuilder effects = builder.getSpecialEffects();
-                if (specialEffects.getSkyColor().isPresent()) {
-                    effects.skyColor(specialEffects.getSkyColor().get());
-                }
-                if (specialEffects.getFogColor().isPresent()) {
-                    effects.skyColor(specialEffects.getFogColor().get());
-                }
-                if (specialEffects.getWaterColor().isPresent()) {
-                    effects.skyColor(specialEffects.getWaterColor().get());
-                }
-                if (specialEffects.getWaterFogColor().isPresent()) {
-                    effects.skyColor(specialEffects.getWaterFogColor().get());
-                }
-                if (specialEffects.getGrassColorOverride().isPresent()) {
-                    effects.grassColorOverride(specialEffects.getGrassColorOverride().get());
-                }
-                if (specialEffects.getFoliageColorOverride().isPresent()) {
-                    effects.grassColorOverride(specialEffects.getFoliageColorOverride().get());
-                }
-                effects.grassColorModifier(specialEffects.getGrassColorModifier());
-                if (specialEffects.getAmbientLoopSoundEvent().isPresent()) {
-                    effects.ambientLoopSound(specialEffects.getAmbientLoopSoundEvent().get());
-                }
-                if (specialEffects.getAmbientMoodSettings().isPresent()) {
-                    effects.ambientMoodSound(specialEffects.getAmbientMoodSettings().get());
-                }
-                if (specialEffects.getAmbientAdditionsSettings().isPresent()) {
-                    effects.ambientAdditionsSound(specialEffects.getAmbientAdditionsSettings().get());
-                }
-                if (specialEffects.getBackgroundMusic().isPresent()) {
-                    effects.backgroundMusic(specialEffects.getBackgroundMusic().get());
-                }
-                if (specialEffects.getAmbientParticleSettings().isPresent()) {
-                    effects.ambientParticle(specialEffects.getAmbientParticleSettings().get());
-                }
+                BiomeSpecialEffectsBuilder builder = info.getSpecialEffects();
+                tryApply(BiomeEffects::fogColor, builder::fogColor);
+                tryApply(BiomeEffects::waterColor, builder::waterColor);
+                tryApply(BiomeEffects::waterFogColor, builder::waterFogColor);
+                tryApply(BiomeEffects::skyColor, builder::skyColor);
+                tryApply(BiomeEffects::foliageColor, builder::foliageColorOverride);
+                tryApply(BiomeEffects::grassColor, builder::grassColorOverride);
+                tryApply(BiomeEffects::grassColorModifier, builder::grassColorModifier);
+                tryApply(BiomeEffects::ambientParticle, builder::ambientParticle);
+                tryApply(BiomeEffects::ambientSound, builder::ambientLoopSound);
+                tryApply(BiomeEffects::moodSound, builder::ambientMoodSound);
+                tryApply(BiomeEffects::additionsSound, builder::ambientAdditionsSound);
+                tryApply(BiomeEffects::music, builder::backgroundMusic);
             }
         }
 
+        private <T> void tryApply(Function<BiomeEffects, Optional<T>> getter, Consumer<T> applier) {
+            getter.apply(this.effects).ifPresent(applier);
+        }
+
         @Override
-        public Codec<? extends BiomeModifier> codec()
-        {
+        public Codec<? extends BiomeModifier> codec() {
             return CODEC;
         }
     }

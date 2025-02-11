@@ -117,6 +117,7 @@ publishMods {
     type = STABLE
     modLoaders.add("forge")
     displayName = "%s ~ Forge 1.20".formatted(project.version)
+    version = "%s-forge-1.20".formatted(project.version)
 
     dryRun = false
 

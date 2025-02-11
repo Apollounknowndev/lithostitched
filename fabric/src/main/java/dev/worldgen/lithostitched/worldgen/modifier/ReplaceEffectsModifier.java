@@ -4,9 +4,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.ModifierPredicate;
+import dev.worldgen.lithostitched.worldgen.modifier.util.BiomeEffects;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.biome.AmbientAdditionsSettings;
 import net.minecraft.world.level.biome.AmbientMoodSettings;
@@ -17,17 +17,20 @@ import net.minecraft.world.level.biome.BiomeSpecialEffects.Builder;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * A {@link Modifier} implementation that replaces the biome special effects of {@link Biome} entries.
  *
  * @author Apollo
  */
-public record ReplaceEffectsModifier(ModifierPredicate predicate, HolderSet<Biome> biomes, ModdedBiomeEffects effects) implements Modifier {
+public record ReplaceEffectsModifier(ModifierPredicate predicate, HolderSet<Biome> biomes, BiomeEffects specialEffects) implements Modifier {
 
     public static final Codec<ReplaceEffectsModifier> CODEC = RecordCodecBuilder.create(instance -> Modifier.addModifierFields(instance).and(instance.group(
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceEffectsModifier::biomes),
-        ModdedBiomeEffects.CODEC.fieldOf("effects").forGetter(ReplaceEffectsModifier::effects)
+        BiomeEffects.CODEC.fieldOf("effects").forGetter(ReplaceEffectsModifier::specialEffects)
     )).apply(instance, ReplaceEffectsModifier::new));
 
     @Override
@@ -41,41 +44,37 @@ public record ReplaceEffectsModifier(ModifierPredicate predicate, HolderSet<Biom
     }
 
     public void applyModifier(Biome biome) {
-        //TODO: Make this code not terrible
-        BiomeSpecialEffects originalEffects = ((BiomeAccessor)(Object)biome).getSpecialEffects();
-        Builder mergedEffectsBuilder = new Builder()
-            .skyColor(this.effects().skyColor().orElse(originalEffects.getSkyColor()))
-            .fogColor(this.effects().fogColor().orElse(originalEffects.getFogColor()))
-            .waterColor(this.effects().waterColor().orElse(originalEffects.getWaterColor()))
-            .waterFogColor(this.effects().waterFogColor().orElse(originalEffects.getWaterFogColor()))
-            .grassColorModifier(this.effects().grassColorModifier().orElse(originalEffects.getGrassColorModifier()))
-            .backgroundMusic(this.effects().backgroundMusic().orElse(originalEffects.getBackgroundMusic().orElse(null)));
-        Integer grassColorOverride = this.effects.grassColorOverride().orElse(originalEffects.getGrassColorOverride().orElse(null));
-        if (grassColorOverride != null) {
-            mergedEffectsBuilder = mergedEffectsBuilder.grassColorOverride(grassColorOverride);
-        }
-        Integer foliageColorOverride = this.effects.foliageColorOverride().orElse(originalEffects.getFoliageColorOverride().orElse(null));
-        if (foliageColorOverride != null) {
-            mergedEffectsBuilder = mergedEffectsBuilder.foliageColorOverride(foliageColorOverride);
-        }
-        AmbientParticleSettings ambientParticleSettings = this.effects.ambientParticleSettings().orElse(originalEffects.getAmbientParticleSettings().orElse(null));
-        if (ambientParticleSettings != null) {
-            mergedEffectsBuilder = mergedEffectsBuilder.ambientParticle(ambientParticleSettings);
-        }
-        Holder<SoundEvent> ambientLoopSound = this.effects.ambientLoopSoundEvent().orElse(originalEffects.getAmbientLoopSoundEvent().orElse(null));
-        if (ambientLoopSound != null) {
-            mergedEffectsBuilder = mergedEffectsBuilder.ambientLoopSound(ambientLoopSound);
-        }
-        AmbientMoodSettings ambientMoodSettings = this.effects.ambientMoodSettings().orElse(originalEffects.getAmbientMoodSettings().orElse(null));
-        if (ambientMoodSettings != null) {
-            mergedEffectsBuilder = mergedEffectsBuilder.ambientMoodSound(ambientMoodSettings);
-        }
-        AmbientAdditionsSettings ambientAdditionsSettings = this.effects.ambientAdditionsSettings().orElse(originalEffects.getAmbientAdditionsSettings().orElse(null));
-        if (ambientAdditionsSettings != null) {
-            mergedEffectsBuilder = mergedEffectsBuilder.ambientAdditionsSound(ambientAdditionsSettings);
-        }
+        BiomeAccessor accessor = (BiomeAccessor) (Object) biome;
+        BiomeSpecialEffects effects = accessor.getSpecialEffects();
+        Builder builder = new Builder();
 
-        ((BiomeAccessor) (Object) biome).setSpecialEffects(mergedEffectsBuilder.build());
+        tryApplyRequired(BiomeEffects::fogColor, effects::getFogColor, builder::fogColor);
+        tryApplyRequired(BiomeEffects::waterColor, effects::getWaterColor, builder::waterColor);
+        tryApplyRequired(BiomeEffects::waterFogColor, effects::getWaterFogColor, builder::waterFogColor);
+        tryApplyRequired(BiomeEffects::skyColor, effects::getSkyColor, builder::skyColor);
+
+        tryApplyOptional(BiomeEffects::foliageColor, effects::getFoliageColorOverride, builder::foliageColorOverride);
+        tryApplyOptional(BiomeEffects::grassColor, effects::getGrassColorOverride, builder::grassColorOverride);
+        tryApplyRequired(BiomeEffects::grassColorModifier, effects::getGrassColorModifier, builder::grassColorModifier);
+
+        tryApplyOptional(BiomeEffects::ambientParticle, effects::getAmbientParticleSettings, builder::ambientParticle);
+        tryApplyOptional(BiomeEffects::ambientSound, effects::getAmbientLoopSoundEvent, builder::ambientLoopSound);
+        tryApplyOptional(BiomeEffects::moodSound, effects::getAmbientMoodSettings, builder::ambientMoodSound);
+        tryApplyOptional(BiomeEffects::additionsSound, effects::getAmbientAdditionsSettings, builder::ambientAdditionsSound);
+        tryApplyOptional(BiomeEffects::music, effects::getBackgroundMusic, builder::backgroundMusic);
+
+        accessor.setSpecialEffects(builder.build());
+    }
+
+    private <T> void tryApplyRequired(Function<BiomeEffects, Optional<T>> getter, Supplier<T> fallback, Consumer<T> applier) {
+        applier.accept(getter.apply(this.specialEffects).orElse(fallback.get()));
+    }
+
+    private <T> void tryApplyOptional(Function<BiomeEffects, Optional<T>> getter, Supplier<Optional<T>> fallback, Consumer<T> applier) {
+        T value = getter.apply(this.specialEffects).orElse(fallback.get().orElse(null));
+        if (value != null) {
+            applier.accept(value);
+        }
     }
 
     @Override
@@ -90,28 +89,5 @@ public record ReplaceEffectsModifier(ModifierPredicate predicate, HolderSet<Biom
     public Codec<? extends Modifier> codec() {
         return CODEC;
     }
-
-    /**
-     * Alternative to {@link BiomeSpecialEffects} which has all fields optional.
-     *
-     * @author Apollo
-     */
-    private record ModdedBiomeEffects(Optional<Integer> skyColor, Optional<Integer> fogColor, Optional<Integer> waterColor, Optional<Integer> waterFogColor, Optional<Integer> foliageColorOverride, Optional<Integer> grassColorOverride, Optional<BiomeSpecialEffects.GrassColorModifier> grassColorModifier, Optional<AmbientParticleSettings> ambientParticleSettings, Optional<Holder<SoundEvent>> ambientLoopSoundEvent, Optional<AmbientMoodSettings> ambientMoodSettings, Optional<AmbientAdditionsSettings> ambientAdditionsSettings, Optional<Music> backgroundMusic) {
-        public static final Codec<ModdedBiomeEffects> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
-            Codec.INT.optionalFieldOf("sky_color").forGetter(ModdedBiomeEffects::skyColor),
-            Codec.INT.optionalFieldOf("fog_color").forGetter(ModdedBiomeEffects::fogColor),
-            Codec.INT.optionalFieldOf("water_color").forGetter(ModdedBiomeEffects::waterColor),
-            Codec.INT.optionalFieldOf("water_fog_color").forGetter(ModdedBiomeEffects::waterFogColor),
-            Codec.INT.optionalFieldOf("foliage_color").forGetter(ModdedBiomeEffects::foliageColorOverride),
-            Codec.INT.optionalFieldOf("grass_color").forGetter(ModdedBiomeEffects::grassColorOverride),
-            BiomeSpecialEffects.GrassColorModifier.CODEC.optionalFieldOf("grass_color_modifier").forGetter(ModdedBiomeEffects::grassColorModifier),
-            AmbientParticleSettings.CODEC.optionalFieldOf("particle").forGetter(ModdedBiomeEffects::ambientParticleSettings),
-            SoundEvent.CODEC.optionalFieldOf("ambient_sound").forGetter(ModdedBiomeEffects::ambientLoopSoundEvent),
-            AmbientMoodSettings.CODEC.optionalFieldOf("mood_sound").forGetter(ModdedBiomeEffects::ambientMoodSettings),
-            AmbientAdditionsSettings.CODEC.optionalFieldOf("additions_sound").forGetter(ModdedBiomeEffects::ambientAdditionsSettings),
-            Music.CODEC.optionalFieldOf("music").forGetter(ModdedBiomeEffects::backgroundMusic)
-        ).apply(instance, ModdedBiomeEffects::new));
-    }
-
 }
 
