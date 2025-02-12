@@ -1,0 +1,15 @@
+{
+  "type": "lithostitched:add_template_pool_elements",
+  "template_pools": "minecraft:village/plains/houses",
+  "elements": [
+    {
+      "weight": 2,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "example:village_plains/azalea_house",
+        "processors": "minecraft:mossify_10_percent"
+      }
+    }
+  ]
+}
