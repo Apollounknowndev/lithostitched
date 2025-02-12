@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.registry.LithostitchedNeoforgeBiomeModifiers;
-import dev.worldgen.lithostitched.worldgen.biome.BiomeEffects;
+import dev.worldgen.lithostitched.worldgen.modifier.util.BiomeEffects;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.biome.Biome;
 
@@ -17,8 +17,10 @@ public class ReplaceEffectsModifier extends AbstractBiomeModifier {
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceEffectsModifier::biomes),
         BiomeEffects.CODEC.fieldOf("effects").forGetter(ReplaceEffectsModifier::effects)
     ).apply(instance, ReplaceEffectsModifier::new));
+
     private final HolderSet<Biome> biomes;
     private final BiomeEffects effects;
+
     public ReplaceEffectsModifier(HolderSet<Biome> biomes, BiomeEffects effects) {
         super(new LithostitchedNeoforgeBiomeModifiers.ReplaceEffectsBiomeModifier(biomes, effects));
         this.biomes = biomes;

@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.registry;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.worldgen.biome.BiomeEffects;
+import dev.worldgen.lithostitched.worldgen.modifier.util.BiomeEffects;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.biome.Biome;
@@ -10,6 +10,10 @@ import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeSpecialEffectsBuilder;
 import net.neoforged.neoforge.common.world.ClimateSettingsBuilder;
 import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
+
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class LithostitchedNeoforgeBiomeModifiers {
     public record ReplaceClimateBiomeModifier(HolderSet<Biome> biomes, Biome.ClimateSettings climateSettings) implements BiomeModifier {
@@ -42,44 +46,28 @@ public class LithostitchedNeoforgeBiomeModifiers {
         ).apply(builder, ReplaceEffectsBiomeModifier::new));
 
         @Override
-        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder info) {
             if (phase == Phase.MODIFY && this.biomes().contains(biome)) {
-                BiomeSpecialEffectsBuilder effects = builder.getSpecialEffects();
-                if (specialEffects.skyColor().isPresent()) {
-                    effects.skyColor(specialEffects.skyColor().get());
-                }
-                if (specialEffects.fogColor().isPresent()) {
-                    effects.skyColor(specialEffects.fogColor().get());
-                }
-                if (specialEffects.waterColor().isPresent()) {
-                    effects.skyColor(specialEffects.waterColor().get());
-                }
-                if (specialEffects.waterFogColor().isPresent()) {
-                    effects.skyColor(specialEffects.waterFogColor().get());
-                }
-                if (specialEffects.grassColorOverride().isPresent()) {
-                    effects.grassColorOverride(specialEffects.grassColorOverride().get());
-                }
-                if (specialEffects.foliageColorOverride().isPresent()) {
-                    effects.grassColorOverride(specialEffects.foliageColorOverride().get());
-                }
-                effects.grassColorModifier(specialEffects.grassColorModifier());
-                if (specialEffects.ambientLoopSoundEvent().isPresent()) {
-                    effects.ambientLoopSound(specialEffects.ambientLoopSoundEvent().get());
-                }
-                if (specialEffects.ambientMoodSettings().isPresent()) {
-                    effects.ambientMoodSound(specialEffects.ambientMoodSettings().get());
-                }
-                if (specialEffects.ambientAdditionsSettings().isPresent()) {
-                    effects.ambientAdditionsSound(specialEffects.ambientAdditionsSettings().get());
-                }
-                if (specialEffects.backgroundMusic().isPresent()) {
-                    effects.backgroundMusic(specialEffects.backgroundMusic().get());
-                }
-                if (specialEffects.ambientParticleSettings().isPresent()) {
-                    effects.ambientParticle(specialEffects.ambientParticleSettings().get());
-                }
+                BiomeSpecialEffectsBuilder builder = info.getSpecialEffects();
+                tryApply(BiomeEffects::fogColor, builder::fogColor);
+                tryApply(BiomeEffects::waterColor, builder::waterColor);
+                tryApply(BiomeEffects::waterFogColor, builder::waterFogColor);
+                tryApply(BiomeEffects::skyColor, builder::skyColor);
+
+                tryApply(BiomeEffects::foliageColor, builder::foliageColorOverride);
+                tryApply(BiomeEffects::grassColor, builder::grassColorOverride);
+                tryApply(BiomeEffects::grassColorModifier, builder::grassColorModifier);
+
+                tryApply(BiomeEffects::ambientParticle, builder::ambientParticle);
+                tryApply(BiomeEffects::ambientSound, builder::ambientLoopSound);
+                tryApply(BiomeEffects::moodSound, builder::ambientMoodSound);
+                tryApply(BiomeEffects::additionsSound, builder::ambientAdditionsSound);
+                tryApply(BiomeEffects::music, builder::backgroundMusic);
             }
+        }
+
+        private <T> void tryApply(Function<BiomeEffects, Optional<T>> getter, Consumer<T> applier) {
+            getter.apply(this.specialEffects).ifPresent(applier);
         }
 
         @Override
