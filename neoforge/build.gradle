@@ -80,6 +80,7 @@ publishMods {
     type = STABLE
     modLoaders.add("neoforge")
     displayName = "%s ~ Neoforge 1.21.4".formatted(project.version)
+    version = "%s-neoforge-1.21.4".formatted(project.version)
 
     dryRun = false
 

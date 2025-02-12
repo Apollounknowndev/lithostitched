@@ -77,6 +77,7 @@ publishMods {
     type = STABLE
     modLoaders.add("fabric")
     displayName = "%s ~ Fabric 1.21.4".formatted(project.version)
+    version = "%s-fabric-1.21.4".formatted(project.version)
 
     dryRun = false
 

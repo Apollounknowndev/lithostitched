@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.registry.LithostitchedNeoforgeBiomeModifiers;
-import dev.worldgen.lithostitched.worldgen.biome.BiomeEffects;
+import dev.worldgen.lithostitched.worldgen.modifier.util.BiomeEffects;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.biome.Biome;
 
