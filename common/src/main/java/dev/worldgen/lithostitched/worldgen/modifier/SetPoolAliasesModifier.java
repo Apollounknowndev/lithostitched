@@ -6,6 +6,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.mixin.common.JigsawStructureAccessor;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
+import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
@@ -46,6 +47,10 @@ public record SetPoolAliasesModifier(HolderSet<Structure> structures, List<PoolA
     }
 
     private void applyModifier(Structure structure) {
+        if (structure instanceof DelegatingStructure delegating) {
+            structure = delegating.delegate();
+        }
+
         if (structure instanceof AlternateJigsawStructure alternateJigsaw) {
             alternateJigsaw.setPoolAliases(this.poolAliases, this.append);
         } else {
