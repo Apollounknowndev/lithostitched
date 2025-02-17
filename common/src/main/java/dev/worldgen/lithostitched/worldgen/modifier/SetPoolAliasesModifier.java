@@ -6,6 +6,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.mixin.common.JigsawStructureAccessor;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
+import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
