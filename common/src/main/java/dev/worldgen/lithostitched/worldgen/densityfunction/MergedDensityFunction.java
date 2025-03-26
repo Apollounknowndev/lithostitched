@@ -3,7 +3,6 @@ package dev.worldgen.lithostitched.worldgen.densityfunction;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.DensityFunctions;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Holds two density functions, one of which runs.
@@ -47,7 +46,7 @@ public record MergedDensityFunction(DensityFunction original, DensityFunction wr
     }
 
     @Override
-    public @NotNull KeyDispatchDataCodec<? extends DensityFunction> codec() {
+    public KeyDispatchDataCodec<? extends DensityFunction> codec() {
         return CODEC;
     }
 }

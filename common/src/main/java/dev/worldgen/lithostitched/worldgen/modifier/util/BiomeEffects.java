@@ -6,7 +6,7 @@ import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.biome.AmbientAdditionsSettings;
 import net.minecraft.world.level.biome.AmbientMoodSettings;
 import net.minecraft.world.level.biome.AmbientParticleSettings;
@@ -14,13 +14,19 @@ import net.minecraft.world.level.biome.BiomeSpecialEffects;
 
 import java.util.Optional;
 
-public record BiomeEffects(Optional<Integer> fogColor, Optional<Integer> waterColor, Optional<Integer> waterFogColor, Optional<Integer> skyColor, Optional<Integer> foliageColor, Optional<Integer> grassColor, Optional<BiomeSpecialEffects.GrassColorModifier> grassColorModifier, Optional<AmbientParticleSettings> ambientParticle, Optional<Holder<SoundEvent>> ambientSound, Optional<AmbientMoodSettings> moodSound, Optional<AmbientAdditionsSettings> additionsSound, Optional<SimpleWeightedRandomList<Music>> music, Optional<Float> musicVolume) {
+public record BiomeEffects(
+    Optional<Integer> fogColor, Optional<Integer> waterColor, Optional<Integer> waterFogColor, Optional<Integer> skyColor,
+    Optional<Integer> foliageColor, Optional<Integer> dryFoliageColor, Optional<Integer> grassColor, Optional<BiomeSpecialEffects.GrassColorModifier> grassColorModifier,
+    Optional<AmbientParticleSettings> ambientParticle, Optional<Holder<SoundEvent>> ambientSound, Optional<AmbientMoodSettings> moodSound,
+    Optional<AmbientAdditionsSettings> additionsSound, Optional<WeightedList<Music>> music, Optional<Float> musicVolume
+) {
     public static final Codec<BiomeEffects> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.INT.optionalFieldOf("fog_color").forGetter(BiomeEffects::fogColor),
         Codec.INT.optionalFieldOf("water_color").forGetter(BiomeEffects::waterColor),
         Codec.INT.optionalFieldOf("water_fog_color").forGetter(BiomeEffects::waterFogColor),
         Codec.INT.optionalFieldOf("sky_color").forGetter(BiomeEffects::skyColor),
         Codec.INT.optionalFieldOf("foliage_color").forGetter(BiomeEffects::foliageColor),
+            Codec.INT.optionalFieldOf("dry_foliage_color").forGetter(BiomeEffects::dryFoliageColor),
         Codec.INT.optionalFieldOf("grass_color").forGetter(BiomeEffects::grassColor),
         BiomeSpecialEffects.GrassColorModifier.CODEC.optionalFieldOf("grass_color_modifier").forGetter(BiomeEffects::grassColorModifier),
         AmbientParticleSettings.CODEC.optionalFieldOf("particle").forGetter(BiomeEffects::ambientParticle),

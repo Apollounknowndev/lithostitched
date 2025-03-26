@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockentity.RuleBlockEntityModifier;
 import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockentity.RuleBlockEntityModifierType;
 import org.jetbrains.annotations.NotNull;
@@ -12,9 +12,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public record ApplyRandom(SimpleWeightedRandomList<RuleBlockEntityModifier> modifiers) implements RuleBlockEntityModifier {
+public record ApplyRandom(WeightedList<RuleBlockEntityModifier> modifiers) implements RuleBlockEntityModifier {
     public static final MapCodec<ApplyRandom> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        SimpleWeightedRandomList.wrappedCodec(RuleBlockEntityModifier.CODEC).fieldOf("modifiers").forGetter(ApplyRandom::modifiers)
+        WeightedList.codec(RuleBlockEntityModifier.CODEC).fieldOf("modifiers").forGetter(ApplyRandom::modifiers)
     ).apply(instance, ApplyRandom::new));
 
     public static final RuleBlockEntityModifierType<ApplyRandom> TYPE = () -> CODEC;
@@ -22,7 +22,7 @@ public record ApplyRandom(SimpleWeightedRandomList<RuleBlockEntityModifier> modi
     @Nullable
     @Override
     public CompoundTag apply(@NotNull RandomSource randomSource, @Nullable CompoundTag compoundTag) {
-        Optional<RuleBlockEntityModifier> modifier = modifiers.getRandomValue(randomSource);
+        Optional<RuleBlockEntityModifier> modifier = modifiers.getRandom(randomSource);
         if (modifier.isPresent()) {
             return modifier.get().apply(randomSource, compoundTag);
         }

@@ -8,7 +8,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.util.random.WeightedRandomList;
+import net.minecraft.util.random.Weighted;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
@@ -38,11 +39,11 @@ public record RemoveBiomeSpawnsModifier(HolderSet<Biome> biomes, HolderSet<Entit
 
     public void applyModifier(Biome biome) {
         MobSpawnSettings biomeMobSettings = biome.getMobSettings();
-        HashMap<MobCategory, WeightedRandomList<MobSpawnSettings.SpawnerData>> spawners = new HashMap<>(((MobSpawnSettingsAccessor)biomeMobSettings).getSpawners());
+        HashMap<MobCategory, WeightedList<MobSpawnSettings.SpawnerData>> spawners = new HashMap<>(((MobSpawnSettingsAccessor)biomeMobSettings).getSpawners());
         for (MobCategory category : MobCategory.values()) {
-            List<MobSpawnSettings.SpawnerData> categorySpawnList = new ArrayList<>(spawners.get(category).unwrap());
-            categorySpawnList.removeIf(mobEntry -> this.entityTypes().contains(mobEntry.type));
-            spawners.put(category, WeightedRandomList.create(categorySpawnList));
+            List<Weighted<MobSpawnSettings.SpawnerData>> categorySpawnList = new ArrayList<>(spawners.get(category).unwrap());
+            categorySpawnList.removeIf(mobEntry -> this.entityTypes().contains(mobEntry.value().type()));
+            spawners.put(category, WeightedList.of(categorySpawnList));
         }
         ((MobSpawnSettingsAccessor)biomeMobSettings).setSpawners(spawners);
         ((BiomeAccessor)(Object)biome).setMobSettings(biomeMobSettings);

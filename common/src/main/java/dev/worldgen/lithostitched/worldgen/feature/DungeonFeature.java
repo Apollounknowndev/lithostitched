@@ -4,7 +4,6 @@ import dev.worldgen.lithostitched.LithostitchedCommon;
 import dev.worldgen.lithostitched.worldgen.feature.config.DungeonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.data.worldgen.SurfaceRuleData;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.WorldGenLevel;
@@ -114,7 +113,7 @@ public class DungeonFeature extends Feature<DungeonConfig> {
             this.safeSetBlock(world, startPos, Blocks.SPAWNER.defaultBlockState(), predicate);
             BlockEntity blockEntity = world.getBlockEntity(startPos);
             if (blockEntity instanceof SpawnerBlockEntity spawner) {
-                spawner.setEntityId(config.spawnerMobs().getRandomValue(random).orElse(EntityType.PIG), random);
+                spawner.setEntityId(config.spawnerMobs().getRandom(random).orElse(EntityType.PIG), random);
             } else {
                 LithostitchedCommon.LOGGER.error(String.format("Failed to get spawner block entity for dungeon at block position (%s)", startPos));
             }

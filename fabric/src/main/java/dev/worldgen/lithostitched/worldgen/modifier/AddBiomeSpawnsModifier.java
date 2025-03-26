@@ -8,7 +8,8 @@ import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.mixin.common.MobSpawnSettingsAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.util.random.WeightedRandomList;
+import net.minecraft.util.random.Weighted;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
@@ -22,12 +23,13 @@ import java.util.List;
  *
  * @author Apollo
  */
-public record AddBiomeSpawnsModifier(HolderSet<Biome> biomes, List<MobSpawnSettings.SpawnerData> biomeSpawns) implements Modifier {
+public record AddBiomeSpawnsModifier(HolderSet<Biome> biomes, List<Weighted<MobSpawnSettings.SpawnerData>> biomeSpawns) implements Modifier {
+    private static final Codec<Weighted<MobSpawnSettings.SpawnerData>> SPAWNER_CODEC = Weighted.codec(MobSpawnSettings.SpawnerData.CODEC);
     public static final MapCodec<AddBiomeSpawnsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddBiomeSpawnsModifier::biomes),
         Codec.mapEither(
-            MobSpawnSettings.SpawnerData.CODEC.listOf().fieldOf("spawners"),
-            MobSpawnSettings.SpawnerData.CODEC.fieldOf("spawners")
+            SPAWNER_CODEC.listOf().fieldOf("spawners"),
+            SPAWNER_CODEC.fieldOf("spawners")
         ).xmap(
             either -> either.map(
                 list -> list,
@@ -39,11 +41,11 @@ public record AddBiomeSpawnsModifier(HolderSet<Biome> biomes, List<MobSpawnSetti
 
     public void applyModifier(Biome biome) {
         MobSpawnSettings biomeMobSettings = biome.getMobSettings();
-        HashMap<MobCategory, WeightedRandomList<MobSpawnSettings.SpawnerData>> spawners = new HashMap<>(((MobSpawnSettingsAccessor)biomeMobSettings).getSpawners());
-        for (MobSpawnSettings.SpawnerData spawnerEntry : this.biomeSpawns()) {
-            List<MobSpawnSettings.SpawnerData> categorySpawnList = new ArrayList<>(spawners.get(spawnerEntry.type.getCategory()).unwrap());
+        HashMap<MobCategory, WeightedList<MobSpawnSettings.SpawnerData>> spawners = new HashMap<>(((MobSpawnSettingsAccessor)biomeMobSettings).getSpawners());
+        for (Weighted<MobSpawnSettings.SpawnerData> spawnerEntry : this.biomeSpawns()) {
+            List<Weighted<MobSpawnSettings.SpawnerData>> categorySpawnList = new ArrayList<>(spawners.get(spawnerEntry.value().type().getCategory()).unwrap());
             categorySpawnList.add(spawnerEntry);
-            spawners.put(spawnerEntry.type.getCategory(), WeightedRandomList.create(categorySpawnList));
+            spawners.put(spawnerEntry.value().type().getCategory(), WeightedList.of(categorySpawnList));
         }
         ((MobSpawnSettingsAccessor)biomeMobSettings).setSpawners(spawners);
         ((BiomeAccessor)(Object)biome).setMobSettings(biomeMobSettings);

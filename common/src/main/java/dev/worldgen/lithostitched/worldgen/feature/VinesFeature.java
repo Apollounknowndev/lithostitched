@@ -22,7 +22,7 @@ public class VinesFeature extends Feature<VinesConfig> {
         WorldGenLevel level = context.level();
         BlockPos.MutableBlockPos pos = context.origin().mutable();
 
-        var states = config.blocks().getRandomValue(context.random());
+        var states = config.blocks().getRandom(context.random());
 
         if (states.isEmpty()) return false;
 

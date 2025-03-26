@@ -6,8 +6,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.util.random.SimpleWeightedRandomList;
-import net.minecraft.util.random.WeightedEntry;
+import net.minecraft.util.random.Weighted;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.block.Block;
@@ -18,8 +18,8 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 
 import java.util.Optional;
 
-public record VinesConfig(SimpleWeightedRandomList<Block> blocks, Optional<HolderSet<Block>> canPlaceOn, IntProvider maxLength) implements FeatureConfiguration {
-    private static final SimpleWeightedRandomList<Block> DEFAULT_BLOCK = SimpleWeightedRandomList.<Block>builder().add(Blocks.VINE).build();
+public record VinesConfig(WeightedList<Block> blocks, Optional<HolderSet<Block>> canPlaceOn, IntProvider maxLength) implements FeatureConfiguration {
+    private static final WeightedList<Block> DEFAULT_BLOCK = WeightedList.<Block>builder().add(Blocks.VINE).build();
 
     public static final Codec<VinesConfig> CODEC = RecordCodecBuilder.<VinesConfig>create(instance -> instance.group(
         LithostitchedCodecs.singleOrWeightedList(BuiltInRegistries.BLOCK.byNameCodec(), false).fieldOf("block").orElse(DEFAULT_BLOCK).forGetter(VinesConfig::blocks),
@@ -28,7 +28,7 @@ public record VinesConfig(SimpleWeightedRandomList<Block> blocks, Optional<Holde
     ).apply(instance, VinesConfig::new)).validate(VinesConfig::validate);
 
     private DataResult<VinesConfig> validate() {
-        if (this.blocks.unwrap().stream().map(WeightedEntry.Wrapper::data).anyMatch(block -> !(block instanceof VineBlock))) {
+        if (this.blocks.unwrap().stream().map(Weighted::value).anyMatch(block -> !(block instanceof VineBlock))) {
             return DataResult.error(() -> "State should be a vine block");
         }
         return DataResult.success(this);

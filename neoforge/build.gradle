@@ -1,7 +1,9 @@
+import me.modmuss50.mpp.ReleaseType
+
 plugins {
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0+'
+    id 'net.neoforged.gradle.userdev' version '7.0.184'
     id 'java-library'
     id "me.modmuss50.mod-publish-plugin" version "0.5.1"
 }
@@ -77,22 +79,22 @@ publishing {
 publishMods {
     file = jar.archiveFile
     changelog = "${update_changelog}"
-    type = STABLE
+    type = ReleaseType.BETA
     modLoaders.add("neoforge")
-    displayName = "%s ~ Neoforge 1.21.4".formatted(project.version)
-    version = "%s-neoforge-1.21.4".formatted(project.version)
+    displayName = "%s ~ Neoforge 1.21.5".formatted(project.version)
+    version = "%s-neoforge-1.21.5".formatted(project.version)
 
     dryRun = false
 
     modrinth {
         accessToken = providers.environmentVariable("TOKEN_MR")
         projectId = "XaDC71GB"
-        minecraftVersions.add("1.21.4")
+        minecraftVersions.add("1.21.5")
     }
 
     curseforge {
         accessToken = providers.environmentVariable("TOKEN_CF")
         projectId = "936015"
-        minecraftVersions.add("1.21.4")
+        minecraftVersions.add("1.21.5")
     }
 }

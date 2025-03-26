@@ -23,7 +23,7 @@ public class WeightedSelectorFeature extends Feature<WeightedSelectorConfig> {
         RandomSource random = context.random();
         BlockPos origin = context.origin();
 
-        var feature = config.features().getRandomValue(random);
+        var feature = config.features().getRandom(random);
         return feature.map(placedFeatureHolder -> placedFeatureHolder.value().place(level, generator, random, origin)).orElse(false);
     }
 }

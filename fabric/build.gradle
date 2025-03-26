@@ -1,8 +1,10 @@
+import me.modmuss50.mpp.ReleaseType
+
 plugins {
     id 'java'
     id 'idea'
     id 'maven-publish'
-    id 'fabric-loom' version '1.8-SNAPSHOT'
+    id 'fabric-loom' version '1.10-SNAPSHOT'
     id "me.modmuss50.mod-publish-plugin" version "0.4.5"
 }
 
@@ -74,22 +76,22 @@ publishing {
 publishMods {
     file = remapJar.archiveFile
     changelog = "${update_changelog}"
-    type = STABLE
+    type = ReleaseType.BETA
     modLoaders.add("fabric")
-    displayName = "%s ~ Fabric 1.21.4".formatted(project.version)
-    version = "%s-fabric-1.21.4".formatted(project.version)
+    displayName = "%s ~ Fabric 1.21.5".formatted(project.version)
+    version = "%s-fabric-1.21.5".formatted(project.version)
 
     dryRun = false
 
     modrinth {
         accessToken = providers.environmentVariable("TOKEN_MR")
         projectId = "XaDC71GB"
-        minecraftVersions.add("1.21.4")
+        minecraftVersions.add("1.21.5")
     }
 
     curseforge {
         accessToken = providers.environmentVariable("TOKEN_CF")
         projectId = "936015"
-        minecraftVersions.add("1.21.4")
+        minecraftVersions.add("1.21.5")
     }
 }

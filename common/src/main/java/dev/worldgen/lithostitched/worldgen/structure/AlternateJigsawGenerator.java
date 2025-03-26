@@ -152,7 +152,7 @@ public class AlternateJigsawGenerator {
 
                 BlockPos candidateConnectorPos = adjustJigsawPos(anchorInfo);
 
-                Holder<StructureTemplatePool> poolEntry = getTemplatePoolHolder(getTemplatePoolKey(anchorJigsaw, aliasLookup));
+                Holder<StructureTemplatePool> poolEntry = getTemplatePoolHolder(aliasLookup.lookup(anchorJigsaw.pool()));
                 if (poolEntry == null) continue;
                 boolean connectorInParentBoundingBox = parentBoundingBox.isInside(candidateConnectorPos);
                 MutableObject<VoxelShape> childShape;
@@ -268,7 +268,7 @@ public class AlternateJigsawGenerator {
                             if (!connectorBoundingBox.isInside(adjustJigsawPos(blockInfo))) {
                                 return 0;
                             } else {
-                                ResourceKey<StructureTemplatePool> registryKey2 = getTemplatePoolKey(jigsawInfo, aliasLookup);
+                                ResourceKey<StructureTemplatePool> registryKey2 = aliasLookup.lookup(jigsawInfo.pool());
                                 Optional<? extends Holder<StructureTemplatePool>> optional1 = this.registry.get(registryKey2);
                                 Optional<Holder<StructureTemplatePool>> optional2 = optional1.map(entry -> entry.value().getFallback());
                                 int i2 = optional1.map(entry -> entry.value().getMaxSize(this.structureTemplateManager)).orElse(0);
@@ -376,10 +376,6 @@ public class AlternateJigsawGenerator {
                 }
             }
             return null;
-        }
-
-        private static ResourceKey<StructureTemplatePool> getTemplatePoolKey(StructureTemplate.JigsawBlockInfo jigsaw, PoolAliasLookup aliasLookup) {
-            return aliasLookup.lookup(Pools.createKey(jigsaw.pool()));
         }
 
         private static BlockPos adjustJigsawPos(StructureTemplate.StructureBlockInfo jigsawInfo) {

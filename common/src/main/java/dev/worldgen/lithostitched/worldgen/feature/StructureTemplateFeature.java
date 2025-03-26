@@ -16,7 +16,9 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class StructureTemplateFeature extends Feature<StructureTemplateConfig> {
     public static final StructureTemplateFeature FEATURE = new StructureTemplateFeature();
@@ -45,7 +47,7 @@ public class StructureTemplateFeature extends Feature<StructureTemplateConfig> {
             ResourceLocation startName = config.startJigsawName().get();
             ObjectArrayList<StructureTemplate.StructureBlockInfo> jigsawBlocks = template.filterBlocks(origin, new StructurePlaceSettings().setRotation(rotation.getRotated(Rotation.CLOCKWISE_180)), Blocks.JIGSAW, true);
             for (StructureTemplate.StructureBlockInfo jigsaw : jigsawBlocks) {
-                ResourceLocation jigsawName = ResourceLocation.tryParse(Objects.requireNonNull(jigsaw.nbt(), () -> jigsaw + " nbt was null").getString("name"));
+                ResourceLocation jigsawName = ResourceLocation.tryParse(Objects.requireNonNull(jigsaw.nbt(), () -> jigsaw + " nbt was null").getStringOr("name", ""));
                 if (jigsawName == null || !jigsawName.equals(startName)) continue;
                 jigsawPos = jigsaw.pos();
                 break;

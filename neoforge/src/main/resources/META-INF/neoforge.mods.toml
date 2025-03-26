@@ -24,6 +24,6 @@ file = "META-INF/accesstransformer.cfg"
 [[dependencies.lithostitched]]
     modId = "minecraft"
     type = "required"
-    versionRange = "[1.21.4,1.22)"
+    versionRange = "[1.21.5,1.22)"
     ordering = "NONE"
     side = "BOTH"
