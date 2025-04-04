@@ -29,6 +29,10 @@ public record SetPoolAliasesModifier(HolderSet<Structure> structures, List<PoolA
     private static DataResult<SetPoolAliasesModifier> validate(SetPoolAliasesModifier modifier) {
         for (Holder<Structure> holder : modifier.structures) {
             Structure structure = holder.value();
+            if (structure instanceof DelegatingStructure delegating) {
+                structure = delegating.delegate();
+            }
+
             if (!(structure instanceof JigsawStructure || structure instanceof AlternateJigsawStructure)) {
                 return DataResult.error(() -> "Target structure for pool alias additions should be a jigsaw structure");
             }
@@ -47,6 +51,10 @@ public record SetPoolAliasesModifier(HolderSet<Structure> structures, List<PoolA
     }
 
     private void applyModifier(Structure structure) {
+        if (structure instanceof DelegatingStructure delegating) {
+            structure = delegating.delegate();
+        }
+
         if (structure instanceof AlternateJigsawStructure alternateJigsaw) {
             alternateJigsaw.setPoolAliases(this.poolAliases, this.append);
         } else {

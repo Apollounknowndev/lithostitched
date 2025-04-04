@@ -92,7 +92,7 @@ public class AlternateJigsawGenerator {
                 int maxDistanceFromCenter = config.maxDistanceFromCenter();
                 AABB box = new AABB((x - maxDistanceFromCenter), Math.max(y - maxDistanceFromCenter, heightView.getMinY() + config.dimensionPadding().bottom()), (z - maxDistanceFromCenter), (x + maxDistanceFromCenter + 1), Math.min(y + maxDistanceFromCenter + 1, heightView.getMaxY() - config.dimensionPadding().top()), (z + maxDistanceFromCenter + 1));
                 VoxelShape voxelShape = Shapes.join(Shapes.create(box), Shapes.create(AABB.of(blockBox)), BooleanOp.ONLY_FIRST);
-                generate(vanilla, context.randomState(), size, config.useExpansionHack(), chunkGenerator, structureTemplateManager, heightView, random, templatePoolRegistry, poolStructurePiece, pieces, voxelShape, aliasLookup, config.liquidSettings());
+                generate(context, vanilla, size, config.useExpansionHack(), chunkGenerator, structureTemplateManager, heightView, random, templatePoolRegistry, poolStructurePiece, pieces, voxelShape, aliasLookup, config.liquidSettings());
                 Objects.requireNonNull(collector);
                 pieces.forEach(collector::addPiece);
             }
@@ -111,17 +111,18 @@ public class AlternateJigsawGenerator {
         return Optional.empty();
     }
 
-    private static void generate(boolean vanilla, RandomState noiseConfig, int maxSize, boolean useExpansionHack, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, LevelHeightAccessor heightLimitView, RandomSource random, Registry<StructureTemplatePool> structurePoolRegistry, PoolElementStructurePiece firstPiece, List<PoolElementStructurePiece> pieces, VoxelShape pieceShape, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
-        StructurePoolGenerator generator = new StructurePoolGenerator(vanilla, structurePoolRegistry, maxSize, chunkGenerator, structureTemplateManager, pieces, random);
-        generator.generatePiece(firstPiece, new MutableObject<>(pieceShape), 0, useExpansionHack, heightLimitView, noiseConfig, aliasLookup, liquidSettings);
+    private static void generate(Structure.GenerationContext context, boolean vanilla, int maxSize, boolean useExpansionHack, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, LevelHeightAccessor heightLimitView, RandomSource random, Registry<StructureTemplatePool> structurePoolRegistry, PoolElementStructurePiece firstPiece, List<PoolElementStructurePiece> pieces, VoxelShape pieceShape, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+        StructurePoolGenerator generator = new StructurePoolGenerator(context, vanilla, structurePoolRegistry, maxSize, chunkGenerator, structureTemplateManager, pieces, random);
+        generator.generatePiece(firstPiece, new MutableObject<>(pieceShape), 0, useExpansionHack, heightLimitView, aliasLookup, liquidSettings);
 
         while(generator.pieces.hasNext()) {
             PieceState pieceState = generator.pieces.next();
-            generator.generatePiece(pieceState.piece, pieceState.pieceShape, pieceState.depth, useExpansionHack, heightLimitView, noiseConfig, aliasLookup, liquidSettings);
+            generator.generatePiece(pieceState.piece, pieceState.pieceShape, pieceState.depth, useExpansionHack, heightLimitView, aliasLookup, liquidSettings);
         }
     }
 
     static final class StructurePoolGenerator {
+        private final Structure.GenerationContext context;
         private final boolean vanilla;
         private final Registry<StructureTemplatePool> registry;
         private final int maxSize;
@@ -132,7 +133,8 @@ public class AlternateJigsawGenerator {
         private final Map<StructurePoolElement, Integer> groupCounts = new HashMap<>();
         final SequencedPriorityIterator<PieceState> pieces = new SequencedPriorityIterator<>();
 
-        private StructurePoolGenerator(boolean vanilla, Registry<StructureTemplatePool> registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List<? super PoolElementStructurePiece> children, RandomSource random) {
+        private StructurePoolGenerator(Structure.GenerationContext context, boolean vanilla, Registry<StructureTemplatePool> registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List<? super PoolElementStructurePiece> children, RandomSource random) {
+            this.context = context;
             this.vanilla = vanilla;
             this.registry = registry;
             this.maxSize = maxSize;
@@ -142,7 +144,7 @@ public class AlternateJigsawGenerator {
             this.random = random;
         }
 
-        private void generatePiece(PoolElementStructurePiece parentPiece, MutableObject<VoxelShape> voxelShape, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+        private void generatePiece(PoolElementStructurePiece parentPiece, MutableObject<VoxelShape> voxelShape, int depth, boolean useExpansionHack, LevelHeightAccessor world, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
             StructurePoolElement anchorElement = parentPiece.getElement();
             BoundingBox parentBoundingBox = parentPiece.getBoundingBox();
             MutableObject<VoxelShape> parentShape = new MutableObject<>();
@@ -166,7 +168,7 @@ public class AlternateJigsawGenerator {
                 }
 
                 MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools = new MutableObject<>(new ArrayList<>());
-                findAndTestChildCandidates(poolEntry, checkedPools, parentPiece, anchorJigsaw, childShape, -1, depth, useExpansionHack, world, noiseConfig, true, aliasLookup, liquidSettings);
+                findAndTestChildCandidates(poolEntry, checkedPools, parentPiece, anchorJigsaw, childShape, -1, depth, useExpansionHack, world, true, aliasLookup, liquidSettings);
             }
         }
 
@@ -174,13 +176,13 @@ public class AlternateJigsawGenerator {
          * Find a valid child from a pool of child candidates.
          * If none are found, go to the template pool's fallback and try again.
          */
-        private void findAndTestChildCandidates(Holder<StructureTemplatePool> entry, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, PoolElementStructurePiece parentPiece, StructureTemplate.JigsawBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig, boolean firstIteration, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+        private void findAndTestChildCandidates(Holder<StructureTemplatePool> entry, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, PoolElementStructurePiece parentPiece, StructureTemplate.JigsawBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, boolean firstIteration, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
             List<StructurePoolElement> childCandidates = this.getPoolElements(entry.unwrapKey().orElse(Pools.EMPTY), checkedPools, depth, firstIteration);
 
             if (childCandidates.isEmpty()) return;
-            boolean foundChild = findValidChildPiece(childCandidates, parentPiece, anchorJigsawInfo, mutableObject2, k, depth, useExpansionHack, world, noiseConfig, aliasLookup, liquidSettings);
+            boolean foundChild = findValidChildPiece(childCandidates, parentPiece, anchorJigsawInfo, mutableObject2, k, depth, useExpansionHack, world, aliasLookup, liquidSettings);
             if (!foundChild) {
-                findAndTestChildCandidates(entry.value().getFallback(), checkedPools, parentPiece, anchorJigsawInfo, mutableObject2, k, depth, useExpansionHack, world, noiseConfig, false, aliasLookup, liquidSettings);
+                findAndTestChildCandidates(entry.value().getFallback(), checkedPools, parentPiece, anchorJigsawInfo, mutableObject2, k, depth, useExpansionHack, world, false, aliasLookup, liquidSettings);
             }
         }
 
@@ -235,7 +237,7 @@ public class AlternateJigsawGenerator {
          * Iterate through list of child candidate pieces to find a valid one to use.
          */
         @SuppressWarnings("deprecation")
-        private boolean findValidChildPiece(List<StructurePoolElement> elements, PoolElementStructurePiece parentPiece, StructureTemplate.JigsawBlockInfo anchorJigsaw, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, RandomState noiseConfig, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+        private boolean findValidChildPiece(List<StructurePoolElement> elements, PoolElementStructurePiece parentPiece, StructureTemplate.JigsawBlockInfo anchorJigsaw, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
             StructureTemplate.StructureBlockInfo anchorInfo = anchorJigsaw.info();
 
             BlockPos anchorPos = anchorInfo.pos();
@@ -251,7 +253,7 @@ public class AlternateJigsawGenerator {
                 }
 
                 if (element instanceof DelegatingPoolElement delegating) {
-                    if (delegating.config().shouldSkip(depth, this.groupCounts.getOrDefault(delegating, 0))) {
+                    if (delegating.config().shouldSkip(context, candidateConnectorPos, depth, this.groupCounts.getOrDefault(delegating, 0))) {
                         continue;
                     }
                 }
@@ -296,7 +298,7 @@ public class AlternateJigsawGenerator {
                                 p = parentMinY + o;
                             } else {
                                 if (k == -1) {
-                                    k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, world, noiseConfig);
+                                    k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, world, context.randomState());
                                 }
 
                                 p = k - connectorY;
@@ -338,7 +340,7 @@ public class AlternateJigsawGenerator {
                                     t = p + connectorY;
                                 } else {
                                     if (k == -1) {
-                                        k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, world, noiseConfig);
+                                        k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, world, context.randomState());
                                     }
 
                                     t = k + o / 2;
