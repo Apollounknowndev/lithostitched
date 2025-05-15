@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.JigsawBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
@@ -253,7 +252,7 @@ public class AlternateJigsawGenerator {
                 }
 
                 if (element instanceof DelegatingPoolElement delegating) {
-                    if (delegating.config().shouldSkip(context, candidateConnectorPos, depth, this.groupCounts.getOrDefault(delegating, 0))) {
+                    if (!delegating.config().isPlacementValid(context, candidateConnectorPos, depth, this.groupCounts.getOrDefault(delegating, 0))) {
                         continue;
                     }
                 }

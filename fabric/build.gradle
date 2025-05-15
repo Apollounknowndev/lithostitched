@@ -76,7 +76,7 @@ publishing {
 publishMods {
     file = remapJar.archiveFile
     changelog = "${update_changelog}"
-    type = ReleaseType.BETA
+    type = ReleaseType.STABLE
     modLoaders.add("fabric")
     displayName = "%s ~ Fabric 1.21.5".formatted(project.version)
     version = "%s-fabric-1.21.5".formatted(project.version)

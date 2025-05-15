@@ -42,11 +42,11 @@ public record DelegatingConfig(StructurePoolElement delegate, Optional<Placement
         }
     }
 
-    public boolean shouldSkip(Structure.GenerationContext context, BlockPos pos, int depth, int count) {
+    public boolean isPlacementValid(Structure.GenerationContext context, BlockPos pos, int depth, int count) {
         boolean validDepth = allowedDepth.map(range -> range.isValueInRange(depth)).orElse(true);
         boolean validCount = this.forcedCount.map(forced -> count < forced).orElse(true) && this.maxCount.map(max -> count < max).orElse(true);
         boolean validCondition = this.placementCondition.map(condition -> condition.test(context, pos)).orElse(true);
 
-        return !validDepth || !validCount;
+        return validDepth && validCount && validCondition;
     }
 }
