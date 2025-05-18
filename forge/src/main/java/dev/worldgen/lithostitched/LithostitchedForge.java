@@ -12,6 +12,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
 
@@ -22,6 +23,7 @@ import java.nio.file.Path;
 public final class LithostitchedForge {
 
 	public LithostitchedForge() {
+		ConfigHandler.load(FMLPaths.CONFIGDIR.get().resolve("lithostitched.json"));
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 		LithostitchedBuiltInRegistries.init(bus);
 

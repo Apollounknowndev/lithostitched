@@ -66,7 +66,7 @@ public class SurfaceRuleManager {
                     settings.useLegacyRandomSource()
                 ));
 
-                LithostitchedCommon.LOGGER.info("Applied " + surfaceRulesForKey.size() + " surface rule additions for '" + location + "' dimension");
+                LithostitchedCommon.debug("Applied {} surface rule additions for '{}' dimension", surfaceRulesForKey.size(), location);
             }
         }
     }

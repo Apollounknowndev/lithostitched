@@ -15,6 +15,7 @@ public final class LithostitchedFabric implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ConfigHandler.load(FabricLoader.getInstance().getConfigDir().resolve("lithostitched.json"));
 		LithostitchedBuiltInRegistries.init();
 
 		if (ConfigHandler.getConfig().breaksSeedParity()) {

@@ -208,7 +208,7 @@ public class AlternateJigsawGenerator {
                     }
                     stringBuilder.append(poolKey.location());
 
-                    LithostitchedCommon.LOGGER.warn("Template pool fallback chain found: {}", stringBuilder);
+                    LithostitchedCommon.debug("Template pool fallback chain found: {}", stringBuilder);
                     return List.of();
                 }
 
