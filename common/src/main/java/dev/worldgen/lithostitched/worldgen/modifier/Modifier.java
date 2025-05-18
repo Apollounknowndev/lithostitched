@@ -3,8 +3,11 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import dev.worldgen.lithostitched.LithostitchedCommon;
 import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -48,15 +51,15 @@ public interface Modifier {
     static void applyModifiers(MinecraftServer server) {
         boolean fabricFeaturesModified = false;
         RegistryAccess registries = server.registryAccess();
-        Registry<Modifier> modifiers = registries.registryOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER);
+        HolderLookup.RegistryLookup<Modifier> modifiers = registries.lookupOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER);
 
 
         for (ModifierPhase phase : ModifierPhase.values()) {
             if (phase == ModifierPhase.NONE) continue;
-            List<Modifier> phaseModifiers = modifiers.stream().filter(modifier -> modifier.getPhase() == phase).toList();
+            List<Holder.Reference<Modifier>> phaseModifiers = modifiers.listElements().filter(m -> m.value().getPhase() == phase).toList();
             applyPhaseModifiers(registries, phaseModifiers);
 
-            if (!phaseModifiers.stream().filter(Modifier::internal$modifiesFabricFeatures).toList().isEmpty()) {
+            if (!phaseModifiers.stream().filter(holder -> holder.value().internal$modifiesFabricFeatures()).toList().isEmpty()) {
                 fabricFeaturesModified = true;
             }
         }
@@ -67,30 +70,33 @@ public interface Modifier {
                 var accessor = ((ChunkGeneratorAccessor)dimension.generator());
                 BiomeSource source = accessor.getBiomeSource();
                 accessor.setFeaturesPerStep(
-                    Suppliers.memoize(() -> FeatureSorter.buildFeaturesPerStep(List.copyOf(source.possibleBiomes()), biome -> accessor.getGetter().apply(biome).features(), true))
+                        Suppliers.memoize(() -> FeatureSorter.buildFeaturesPerStep(List.copyOf(source.possibleBiomes()), biome -> accessor.getGetter().apply(biome).features(), true))
                 );
             }
         }
     }
 
-    private static void applyPhaseModifiers(RegistryAccess registries, List<Modifier> phaseModifiers) {
-        List<PriorityBasedModifier> priorityBasedModifiers = new ArrayList<>();
+    private static void applyPhaseModifiers(RegistryAccess registries, List<Holder.Reference<Modifier>> phaseModifiers) {
+        List<Holder.Reference<PriorityBasedModifier>> priorityBasedModifiers = new ArrayList<>();
 
-        for (Modifier modifier : phaseModifiers) {
-            if (modifier instanceof PriorityBasedModifier priorityModifier) {
-                priorityBasedModifiers.add(priorityModifier);
+        for (Holder.Reference<Modifier> reference : phaseModifiers) {
+            if (reference.value() instanceof PriorityBasedModifier) {
+                // Yucky cast, but fully safe
+                priorityBasedModifiers.add((Holder.Reference<PriorityBasedModifier>)(Object)reference);
             } else {
-                modifier.applyModifier(registries);
+                LithostitchedCommon.debug("Applying modifier with id: {}", reference.key().location());
+                reference.value().applyModifier(registries);
             }
         }
 
-        for (Modifier modifier : sortByPriority(priorityBasedModifiers)) {
-            modifier.applyModifier(registries);
+        for (Holder.Reference<PriorityBasedModifier> reference : sortByPriority(priorityBasedModifiers)) {
+            LithostitchedCommon.debug("Applying modifier with id: {}", reference.key().location());
+            reference.value().applyModifier(registries);
         }
     }
 
-    static List<PriorityBasedModifier> sortByPriority(List<PriorityBasedModifier> modifiers) {
-        return modifiers.stream().sorted(Comparator.comparingInt(PriorityBasedModifier::getPriority)).toList();
+    static List<Holder.Reference<PriorityBasedModifier>> sortByPriority(List<Holder.Reference<PriorityBasedModifier>> modifiers) {
+        return modifiers.stream().sorted(Comparator.comparingInt(reference -> reference.value().getPriority())).toList();
     }
 
     default boolean internal$modifiesFabricFeatures() {
