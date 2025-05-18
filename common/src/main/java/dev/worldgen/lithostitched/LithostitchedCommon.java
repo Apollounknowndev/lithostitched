@@ -1,6 +1,7 @@
 package dev.worldgen.lithostitched;
 
 import com.mojang.serialization.MapCodec;
+import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.BlockStatePredicate;
@@ -166,5 +167,11 @@ public final class LithostitchedCommon {
 	public static void registerCommonBlockEntityModifiers(BiConsumer<String, RuleBlockEntityModifierType<?>> consumer) {
 		consumer.accept("apply_all", ApplyAll.TYPE);
 		consumer.accept("apply_random", ApplyRandom.TYPE);
+	}
+
+	public static void debug(String message, Object... arguments) {
+		if (ConfigHandler.getConfig().logDebugMessages()) {
+			LithostitchedCommon.LOGGER.warn(message, arguments);
+		}
 	}
 }

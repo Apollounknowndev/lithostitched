@@ -79,7 +79,7 @@ publishing {
 publishMods {
     file = jar.archiveFile
     changelog = "${update_changelog}"
-    type = ReleaseType.BETA
+    type = ReleaseType.STABLE
     modLoaders.add("neoforge")
     displayName = "%s ~ Neoforge 1.21.5".formatted(project.version)
     version = "%s-neoforge-1.21.5".formatted(project.version)

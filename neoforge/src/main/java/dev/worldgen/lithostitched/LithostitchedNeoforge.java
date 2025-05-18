@@ -2,7 +2,6 @@ package dev.worldgen.lithostitched;
 
 import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.registry.LithostitchedBuiltInRegistries;
-import net.minecraft.client.gui.screens.recipebook.SearchRecipeBookCategory;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLPaths;
