@@ -78,7 +78,9 @@ public class SurfaceRuleManager {
     private static SurfaceRules.RuleSource buildModdedSurfaceRules(ArrayList<Pair<ResourceLocation, AddSurfaceRuleModifier>> moddedSourceList, SurfaceRules.RuleSource originalSource) {
         // TODO: Implement caching
         List<SurfaceRules.RuleSource> newRuleSourceList = new ArrayList<>();
+        moddedSourceList.sort((loc, pair) -> pair.getSecond().priority());
         moddedSourceList.forEach((pair) -> newRuleSourceList.add(pair.getSecond().surfaceRule()));
+
 
         newRuleSourceList.add(originalSource);
         if (originalSource instanceof LithostitchedSurfaceRules.TransientMergedRuleSource) {
