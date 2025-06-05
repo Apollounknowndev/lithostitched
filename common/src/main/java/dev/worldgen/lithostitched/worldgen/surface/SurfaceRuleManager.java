@@ -17,10 +17,7 @@ import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -78,9 +75,9 @@ public class SurfaceRuleManager {
     private static SurfaceRules.RuleSource buildModdedSurfaceRules(ArrayList<Pair<ResourceLocation, AddSurfaceRuleModifier>> moddedSourceList, SurfaceRules.RuleSource originalSource) {
         // TODO: Implement caching
         List<SurfaceRules.RuleSource> newRuleSourceList = new ArrayList<>();
-        moddedSourceList.sort((loc, pair) -> pair.getSecond().priority());
+        Comparator<Pair<ResourceLocation, AddSurfaceRuleModifier>> comp = Comparator.comparingInt(pair -> pair.getSecond().priority());
+        moddedSourceList.sort(comp.reversed());
         moddedSourceList.forEach((pair) -> newRuleSourceList.add(pair.getSecond().surfaceRule()));
-
 
         newRuleSourceList.add(originalSource);
         if (originalSource instanceof LithostitchedSurfaceRules.TransientMergedRuleSource) {
