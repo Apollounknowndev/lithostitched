@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.worldgen.NoiseRouterTarget;
 import dev.worldgen.lithostitched.worldgen.modifier.WrapNoiseRouterModifier;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.RegistryAccess;
@@ -42,21 +43,21 @@ public class ChunkMapMixin {
 
         if (!modifiers.isEmpty()) {
             accessor.setNoiseRouter(new NoiseRouter(
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.BARRIER, router.barrierNoise(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.FLUID_LEVEL_FLOODEDNESS, router.fluidLevelFloodednessNoise(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.FLUID_LEVEL_SPREAD, router.fluidLevelSpreadNoise(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.LAVA, router.lavaNoise(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.TEMPERATURE, router.temperature(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.VEGETATION, router.vegetation(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.CONTINENTS, router.continents(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.EROSION, router.erosion(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.DEPTH, router.depth(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.RIDGES, router.ridges(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.INITIAL_DENSITY, router.initialDensityWithoutJaggedness(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.FINAL_DENSITY, router.finalDensity(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.VEIN_TOGGLE, router.veinToggle(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.VEIN_RIDGED, router.veinRidged(), modifiers),
-                modifyDensityFunction(WrapNoiseRouterModifier.Target.VEIN_GAP, router.veinGap(), modifiers)
+                modifyDensityFunction(NoiseRouterTarget.BARRIER, router.barrierNoise(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.FLUID_LEVEL_FLOODEDNESS, router.fluidLevelFloodednessNoise(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.FLUID_LEVEL_SPREAD, router.fluidLevelSpreadNoise(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.LAVA, router.lavaNoise(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.TEMPERATURE, router.temperature(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.VEGETATION, router.vegetation(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.CONTINENTS, router.continents(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.EROSION, router.erosion(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.DEPTH, router.depth(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.RIDGES, router.ridges(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.INITIAL_DENSITY, router.initialDensityWithoutJaggedness(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.FINAL_DENSITY, router.finalDensity(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.VEIN_TOGGLE, router.veinToggle(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.VEIN_RIDGED, router.veinRidged(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.VEIN_GAP, router.veinGap(), modifiers)
             ));
         }
 

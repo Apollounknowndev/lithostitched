@@ -4,8 +4,15 @@ import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.QuartPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 
 import java.util.Optional;
 
@@ -41,6 +48,11 @@ public class DelegatingStructure extends Structure {
     @Override
     protected Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
         return this.delegate().findValidGenerationPoint(context);
+    }
+
+    @Override
+    public void afterPlace(WorldGenLevel level, StructureManager structureManager, ChunkGenerator generator, RandomSource random, BoundingBox box, ChunkPos chunkPos, PiecesContainer container) {
+        this.delegate().afterPlace(level, structureManager, generator, random, box, chunkPos, container);
     }
 
     @Override
