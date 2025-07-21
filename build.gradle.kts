@@ -51,7 +51,7 @@ cloche {
 
         loaderVersion = "0.16.13"
         minecraftVersion = "1.21.1"
-        mixins.from(file("src/fabric/1.21.1/lithostitched.fabric.mixins.json"))
+        mixins.from(file("src/fabric/1.21.1/main/lithostitched.fabric.mixins.json"))
 
         dependencies {
             fabricApi("0.116.1")
@@ -75,7 +75,7 @@ cloche {
 
         loaderVersion = "0.16.13"
         minecraftVersion = "1.21.8"
-        mixins.from(file("src/fabric/1.21.8/lithostitched.fabric.mixins.json"))
+        mixins.from(file("src/fabric/1.21.8/main/lithostitched.fabric.mixins.json"))
 
         dependencies {
             fabricApi("0.129.0")
@@ -99,6 +99,7 @@ cloche {
 
         loaderVersion = "21.1.26"
         minecraftVersion = "1.21.1"
+        mixins.from(file("src/neoforge/1.21.1/main/lithostitched.neoforge.mixins.json"))
 
         runs {
             client()
@@ -111,6 +112,7 @@ cloche {
 
         loaderVersion = "21.7.2-beta"
         minecraftVersion = "1.21.7"
+        mixins.from(file("src/neoforge/1.21.8/main/lithostitched.neoforge.mixins.json"))
 
         runs {
             client()
