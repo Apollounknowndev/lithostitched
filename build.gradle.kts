@@ -110,8 +110,8 @@ cloche {
     neoforge("neoforge:1.21.8") {
         dependsOn(shared1218)
 
-        loaderVersion = "21.7.2-beta"
-        minecraftVersion = "1.21.7"
+        loaderVersion = "21.8.4-beta"
+        minecraftVersion = "1.21.8"
         mixins.from(file("src/neoforge/1.21.8/main/lithostitched.neoforge.mixins.json"))
 
         runs {
