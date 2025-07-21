@@ -1,0 +1,8 @@
+{
+  "values": [
+    "minecraft:trial_chambers/spawner/small_melee/slime",
+    "minecraft:trial_chambers/spawner/small_melee/cave_spider",
+    "minecraft:trial_chambers/spawner/small_melee/silverfish",
+    "minecraft:trial_chambers/spawner/small_melee/baby_zombie"
+  ]
+}

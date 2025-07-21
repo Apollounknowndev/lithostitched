@@ -1,0 +1,10 @@
+accessWidener v1 named
+
+mutable field net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator settings Lnet/minecraft/core/Holder;
+accessible field net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator settings Lnet/minecraft/core/Holder;
+
+accessible class net/minecraft/world/level/levelgen/DensityFunctions$EndIslandDensityFunction
+
+accessible class net/minecraft/world/level/biome/Biome$ClimateSettings
+
+accessible method net/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType <init> (Lcom/mojang/serialization/MapCodec;)V

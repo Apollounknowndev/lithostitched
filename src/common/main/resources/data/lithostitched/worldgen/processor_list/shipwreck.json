@@ -1,0 +1,9 @@
+{
+  "processors": [
+    {
+      "processor_type": "lithostitched:apply_random",
+      "mode": "per_piece",
+      "processor_lists": "#lithostitched:shipwreck_palettes"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "values": [
+    "minecraft:trial_chambers/spawner/melee/zombie",
+    "minecraft:trial_chambers/spawner/melee/husk",
+    "minecraft:trial_chambers/spawner/melee/spider"
+  ]
+}

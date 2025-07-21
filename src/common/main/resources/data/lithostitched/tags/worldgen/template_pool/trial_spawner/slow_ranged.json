@@ -1,0 +1,7 @@
+{
+  "values": [
+    "minecraft:trial_chambers/spawner/slow_ranged/skeleton",
+    "minecraft:trial_chambers/spawner/slow_ranged/stray",
+    "minecraft:trial_chambers/spawner/slow_ranged/poison_skeleton"
+  ]
+}

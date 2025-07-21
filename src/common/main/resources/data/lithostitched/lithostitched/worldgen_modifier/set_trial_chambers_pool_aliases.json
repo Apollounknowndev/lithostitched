@@ -1,0 +1,36 @@
+{
+  "type": "lithostitched:set_pool_aliases",
+  "structures": "minecraft:trial_chambers",
+  "pool_aliases": [
+    {
+      "type": "lithostitched:internal/random_entries",
+      "aliases": [
+        "minecraft:trial_chambers/spawner/contents/ranged",
+        "minecraft:trial_chambers/spawner/contents/slow_ranged"
+      ],
+      "pools": [
+        "#lithostitched:trial_spawner/ranged",
+        "#lithostitched:trial_spawner/slow_ranged"
+      ]
+    },
+    {
+      "type": "lithostitched:internal/random_entries",
+      "aliases": [
+        "minecraft:trial_chambers/spawner/contents/melee"
+      ],
+      "pools": [
+        "#lithostitched:trial_spawner/melee"
+      ]
+    },
+    {
+      "type": "lithostitched:internal/random_entries",
+      "aliases": [
+        "minecraft:trial_chambers/spawner/contents/small_melee"
+      ],
+      "pools": [
+        "#lithostitched:trial_spawner/small_melee"
+      ]
+    }
+  ],
+  "append": false
+}

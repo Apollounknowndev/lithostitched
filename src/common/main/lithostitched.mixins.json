@@ -1,0 +1,35 @@
+{
+  "required": true,
+  "package": "dev.worldgen.lithostitched.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "common.ChunkGeneratorAccessor",
+    "common.ChunkMapMixin",
+    "common.GameTestServerMixin",
+    "common.HolderReferenceAccessor",
+    "common.JigsawStructureAccessor",
+    "common.JigsawStructureMixin",
+    "common.MappedRegistryAccessor",
+    "common.NoiseGeneratorSettingsAccessor",
+    "common.PlacedFeatureAccessor",
+    "common.PoolAliasLookupMixin",
+    "common.RandomStateAccessor",
+    "common.ShipwreckPieceMixin",
+    "common.SinglePoolElementAccessor",
+    "common.StructureProcessorListAccessor",
+    "common.StructureSetAccessor",
+    "common.StructureTemplateMixin",
+    "common.StructureTemplatePoolAccessor",
+    "common.StructureTemplatePoolMixin",
+    "common.DripstoneUtilsAccessor"
+  ],
+  "client": [
+    "client.IntegratedServerMixin"
+  ],
+  "server": [
+    "server.DedicatedServerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
