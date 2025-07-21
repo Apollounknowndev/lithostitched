@@ -18,6 +18,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
+version = "1.5.0+beta1"
 
 cloche {
     mappings {
@@ -104,6 +105,11 @@ cloche {
         runs {
             client()
             server()
+        }
+
+        metadata {
+            dependencies {
+            }
         }
     }
 

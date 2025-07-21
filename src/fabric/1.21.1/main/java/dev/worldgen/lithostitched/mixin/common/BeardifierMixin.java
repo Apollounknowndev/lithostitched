@@ -17,7 +17,7 @@ import java.util.Optional;
 @Mixin(value = Beardifier.class, remap = false)
 public abstract class BeardifierMixin {
     @WrapOperation(
-        method = "method_42694",
+        method = "lambda$forStructuresInChunk$2(Lnet/minecraft/world/level/ChunkPos;Lit/unimi/dsi/fastutil/objects/ObjectList;IILit/unimi/dsi/fastutil/objects/ObjectList;Lnet/minecraft/world/level/levelgen/structure/StructureStart;)V",
         at = @At(
             value = "INVOKE",
             target = "Lit/unimi/dsi/fastutil/objects/ObjectList;add(Ljava/lang/Object;)Z",

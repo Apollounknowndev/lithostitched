@@ -5,13 +5,11 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.5.0"
+MOD_VERSION = "1.5.0+beta1"
 CHANGELOG = """
-
+Internally restructured the mod to unify the 1.21.1 and 1.21.8 codebases. Nothing should be functionally different, please report issues if you find them!
 """
 UPLOAD_VERSIONS = [
-    ("fabric", "1.20.1"),
-    ("forge", "1.20.1"),
     ("fabric", "1.21.1"),
     ("neoforge", "1.21.1"),
     ("fabric", "1.21.8"),
@@ -20,6 +18,8 @@ UPLOAD_VERSIONS = [
 
 MODRINTH_ID = "XaDC71GB"
 CURSEFORGE_ID = "936015"
+
+RELEASE_TYPE = "beta"
 
 # Global: Should never need to be touched!
 
@@ -37,7 +37,7 @@ CURSEFORGE_URL = f"https://minecraft.curseforge.com/api/v1/projects/{CURSEFORGE_
 CURSEFORGE_GAME_VERSIONS = {
     "1.20.1": [9990],
     "1.21.1": [11779],
-    "1.21.6": [13422],
+    "1.21.8": [13422, 13506],
 }
 CURSEFORGE_LOADERS = {
     "fabric": 7499,
@@ -57,7 +57,7 @@ def upload_modrinth(loader: str, version: str, file_path: str):
         "loaders": [loader],
         "featured": True,
         "changelog": CHANGELOG,
-        "version_type": "release",
+        "version_type": RELEASE_TYPE,
         "file_parts": ["file"],
         "dependencies": []
     }
@@ -103,7 +103,7 @@ def upload_curseforge(loader: str, version: str, file_path: str):
     metadata = {
         "displayName": f"v{MOD_VERSION} ~ {loader.title()} {version}",
         "gameVersions": game_version_ids + [modloader_id],
-        "releaseType": "release",
+        "releaseType": RELEASE_TYPE,
         "changelog": CHANGELOG,
         "changelogType": "markdown"
     }

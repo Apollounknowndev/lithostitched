@@ -1,3 +1,5 @@
+rootProject.name = "lithostitched"
+
 pluginManagement {
     repositories {
         mavenCentral()
