@@ -113,7 +113,7 @@ publishing {
 
 publishMods {
     file = jar.archiveFile
-    changelog = "View changes in the technical changelog [here](https://github.com/Apollounknowndev/lithostitched/wiki/Technical-Changelog)."
+    changelog = "Fixed version numbers in metadata files."
     type = STABLE
     modLoaders.add("forge")
     displayName = "%s ~ Forge 1.20".formatted(project.version)

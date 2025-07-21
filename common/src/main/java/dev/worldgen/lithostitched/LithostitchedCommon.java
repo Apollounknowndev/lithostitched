@@ -142,6 +142,7 @@ public final class LithostitchedCommon {
 		consumer.accept("not", NotPlacementCondition.CODEC);
 		consumer.accept("offset", OffsetPlacementCondition.CODEC);
 		consumer.accept("sample_density", SampleDensityPlacementCondition.CODEC);
+		consumer.accept("sample_noise_router", SampleNoiseRouterPlacementCondition.CODEC);
 		consumer.accept("true", TruePlacementCondition.CODEC);
 	}
 
