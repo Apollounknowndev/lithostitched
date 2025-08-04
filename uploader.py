@@ -5,9 +5,9 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.5.0+beta1"
+MOD_VERSION = "1.5.0+beta2"
 CHANGELOG = """
-Internally restructured the mod to unify the 1.21.1 and 1.21.8 codebases. Nothing should be functionally different, please report issues if you find them!
+Fixed multiple crashes that could occur in beta 1.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "1.21.1"),

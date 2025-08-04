@@ -1,11 +1,14 @@
 package dev.worldgen.lithostitched.worldgen.structure;
 
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.valueproviders.IntProvider;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
 import net.minecraft.world.level.levelgen.structure.pools.DimensionPadding;
@@ -16,17 +19,19 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSetting
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
-public record AlternateJigsawConfig(Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, IntProvider size, HeightProvider startHeight, boolean useExpansionHack, Optional<Heightmap.Types> projectStartToHeightmap, int maxDistanceFromCenter, List<PoolAliasBinding> poolAliases, DimensionPadding dimensionPadding, LiquidSettings liquidSettings) {
+public record AlternateJigsawConfig(Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, IntProvider size, boolean fixedRotation, HeightProvider startHeight, boolean useExpansionHack, Optional<Heightmap.Types> projectStartToHeightmap, MaxDistance maxDistanceFromCenter, List<PoolAliasBinding> poolAliases, DimensionPadding dimensionPadding, LiquidSettings liquidSettings) {
 
     public static final MapCodec<AlternateJigsawConfig> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(AlternateJigsawConfig::startPool),
         ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(AlternateJigsawConfig::startJigsawName),
         IntProvider.codec(0, 20).fieldOf("size").forGetter(AlternateJigsawConfig::size),
+        Codec.BOOL.optionalFieldOf("fixed_rotation", false).forGetter(AlternateJigsawConfig::fixedRotation),
         HeightProvider.CODEC.fieldOf("start_height").forGetter(AlternateJigsawConfig::startHeight),
         Codec.BOOL.fieldOf("use_expansion_hack").forGetter(AlternateJigsawConfig::useExpansionHack),
         Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(AlternateJigsawConfig::projectStartToHeightmap),
-        Codec.intRange(1, 128).fieldOf("max_distance_from_center").forGetter(AlternateJigsawConfig::maxDistanceFromCenter),
+        MaxDistance.CODEC.fieldOf("max_distance_from_center").forGetter(AlternateJigsawConfig::maxDistanceFromCenter),
         Codec.list(PoolAliasBinding.CODEC).optionalFieldOf("pool_aliases", List.of()).forGetter(AlternateJigsawConfig::poolAliases),
         DimensionPadding.CODEC.optionalFieldOf("dimension_padding", DimensionPadding.ZERO).forGetter(AlternateJigsawConfig::dimensionPadding),
         LiquidSettings.CODEC.optionalFieldOf("liquid_settings", LiquidSettings.APPLY_WATERLOGGING).forGetter(AlternateJigsawConfig::liquidSettings)
@@ -41,6 +46,7 @@ public record AlternateJigsawConfig(Holder<StructureTemplatePool> startPool, Opt
             this.startPool,
             this.startJigsawName,
             this.size,
+            this.fixedRotation,
             this.startHeight,
             this.useExpansionHack,
             this.projectStartToHeightmap,
@@ -49,5 +55,23 @@ public record AlternateJigsawConfig(Holder<StructureTemplatePool> startPool, Opt
             this.dimensionPadding,
             this.liquidSettings
         );
+    }
+
+
+    public record MaxDistance(int horizontal, int vertical) {
+        private static final Codec<Integer> BASE_CODEC = Codec.intRange(1, 128);
+        private static final Codec<MaxDistance> FULL_CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            BASE_CODEC.fieldOf("horizontal").forGetter(MaxDistance::horizontal),
+            ExtraCodecs.intRange(1, DimensionType.Y_SIZE).optionalFieldOf("vertical", DimensionType.Y_SIZE).forGetter(MaxDistance::vertical)
+        ).apply(instance, MaxDistance::new));
+
+        public static final Codec<MaxDistance> CODEC = Codec.either(FULL_CODEC, BASE_CODEC).xmap(
+            either -> either.map(Function.identity(), MaxDistance::new),
+            maxDistance -> maxDistance.horizontal == maxDistance.vertical ? Either.right(maxDistance.horizontal) : Either.left(maxDistance)
+        );
+
+        public MaxDistance(int value) {
+            this(value, value);
+        }
     }
 }

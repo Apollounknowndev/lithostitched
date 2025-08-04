@@ -1,6 +1,7 @@
 package dev.worldgen.lithostitched.mixin.common;
 
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawConfig;
+import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawConfig.MaxDistance;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -38,6 +39,18 @@ public class JigsawStructureMixin {
         )
     )
     private Optional<Structure.GenerationStub> init(Structure.GenerationContext context, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, BlockPos pos, boolean useExpansionHack, Optional<Heightmap.Types> heightmapProjection, int maxDistToCenter, PoolAliasLookup lookup, DimensionPadding padding, LiquidSettings liquidSettings) {
-        return AlternateJigsawStructure.generate(context, new AlternateJigsawConfig(startPool, startJigsawName, ConstantInt.of(size), ConstantHeight.of(VerticalAnchor.BOTTOM), useExpansionHack, heightmapProjection, maxDistToCenter, poolAliases, padding, liquidSettings), true, size, pos, lookup);
+        return AlternateJigsawStructure.generate(context, new AlternateJigsawConfig(
+            startPool,
+            startJigsawName,
+            ConstantInt.of(size),
+            false,
+            ConstantHeight.of(VerticalAnchor.BOTTOM),
+            useExpansionHack,
+            heightmapProjection,
+            new MaxDistance(maxDistToCenter),
+            poolAliases,
+            padding,
+            liquidSettings
+        ), true, size, pos, lookup);
     }
 }

@@ -30,7 +30,7 @@ public class AlternateJigsawStructure extends Structure {
             case NONE -> 0;
             case BURY, BEARD_THIN, BEARD_BOX, ENCAPSULATE -> 12;
         };
-        return structure.config().maxDistanceFromCenter() + i > 128 ? DataResult.error(() -> "Structure size including terrain adaptation must not exceed 128") : DataResult.success(structure);
+        return structure.config().maxDistanceFromCenter().horizontal() + i > 128 ? DataResult.error(() -> "Structure size including terrain adaptation must not exceed 128") : DataResult.success(structure);
     }
     protected AlternateJigsawStructure(StructureSettings settings, AlternateJigsawConfig config) {
         super(settings);

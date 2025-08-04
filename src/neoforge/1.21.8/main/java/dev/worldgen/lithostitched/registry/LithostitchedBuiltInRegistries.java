@@ -3,10 +3,11 @@ package dev.worldgen.lithostitched.registry;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
+import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
+import dev.worldgen.lithostitched.worldgen.bandlands.band.Band;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorCondition;
-import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -36,13 +37,14 @@ public final class LithostitchedBuiltInRegistries {
 	private static final DeferredRegister<MapCodec<? extends ProcessorCondition>> DEFERRED_PROCESSOR_CONDITION_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.PROCESSOR_CONDITION_TYPE, MOD_ID);
 	public static final Registry<MapCodec<? extends ProcessorCondition>> PROCESSOR_CONDITION_TYPE = DEFERRED_PROCESSOR_CONDITION_TYPES.makeRegistry(builder -> builder.sync(false));
 
+	private static final DeferredRegister<MapCodec<? extends Band>> DEFERRED_BANDLANDS_BAND_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.BANDLANDS_BAND_TYPE, MOD_ID);
+	public static final Registry<MapCodec<? extends Band>> BANDLANDS_BAND_TYPE = DEFERRED_BANDLANDS_BAND_TYPES.makeRegistry(builder -> builder.sync(false));
+
 	private static final DeferredRegister<MapCodec<? extends BiomeModifier>> BIOME_MODIFIER_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MOD_ID);
 	private static final DeferredRegister<MapCodec<? extends ICondition>> RESOURCE_CONDITION_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, MOD_ID);
 
 	public static void init(IEventBus bus) {
 		bus.addListener((RegisterEvent event) -> {
-			event.register(Registries.MATERIAL_RULE, helper -> helper.register(key(Registries.MATERIAL_RULE, "transient_merged"), LithostitchedSurfaceRules.TransientMergedRuleSource.CODEC.codec()));
-
 			Lithostitched.registerCommonBlockPredicateTypes((name, type) -> register(event, Registries.BLOCK_PREDICATE_TYPE, name, type));
 			Lithostitched.registerCommonStateProviders((name, type) -> register(event, Registries.BLOCK_STATE_PROVIDER_TYPE, name, type));
 			Lithostitched.registerCommonPlacementModifiers((name, type) -> register(event, Registries.PLACEMENT_MODIFIER_TYPE, name, type));
@@ -53,10 +55,12 @@ public final class LithostitchedBuiltInRegistries {
 			Lithostitched.registerCommonStructureTypes((name, type) -> register(event, Registries.STRUCTURE_TYPE, name, type));
 			Lithostitched.registerCommonStructureProcessors((name, type) -> register(event, Registries.STRUCTURE_PROCESSOR, name, type));
 			Lithostitched.registerCommonBlockEntityModifiers((name, type) -> register(event, Registries.RULE_BLOCK_ENTITY_MODIFIER, name, type));
+			Lithostitched.registerCommonRuleSources((name, codec) -> register(event, Registries.MATERIAL_RULE, name, codec));
 		});
 
 		bus.addListener((DataPackRegistryEvent.NewRegistry event) -> {
 			event.dataPackRegistry(LithostitchedRegistryKeys.WORLDGEN_MODIFIER, Modifier.CODEC);
+			event.dataPackRegistry(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC);
 		});
 
 		Lithostitched.registerCommonModifiers((name, codec) -> DEFERRED_MODIFIER_TYPES.register(name, () -> codec));
@@ -68,6 +72,9 @@ public final class LithostitchedBuiltInRegistries {
 
 		Lithostitched.registerCommonProcessorConditions((name, codec) -> DEFERRED_PROCESSOR_CONDITION_TYPES.register(name, () -> codec));
 		DEFERRED_PROCESSOR_CONDITION_TYPES.register(bus);
+
+		Lithostitched.registerCommonBandlandsBandTypes((name, codec) -> DEFERRED_BANDLANDS_BAND_TYPES.register(name, () -> codec));
+		DEFERRED_BANDLANDS_BAND_TYPES.register(bus);
 
 		registerForgeBiomeModifiers((name, codec) -> BIOME_MODIFIER_TYPES.register(name, () -> codec));
 		BIOME_MODIFIER_TYPES.register(bus);

@@ -3,8 +3,12 @@
   "package": "dev.worldgen.lithostitched.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "common.bandlands.NoiseBasedChunkGeneratorMixin",
+    "common.bandlands.SurfaceRulesContextMixin",
+    "common.bandlands.SurfaceSystemMixin",
     "common.ChunkGeneratorAccessor",
     "common.ChunkMapMixin",
+    "common.DripstoneUtilsAccessor",
     "common.GameTestServerMixin",
     "common.HolderReferenceAccessor",
     "common.JigsawStructureAccessor",
@@ -20,8 +24,7 @@
     "common.StructureSetAccessor",
     "common.StructureTemplateMixin",
     "common.StructureTemplatePoolAccessor",
-    "common.StructureTemplatePoolMixin",
-    "common.DripstoneUtilsAccessor"
+    "common.StructureTemplatePoolMixin"
   ],
   "client": [
     "client.IntegratedServerMixin"

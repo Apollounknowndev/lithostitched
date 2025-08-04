@@ -8,3 +8,5 @@ accessible class net/minecraft/world/level/levelgen/DensityFunctions$EndIslandDe
 accessible class net/minecraft/world/level/biome/Biome$ClimateSettings
 
 accessible method net/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType <init> (Lcom/mojang/serialization/MapCodec;)V
+
+accessible class net/minecraft/world/level/levelgen/SurfaceRules$Context

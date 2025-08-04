@@ -2,6 +2,10 @@ package dev.worldgen.lithostitched;
 
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.config.ConfigHandler;
+import dev.worldgen.lithostitched.worldgen.bandlands.band.Band;
+import dev.worldgen.lithostitched.worldgen.bandlands.band.BaseBand;
+import dev.worldgen.lithostitched.worldgen.bandlands.band.RepeatingBand;
+import dev.worldgen.lithostitched.worldgen.bandlands.band.WrappedBand;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.BlockStatePredicate;
@@ -27,6 +31,9 @@ import dev.worldgen.lithostitched.worldgen.stateprovider.RandomBlockProvider;
 import dev.worldgen.lithostitched.worldgen.stateprovider.WeightedProvider;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
+import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules;
+import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules.BandlandsRuleSource;
+import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules.TransientMergedRuleSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -36,6 +43,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicateType;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType;
@@ -188,6 +196,18 @@ public final class Lithostitched {
 		consumer.accept("apply_all", ApplyAll.TYPE);
 		consumer.accept("apply_random", ApplyRandom.TYPE);
 	}
+
+	public static void registerCommonRuleSources(BiConsumer<String, MapCodec<? extends SurfaceRules.RuleSource>> consumer) {
+		consumer.accept("transient_merged", TransientMergedRuleSource.CODEC.codec());
+		consumer.accept("bandlands", BandlandsRuleSource.CODEC.codec());
+	}
+
+	public static void registerCommonBandlandsBandTypes(BiConsumer<String, MapCodec<? extends Band>> consumer) {
+		consumer.accept("base", BaseBand.CODEC);
+		consumer.accept("repeating", RepeatingBand.CODEC);
+		consumer.accept("wrapped", WrappedBand.CODEC);
+	}
+
 
 	public static void debug(String message, Object... arguments) {
 		if (ConfigHandler.getConfig().logDebugMessages()) {

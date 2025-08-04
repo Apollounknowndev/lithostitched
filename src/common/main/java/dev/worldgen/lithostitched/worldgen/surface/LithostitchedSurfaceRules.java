@@ -1,6 +1,11 @@
 package dev.worldgen.lithostitched.worldgen.surface;
 
 import com.google.common.collect.ImmutableList;
+import dev.worldgen.lithostitched.duck.ContextAccessor;
+import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.SurfaceRules;
@@ -8,19 +13,6 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 import java.util.List;
 
 public class LithostitchedSurfaceRules extends SurfaceRules {
-    private record SequenceRule(List<SurfaceRule> rules) implements SurfaceRule {
-        @Override
-        public BlockState tryApply(int x, int y, int z) {
-            for (SurfaceRule surfaceRule : this.rules) {
-                BlockState blockstate = surfaceRule.tryApply(x, y, z);
-                if (blockstate != null) {
-                    return blockstate;
-                }
-            }
-            return null;
-        }
-    }
-
     /**
      * The {@link RuleSource} type responsible for merging new surface rules with original surface rules.
      *
@@ -49,8 +41,32 @@ public class LithostitchedSurfaceRules extends SurfaceRules {
                     builder.add(ruleSource.apply(context));
                 }
                 builder.add(this.original.apply(context));
-                return new SequenceRule(builder.build());
+                return (x, y, z) -> {
+                    for (SurfaceRule surfaceRule : builder.build()) {
+                        BlockState blockstate = surfaceRule.tryApply(x, y, z);
+                        if (blockstate != null) {
+                            return blockstate;
+                        }
+                    }
+                    return null;
+                };
             }
+        }
+    }
+
+    public record BandlandsRuleSource(Holder<Bandlands> options) implements RuleSource {
+        public static final KeyDispatchDataCodec<BandlandsRuleSource> CODEC = KeyDispatchDataCodec.of(
+            RegistryFileCodec.create(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC, false).fieldOf("options").xmap(BandlandsRuleSource::new, BandlandsRuleSource::options)
+        );
+
+        @Override
+        public KeyDispatchDataCodec<? extends RuleSource> codec() {
+            return CODEC;
+        }
+
+        @Override
+        public SurfaceRule apply(Context context) {
+            return (x, y, z) -> options.value().getBand(((ContextAccessor)(Object)context).getSystem(), x, y, z);
         }
     }
 }

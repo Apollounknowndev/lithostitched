@@ -3,27 +3,27 @@ package dev.worldgen.lithostitched.registry;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
+import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
-import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.msrandom.multiplatform.annotations.Expect;
 
 import java.util.function.BiConsumer;
 
 import static dev.worldgen.lithostitched.registry.LithostitchedBuiltInRegistries.*;
-import static dev.worldgen.lithostitched.registry.LithostitchedMaterialRules.TRANSIENT_MERGED;
 
 public class LithostitchedRegistrations {
     public static void init() {
         DynamicRegistries.register(LithostitchedRegistryKeys.WORLDGEN_MODIFIER, Modifier.CODEC);
+        DynamicRegistries.register(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC);
 
         Lithostitched.registerCommonModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));
         registerFabricModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));
         Lithostitched.registerCommonPlacementConditions((name, codec) -> register(PLACEMENT_CONDITION_TYPE, name, codec));
         Lithostitched.registerCommonProcessorConditions((name, codec) -> register(PROCESSOR_CONDITION_TYPE, name, codec));
+        Lithostitched.registerCommonBandlandsBandTypes((name, codec) -> register(BANDLANDS_BAND_TYPE, name, codec));
 
         Lithostitched.registerCommonBlockPredicateTypes((name, type) -> register(BuiltInRegistries.BLOCK_PREDICATE_TYPE, name, type));
         Lithostitched.registerCommonStateProviders((name, type) -> register(BuiltInRegistries.BLOCKSTATE_PROVIDER_TYPE, name, type));
@@ -35,8 +35,7 @@ public class LithostitchedRegistrations {
         Lithostitched.registerCommonStructureTypes((name, type) -> register(BuiltInRegistries.STRUCTURE_TYPE, name, type));
         Lithostitched.registerCommonStructureProcessors((name, type) -> register(BuiltInRegistries.STRUCTURE_PROCESSOR, name, type));
         Lithostitched.registerCommonBlockEntityModifiers((name, type) -> register(BuiltInRegistries.RULE_BLOCK_ENTITY_MODIFIER, name, type));
-
-        Registry.register(BuiltInRegistries.MATERIAL_RULE, TRANSIENT_MERGED, LithostitchedSurfaceRules.TransientMergedRuleSource.CODEC.codec());
+        Lithostitched.registerCommonRuleSources((name, codec) -> register(BuiltInRegistries.MATERIAL_RULE, name, codec));
 
         ResourceConditions.register(BreaksSeedParityCondition.TYPE);
     }

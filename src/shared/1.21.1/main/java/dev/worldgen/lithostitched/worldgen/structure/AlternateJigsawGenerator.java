@@ -5,6 +5,7 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.duck.StructurePoolAccess;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
+import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawConfig.MaxDistance;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.Pools;
@@ -22,10 +23,7 @@ import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.pools.EmptyPoolElement;
-import net.minecraft.world.level.levelgen.structure.pools.JigsawJunction;
-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import net.minecraft.world.level.levelgen.structure.pools.*;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
 import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
@@ -40,63 +38,85 @@ import java.util.*;
 
 public class AlternateJigsawGenerator {
     public static Optional<Structure.GenerationStub> generate(Structure.GenerationContext context, AlternateJigsawConfig config, boolean vanilla, int size, BlockPos pos, PoolAliasLookup aliasLookup) {
-        RegistryAccess dynamicRegistryManager = context.registryAccess();
+        RegistryAccess registries = context.registryAccess();
         ChunkGenerator chunkGenerator = context.chunkGenerator();
         StructureTemplateManager structureTemplateManager = context.structureTemplateManager();
         LevelHeightAccessor heightLimitView = context.heightAccessor();
         WorldgenRandom random = context.random();
 
-        Registry<StructureTemplatePool> registry = dynamicRegistryManager.registryOrThrow(Registries.TEMPLATE_POOL);
-        Rotation blockRotation = Rotation.getRandom(random);
+        Registry<StructureTemplatePool> registry = registries.registryOrThrow(Registries.TEMPLATE_POOL);
+        Rotation rotation = config.fixedRotation() ? Rotation.NONE : Rotation.getRandom(random);
 
         StructurePoolElement startingElement = config.startPool().unwrapKey().flatMap(
-                (resourceKey) -> registry.getOptional(aliasLookup.lookup(resourceKey))
+            (resourceKey) -> registry.getOptional(aliasLookup.lookup(resourceKey))
         ).orElse(config.startPool().value()).getRandomTemplate(random);
 
         if (startingElement == EmptyPoolElement.INSTANCE) {
             return Optional.empty();
-        } else {
-            BlockPos blockPos;
-            Optional<ResourceLocation> startJigsawName = config.startJigsawName();
-            if (startJigsawName.isPresent()) {
-                ResourceLocation identifier = startJigsawName.get();
-                Optional<BlockPos> optional = findNamedJigsaw(startingElement, identifier, pos, blockRotation, structureTemplateManager, random);
-                if (optional.isEmpty()) {
-                    Lithostitched.LOGGER.error("No starting jigsaw {} found in start pool {}", identifier, config.startPool().unwrapKey().map((key) -> key.location().toString()).orElse("<unregistered>"));
-                    return Optional.empty();
-                }
+        }
 
-                blockPos = optional.get();
-            } else {
-                blockPos = pos;
+        BlockPos startPos;
+        Optional<ResourceLocation> startJigsawName = config.startJigsawName();
+        if (startJigsawName.isPresent()) {
+            ResourceLocation identifier = startJigsawName.get();
+            Optional<BlockPos> optional = findNamedJigsaw(startingElement, identifier, pos, rotation, structureTemplateManager, random);
+            if (optional.isEmpty()) {
+                Lithostitched.LOGGER.error("No starting jigsaw {} found in start pool {}", identifier, config.startPool().unwrapKey().map((key) -> key.location().toString()).orElse("<unregistered>"));
+                return Optional.empty();
             }
 
-            Vec3i vec3i = blockPos.subtract(pos);
-            BlockPos blockPos2 = pos.subtract(vec3i);
-            PoolElementStructurePiece poolStructurePiece = new PoolElementStructurePiece(structureTemplateManager, startingElement, blockPos2, startingElement.getGroundLevelDelta(), blockRotation, startingElement.getBoundingBox(structureTemplateManager, blockPos2, blockRotation), config.liquidSettings());
-            BoundingBox blockBox = poolStructurePiece.getBoundingBox();
-            int i = (blockBox.maxX() + blockBox.minX()) / 2;
-            int j = (blockBox.maxZ() + blockBox.minZ()) / 2;
-            int k;
-            k = config.projectStartToHeightmap().map(
-                    type -> pos.getY() + chunkGenerator.getFirstFreeHeight(i, j, type, heightLimitView, context.randomState())
-            ).orElseGet(blockPos2::getY);
+            startPos = optional.get();
+        } else {
+            startPos = pos;
+        }
 
-            int l = blockBox.minY() + poolStructurePiece.getGroundLevelDelta();
-            poolStructurePiece.move(0, k - l, 0);
-            int m = k + vec3i.getY();
-            return Optional.of(new Structure.GenerationStub(new BlockPos(i, m, j), (collector) -> {
-                List<PoolElementStructurePiece> list = Lists.newArrayList();
-                list.add(poolStructurePiece);
-                if (size > 0) {
-                    int maxDistanceFromCenter = config.maxDistanceFromCenter();
-                    AABB box = new AABB((i - maxDistanceFromCenter), Math.max(m - maxDistanceFromCenter, heightLimitView.getMinBuildHeight() + config.dimensionPadding().bottom()), (j - maxDistanceFromCenter), (i + maxDistanceFromCenter + 1), Math.min(m + maxDistanceFromCenter + 1, heightLimitView.getMaxBuildHeight() - config.dimensionPadding().top()), (j + maxDistanceFromCenter + 1));
-                    VoxelShape voxelShape = Shapes.join(Shapes.create(box), Shapes.create(AABB.of(blockBox)), BooleanOp.ONLY_FIRST);
-                    generatePieces(context, vanilla, size, config.useExpansionHack(), chunkGenerator, structureTemplateManager, heightLimitView, random, registry, poolStructurePiece, list, voxelShape, aliasLookup, config.liquidSettings());
-                    Objects.requireNonNull(collector);
-                    list.forEach(collector::addPiece);
-                }
-            }));
+        Vec3i vec3i = startPos.subtract(pos);
+        BlockPos blockPos2 = pos.subtract(vec3i);
+        PoolElementStructurePiece piece = new PoolElementStructurePiece(structureTemplateManager, startingElement, blockPos2, startingElement.getGroundLevelDelta(), rotation, startingElement.getBoundingBox(structureTemplateManager, blockPos2, rotation), config.liquidSettings());
+        BoundingBox blockBox = piece.getBoundingBox();
+        int originX = (blockBox.maxX() + blockBox.minX()) / 2;
+        int originZ = (blockBox.maxZ() + blockBox.minZ()) / 2;
+        int k;
+        k = config.projectStartToHeightmap().map(
+            type -> pos.getY() + chunkGenerator.getFirstFreeHeight(originX, originZ, type, heightLimitView, context.randomState())
+        ).orElseGet(blockPos2::getY);
+
+        int l = blockBox.minY() + piece.getGroundLevelDelta();
+        piece.move(0, k - l, 0);
+
+        if (pieceWithinPaddingBounds(heightLimitView, config.dimensionPadding(), piece.getBoundingBox())) {
+            return Optional.empty();
+        }
+
+        int originY = k + vec3i.getY();
+        return Optional.of(new Structure.GenerationStub(new BlockPos(originX, originY, originZ), (collector) -> {
+            List<PoolElementStructurePiece> list = Lists.newArrayList();
+            list.add(piece);
+            if (size > 0) {
+                MaxDistance maxDistance = config.maxDistanceFromCenter();
+                AABB box = new AABB(
+                    originX - maxDistance.horizontal(),
+                    Math.max(originY - maxDistance.vertical(), heightLimitView.getMinBuildHeight() + config.dimensionPadding().bottom()),
+                    originZ - maxDistance.horizontal(),
+                    originX + maxDistance.horizontal() + 1,
+                    Math.min(originY + maxDistance.vertical() + 1, heightLimitView.getMaxBuildHeight() - config.dimensionPadding().top()),
+                    originZ + maxDistance.horizontal() + 1
+                );
+                VoxelShape voxelShape = Shapes.join(Shapes.create(box), Shapes.create(AABB.of(blockBox)), BooleanOp.ONLY_FIRST);
+                generatePieces(context, vanilla, size, config.useExpansionHack(), chunkGenerator, structureTemplateManager, heightLimitView, random, registry, piece, list, voxelShape, aliasLookup, config.liquidSettings());
+                Objects.requireNonNull(collector);
+                list.forEach(collector::addPiece);
+            }
+        }));
+    }
+
+    private static boolean pieceWithinPaddingBounds(LevelHeightAccessor levelHeightAccessor, DimensionPadding dimensionPadding, BoundingBox boundingBox) {
+        if (dimensionPadding == DimensionPadding.ZERO) {
+            return false;
+        } else {
+            int minY = levelHeightAccessor.getMinBuildHeight() + dimensionPadding.bottom();
+            int maxY = levelHeightAccessor.getMaxBuildHeight() - dimensionPadding.top();
+            return boundingBox.minY() < minY || boundingBox.maxY() > maxY;
         }
     }
 

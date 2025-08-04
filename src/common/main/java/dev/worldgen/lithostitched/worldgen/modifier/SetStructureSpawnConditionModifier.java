@@ -3,6 +3,7 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
@@ -40,7 +41,7 @@ public record SetStructureSpawnConditionModifier(HolderSet<Structure> structures
             if (structure instanceof Holder.Reference<Structure> reference) {
                 final Structure delegating = new DelegatingStructure(new DelegatingConfig(Holder.direct(structure.value()), this.spawnCondition));
                 ((HolderReferenceAccessor<Structure>)structure).setValue(delegating);
-                ((MappedRegistryAccessor<Structure>)registries.lookupOrThrow(Registries.STRUCTURE)).getByValue().put(delegating, reference);
+                ((MappedRegistryAccessor<Structure>) Lithostitched.registry(registries, Registries.STRUCTURE)).getByValue().put(delegating, reference);
             }
         }
     }
