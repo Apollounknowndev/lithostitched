@@ -22,8 +22,9 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  *
  * @author Apollo
  */
-public record AddTemplatePoolElementsModifier(HolderSet<StructureTemplatePool> templatePools, List<Pair<StructurePoolElement, Integer>> elements) implements Modifier {
+public record AddTemplatePoolElementsModifier(int priority, HolderSet<StructureTemplatePool> templatePools, List<Pair<StructurePoolElement, Integer>> elements) implements Modifier {
     public static final MapCodec<AddTemplatePoolElementsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        PRIORITY_DEFAULT.forGetter(AddTemplatePoolElementsModifier::priority),
         registrySet(Registries.TEMPLATE_POOL, "template_pools").forGetter(AddTemplatePoolElementsModifier::templatePools),
         Codec.mapPair(
             StructurePoolElement.CODEC.fieldOf("element"),
@@ -34,11 +35,6 @@ public record AddTemplatePoolElementsModifier(HolderSet<StructureTemplatePool> t
     @Override
     public MapCodec<? extends Modifier> codec() {
         return CODEC;
-    }
-
-    @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.ADD;
     }
 
     @Override

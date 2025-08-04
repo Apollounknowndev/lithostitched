@@ -23,8 +23,9 @@ import java.util.function.Supplier;
  *
  * @author Apollo
  */
-public record ReplaceEffectsModifier(HolderSet<Biome> biomes, BiomeEffects specialEffects) implements Modifier {
+public record ReplaceEffectsModifier(int priority, HolderSet<Biome> biomes, BiomeEffects specialEffects) implements Modifier {
     public static final MapCodec<ReplaceEffectsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        PRIORITY_DEFAULT.forGetter(ReplaceEffectsModifier::priority),
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceEffectsModifier::biomes),
         BiomeEffects.CODEC.fieldOf("effects").forGetter(ReplaceEffectsModifier::specialEffects)
     ).apply(instance, ReplaceEffectsModifier::new));
@@ -85,11 +86,6 @@ public record ReplaceEffectsModifier(HolderSet<Biome> biomes, BiomeEffects speci
         if (value != null) {
             applier.accept(value);
         }
-    }
-
-    @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.MODIFY;
     }
 
     @Override

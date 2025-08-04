@@ -10,11 +10,11 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
 
-public record WrapDensityFunctionModifier(int priority, Holder<DensityFunction> targetFunction, Holder<DensityFunction> wrapperFunction) implements PriorityBasedModifier {
+public record WrapDensityFunctionModifier(int priority, Holder<DensityFunction> targetFunction, Holder<DensityFunction> wrapperFunction) implements Modifier {
     private static final Codec<Holder<DensityFunction>> DF_REFERENCE_CODEC = RegistryFileCodec.create(Registries.DENSITY_FUNCTION, DensityFunction.DIRECT_CODEC, false);
 
     public static final MapCodec<WrapDensityFunctionModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        PRIORITY_CODEC.forGetter(WrapDensityFunctionModifier::priority),
+        PRIORITY_DEFAULT.forGetter(WrapDensityFunctionModifier::priority),
         DF_REFERENCE_CODEC.fieldOf("target_function").forGetter(WrapDensityFunctionModifier::targetFunction),
         DensityFunction.CODEC.fieldOf("wrapper_function").forGetter(WrapDensityFunctionModifier::wrapperFunction)
     ).apply(instance, WrapDensityFunctionModifier::new));
@@ -26,16 +26,6 @@ public record WrapDensityFunctionModifier(int priority, Holder<DensityFunction> 
             var accessor = ((HolderReferenceAccessor<DensityFunction>)reference);
             accessor.setValue(DensityFunctionWrapper.wrap(this.targetFunction.value(), this.wrapperFunction.value()));
         }
-    }
-
-    @Override
-    public int getPriority() {
-        return this.priority;
-    }
-
-    @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.MODIFY;
     }
 
     @Override

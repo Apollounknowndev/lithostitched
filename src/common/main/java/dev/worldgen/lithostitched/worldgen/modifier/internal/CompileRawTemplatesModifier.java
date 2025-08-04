@@ -13,11 +13,6 @@ public record CompileRawTemplatesModifier() implements Modifier {
     public static final MapCodec<CompileRawTemplatesModifier> CODEC = MapCodec.unit(CompileRawTemplatesModifier::new);
 
     @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.AFTER_ALL;
-    }
-
-    @Override
     public void applyModifier(RegistryAccess registries) {
         var poolRegistry = Lithostitched.registry(registries, Registries.TEMPLATE_POOL).stream().toList();
         for (StructureTemplatePool pool : poolRegistry) {
@@ -28,6 +23,11 @@ public record CompileRawTemplatesModifier() implements Modifier {
     @Override
     public void applyModifier() {
 
+    }
+
+    @Override
+    public int priority() {
+        return Integer.MAX_VALUE;
     }
 
     @Override

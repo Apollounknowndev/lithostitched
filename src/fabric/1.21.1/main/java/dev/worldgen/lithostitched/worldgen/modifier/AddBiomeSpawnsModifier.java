@@ -22,8 +22,9 @@ import java.util.List;
  *
  * @author Apollo
  */
-public record AddBiomeSpawnsModifier(HolderSet<Biome> biomes, List<MobSpawnSettings.SpawnerData> biomeSpawns) implements Modifier {
+public record AddBiomeSpawnsModifier(int priority, HolderSet<Biome> biomes, List<MobSpawnSettings.SpawnerData> biomeSpawns) implements Modifier {
     public static final MapCodec<AddBiomeSpawnsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        PRIORITY_DEFAULT.forGetter(AddBiomeSpawnsModifier::priority),
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddBiomeSpawnsModifier::biomes),
         Codec.mapEither(
             MobSpawnSettings.SpawnerData.CODEC.listOf().fieldOf("spawners"),
@@ -55,11 +56,6 @@ public record AddBiomeSpawnsModifier(HolderSet<Biome> biomes, List<MobSpawnSetti
         for (Holder<Biome> entry : biomes.stream().toList()) {
             this.applyModifier(entry.value());
         }
-    }
-
-    @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.ADD;
     }
 
     @Override

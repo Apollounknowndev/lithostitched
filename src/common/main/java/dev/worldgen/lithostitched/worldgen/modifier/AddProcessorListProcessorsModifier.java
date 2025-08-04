@@ -20,8 +20,9 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  *
  * @author Apollo
  */
-public record AddProcessorListProcessorsModifier(HolderSet<StructureProcessorList> processorLists, StructureProcessorList processors) implements Modifier {
+public record AddProcessorListProcessorsModifier(int priority, HolderSet<StructureProcessorList> processorLists, StructureProcessorList processors) implements Modifier {
     public static final MapCodec<AddProcessorListProcessorsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        PRIORITY_DEFAULT.forGetter(AddProcessorListProcessorsModifier::priority),
         registrySet(Registries.PROCESSOR_LIST, "processor_lists").forGetter(AddProcessorListProcessorsModifier::processorLists),
         StructureProcessorType.LIST_OBJECT_CODEC.fieldOf("processors").forGetter(AddProcessorListProcessorsModifier::processors)
     ).apply(instance, AddProcessorListProcessorsModifier::new));
@@ -38,11 +39,6 @@ public record AddProcessorListProcessorsModifier(HolderSet<StructureProcessorLis
         structureProcessors.addAll(this.processors.list());
 
         accessor.setProcessors(structureProcessors);
-    }
-
-    @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.ADD;
     }
 
     @Override

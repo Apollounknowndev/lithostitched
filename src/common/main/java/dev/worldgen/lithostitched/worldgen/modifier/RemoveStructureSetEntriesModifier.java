@@ -20,8 +20,9 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  *
  * @author Apollo
  */
-public record RemoveStructureSetEntriesModifier(HolderSet<StructureSet> structureSets, List<Holder<Structure>> entries) implements Modifier {
+public record RemoveStructureSetEntriesModifier(int priority, HolderSet<StructureSet> structureSets, List<Holder<Structure>> entries) implements Modifier {
     public static final MapCodec<RemoveStructureSetEntriesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        PRIORITY_REMOVE.forGetter(RemoveStructureSetEntriesModifier::priority),
         registrySet(Registries.STRUCTURE_SET, "structure_sets").forGetter(RemoveStructureSetEntriesModifier::structureSets),
         Structure.CODEC.listOf().fieldOf("structures").forGetter(RemoveStructureSetEntriesModifier::entries)
     ).apply(instance, RemoveStructureSetEntriesModifier::new));
@@ -35,11 +36,6 @@ public record RemoveStructureSetEntriesModifier(HolderSet<StructureSet> structur
         StructureSetAccessor structureSetAccessor = ((StructureSetAccessor)(Object)structureSet);
         List<StructureSet.StructureSelectionEntry> structureSelectionEntries = new ArrayList<>(structureSet.structures());
         structureSetAccessor.setStructures(structureSelectionEntries.stream().filter(setEntry -> !entries.contains(setEntry.structure())).collect(Collectors.toList()));
-    }
-
-    @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.REMOVE;
     }
 
     @Override

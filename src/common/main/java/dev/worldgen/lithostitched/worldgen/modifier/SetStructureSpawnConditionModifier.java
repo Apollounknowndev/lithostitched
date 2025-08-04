@@ -17,17 +17,13 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
-public record SetStructureSpawnConditionModifier(HolderSet<Structure> structures, PlacementCondition spawnCondition, boolean append) implements Modifier {
+public record SetStructureSpawnConditionModifier(int priority, HolderSet<Structure> structures, PlacementCondition spawnCondition, boolean append) implements Modifier {
     public static final MapCodec<SetStructureSpawnConditionModifier> CODEC = RecordCodecBuilder.<SetStructureSpawnConditionModifier>mapCodec(instance -> instance.group(
+        PRIORITY_DEFAULT.forGetter(SetStructureSpawnConditionModifier::priority),
         registrySet(Registries.STRUCTURE, "structures").forGetter(SetStructureSpawnConditionModifier::structures),
         PlacementCondition.CODEC.fieldOf("spawn_condition").forGetter(SetStructureSpawnConditionModifier::spawnCondition),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetStructureSpawnConditionModifier::append)
     ).apply(instance, SetStructureSpawnConditionModifier::new));
-
-    @Override
-    public ModifierPhase getPhase() {
-        return this.append ? ModifierPhase.REPLACE : ModifierPhase.ADD;
-    }
 
     @Override
     public void applyModifier(RegistryAccess registries) {

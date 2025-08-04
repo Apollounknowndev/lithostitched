@@ -18,11 +18,12 @@ import java.util.List;
  *
  * @author Apollo
  */
-public record AddFeaturesModifier(HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) implements Modifier {
+public record AddFeaturesModifier(int priority, HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) implements Modifier {
     public static final MapCodec<AddFeaturesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddFeaturesModifier::biomes),
-            PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(AddFeaturesModifier::features),
-            GenerationStep.Decoration.CODEC.fieldOf("step").forGetter(AddFeaturesModifier::step)
+        PRIORITY_DEFAULT.forGetter(AddFeaturesModifier::priority),
+        Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddFeaturesModifier::biomes),
+        PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(AddFeaturesModifier::features),
+        GenerationStep.Decoration.CODEC.fieldOf("step").forGetter(AddFeaturesModifier::step)
     ).apply(instance, AddFeaturesModifier::new));
 
     public void applyModifier(Biome biome) {
@@ -55,11 +56,6 @@ public record AddFeaturesModifier(HolderSet<Biome> biomes, HolderSet<PlacedFeatu
         for (Holder<Biome> entry : biomes.stream().toList()) {
             this.applyModifier(entry.value());
         }
-    }
-
-    @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.ADD;
     }
 
     @Override

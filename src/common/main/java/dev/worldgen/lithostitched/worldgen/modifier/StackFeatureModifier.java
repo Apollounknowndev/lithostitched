@@ -15,8 +15,9 @@ import java.util.List;
 
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
-public record StackFeatureModifier(HolderSet<ConfiguredFeature<?, ?>> baseFeatures, Holder<PlacedFeature> stackedFeature, CompositeConfig.Type placementType) implements Modifier {
+public record StackFeatureModifier(int priority, HolderSet<ConfiguredFeature<?, ?>> baseFeatures, Holder<PlacedFeature> stackedFeature, CompositeConfig.Type placementType) implements Modifier {
     public static final MapCodec<StackFeatureModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        PRIORITY_DEFAULT.forGetter(StackFeatureModifier::priority),
         registrySet(Registries.CONFIGURED_FEATURE, "base_features").forGetter(StackFeatureModifier::baseFeatures),
         PlacedFeature.CODEC.fieldOf("stacked_feature").forGetter(StackFeatureModifier::stackedFeature),
         // TODO: Changelog this!!
@@ -40,11 +41,6 @@ public record StackFeatureModifier(HolderSet<ConfiguredFeature<?, ?>> baseFeatur
                 this.placementType
             )));
         }
-    }
-
-    @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.MODIFY;
     }
 
     @Override

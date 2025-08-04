@@ -18,8 +18,9 @@ import java.util.List;
  *
  * @author Apollo
  */
-public record RemoveFeaturesModifier(HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) implements Modifier {
+public record RemoveFeaturesModifier(int priority, HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) implements Modifier {
     public static final MapCodec<RemoveFeaturesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        PRIORITY_REMOVE.forGetter(RemoveFeaturesModifier::priority),
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(RemoveFeaturesModifier::biomes),
         PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(RemoveFeaturesModifier::features),
         GenerationStep.Decoration.CODEC.fieldOf("step").forGetter(RemoveFeaturesModifier::step)
@@ -50,11 +51,6 @@ public record RemoveFeaturesModifier(HolderSet<Biome> biomes, HolderSet<PlacedFe
         for (Holder<Biome> entry : biomes.stream().toList()) {
             this.applyModifier(entry.value());
         }
-    }
-
-    @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.REMOVE;
     }
 
     @Override

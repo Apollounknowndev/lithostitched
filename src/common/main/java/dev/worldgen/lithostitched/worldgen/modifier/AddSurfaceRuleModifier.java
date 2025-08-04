@@ -15,16 +15,12 @@ import java.util.List;
  *
  * @author Apollo
  */
-public record AddSurfaceRuleModifier(List<ResourceKey<LevelStem>> levels, SurfaceRules.RuleSource surfaceRule) implements Modifier {
+public record AddSurfaceRuleModifier(int priority, List<ResourceKey<LevelStem>> levels, SurfaceRules.RuleSource surfaceRule) implements Modifier {
     public static final MapCodec<AddSurfaceRuleModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        PRIORITY_DEFAULT.forGetter(AddSurfaceRuleModifier::priority),
         ResourceKey.codec(Registries.LEVEL_STEM).listOf().fieldOf("levels").forGetter(AddSurfaceRuleModifier::levels),
         SurfaceRules.RuleSource.CODEC.fieldOf("surface_rule").forGetter(AddSurfaceRuleModifier::surfaceRule)
     ).apply(instance, AddSurfaceRuleModifier::new));
-
-    @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.NONE;
-    }
 
     @Override
     public void applyModifier() {}

@@ -46,7 +46,6 @@ public class AddBiomeSpawnsModifier extends AbstractBiomeModifier {
         return this.biomeSpawns;
     }
 
-
     @Override
     public MapCodec<? extends Modifier> codec() {
         return CODEC;

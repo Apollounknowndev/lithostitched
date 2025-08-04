@@ -19,8 +19,9 @@ import java.util.List;
 
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
-public record SetPoolAliasesModifier(HolderSet<Structure> structures, List<PoolAliasBinding> poolAliases, boolean append) implements Modifier {
+public record SetPoolAliasesModifier(int priority, HolderSet<Structure> structures, List<PoolAliasBinding> poolAliases, boolean append) implements Modifier {
     public static final MapCodec<SetPoolAliasesModifier> CODEC = RecordCodecBuilder.<SetPoolAliasesModifier>mapCodec(instance -> instance.group(
+        PRIORITY_DEFAULT.forGetter(SetPoolAliasesModifier::priority),
         registrySet(Registries.STRUCTURE, "structures").forGetter(SetPoolAliasesModifier::structures),
         Codec.list(PoolAliasBinding.CODEC).fieldOf("pool_aliases").forGetter(SetPoolAliasesModifier::poolAliases),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetPoolAliasesModifier::append)
@@ -38,11 +39,6 @@ public record SetPoolAliasesModifier(HolderSet<Structure> structures, List<PoolA
             }
         }
         return DataResult.success(modifier);
-    }
-
-    @Override
-    public ModifierPhase getPhase() {
-        return this.append ? ModifierPhase.REPLACE : ModifierPhase.ADD;
     }
 
     @Override

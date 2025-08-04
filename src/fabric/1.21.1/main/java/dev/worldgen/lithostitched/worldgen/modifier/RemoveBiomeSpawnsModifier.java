@@ -23,8 +23,9 @@ import java.util.List;
  *
  * @author Apollo
  */
-public record RemoveBiomeSpawnsModifier(HolderSet<Biome> biomes, HolderSet<EntityType<?>> mobs) implements Modifier {
+public record RemoveBiomeSpawnsModifier(int priority, HolderSet<Biome> biomes, HolderSet<EntityType<?>> mobs) implements Modifier {
     public static final MapCodec<RemoveBiomeSpawnsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        PRIORITY_REMOVE.forGetter(RemoveBiomeSpawnsModifier::priority),
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(RemoveBiomeSpawnsModifier::biomes),
         RegistryCodecs.homogeneousList(Registries.ENTITY_TYPE).fieldOf("mobs").forGetter(RemoveBiomeSpawnsModifier::mobs)
     ).apply(instance, RemoveBiomeSpawnsModifier::new));
@@ -54,11 +55,6 @@ public record RemoveBiomeSpawnsModifier(HolderSet<Biome> biomes, HolderSet<Entit
         for (Holder<Biome> entry : biomes.stream().toList()) {
             this.applyModifier(entry.value());
         }
-    }
-
-    @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.REMOVE;
     }
 
     @Override

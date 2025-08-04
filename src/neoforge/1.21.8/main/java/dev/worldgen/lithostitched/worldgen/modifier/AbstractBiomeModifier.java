@@ -21,8 +21,8 @@ public abstract class AbstractBiomeModifier implements Modifier {
     }
 
     @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.NONE;
+    public int priority() {
+        return 0;
     }
 
     @Override

@@ -30,8 +30,9 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  *
  * @author Apollo
  */
-public record SetPoolElementProcessorsModifier(HolderSet<StructureTemplatePool> templatePools, Optional<List<ResourceLocation>> locations, Holder<StructureProcessorList> processorList, boolean append) implements Modifier {
+public record SetPoolElementProcessorsModifier(int priority, HolderSet<StructureTemplatePool> templatePools, Optional<List<ResourceLocation>> locations, Holder<StructureProcessorList> processorList, boolean append) implements Modifier {
     public static final MapCodec<SetPoolElementProcessorsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        PRIORITY_DEFAULT.forGetter(SetPoolElementProcessorsModifier::priority),
         registrySet(Registries.TEMPLATE_POOL, "template_pools").forGetter(SetPoolElementProcessorsModifier::templatePools),
         LithostitchedCodecs.compactList(ResourceLocation.CODEC).optionalFieldOf("locations").forGetter(SetPoolElementProcessorsModifier::locations),
         StructureProcessorType.LIST_CODEC.fieldOf("processor_list").forGetter(SetPoolElementProcessorsModifier::processorList),
@@ -69,11 +70,6 @@ public record SetPoolElementProcessorsModifier(HolderSet<StructureTemplatePool> 
         processors.addAll(processorList.value().list());
 
         element.setProcessors(Holder.direct(new StructureProcessorList(processors)));
-    }
-
-    @Override
-    public ModifierPhase getPhase() {
-        return this.append ? ModifierPhase.REPLACE : ModifierPhase.ADD;
     }
 
     @Override

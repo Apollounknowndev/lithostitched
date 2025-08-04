@@ -9,16 +9,15 @@ import com.mojang.serialization.MapCodec;
  * @author Apollo
  */
 public record NoOpModifier() implements Modifier {
-
     public static final MapCodec<NoOpModifier> CODEC = MapCodec.unit(NoOpModifier::new);
 
     @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.NONE;
-    }
+    public void applyModifier() {}
 
     @Override
-    public void applyModifier() {}
+    public int priority() {
+        return 0;
+    }
 
     @Override
     public MapCodec<? extends Modifier> codec() {

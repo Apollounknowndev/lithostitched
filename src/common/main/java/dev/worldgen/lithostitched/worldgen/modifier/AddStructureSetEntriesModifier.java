@@ -18,16 +18,12 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  *
  * @author Apollo
  */
-public record AddStructureSetEntriesModifier(HolderSet<StructureSet> structureSets, List<StructureSet.StructureSelectionEntry> entries) implements Modifier {
+public record AddStructureSetEntriesModifier(int priority, HolderSet<StructureSet> structureSets, List<StructureSet.StructureSelectionEntry> entries) implements Modifier {
     public static final MapCodec<AddStructureSetEntriesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        PRIORITY_DEFAULT.forGetter(AddStructureSetEntriesModifier::priority),
         registrySet(Registries.STRUCTURE_SET, "structure_sets").forGetter(AddStructureSetEntriesModifier::structureSets),
         StructureSet.StructureSelectionEntry.CODEC.listOf().fieldOf("entries").forGetter(AddStructureSetEntriesModifier::entries)
     ).apply(instance, AddStructureSetEntriesModifier::new));
-
-    @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.ADD;
-    }
 
     @Override
     public void applyModifier() {

@@ -26,11 +26,6 @@ public record WrapNoiseRouterModifier(int priority, ResourceKey<Level> dimension
     public void applyModifier() {}
 
     @Override
-    public ModifierPhase getPhase() {
-        return ModifierPhase.NONE;
-    }
-
-    @Override
     public MapCodec<? extends Modifier> codec() {
         return CODEC;
     }
