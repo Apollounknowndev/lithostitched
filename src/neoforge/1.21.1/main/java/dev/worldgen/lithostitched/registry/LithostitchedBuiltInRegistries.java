@@ -6,6 +6,7 @@ import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.Band;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
+import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorCondition;
 import net.minecraft.core.Registry;
@@ -61,6 +62,7 @@ public final class LithostitchedBuiltInRegistries {
 		bus.addListener((DataPackRegistryEvent.NewRegistry event) -> {
 			event.dataPackRegistry(LithostitchedRegistryKeys.WORLDGEN_MODIFIER, Modifier.CODEC);
 			event.dataPackRegistry(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC);
+			event.dataPackRegistry(LithostitchedRegistryKeys.TEMPLATE_LIST, TemplateList.CODEC);
 		});
 
 		Lithostitched.registerCommonModifiers((name, codec) -> DEFERRED_MODIFIER_TYPES.register(name, () -> codec));

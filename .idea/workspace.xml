@@ -4,38 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="99b91cfe-54b4-4fd7-a15d-1f4cd0539455" name="Changes" comment="1.5.0 beta 1">
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/duck/ContextAccessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/duck/SurfaceSystemAccessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/bandlands/NoiseBasedChunkGeneratorMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/bandlands/SurfaceRulesContextMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/bandlands/SurfaceSystemMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/bandlands/Bandlands.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/bandlands/band/Band.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/bandlands/band/BaseBand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/bandlands/band/RepeatingBand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/bandlands/band/WrappedBand.java" afterDir="false" />
+    <list default="true" id="99b91cfe-54b4-4fd7-a15d-1f4cd0539455" name="Changes" comment="Add modifier priority, remove phase system">
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/template/RuinedPortalStructureMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/modifier/AddStructureTemplatesModifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/modifier/template/TemplateList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/modifier/template/TemplateLists.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/lithostitched/template_list/ruined_portal/giant.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/lithostitched/template_list/ruined_portal/standard.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/Lithostitched.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/Lithostitched.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/JigsawStructureMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/JigsawStructureMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistryKeys.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistryKeys.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/config/StructureTemplateConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/config/StructureTemplateConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetStructureSpawnConditionModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetStructureSpawnConditionModifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawStructure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawStructure.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/surface/LithostitchedSurfaceRules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/surface/LithostitchedSurfaceRules.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/lithostitched.accesswidener" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/lithostitched.accesswidener" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/main/lithostitched.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/lithostitched.mixins.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fabric/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fabric/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fabric/1.21.8/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.8/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fabric/1.21.8/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.8/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/neoforge/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/neoforge/1.21.8/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/1.21.8/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/1.21.1/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/1.21.1/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/1.21.8/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/1.21.8/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +60,14 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -113,6 +103,8 @@
     &quot;Gradle.1.20.1 [generateFabric1211ModOutputs].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.1.20.1 [generateNeoforge1211ModOutputs].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.1.20.1 [generateNeoforge1218ModOutputs].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [prepareFabric1211ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [prepareNeoforge1218ClientRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.1.20.1 [writeFabric1211RemapClasspath].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.1.20.1 [writeNeoforge1211LegacyClasspath].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.1.20.1 [writeNeoforge1218LegacyClasspath].executor&quot;: &quot;Run&quot;,
@@ -121,7 +113,7 @@
     &quot;git-widget-placeholder&quot;: &quot;cloche&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Desktop/2d-worldgen-engine&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/1.20.1/src/common/main/resources/data/lithostitched/lithostitched/template_list/ruined_portal&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
@@ -129,6 +121,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\src\common\main\resources\data\lithostitched\lithostitched\template_list\ruined_portal" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\src\neoforge\1.21.1\main" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\src\neoforge\1.21.8\main" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\src\neoforge\1.21.1\main\java" />
@@ -317,12 +310,21 @@
       <option name="project" value="LOCAL" />
       <updated>1753115738803</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Add modifier priority, remove phase system">
+      <option name="closed" value="true" />
+      <created>1754336524677</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1754336524677</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="it should be working but isn't :(" />
     <MESSAGE value="1.21.8" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.21.8" />
+    <MESSAGE value="Add modifier priority, remove phase system" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add modifier priority, remove phase system" />
   </component>
 </project>

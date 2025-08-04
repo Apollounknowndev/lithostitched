@@ -6,6 +6,9 @@
     "common.bandlands.NoiseBasedChunkGeneratorMixin",
     "common.bandlands.SurfaceRulesContextMixin",
     "common.bandlands.SurfaceSystemMixin",
+
+    "common.template.RuinedPortalStructureMixin",
+
     "common.ChunkGeneratorAccessor",
     "common.ChunkMapMixin",
     "common.DripstoneUtilsAccessor",

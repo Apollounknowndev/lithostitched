@@ -5,6 +5,7 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
+import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.core.Registry;
@@ -18,6 +19,7 @@ public class LithostitchedRegistrations {
     public static void init() {
         DynamicRegistries.register(LithostitchedRegistryKeys.WORLDGEN_MODIFIER, Modifier.CODEC);
         DynamicRegistries.register(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC);
+        DynamicRegistries.register(LithostitchedRegistryKeys.TEMPLATE_LIST, TemplateList.CODEC);
 
         Lithostitched.registerCommonModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));
         registerFabricModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));

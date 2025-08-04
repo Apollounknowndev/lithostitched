@@ -94,6 +94,7 @@ public final class Lithostitched {
 		consumer.accept("internal/compile_raw_templates", CompileRawTemplatesModifier.CODEC);
 		consumer.accept("add_processor_list_processors", AddProcessorListProcessorsModifier.CODEC);
 		consumer.accept("add_structure_set_entries", AddStructureSetEntriesModifier.CODEC);
+		consumer.accept("add_structure_templates", AddStructureTemplatesModifier.CODEC);
 		consumer.accept("add_surface_rule", AddSurfaceRuleModifier.CODEC);
 		consumer.accept("add_template_pool_elements", AddTemplatePoolElementsModifier.CODEC);
 		consumer.accept("no_op", NoOpModifier.CODEC);
