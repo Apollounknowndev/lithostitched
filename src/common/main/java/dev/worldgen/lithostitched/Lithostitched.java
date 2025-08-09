@@ -31,7 +31,6 @@ import dev.worldgen.lithostitched.worldgen.stateprovider.RandomBlockProvider;
 import dev.worldgen.lithostitched.worldgen.stateprovider.WeightedProvider;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
-import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules;
 import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules.BandlandsRuleSource;
 import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules.TransientMergedRuleSource;
 import net.minecraft.core.BlockPos;

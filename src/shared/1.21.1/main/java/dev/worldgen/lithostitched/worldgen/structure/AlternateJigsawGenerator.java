@@ -4,9 +4,14 @@ import com.google.common.collect.Lists;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.duck.StructurePoolAccess;
+import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingConfig;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawConfig.MaxDistance;
-import net.minecraft.core.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.nbt.CompoundTag;
@@ -23,7 +28,11 @@ import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.pools.*;
+import net.minecraft.world.level.levelgen.structure.pools.DimensionPadding;
+import net.minecraft.world.level.levelgen.structure.pools.EmptyPoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.JigsawJunction;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
 import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
@@ -140,8 +149,8 @@ public class AlternateJigsawGenerator {
         generator.generatePiece(firstPiece, new MutableObject<>(pieceShape), 0, useExpansionHack, heightLimitView, aliasLookup, liquidSettings);
 
         while(generator.pieces.hasNext()) {
-            ShapedPoolStructurePiece shapedPoolStructurePiece = generator.pieces.next();
-            generator.generatePiece(shapedPoolStructurePiece.piece, shapedPoolStructurePiece.pieceShape, shapedPoolStructurePiece.currentSize, useExpansionHack, heightLimitView, aliasLookup, liquidSettings);
+            PieceState pieceState = generator.pieces.next();
+            generator.generatePiece(pieceState.piece, pieceState.pieceShape, pieceState.currentSize, useExpansionHack, heightLimitView, aliasLookup, liquidSettings);
         }
 
     }
@@ -155,8 +164,8 @@ public class AlternateJigsawGenerator {
         private final StructureTemplateManager structureTemplateManager;
         private final List<? super PoolElementStructurePiece> piecesToPlace;
         private final RandomSource random;
-        private final Map<StructurePoolElement, Integer> groupCounts = new HashMap<>();
-        final SequencedPriorityIterator<ShapedPoolStructurePiece> pieces = new SequencedPriorityIterator<>();
+        private final Map<ResourceLocation, Integer> groupCounts = new HashMap<>();
+        final SequencedPriorityIterator<PieceState> pieces = new SequencedPriorityIterator<>();
 
         private StructurePoolGenerator(Structure.GenerationContext context, boolean vanilla, Registry<StructureTemplatePool> registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List<? super PoolElementStructurePiece> children, RandomSource random) {
             this.context = context;
@@ -273,8 +282,11 @@ public class AlternateJigsawGenerator {
                     return true;
                 }
 
-                if (element instanceof DelegatingPoolElement delegating) {
-                    if (!delegating.config().isPlacementValid(context, candidateConnectorPos, depth, this.groupCounts.getOrDefault(delegating, 0))) {
+                DelegatingConfig config = new DelegatingConfig(element);
+                boolean isDelegating = false;
+                if (element instanceof DelegatingPoolElement) {
+                    isDelegating = true;
+                    if (!config.isPlacementValid(context, candidateConnectorPos, depth, this.groupCounts.getOrDefault(config.getName(), 0))) {
                         continue;
                     }
                 }
@@ -336,9 +348,9 @@ public class AlternateJigsawGenerator {
                             }
 
 
-                            if (!Shapes.joinIsNotEmpty(mutableObject2.getValue(), Shapes.create(AABB.of(blockBox4).deflate(0.25)), BooleanOp.ONLY_SECOND)) {
-                                if (element instanceof DelegatingPoolElement delegating) {
-                                    this.groupCounts.put(delegating, this.groupCounts.getOrDefault(delegating, 0) + 1);
+                            if (config.allowBoundingBoxCollisions() || !Shapes.joinIsNotEmpty(mutableObject2.getValue(), Shapes.create(AABB.of(blockBox4).deflate(0.25)), BooleanOp.ONLY_SECOND)) {
+                                if (isDelegating) {
+                                    this.groupCounts.put(config.getName(), this.groupCounts.getOrDefault(config.getName(), 0) + 1);
                                 }
 
                                 // At this point the piece is ready to be placed
@@ -373,7 +385,7 @@ public class AlternateJigsawGenerator {
                                 this.piecesToPlace.add(poolStructurePiece);
                                 if (depth + 1 <= this.maxSize) {
                                     int priority = anchorJigsawInfo.nbt() != null ? anchorJigsawInfo.nbt().getInt("placement_priority") : 0;
-                                    this.pieces.add(new ShapedPoolStructurePiece(poolStructurePiece, mutableObject2, depth + 1), priority);
+                                    this.pieces.add(new PieceState(poolStructurePiece, mutableObject2, depth + 1), priority);
                                 }
                                 return true;
                             }
@@ -409,5 +421,5 @@ public class AlternateJigsawGenerator {
         }
     }
 
-    private record ShapedPoolStructurePiece(PoolElementStructurePiece piece, MutableObject<VoxelShape> pieceShape, int currentSize) {}
+    private record PieceState(PoolElementStructurePiece piece, MutableObject<VoxelShape> pieceShape, int currentSize) {}
 }

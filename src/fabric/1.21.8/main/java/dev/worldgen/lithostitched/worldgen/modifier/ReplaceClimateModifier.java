@@ -30,7 +30,7 @@ public record ReplaceClimateModifier(int priority, HolderSet<Biome> biomes, Biom
     public void applyModifier(RegistryAccess registries) {
         List<Holder<Biome>> biomes = this.biomes().stream().toList();
         Registry<Biome> registry = Lithostitched.registry(registries, Registries.BIOME);
-        for (Holder<Biome> entry : biomes.stream().toList()) {
+        for (Holder<Biome> entry : biomes) {
             this.applyModifier(entry.value());
 
             if (entry.unwrapKey().isPresent()) {

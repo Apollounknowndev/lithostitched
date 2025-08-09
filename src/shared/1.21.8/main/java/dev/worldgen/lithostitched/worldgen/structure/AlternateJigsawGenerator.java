@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.duck.StructurePoolAccess;
+import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingConfig;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
@@ -149,7 +150,7 @@ public class AlternateJigsawGenerator {
         private final StructureTemplateManager structureTemplateManager;
         private final List<? super PoolElementStructurePiece> piecesToPlace;
         private final RandomSource random;
-        private final Map<StructurePoolElement, Integer> groupCounts = new HashMap<>();
+        private final Map<ResourceLocation, Integer> groupCounts = new HashMap<>();
         final SequencedPriorityIterator<PieceState> pieces = new SequencedPriorityIterator<>();
 
         private StructurePoolGenerator(Structure.GenerationContext context, boolean vanilla, Registry<StructureTemplatePool> registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List<? super PoolElementStructurePiece> children, RandomSource random) {
@@ -271,8 +272,11 @@ public class AlternateJigsawGenerator {
                     return true;
                 }
 
-                if (element instanceof DelegatingPoolElement delegating) {
-                    if (!delegating.config().isPlacementValid(context, candidateConnectorPos, depth, this.groupCounts.getOrDefault(delegating, 0))) {
+                DelegatingConfig config = new DelegatingConfig(element);
+                boolean isDelegating = false;
+                if (element instanceof DelegatingPoolElement) {
+                    isDelegating = true;
+                    if (!config.isPlacementValid(context, candidateConnectorPos, depth, this.groupCounts.getOrDefault(config.getName(), 0))) {
                         continue;
                     }
                 }
@@ -335,9 +339,9 @@ public class AlternateJigsawGenerator {
                             }
 
 
-                            if (!Shapes.joinIsNotEmpty(mutableObject2.getValue(), Shapes.create(AABB.of(blockBox4).deflate(0.25)), BooleanOp.ONLY_SECOND)) {
-                                if (element instanceof DelegatingPoolElement delegating) {
-                                    this.groupCounts.put(delegating, this.groupCounts.getOrDefault(delegating, 0) + 1);
+                            if (config.allowBoundingBoxCollisions() || !Shapes.joinIsNotEmpty(mutableObject2.getValue(), Shapes.create(AABB.of(blockBox4).deflate(0.25)), BooleanOp.ONLY_SECOND)) {
+                                if (isDelegating) {
+                                    this.groupCounts.put(config.getName(), this.groupCounts.getOrDefault(config.getName(), 0) + 1);
                                 }
 
                                 // At this point the piece is ready to be placed

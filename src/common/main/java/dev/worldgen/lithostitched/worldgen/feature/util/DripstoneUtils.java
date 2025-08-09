@@ -1,21 +1,13 @@
 package dev.worldgen.lithostitched.worldgen.feature.util;
 
-import dev.worldgen.lithostitched.mixin.common.DripstoneUtilsAccessor;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderSet;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.PointedDripstoneBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DripstoneThickness;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-
-import java.util.function.Consumer;
 
 public class DripstoneUtils {
     public static double getDripstoneHeight(double $$0, double $$1, double $$2, double $$3) {
@@ -23,7 +15,6 @@ public class DripstoneUtils {
             $$0 = $$3;
         }
 
-        double $$4 = 0.384;
         double $$5 = $$0 / $$1 * 0.384;
         double $$6 = 0.75 * Math.pow($$5, 1.3333333333333333);
         double $$7 = Math.pow($$5, 0.6666666666666666);
@@ -37,7 +28,6 @@ public class DripstoneUtils {
         if (isEmptyOrWaterOrLava($$0, $$1)) {
             return false;
         } else {
-            float $$3 = 6.0F;
             float $$4 = 6.0F / (float)$$2;
 
             for (float $$5 = 0.0F; $$5 < (float) (Math.PI * 2); $$5 += $$4) {
@@ -60,52 +50,6 @@ public class DripstoneUtils {
         return $$0.isStateAtPosition($$1, DripstoneUtils::isEmptyOrWaterOrLava);
     }
 
-    protected static void buildBaseToTipColumn(Direction $$0, int $$1, boolean $$2, Consumer<BlockState> $$3) {
-        if ($$1 >= 3) {
-            $$3.accept(createPointedDripstone($$0, DripstoneThickness.BASE));
-
-            for (int $$4 = 0; $$4 < $$1 - 3; $$4++) {
-                $$3.accept(createPointedDripstone($$0, DripstoneThickness.MIDDLE));
-            }
-        }
-
-        if ($$1 >= 2) {
-            $$3.accept(createPointedDripstone($$0, DripstoneThickness.FRUSTUM));
-        }
-
-        if ($$1 >= 1) {
-            $$3.accept(createPointedDripstone($$0, $$2 ? DripstoneThickness.TIP_MERGE : DripstoneThickness.TIP));
-        }
-    }
-
-    protected static void growPointedDripstone(LevelAccessor level, HolderSet<Block> replaceable, BlockPos pos, Direction direction, int $$3, boolean $$4) {
-        if (isReplaceable(level.getBlockState(pos.relative(direction.getOpposite())), replaceable)) {
-            BlockPos.MutableBlockPos $$5 = pos.mutable();
-            buildBaseToTipColumn(direction, $$3, $$4, $$3x -> {
-                if ($$3x.is(Blocks.POINTED_DRIPSTONE)) {
-                    $$3x = $$3x.setValue(PointedDripstoneBlock.WATERLOGGED, Boolean.valueOf(level.isWaterAt($$5)));
-                }
-
-                level.setBlock($$5, $$3x, 2);
-                $$5.move(direction);
-            });
-        }
-    }
-
-    protected static boolean placeDripstoneBlockIfPossible(LevelAccessor level, BlockStateProvider stateProvider, RandomSource random, HolderSet<Block> replaceable, BlockPos pos) {
-        BlockState state = level.getBlockState(pos);
-        if (state.is(replaceable)) {
-            level.setBlock(pos, stateProvider.getState(random, pos), 2);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private static BlockState createPointedDripstone(Direction direction, DripstoneThickness thickness) {
-        return DripstoneUtilsAccessor.createPointed(direction, thickness);
-    }
-
     public static boolean isReplaceableOrLava(BlockState state, HolderSet<Block> replaceable) {
         return isReplaceable(state, replaceable) || state.is(Blocks.LAVA);
     }
@@ -114,15 +58,11 @@ public class DripstoneUtils {
         return state.is(replaceable);
     }
 
-    public static boolean isEmptyOrWater(BlockState $$0x) {
-        return $$0x.isAir() || $$0x.is(Blocks.WATER);
+    public static boolean isEmptyOrWater(BlockState state) {
+        return state.isAir() || state.is(Blocks.WATER);
     }
 
-    public static boolean isNeitherEmptyNorWater(BlockState $$0) {
-        return !$$0.isAir() && !$$0.is(Blocks.WATER);
-    }
-
-    public static boolean isEmptyOrWaterOrLava(BlockState $$0x) {
-        return $$0x.isAir() || $$0x.is(Blocks.WATER) || $$0x.is(Blocks.LAVA);
+    public static boolean isEmptyOrWaterOrLava(BlockState state) {
+        return state.isAir() || state.is(Blocks.WATER) || state.is(Blocks.LAVA);
     }
 }

@@ -14,7 +14,6 @@ import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class DelegatingPoolElement extends StructurePoolElement {
     }
 
     protected DelegatingPoolElement(StructurePoolElement delegate, Optional<Integer> minDepth, Optional<Integer> forcedCount, Optional<Integer> maxCount) {
-        this(new DelegatingConfig(delegate, Optional.empty(), minDepth.map(min -> Optional.of(new InclusiveRange<>(min, Integer.MAX_VALUE))).orElse(Optional.empty()), forcedCount, maxCount, Optional.empty()));
+        this(new DelegatingConfig(delegate, Optional.empty(), Optional.empty(), minDepth.map(min -> Optional.of(new InclusiveRange<>(min, Integer.MAX_VALUE))).orElse(Optional.empty()), forcedCount, maxCount, false, Optional.empty()));
     }
 
     public DelegatingConfig config() {
