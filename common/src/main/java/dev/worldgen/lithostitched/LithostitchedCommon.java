@@ -141,6 +141,7 @@ public final class LithostitchedCommon {
 		consumer.accept("sample_density", SampleDensityPlacementCondition.CODEC);
 		consumer.accept("sample_noise_router", SampleNoiseRouterPlacementCondition.CODEC);
 		consumer.accept("true", TruePlacementCondition.CODEC);
+        consumer.accept("mod_loaded", ModLoadedPlacementCondition.CODEC);
 	}
 
 	public static void registerCommonStructureProcessors(BiConsumer<String, StructureProcessorType<?>> consumer) {
