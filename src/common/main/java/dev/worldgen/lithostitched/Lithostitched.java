@@ -9,6 +9,7 @@ import dev.worldgen.lithostitched.worldgen.bandlands.band.WrappedBand;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.BlockStatePredicate;
+import dev.worldgen.lithostitched.worldgen.blockpredicate.InStructurePredicate;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.MultipleOfPredicate;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.RandomChancePredicate;
 import dev.worldgen.lithostitched.worldgen.densityfunction.MergedDensityFunction;
@@ -108,6 +109,7 @@ public final class Lithostitched {
 
 	public static void registerCommonBlockPredicateTypes(BiConsumer<String, BlockPredicateType<?>> consumer) {
 		consumer.accept("block_state", BlockStatePredicate.TYPE);
+		consumer.accept("in_structure", InStructurePredicate.TYPE);
 		consumer.accept("multiple_of", MultipleOfPredicate.TYPE);
 		consumer.accept("random_chance", RandomChancePredicate.TYPE);
 	}

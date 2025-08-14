@@ -101,7 +101,7 @@ public class AlternateJigsawGenerator {
                         Math.min(originY + maxDistance.vertical() + 1, heightLimitView.getMaxY() - config.dimensionPadding().top()),
                         originZ + maxDistance.horizontal() + 1
                 );
-                VoxelShape voxelShape = Shapes.join(Shapes.create(box), Shapes.create(AABB.of(blockBox)), BooleanOp.ONLY_FIRST);
+                VoxelShape voxelShape = Shapes.join(Shapes.create(box), getConfig(startingElement).otherPiecesCanIntersect() ? Shapes.empty() : Shapes.create(AABB.of(blockBox)), BooleanOp.ONLY_FIRST);
                 generatePieces(context, vanilla, size, config.useExpansionHack(), chunkGenerator, structureTemplateManager, heightLimitView, random, registry, piece, list, voxelShape, aliasLookup, config.liquidSettings());
                 Objects.requireNonNull(collector);
                 list.forEach(collector::addPiece);
@@ -141,6 +141,10 @@ public class AlternateJigsawGenerator {
         }
     }
 
+    private static DelegatingConfig getConfig(StructurePoolElement element) {
+        return element instanceof DelegatingPoolElement delegating ? delegating.config() : new DelegatingConfig(element);
+    }
+
     static final class StructurePoolGenerator {
         private final Structure.GenerationContext context;
         private final boolean vanilla;
@@ -178,7 +182,7 @@ public class AlternateJigsawGenerator {
                 if (poolEntry == null) continue;
                 boolean connectorInParentBoundingBox = parentBoundingBox.isInside(candidateConnectorPos);
                 MutableObject<VoxelShape> childShape;
-                if (connectorInParentBoundingBox) {
+                if (connectorInParentBoundingBox && !getConfig(anchorElement).otherPiecesCanIntersect()) {
                     childShape = parentShape;
                     if (parentShape.getValue() == null) {
                         parentShape.setValue(Shapes.create(AABB.of(parentBoundingBox)));
@@ -257,7 +261,7 @@ public class AlternateJigsawGenerator {
          * Iterate through list of child candidate pieces to find a valid one to use.
          */
         @SuppressWarnings("deprecation")
-        private boolean findValidChildPiece(List<StructurePoolElement> elements, PoolElementStructurePiece parentPiece, StructureTemplate.JigsawBlockInfo anchorJigsaw, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+        private boolean findValidChildPiece(List<StructurePoolElement> elements, PoolElementStructurePiece parentPiece, StructureTemplate.JigsawBlockInfo anchorJigsaw, MutableObject<VoxelShape> fullShape, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
             StructureTemplate.StructureBlockInfo anchorInfo = anchorJigsaw.info();
 
             BlockPos anchorPos = anchorInfo.pos();
@@ -274,9 +278,10 @@ public class AlternateJigsawGenerator {
 
                 DelegatingConfig config = new DelegatingConfig(element);
                 boolean isDelegating = false;
-                if (element instanceof DelegatingPoolElement) {
+                if (element instanceof DelegatingPoolElement delegating) {
+                    config = delegating.config();
                     isDelegating = true;
-                    if (!config.isPlacementValid(context, candidateConnectorPos, depth, this.groupCounts.getOrDefault(config.getName(), 0))) {
+                    if (config.shouldCancelPlacement(context, candidateConnectorPos, depth, this.groupCounts.getOrDefault(config.getName(), 0))) {
                         continue;
                     }
                 }
@@ -339,13 +344,16 @@ public class AlternateJigsawGenerator {
                             }
 
 
-                            if (config.allowBoundingBoxCollisions() || !Shapes.joinIsNotEmpty(mutableObject2.getValue(), Shapes.create(AABB.of(blockBox4).deflate(0.25)), BooleanOp.ONLY_SECOND)) {
+                            if (config.allowBoundingBoxCollisions() || !Shapes.joinIsNotEmpty(fullShape.getValue(), Shapes.create(AABB.of(blockBox4).deflate(0.25)), BooleanOp.ONLY_SECOND)) {
+                                // At this point the piece is ready to be placed
                                 if (isDelegating) {
                                     this.groupCounts.put(config.getName(), this.groupCounts.getOrDefault(config.getName(), 0) + 1);
                                 }
 
-                                // At this point the piece is ready to be placed
-                                mutableObject2.setValue(Shapes.joinUnoptimized(mutableObject2.getValue(), Shapes.create(AABB.of(blockBox4)), BooleanOp.ONLY_FIRST));
+                                if (!config.otherPiecesCanIntersect()) {
+                                    fullShape.setValue(Shapes.joinUnoptimized(fullShape.getValue(), Shapes.create(AABB.of(blockBox4)), BooleanOp.ONLY_FIRST));
+                                }
+
                                 r = parentPiece.getGroundLevelDelta();
                                 int s;
                                 if (connectorProjectionRigid) {
@@ -374,7 +382,7 @@ public class AlternateJigsawGenerator {
 
                                 this.piecesToPlace.add(poolStructurePiece);
                                 if (depth + 1 <= this.maxSize) {
-                                    PieceState pieceState = new PieceState(poolStructurePiece, mutableObject2, depth + 1);
+                                    PieceState pieceState = new PieceState(poolStructurePiece, fullShape, depth + 1);
                                     this.pieces.add(pieceState, anchorJigsaw.placementPriority());
                                 }
                                 return true;
