@@ -4,7 +4,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 
-public interface ContextExtension {
+public interface IContextExtension {
     // Rule return functions for cached LazyXZCondition rules
     SurfaceRules.Condition naturalphilosophy$getCliff();
     SurfaceRules.Condition naturalphilosophy$getFlat();
