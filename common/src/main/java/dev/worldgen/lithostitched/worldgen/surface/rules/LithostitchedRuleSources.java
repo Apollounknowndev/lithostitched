@@ -19,7 +19,6 @@ import java.util.Optional;
 
 /**
  * Surface rule sources, used for creating the surface rule stack.
- *
  * @author VoidsongDragonfly
  */
 public class LithostitchedRuleSources {

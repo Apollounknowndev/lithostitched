@@ -16,8 +16,11 @@ accessible class net/minecraft/world/level/levelgen/SurfaceRules$Condition
 accessible class net/minecraft/world/level/levelgen/SurfaceRules$LazyXZCondition
 accessible class net/minecraft/world/level/levelgen/SurfaceRules$LazyYCondition
 accessible class net/minecraft/world/level/levelgen/SurfaceRules$BiomeConditionSource
+accessible class net/minecraft/world/level/levelgen/SurfaceRules$WaterConditionSource
+accessible class net/minecraft/world/level/levelgen/SurfaceRules$StoneDepthCheck
 # Access to allow working with Context
 accessible class net/minecraft/world/level/levelgen/SurfaceRules$Context
+accessible class net/minecraft/world/level/levelgen/SurfaceRules$Context$SteepMaterialCondition
 accessible field net/minecraft/world/level/levelgen/SurfaceRules$Context blockX I
 accessible field net/minecraft/world/level/levelgen/SurfaceRules$Context blockY I
 accessible field net/minecraft/world/level/levelgen/SurfaceRules$Context blockZ I

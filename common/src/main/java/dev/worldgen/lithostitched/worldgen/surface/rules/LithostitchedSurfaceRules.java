@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.surface.rules;
 
 import com.google.common.collect.ImmutableList;
-import dev.worldgen.lithostitched.worldgen.surface.technical.ContextExtension;
+import dev.worldgen.lithostitched.worldgen.surface.technical.IContextExtension;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -15,16 +15,26 @@ import java.util.List;
 
 /**
  * Surface rules, used for evaluating the surface rule stack.
- *
  * @author VoidsongDragonfly
  */
 public class LithostitchedSurfaceRules {
+
+    /**
+     * Noise selector surface rule; iterates down a list of noise thresholds to evaluate and return the rule within those thresholds
+     * @param pContext the {@link SurfaceRules.Context context} the rule generates with
+     * @param noise the {@link NormalNoise noise} to evaluate for the thresholds
+     * @param defaultRule the {@link net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule rule} to evaluate if all other rules fail
+     * @param ruleset the list containing surface rules to evaluate
+     * @param lowerThresholds the list containing thresholds to evaluate for
+     * @param cascade boolean for whether we should cascade down surface rules if one fails to resolve in this noise bin
+     * @author VoidsongDragonfly
+     */
     record NoiseThresholdSelectorRule(SurfaceRules.Context pContext, ResourceKey<NormalNoise.NoiseParameters> noise, SurfaceRules.SurfaceRule defaultRule, ImmutableList<SurfaceRules.SurfaceRule> ruleset, List<Double> lowerThresholds, boolean cascade) implements SurfaceRules.SurfaceRule {
         @Nullable
         @Override
         public BlockState tryApply(int x, int y, int z) {
             // Check the noise we're using for values, and grab our double value
-            double d0 = ((ContextExtension)(Object)pContext).naturalphilosophy$getCachedNoise(noise);
+            double d0 = ((IContextExtension)(Object)pContext).naturalphilosophy$getCachedNoise(noise);
             // Iterate through the rules to figure out which rule to provide, and return the rule for the noise bin we're in
             BlockState result = null;
             for(int i = 0; i < Math.min(lowerThresholds.size(), ruleset().size()); i++) {
@@ -39,12 +49,21 @@ public class LithostitchedSurfaceRules {
         }
     }
 
+    /**
+     * Noise selector surface rule; used when we have only one {@link net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule rule} and a default rule to optimize generation speed & allocation
+     * @param pContext the {@link SurfaceRules.Context context} the rule generates with
+     * @param noise the {@link NormalNoise noise} to evaluate for the threshold
+     * @param defaultRule the {@link net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule rule} to evaluate if the other rule fails
+     * @param rule the primary {@link net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule rule} to evaluate
+     * @param lowerThreshold the double threshold to evaluate
+     * @author VoidsongDragonfly
+     */
     record NoiseThresholdRule(SurfaceRules.Context pContext, ResourceKey<NormalNoise.NoiseParameters> noise, SurfaceRules.SurfaceRule defaultRule, SurfaceRules.SurfaceRule rule, Double lowerThreshold) implements SurfaceRules.SurfaceRule {
         @Nullable
         @Override
         public BlockState tryApply(int x, int y, int z) {
             // Check the noise we're using for values, and grab our double value
-            double d0 = ((ContextExtension)(Object)pContext).naturalphilosophy$getCachedNoise(noise);
+            double d0 = ((IContextExtension)(Object)pContext).naturalphilosophy$getCachedNoise(noise);
             // Apply the rule and store the result, with null if we are not within the noise bin
             BlockState result = d0 > lowerThreshold ? rule.tryApply(x, y, z) : null;
             // Return the default rule if we're not in the noise bin or have a noise bin that does not resolve
@@ -52,6 +71,15 @@ public class LithostitchedSurfaceRules {
         }
     }
 
+    /**
+     * Random selector surface rule; iterates down a list of random thresholds to evaluate and return the state within those thresholds
+     * @param pContext the {@link SurfaceRules.Context context} the rule generates with
+     * @param positionalRandomFactory the {@link PositionalRandomFactory factory } to evaluate for random values
+     * @param defaultState the {@link BlockState state} to return if all other rules fail
+     * @param stateSet the list containing block states to evaluate
+     * @param lowerThresholds the list containing thresholds to evaluate for
+     * @author VoidsongDragonfly
+     */
     record RandomThresholdSelectorRule(SurfaceRules.Context pContext, PositionalRandomFactory positionalRandomFactory, BlockState defaultState, List<BlockState> stateSet, List<Double> lowerThresholds) implements SurfaceRules.SurfaceRule {
         @Nullable
         @Override
@@ -68,6 +96,14 @@ public class LithostitchedSurfaceRules {
         }
     }
 
+    /**
+     * Random selector surface rule; used when we have only one {@link BlockState state} and a default state to optimize generation speed & allocation
+     * @param pContext the {@link SurfaceRules.Context context} the rule generates with
+     * @param positionalRandomFactory the {@link PositionalRandomFactory factory } to evaluate for random values
+     * @param defaultState the {@link BlockState state} to return if the other state fails
+     * @param state the {@link BlockState state} to return
+     * @author VoidsongDragonfly
+     */
     record RandomThresholdRule(SurfaceRules.Context pContext, PositionalRandomFactory positionalRandomFactory, BlockState defaultState, BlockState state, Double lowerThreshold) implements SurfaceRules.SurfaceRule {
         @Nullable
         @Override
@@ -81,6 +117,15 @@ public class LithostitchedSurfaceRules {
         }
     }
 
+    /**
+     * Height selector surface rule; iterates down a list of height thresholds to evaluate and return the rule within those thresholds
+     * @param pContext the {@link SurfaceRules.Context context} the rule generates with
+     * @param defaultRule the {@link net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule rule} to evaluate if all other rules fail
+     * @param ruleset the list containing surface rules to evaluate
+     * @param lowerThresholds the list containing thresholds to evaluate for
+     * @param cascade boolean for whether we should cascade down surface rules if one fails to resolve in this noise bin
+     * @author VoidsongDragonfly
+     */
     record HeightThresholdSelectorRule(SurfaceRules.Context pContext, SurfaceRules.SurfaceRule defaultRule, ImmutableList<SurfaceRules.SurfaceRule> ruleset, List<Integer> lowerThresholds, int surfaceDepthMultiplier, boolean addStoneDepth, boolean cascade) implements SurfaceRules.SurfaceRule {
         @Nullable
         @Override
@@ -101,6 +146,14 @@ public class LithostitchedSurfaceRules {
         }
     }
 
+    /**
+     * Height selector surface rule; used when we have only one {@link net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule rule} and a default rule to optimize generation speed & allocation
+     * @param pContext the {@link SurfaceRules.Context context} the rule generates with
+     * @param defaultRule the {@link net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule rule} to evaluate if the other rule fails
+     * @param rule the primary {@link net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule rule} to evaluate
+     * @param lowerThreshold the integer threshold to evaluate
+     * @author VoidsongDragonfly
+     */
     record HeightThresholdRule(SurfaceRules.Context pContext, SurfaceRules.SurfaceRule defaultRule, SurfaceRules.SurfaceRule rule, int lowerThreshold, int surfaceDepthMultiplier, boolean addStoneDepth) implements SurfaceRules.SurfaceRule {
         @Nullable
         @Override
@@ -114,7 +167,14 @@ public class LithostitchedSurfaceRules {
         }
     }
 
-
+    /**
+     * Depth below the surface rule selector; picks from the ruleset the surface rule which matches the number of blocks above said block
+     * @param pContext the {@link SurfaceRules.Context context} the rule generates with
+     * @param defaultRule the {@link net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule rule} to evaluate if all other rules fail
+     * @param ruleset the list containing surface rules to select from by stone depth
+     * @param length the length of the list we are evaluating from, for selection bounds limiting
+     * @author VoidsongDragonfly
+     */
     record StoneDepthThresholdSelectorRule(SurfaceRules.Context pContext, SurfaceRules.SurfaceRule defaultRule, ImmutableList<SurfaceRules.SurfaceRule> ruleset, int length) implements SurfaceRules.SurfaceRule {
         @Nullable
         @Override
@@ -126,7 +186,17 @@ public class LithostitchedSurfaceRules {
         }
     }
 
-    record BilayerFillRule(SurfaceRules.Context pContext, boolean land, int surfaceOffset, int secondaryDepthRange, SurfaceRules.SurfaceRule topRule, SurfaceRules.SurfaceRule defaultRule) implements SurfaceRules.SurfaceRule {
+    /**
+     * Dual-layer fill surface rule intended for dirt-and-grass fills. Top layer is separated from the bottom layers, which are all the same fill.
+     * @param pContext the {@link SurfaceRules.Context context} the rule generates with
+     * @param land boolean for if we should only be evaluating if this is on land or underwater
+     * @param surfaceOffset the integer number of extra blocks to add to the bottom of the sublayer
+     * @param secondaryDepthRange the integer range to which secondary depth noise should be clamped then added to the bottom of the sublayer
+     * @param topRule the {@link net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule rule} to evaluate for the top layer
+     * @param sublayerRule the {@link net.minecraft.world.level.levelgen.SurfaceRules.SurfaceRule rule} to evaluate for the bottom layer
+     * @author VoidsongDragonfly
+     */
+    record BilayerFillRule(SurfaceRules.Context pContext, boolean land, int surfaceOffset, int secondaryDepthRange, SurfaceRules.SurfaceRule topRule, SurfaceRules.SurfaceRule sublayerRule) implements SurfaceRules.SurfaceRule {
         @Nullable
         @Override
         public BlockState tryApply(int x, int y, int z) {
@@ -139,7 +209,7 @@ public class LithostitchedSurfaceRules {
             int secondary = secondaryDepthRange == 0 ? 0 : (int) Mth.map(pContext.getSurfaceSecondary(), -1.0, 1.0, 0.0, secondaryDepthRange);
             // Second bin necessitates more checks to form the 'bottom' effectively
             if(pContext.stoneDepthAbove <= 1 + surfaceOffset + pContext.surfaceDepth + secondary)
-                return defaultRule.tryApply(x, y, z);
+                return sublayerRule.tryApply(x, y, z);
                 // Return a null BlockState in if we fail to be in either bin
             else return null;
         }
