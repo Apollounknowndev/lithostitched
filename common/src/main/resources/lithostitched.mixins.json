@@ -23,7 +23,7 @@
     "common.StructureTemplateMixin",
     "common.StructureTemplatePoolAccessor",
     "common.StructureTemplatePoolMixin",
-    "server.SurfaceRulesMixin$Context"
+    "common.SurfaceRulesMixin$Context"
   ],
   "client": [
     "client.IntegratedServerMixin"

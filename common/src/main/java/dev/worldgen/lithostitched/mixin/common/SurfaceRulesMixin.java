@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.mixin.server;
+package dev.worldgen.lithostitched.mixin.common;
 
 import dev.worldgen.lithostitched.worldgen.surface.conditions.LithostitchedSurfaceConditions;
 import dev.worldgen.lithostitched.worldgen.surface.technical.IContextExtension;
