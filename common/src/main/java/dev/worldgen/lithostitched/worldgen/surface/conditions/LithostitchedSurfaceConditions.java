@@ -162,7 +162,7 @@ public class LithostitchedSurfaceConditions {
     public record CaveDepthCondition(SurfaceRules.Context context, int depth) implements SurfaceRules.Condition {
         @Override
         public boolean test() {
-            int heightmapDepth = ((IContextExtension)(Object)context).naturalphilosophy$getOceanHeightmapDepth();
+            int heightmapDepth = ((IContextExtension)(Object)context).lithostitched$getOceanHeightmapDepth();
             // Return early if we're above the necessary depth
             if (heightmapDepth - depth <= context.blockY) return false;
             // If we're shallower than twelve blocks, we do not need to check the air blocks above this block

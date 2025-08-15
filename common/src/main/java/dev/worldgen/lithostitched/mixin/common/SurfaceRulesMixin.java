@@ -65,27 +65,27 @@ public abstract class SurfaceRulesMixin {
         }
 
         @Override
-        public SurfaceRules.Condition naturalphilosophy$getCliff() {
+        public SurfaceRules.Condition lithostitched$getCliff() {
             return cliff;
         }
 
         @Override
-        public SurfaceRules.Condition naturalphilosophy$getFlat() {
+        public SurfaceRules.Condition lithostitched$getFlat() {
             return flat;
         }
 
         @Override
-        public SurfaceRules.Condition naturalphilosophy$getFlatLiquid() {
+        public SurfaceRules.Condition lithostitched$getFlatLiquid() {
             return flatLiquid;
         }
 
         @Override
-        public SurfaceRules.Condition naturalphilosophy$getLandTopLayer() {
+        public SurfaceRules.Condition lithostitched$getLandTopLayer() {
             return aboveWater;
         }
 
         @Override
-        public int naturalphilosophy$getOceanHeightmapDepth() {
+        public int lithostitched$getOceanHeightmapDepth() {
             if (lastUpdateXZ != lastUpdateHeightmapDepth) {
                 oceanHeightmapDepthCache = chunk.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, blockX, blockZ);
                 lastUpdateHeightmapDepth = lastUpdateXZ;
@@ -94,7 +94,7 @@ public abstract class SurfaceRulesMixin {
         }
 
         @Override
-        public double naturalphilosophy$getCachedNoise(ResourceKey<NormalNoise.NoiseParameters> noise) {
+        public double lithostitched$getCachedNoise(ResourceKey<NormalNoise.NoiseParameters> noise) {
             if(lastUpdateXZ != lastUpdateNoises) {
                 noiseCache.clear();
                 lastUpdateNoises = lastUpdateXZ;

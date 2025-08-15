@@ -6,11 +6,11 @@ import net.minecraft.world.level.levelgen.synth.NormalNoise;
 
 public interface IContextExtension {
     // Rule return functions for cached LazyXZCondition rules
-    SurfaceRules.Condition naturalphilosophy$getCliff();
-    SurfaceRules.Condition naturalphilosophy$getFlat();
-    SurfaceRules.Condition naturalphilosophy$getFlatLiquid();
-    SurfaceRules.Condition naturalphilosophy$getLandTopLayer();
+    SurfaceRules.Condition lithostitched$getCliff();
+    SurfaceRules.Condition lithostitched$getFlat();
+    SurfaceRules.Condition lithostitched$getFlatLiquid();
+    SurfaceRules.Condition lithostitched$getLandTopLayer();
     // Value return functions for cached parameterized rules & conditions
-    int naturalphilosophy$getOceanHeightmapDepth();
-    double naturalphilosophy$getCachedNoise(ResourceKey<NormalNoise.NoiseParameters> noise);
+    int lithostitched$getOceanHeightmapDepth();
+    double lithostitched$getCachedNoise(ResourceKey<NormalNoise.NoiseParameters> noise);
 }

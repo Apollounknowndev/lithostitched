@@ -4,8 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.worldgen.surface.technical.IContextExtension;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
@@ -34,7 +32,7 @@ public class LithostitchedConditionSources {
 
         @SuppressWarnings("DataFlowIssue")
         public SurfaceRules.Condition apply(SurfaceRules.Context pContext) {
-            return ((IContextExtension)(Object)pContext).naturalphilosophy$getCliff();
+            return ((IContextExtension)(Object)pContext).lithostitched$getCliff();
         }
     }
 
@@ -51,7 +49,7 @@ public class LithostitchedConditionSources {
 
         @SuppressWarnings("DataFlowIssue")
         public SurfaceRules.Condition apply(SurfaceRules.Context pContext) {
-            return ((IContextExtension)(Object)pContext).naturalphilosophy$getFlat();
+            return ((IContextExtension)(Object)pContext).lithostitched$getFlat();
         }
     }
 
@@ -68,7 +66,7 @@ public class LithostitchedConditionSources {
 
         @SuppressWarnings("DataFlowIssue")
         public SurfaceRules.Condition apply(SurfaceRules.Context pContext) {
-            return ((IContextExtension)(Object)pContext).naturalphilosophy$getFlatLiquid();
+            return ((IContextExtension)(Object)pContext).lithostitched$getFlatLiquid();
         }
     }
 
@@ -85,7 +83,7 @@ public class LithostitchedConditionSources {
 
         @SuppressWarnings("DataFlowIssue")
         public SurfaceRules.Condition apply(SurfaceRules.Context pContext) {
-            return ((IContextExtension)(Object)pContext).naturalphilosophy$getLandTopLayer();
+            return ((IContextExtension)(Object)pContext).lithostitched$getLandTopLayer();
         }
     }
 
