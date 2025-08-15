@@ -6,7 +6,9 @@ import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorCondition;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
-import dev.worldgen.lithostitched.worldgen.surface.technical.LithostitchedSurfaceRules;
+import dev.worldgen.lithostitched.worldgen.surface.conditions.LithostitchedConditionSources;
+import dev.worldgen.lithostitched.worldgen.surface.rules.LithostitchedRuleSources;
+import dev.worldgen.lithostitched.worldgen.surface.technical.LithostitchedTechnicalRules;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
@@ -17,7 +19,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import java.util.function.BiConsumer;
 
 import static dev.worldgen.lithostitched.LithostitchedCommon.createResourceKey;
-import static dev.worldgen.lithostitched.registry.LithostitchedMaterialRules.TRANSIENT_MERGED;
+import static dev.worldgen.lithostitched.registry.LithostitchedMaterialRules.*;
 
 /**
  * Built-in registries for Lithostitched on Fabric.
@@ -48,7 +50,21 @@ public final class LithostitchedBuiltInRegistries {
 		LithostitchedCommon.registerCommonStructureProcessors((name, type) -> register(BuiltInRegistries.STRUCTURE_PROCESSOR, name, type));
 		LithostitchedCommon.registerCommonBlockEntityModifiers((name, type) -> register(BuiltInRegistries.RULE_BLOCK_ENTITY_MODIFIER, name, type));
 
-		Registry.register(BuiltInRegistries.MATERIAL_RULE, TRANSIENT_MERGED, LithostitchedSurfaceRules.TransientMergedRuleSource.CODEC.codec());
+		Registry.register(BuiltInRegistries.MATERIAL_RULE, TRANSIENT_MERGED, LithostitchedTechnicalRules.TransientMergedRuleSource.CODEC.codec());
+
+		Registry.register(BuiltInRegistries.MATERIAL_RULE, BILAYER_FILL, LithostitchedRuleSources.BilayerFillRuleSource.CODEC.codec());
+		Registry.register(BuiltInRegistries.MATERIAL_RULE, NOISE_THRESHOLD_SELECTOR, LithostitchedRuleSources.NoiseThresholdSelectorRuleSource.CODEC.codec());
+		Registry.register(BuiltInRegistries.MATERIAL_RULE, RANDOM_THRESHOLD_SELECTOR, LithostitchedRuleSources.RandomThresholdSelectorRuleSource.CODEC.codec());
+		Registry.register(BuiltInRegistries.MATERIAL_RULE, HEIGHT_THRESHOLD_SELECTOR, LithostitchedRuleSources.HeightThresholdSelectorRuleSource.CODEC.codec());
+		Registry.register(BuiltInRegistries.MATERIAL_RULE, STONE_DEPTH_THRESHOLD_SELECTOR, LithostitchedRuleSources.StoneDepthThresholdSelectorRuleSource.CODEC.codec());
+
+		Registry.register(BuiltInRegistries.MATERIAL_CONDITION, CLIFF, LithostitchedConditionSources.CliffConditionSource.CODEC.codec());
+		Registry.register(BuiltInRegistries.MATERIAL_CONDITION, FLAT, LithostitchedConditionSources.FlatConditionSource.CODEC.codec());
+		Registry.register(BuiltInRegistries.MATERIAL_CONDITION, FLAT_LIQUID, LithostitchedConditionSources.FlatLiquidConditionSource.CODEC.codec());
+		Registry.register(BuiltInRegistries.MATERIAL_CONDITION, LAND_TOP_LAYER, LithostitchedConditionSources.LandTopLayerConditionSource.CODEC.codec());
+		Registry.register(BuiltInRegistries.MATERIAL_CONDITION, UNDERWATER, LithostitchedConditionSources.UnderwaterConditionSource.CODEC.codec());
+		Registry.register(BuiltInRegistries.MATERIAL_CONDITION, CAVE_DEPTH, LithostitchedConditionSources.CaveDepthConditionSource.CODEC.codec());
+		Registry.register(BuiltInRegistries.MATERIAL_CONDITION, EXTENDED_BIOME, LithostitchedConditionSources.ExtendedBiomeConditionSource.CODEC.codec());
 
 		ResourceConditions.register(BreaksSeedParityCondition.TYPE);
 	}

@@ -6,7 +6,9 @@ import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorCondition;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
-import dev.worldgen.lithostitched.worldgen.surface.technical.LithostitchedSurfaceRules;
+import dev.worldgen.lithostitched.worldgen.surface.conditions.LithostitchedConditionSources;
+import dev.worldgen.lithostitched.worldgen.surface.rules.LithostitchedRuleSources;
+import dev.worldgen.lithostitched.worldgen.surface.technical.LithostitchedTechnicalRules;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -22,6 +24,7 @@ import java.util.function.BiConsumer;
 
 import static dev.worldgen.lithostitched.LithostitchedCommon.MOD_ID;
 import static dev.worldgen.lithostitched.LithostitchedCommon.createResourceKey;
+import static dev.worldgen.lithostitched.registry.LithostitchedMaterialRules.*;
 
 /**
  * Built-in registries for Lithostitched on Neoforge.
@@ -41,7 +44,21 @@ public final class LithostitchedBuiltInRegistries {
 
 	public static void init(IEventBus bus) {
 		bus.addListener((RegisterEvent event) -> {
-			event.register(Registries.MATERIAL_RULE, helper -> helper.register(createResourceKey(Registries.MATERIAL_RULE, "transient_merged"), LithostitchedSurfaceRules.TransientMergedRuleSource.CODEC.codec()));
+			event.register(Registries.MATERIAL_RULE, helper -> helper.register(TRANSIENT_MERGED, LithostitchedTechnicalRules.TransientMergedRuleSource.CODEC.codec()));
+
+			event.register(Registries.MATERIAL_RULE, helper -> helper.register(BILAYER_FILL, LithostitchedRuleSources.BilayerFillRuleSource.CODEC.codec()));
+			event.register(Registries.MATERIAL_RULE, helper -> helper.register(NOISE_THRESHOLD_SELECTOR, LithostitchedRuleSources.NoiseThresholdSelectorRuleSource.CODEC.codec()));
+			event.register(Registries.MATERIAL_RULE, helper -> helper.register(RANDOM_THRESHOLD_SELECTOR, LithostitchedRuleSources.RandomThresholdSelectorRuleSource.CODEC.codec()));
+			event.register(Registries.MATERIAL_RULE, helper -> helper.register(HEIGHT_THRESHOLD_SELECTOR, LithostitchedRuleSources.HeightThresholdSelectorRuleSource.CODEC.codec()));
+			event.register(Registries.MATERIAL_RULE, helper -> helper.register(STONE_DEPTH_THRESHOLD_SELECTOR, LithostitchedRuleSources.StoneDepthThresholdSelectorRuleSource.CODEC.codec()));
+
+			event.register(Registries.MATERIAL_CONDITION, helper -> helper.register(CLIFF, LithostitchedConditionSources.CliffConditionSource.CODEC.codec()));
+			event.register(Registries.MATERIAL_CONDITION, helper -> helper.register(FLAT, LithostitchedConditionSources.FlatConditionSource.CODEC.codec()));
+			event.register(Registries.MATERIAL_CONDITION, helper -> helper.register(FLAT_LIQUID, LithostitchedConditionSources.FlatLiquidConditionSource.CODEC.codec()));
+			event.register(Registries.MATERIAL_CONDITION, helper -> helper.register(LAND_TOP_LAYER, LithostitchedConditionSources.LandTopLayerConditionSource.CODEC.codec()));
+			event.register(Registries.MATERIAL_CONDITION, helper -> helper.register(UNDERWATER, LithostitchedConditionSources.UnderwaterConditionSource.CODEC.codec()));
+			event.register(Registries.MATERIAL_CONDITION, helper -> helper.register(CAVE_DEPTH, LithostitchedConditionSources.CaveDepthConditionSource.CODEC.codec()));
+			event.register(Registries.MATERIAL_CONDITION, helper -> helper.register(EXTENDED_BIOME, LithostitchedConditionSources.ExtendedBiomeConditionSource.CODEC.codec()));
 
 			LithostitchedCommon.registerCommonBlockPredicateTypes((name, type) -> register(event, Registries.BLOCK_PREDICATE_TYPE, name, type));
 			LithostitchedCommon.registerCommonStateProviders((name, type) -> register(event, Registries.BLOCK_STATE_PROVIDER_TYPE, name, type));

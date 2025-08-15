@@ -81,11 +81,11 @@ public class SurfaceRuleManager {
         moddedSourceList.forEach((pair) -> newRuleSourceList.add(pair.getSecond().surfaceRule()));
 
         newRuleSourceList.add(originalSource);
-        if (originalSource instanceof LithostitchedSurfaceRules.TransientMergedRuleSource) {
-            ((LithostitchedSurfaceRules.TransientMergedRuleSource) originalSource).sequence().addAll(newRuleSourceList);
+        if (originalSource instanceof LithostitchedTechnicalRules.TransientMergedRuleSource) {
+            ((LithostitchedTechnicalRules.TransientMergedRuleSource) originalSource).sequence().addAll(newRuleSourceList);
             return originalSource;
         } else {
-            return new LithostitchedSurfaceRules.TransientMergedRuleSource(newRuleSourceList, originalSource);
+            return new LithostitchedTechnicalRules.TransientMergedRuleSource(newRuleSourceList, originalSource);
         }
     }
 }

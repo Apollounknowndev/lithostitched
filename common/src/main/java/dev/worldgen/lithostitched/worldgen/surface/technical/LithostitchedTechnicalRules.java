@@ -5,9 +5,10 @@ import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-public class LithostitchedSurfaceRules extends SurfaceRules {
+public class LithostitchedTechnicalRules extends SurfaceRules {
     private record SequenceRule(List<SurfaceRules.SurfaceRule> rules) implements SurfaceRules.SurfaceRule {
         @Override
         public BlockState tryApply(int x, int y, int z) {
@@ -35,6 +36,7 @@ public class LithostitchedSurfaceRules extends SurfaceRules {
         );
 
         @Override
+        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.RuleSource> codec() {
             return CODEC;
         }
@@ -42,7 +44,7 @@ public class LithostitchedSurfaceRules extends SurfaceRules {
         @Override
         public SurfaceRules.SurfaceRule apply(SurfaceRules.Context context) {
             if (this.sequence.size() == 1) {
-                return this.sequence.get(0).apply(context);
+                return this.sequence.getFirst().apply(context);
             } else {
                 ImmutableList.Builder<SurfaceRules.SurfaceRule> builder = ImmutableList.builder();
                 for (SurfaceRules.RuleSource ruleSource : this.sequence) {
