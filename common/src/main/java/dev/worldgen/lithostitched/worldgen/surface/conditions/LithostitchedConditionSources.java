@@ -11,8 +11,6 @@ import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
-import javax.annotation.Nonnull;
-
 /**
  * Surface conditions, used for creating the condition stack.
  * @author VoidsongDragonfly
@@ -25,7 +23,6 @@ public class LithostitchedConditionSources {
         public static final KeyDispatchDataCodec<CliffConditionSource> CODEC = KeyDispatchDataCodec.of(MapCodec.unit(INSTANCE));
 
         @Override
-        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.ConditionSource> codec() {
             return CODEC;
         }
@@ -42,7 +39,6 @@ public class LithostitchedConditionSources {
         public static final KeyDispatchDataCodec<FlatConditionSource> CODEC = KeyDispatchDataCodec.of(MapCodec.unit(INSTANCE));
 
         @Override
-        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.ConditionSource> codec() {
             return CODEC;
         }
@@ -59,7 +55,6 @@ public class LithostitchedConditionSources {
         public static final KeyDispatchDataCodec<FlatLiquidConditionSource> CODEC = KeyDispatchDataCodec.of(MapCodec.unit(INSTANCE));
 
         @Override
-        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.ConditionSource> codec() {
             return CODEC;
         }
@@ -76,7 +71,6 @@ public class LithostitchedConditionSources {
         public static final KeyDispatchDataCodec<LandTopLayerConditionSource> CODEC = KeyDispatchDataCodec.of(MapCodec.unit(INSTANCE));
 
         @Override
-        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.ConditionSource> codec() {
             return CODEC;
         }
@@ -97,7 +91,6 @@ public class LithostitchedConditionSources {
         );
 
         @Override
-        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.ConditionSource> codec() {
             return CODEC;
         }
@@ -117,7 +110,6 @@ public class LithostitchedConditionSources {
         );
 
         @Override
-        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.ConditionSource> codec() {
             return CODEC;
         }
@@ -138,7 +130,6 @@ public class LithostitchedConditionSources {
         }
 
         @Override
-        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.ConditionSource> codec() {
             return CODEC;
         }
@@ -155,7 +146,6 @@ public class LithostitchedConditionSources {
         }
 
         @Override
-        @Nonnull
         public String toString() {
             return "ExtendedBiomeConditionSource[biomes=" + this.biomeSet + "]";
         }

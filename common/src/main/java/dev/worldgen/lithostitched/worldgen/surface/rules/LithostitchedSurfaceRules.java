@@ -10,7 +10,6 @@ import net.minecraft.world.level.levelgen.PositionalRandomFactory;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -18,7 +17,6 @@ import java.util.List;
  * @author VoidsongDragonfly
  */
 public class LithostitchedSurfaceRules {
-
     /**
      * Noise selector surface rule; iterates down a list of noise thresholds to evaluate and return the rule within those thresholds
      * @param pContext the {@link SurfaceRules.Context context} the rule generates with
@@ -30,7 +28,6 @@ public class LithostitchedSurfaceRules {
      * @author VoidsongDragonfly
      */
     record NoiseThresholdSelectorRule(SurfaceRules.Context pContext, ResourceKey<NormalNoise.NoiseParameters> noise, SurfaceRules.SurfaceRule defaultRule, ImmutableList<SurfaceRules.SurfaceRule> ruleset, List<Double> lowerThresholds, boolean cascade) implements SurfaceRules.SurfaceRule {
-        @Nullable
         @Override
         public BlockState tryApply(int x, int y, int z) {
             // Check the noise we're using for values, and grab our double value
@@ -59,7 +56,6 @@ public class LithostitchedSurfaceRules {
      * @author VoidsongDragonfly
      */
     record NoiseThresholdRule(SurfaceRules.Context pContext, ResourceKey<NormalNoise.NoiseParameters> noise, SurfaceRules.SurfaceRule defaultRule, SurfaceRules.SurfaceRule rule, Double lowerThreshold) implements SurfaceRules.SurfaceRule {
-        @Nullable
         @Override
         public BlockState tryApply(int x, int y, int z) {
             // Check the noise we're using for values, and grab our double value
@@ -81,7 +77,6 @@ public class LithostitchedSurfaceRules {
      * @author VoidsongDragonfly
      */
     record RandomThresholdSelectorRule(SurfaceRules.Context pContext, PositionalRandomFactory positionalRandomFactory, BlockState defaultState, List<BlockState> stateSet, List<Double> lowerThresholds) implements SurfaceRules.SurfaceRule {
-        @Nullable
         @Override
         public BlockState tryApply(int x, int y, int z) {
             // Check the random we're using for values, and grab our double value
@@ -105,7 +100,6 @@ public class LithostitchedSurfaceRules {
      * @author VoidsongDragonfly
      */
     record RandomThresholdRule(SurfaceRules.Context pContext, PositionalRandomFactory positionalRandomFactory, BlockState defaultState, BlockState state, Double lowerThreshold) implements SurfaceRules.SurfaceRule {
-        @Nullable
         @Override
         public BlockState tryApply(int x, int y, int z) {
             // Check the random we're using for values, and grab our double value
@@ -127,7 +121,6 @@ public class LithostitchedSurfaceRules {
      * @author VoidsongDragonfly
      */
     record HeightThresholdSelectorRule(SurfaceRules.Context pContext, SurfaceRules.SurfaceRule defaultRule, ImmutableList<SurfaceRules.SurfaceRule> ruleset, List<Integer> lowerThresholds, int surfaceDepthMultiplier, boolean addStoneDepth, boolean cascade) implements SurfaceRules.SurfaceRule {
-        @Nullable
         @Override
         public BlockState tryApply(int x, int y, int z) {
             // Get the height that we want to compare against
@@ -155,7 +148,6 @@ public class LithostitchedSurfaceRules {
      * @author VoidsongDragonfly
      */
     record HeightThresholdRule(SurfaceRules.Context pContext, SurfaceRules.SurfaceRule defaultRule, SurfaceRules.SurfaceRule rule, int lowerThreshold, int surfaceDepthMultiplier, boolean addStoneDepth) implements SurfaceRules.SurfaceRule {
-        @Nullable
         @Override
         public BlockState tryApply(int x, int y, int z) {
             // Get the height that we want to compare against
@@ -176,7 +168,6 @@ public class LithostitchedSurfaceRules {
      * @author VoidsongDragonfly
      */
     record StoneDepthThresholdSelectorRule(SurfaceRules.Context pContext, SurfaceRules.SurfaceRule defaultRule, ImmutableList<SurfaceRules.SurfaceRule> ruleset, int length) implements SurfaceRules.SurfaceRule {
-        @Nullable
         @Override
         public BlockState tryApply(int x, int y, int z) {
             // Get the rule we want at the specified depth and evaluate it for this position
@@ -197,7 +188,6 @@ public class LithostitchedSurfaceRules {
      * @author VoidsongDragonfly
      */
     record BilayerFillRule(SurfaceRules.Context pContext, boolean land, int surfaceOffset, int secondaryDepthRange, SurfaceRules.SurfaceRule topRule, SurfaceRules.SurfaceRule sublayerRule) implements SurfaceRules.SurfaceRule {
-        @Nullable
         @Override
         public BlockState tryApply(int x, int y, int z) {
             // Check to make sure we are in the correct land/water bin and return null if we fail

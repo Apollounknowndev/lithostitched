@@ -5,7 +5,6 @@ import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public class LithostitchedTechnicalRules extends SurfaceRules {
@@ -36,7 +35,6 @@ public class LithostitchedTechnicalRules extends SurfaceRules {
         );
 
         @Override
-        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.RuleSource> codec() {
             return CODEC;
         }

@@ -13,7 +13,6 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import dev.worldgen.lithostitched.worldgen.surface.rules.LithostitchedSurfaceRules.*;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +33,6 @@ public class LithostitchedRuleSources {
         ));
 
         @Override
-        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.RuleSource> codec() {
             return CODEC;
         }
@@ -63,7 +61,6 @@ public class LithostitchedRuleSources {
         ));
 
         @Override
-        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.RuleSource> codec() {
             return CODEC;
         }
@@ -92,7 +89,6 @@ public class LithostitchedRuleSources {
         ));
 
         @Override
-        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.RuleSource> codec() {
             return CODEC;
         }
@@ -119,7 +115,6 @@ public class LithostitchedRuleSources {
         ));
 
         @Override
-        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.RuleSource> codec() {
             return CODEC;
         }
@@ -146,7 +141,6 @@ public class LithostitchedRuleSources {
         ));
 
         @Override
-        @Nonnull
         public KeyDispatchDataCodec<? extends SurfaceRules.RuleSource> codec() {
             return CODEC;
         }
