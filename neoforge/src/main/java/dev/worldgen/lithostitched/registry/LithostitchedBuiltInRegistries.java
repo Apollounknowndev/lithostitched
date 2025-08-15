@@ -6,7 +6,7 @@ import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorCondition;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
-import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules;
+import dev.worldgen.lithostitched.worldgen.surface.technical.LithostitchedSurfaceRules;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;

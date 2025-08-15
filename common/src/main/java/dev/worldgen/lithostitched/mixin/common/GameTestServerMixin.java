@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.mixin.common;
 
 import dev.worldgen.lithostitched.worldgen.modifier.Modifier;
-import dev.worldgen.lithostitched.worldgen.surface.SurfaceRuleManager;
+import dev.worldgen.lithostitched.worldgen.surface.technical.SurfaceRuleManager;
 import net.minecraft.gametest.framework.GameTestServer;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;

@@ -6,7 +6,7 @@ import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorCondition;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
-import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules;
+import dev.worldgen.lithostitched.worldgen.surface.technical.LithostitchedSurfaceRules;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;

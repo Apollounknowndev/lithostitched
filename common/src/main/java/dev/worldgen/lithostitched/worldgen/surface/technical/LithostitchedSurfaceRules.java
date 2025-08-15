@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.worldgen.surface;
+package dev.worldgen.lithostitched.worldgen.surface.technical;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.util.KeyDispatchDataCodec;

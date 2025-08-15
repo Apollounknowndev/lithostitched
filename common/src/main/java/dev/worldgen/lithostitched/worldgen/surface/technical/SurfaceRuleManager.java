@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.worldgen.surface;
+package dev.worldgen.lithostitched.worldgen.surface.technical;
 
 import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.LithostitchedCommon;
