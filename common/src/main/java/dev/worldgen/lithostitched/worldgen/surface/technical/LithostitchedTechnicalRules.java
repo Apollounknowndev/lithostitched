@@ -2,25 +2,11 @@ package dev.worldgen.lithostitched.worldgen.surface.technical;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.util.KeyDispatchDataCodec;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
 import java.util.List;
 
 public class LithostitchedTechnicalRules extends SurfaceRules {
-    private record SequenceRule(List<SurfaceRules.SurfaceRule> rules) implements SurfaceRules.SurfaceRule {
-        @Override
-        public BlockState tryApply(int x, int y, int z) {
-            for (SurfaceRules.SurfaceRule surfaceRule : this.rules) {
-                BlockState blockstate = surfaceRule.tryApply(x, y, z);
-                if (blockstate != null) {
-                    return blockstate;
-                }
-            }
-            return null;
-        }
-    }
-
     /**
      * The {@link RuleSource} type responsible for merging new surface rules with original surface rules.
      *
