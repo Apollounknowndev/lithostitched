@@ -163,6 +163,8 @@ public class LithostitchedSurfaceConditions {
         @Override
         public boolean test() {
             int heightmapDepth = ((IContextExtension)(Object)context).lithostitched$getOceanHeightmapDepth();
+            // Return early if this isn't a cave - ie, if the ground above is solid
+            if (context.stoneDepthAbove >= (heightmapDepth-context.blockY+1)) return false;
             // Return early if we're above the necessary depth
             if (heightmapDepth - depth <= context.blockY) return false;
             // If we're shallower than twelve blocks, we do not need to check the air blocks above this block
