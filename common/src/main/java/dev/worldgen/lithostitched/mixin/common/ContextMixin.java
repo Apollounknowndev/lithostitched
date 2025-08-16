@@ -35,17 +35,13 @@ public final class ContextMixin implements IContextExtension {
     @Unique
     @SuppressWarnings("all")
     SurfaceRules.Condition cliff, flat, flatLiquid, aboveWater;
-    // Caches for heightmaps & noises
+    // Caches for heightmap, alongside its update timer
     @Unique
     @SuppressWarnings("all")
     private int oceanHeightmapDepthCache = -Integer.MAX_VALUE;
-    // Update timers for heightmaps, biomes, and noises
     @Unique
     @SuppressWarnings("all")
     private long lastUpdateHeightmapDepth;
-    @Unique
-    @SuppressWarnings("all")
-    private long lastUpdateNoises;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void instantiateConditions(SurfaceSystem system,
