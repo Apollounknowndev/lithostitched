@@ -135,14 +135,14 @@ public class LithostitchedConditionSources {
         }
 
         public SurfaceRules.Condition apply(final SurfaceRules.Context pContext) {
-            class BiomeCondition implements SurfaceRules.Condition {
+            class ExtendedBiomeCondition implements SurfaceRules.Condition {
                 @Override
                 public boolean test() {
                     return biomeSet.contains(pContext.biome.get());
                 }
             }
 
-            return new BiomeCondition();
+            return new ExtendedBiomeCondition();
         }
 
         @Override
