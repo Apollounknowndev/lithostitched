@@ -38,9 +38,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSetting
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.shapes.BooleanOp;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.apache.commons.lang3.mutable.MutableObject;
 
 import java.util.*;
@@ -111,8 +108,11 @@ public class AlternateJigsawGenerator {
                     Math.min(originY + maxDistance.vertical() + 1, heightLimitView.getMaxBuildHeight() - config.dimensionPadding().top()),
                     originZ + maxDistance.horizontal() + 1
                 );
-                VoxelShape voxelShape = Shapes.join(Shapes.create(box), getConfig(startingElement).otherPiecesCanIntersect() ? Shapes.empty() : Shapes.create(AABB.of(blockBox)), BooleanOp.ONLY_FIRST);
-                generatePieces(context, vanilla, size, config.useExpansionHack(), chunkGenerator, structureTemplateManager, heightLimitView, random, registry, piece, list, voxelShape, aliasLookup, config.liquidSettings());
+                BoxOctree boxOctree = new BoxOctree(box);
+                if (!getConfig(startingElement).otherPiecesCanIntersect()) {
+                    boxOctree.addBox(AABB.of(blockBox));
+                }
+                generatePieces(context, vanilla, size, config.useExpansionHack(), chunkGenerator, structureTemplateManager, heightLimitView, random, registry, piece, list, boxOctree, aliasLookup, config.liquidSettings());
                 Objects.requireNonNull(collector);
                 list.forEach(collector::addPiece);
             }
@@ -144,13 +144,13 @@ public class AlternateJigsawGenerator {
         return optional;
     }
 
-    private static void generatePieces(Structure.GenerationContext context, boolean vanilla, int maxSize, boolean useExpansionHack, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, LevelHeightAccessor heightLimitView, RandomSource random, Registry<StructureTemplatePool> structurePoolRegistry, PoolElementStructurePiece firstPiece, List<PoolElementStructurePiece> pieces, VoxelShape pieceShape, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+    private static void generatePieces(Structure.GenerationContext context, boolean vanilla, int maxSize, boolean useExpansionHack, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, LevelHeightAccessor heightLimitView, RandomSource random, Registry<StructureTemplatePool> structurePoolRegistry, PoolElementStructurePiece firstPiece, List<PoolElementStructurePiece> pieces, BoxOctree boxOctree, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
         StructurePoolGenerator generator = new StructurePoolGenerator(context, vanilla, structurePoolRegistry, maxSize, chunkGenerator, structureTemplateManager, pieces, random);
-        generator.generatePiece(firstPiece, new MutableObject<>(pieceShape), 0, useExpansionHack, heightLimitView, aliasLookup, liquidSettings);
+        generator.generatePiece(firstPiece, boxOctree, 0, useExpansionHack, heightLimitView, aliasLookup, liquidSettings);
 
         while(generator.pieces.hasNext()) {
             PieceState pieceState = generator.pieces.next();
-            generator.generatePiece(pieceState.piece, pieceState.pieceShape, pieceState.currentSize, useExpansionHack, heightLimitView, aliasLookup, liquidSettings);
+            generator.generatePiece(pieceState.piece, pieceState.octree, pieceState.currentSize, useExpansionHack, heightLimitView, aliasLookup, liquidSettings);
         }
     }
 
@@ -181,29 +181,29 @@ public class AlternateJigsawGenerator {
             this.random = random;
         }
 
-        private void generatePiece(PoolElementStructurePiece parentPiece, MutableObject<VoxelShape> voxelShape, int depth, boolean useExpansionHack, LevelHeightAccessor world, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+        private void generatePiece(PoolElementStructurePiece parentPiece, BoxOctree parentOctree, int depth, boolean useExpansionHack, LevelHeightAccessor world, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
             StructurePoolElement anchorElement = parentPiece.getElement();
-            MutableObject<VoxelShape> parentShape = new MutableObject<>();
+            BoundingBox parentBoundingBox = parentPiece.getBoundingBox();
+            BoxOctree directParentOctree = null;
 
             for (StructureTemplate.StructureBlockInfo anchorJigsawInfo : anchorElement.getShuffledJigsawBlocks(this.structureTemplateManager, parentPiece.getPosition(), parentPiece.getRotation(), this.random)) {
-                BoundingBox parentBoundingBox = parentPiece.getBoundingBox();
                 BlockPos candidateConnectorPos = anchorJigsawInfo.pos().relative(JigsawBlock.getFrontFacing(anchorJigsawInfo.state()));
-                int k = -1;
                 Holder<StructureTemplatePool> poolEntry = getTemplatePoolHolder(getTemplatePoolKey(anchorJigsawInfo, aliasLookup));
                 if (poolEntry == null) continue;
                 boolean connectorInParentBoundingBox = parentBoundingBox.isInside(candidateConnectorPos);
-                MutableObject<VoxelShape> childShape;
+
+                BoxOctree octree;
                 if (connectorInParentBoundingBox && !getConfig(anchorElement).otherPiecesCanIntersect()) {
-                    childShape = parentShape;
-                    if (parentShape.getValue() == null) {
-                        parentShape.setValue(Shapes.create(AABB.of(parentBoundingBox)));
+                    if (directParentOctree == null) {
+                        directParentOctree = new BoxOctree(AABB.of(parentBoundingBox));
                     }
+                    octree = directParentOctree;
                 } else {
-                    childShape = voxelShape;
+                    octree = parentOctree;
                 }
 
                 MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools = new MutableObject<>(new ArrayList<>());
-                findAndTestChildCandidates(poolEntry, checkedPools, parentPiece, anchorJigsawInfo, childShape, k, depth, useExpansionHack, world, true, aliasLookup, liquidSettings);
+                findAndTestChildCandidates(poolEntry, checkedPools, parentPiece, anchorJigsawInfo, octree, -1, depth, useExpansionHack, world, true, aliasLookup, liquidSettings);
             }
         }
 
@@ -211,13 +211,13 @@ public class AlternateJigsawGenerator {
          * Find a valid child from a pool of child candidates.
          * If none are found, go to the template pool's fallback and try again.
          */
-        private void findAndTestChildCandidates(Holder<StructureTemplatePool> entry, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> mutableObject2, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, boolean firstIteration, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+        private void findAndTestChildCandidates(Holder<StructureTemplatePool> entry, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, BoxOctree octree, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, boolean firstIteration, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
             List<StructurePoolElement> childCandidates = this.getPoolElements(entry.unwrapKey().orElse(Pools.EMPTY), checkedPools, depth, firstIteration);
 
             if (childCandidates.isEmpty()) return;
-            boolean foundChild = findValidChildPiece(childCandidates, parentPiece, anchorJigsawInfo, mutableObject2, k, depth, useExpansionHack, world, aliasLookup, liquidSettings);
+            boolean foundChild = findValidChildPiece(childCandidates, parentPiece, anchorJigsawInfo, octree, k, depth, useExpansionHack, world, aliasLookup, liquidSettings);
             if (!foundChild) {
-                findAndTestChildCandidates(entry.value().getFallback(), checkedPools, parentPiece, anchorJigsawInfo, mutableObject2, k, depth, useExpansionHack, world, false, aliasLookup, liquidSettings);
+                findAndTestChildCandidates(entry.value().getFallback(), checkedPools, parentPiece, anchorJigsawInfo, octree, k, depth, useExpansionHack, world, false, aliasLookup, liquidSettings);
             }
         }
 
@@ -272,7 +272,7 @@ public class AlternateJigsawGenerator {
          * Iterate through list of child candidate pieces to find a valid one to use.
          */
         @SuppressWarnings("deprecation")
-        private boolean findValidChildPiece(List<StructurePoolElement> elements, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, MutableObject<VoxelShape> fullShape, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+        private boolean findValidChildPiece(List<StructurePoolElement> elements, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, BoxOctree octree, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
             BlockPos anchorPos = anchorJigsawInfo.pos();
             BlockPos candidateConnectorPos = anchorPos.relative(JigsawBlock.getFrontFacing(anchorJigsawInfo.state()));
             int parentMinY = parentPiece.getBoundingBox().minY();
@@ -352,14 +352,14 @@ public class AlternateJigsawGenerator {
                             }
 
 
-                            if (config.allowBoundingBoxCollisions() || !Shapes.joinIsNotEmpty(fullShape.getValue(), Shapes.create(AABB.of(blockBox4).deflate(0.25)), BooleanOp.ONLY_SECOND)) {
+                            if (config.allowBoundingBoxCollisions() || octree.withinBoundsButNotIntersectingChildren(AABB.of(blockBox4).deflate(0.25))) {
                                 // At this point the piece is ready to be placed
                                 if (isDelegating) {
                                     this.groupCounts.put(config.getName(), this.groupCounts.getOrDefault(config.getName(), 0) + 1);
                                 }
 
                                 if (!config.otherPiecesCanIntersect()) {
-                                    fullShape.setValue(Shapes.joinUnoptimized(fullShape.getValue(), Shapes.create(AABB.of(blockBox4)), BooleanOp.ONLY_FIRST));
+                                    octree.addBox(AABB.of(blockBox4));
                                 }
 
                                 r = parentPiece.getGroundLevelDelta();
@@ -392,7 +392,7 @@ public class AlternateJigsawGenerator {
                                 this.piecesToPlace.add(poolStructurePiece);
                                 if (depth + 1 <= this.maxSize) {
                                     int priority = anchorJigsawInfo.nbt() != null ? anchorJigsawInfo.nbt().getInt("placement_priority") : 0;
-                                    this.pieces.add(new PieceState(poolStructurePiece, fullShape, depth + 1), priority);
+                                    this.pieces.add(new PieceState(poolStructurePiece, octree, depth + 1), priority);
                                 }
                                 return true;
                             }
@@ -428,5 +428,5 @@ public class AlternateJigsawGenerator {
         }
     }
 
-    private record PieceState(PoolElementStructurePiece piece, MutableObject<VoxelShape> pieceShape, int currentSize) {}
+    private record PieceState(PoolElementStructurePiece piece, BoxOctree octree, int currentSize) {}
 }

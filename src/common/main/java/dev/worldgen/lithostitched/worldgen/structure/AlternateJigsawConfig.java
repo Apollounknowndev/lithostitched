@@ -26,7 +26,7 @@ public record AlternateJigsawConfig(Holder<StructureTemplatePool> startPool, Opt
     public static final MapCodec<AlternateJigsawConfig> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(AlternateJigsawConfig::startPool),
         ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(AlternateJigsawConfig::startJigsawName),
-        IntProvider.codec(0, 20).fieldOf("size").forGetter(AlternateJigsawConfig::size),
+        IntProvider.codec(0, 128).fieldOf("size").forGetter(AlternateJigsawConfig::size),
         Codec.BOOL.optionalFieldOf("fixed_rotation", false).forGetter(AlternateJigsawConfig::fixedRotation),
         HeightProvider.CODEC.fieldOf("start_height").forGetter(AlternateJigsawConfig::startHeight),
         Codec.BOOL.fieldOf("use_expansion_hack").forGetter(AlternateJigsawConfig::useExpansionHack),

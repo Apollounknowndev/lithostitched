@@ -38,10 +38,17 @@ public class DelegatingStructure extends Structure {
         return this.findGenerationPoint(context).filter(generationPoint -> isValid(generationPoint, context));
     }
 
-    private boolean isValid(GenerationStub generationPoint, GenerationContext context) {
-        BlockPos pos = generationPoint.position();
-        if (!this.config.spawnCondition().test(context, pos)) return false;
-        return context.validBiome().test(context.chunkGenerator().getBiomeSource().getNoiseBiome(QuartPos.fromBlock(pos.getX()), QuartPos.fromBlock(pos.getY()), QuartPos.fromBlock(pos.getZ()), context.randomState().sampler()));
+    private boolean isValid(GenerationStub stub, GenerationContext context) {
+        BlockPos pos = stub.position();
+        if (
+            !context.validBiome().test(context.chunkGenerator().getBiomeSource().getNoiseBiome(
+                QuartPos.fromBlock(pos.getX()),
+                QuartPos.fromBlock(pos.getY()),
+                QuartPos.fromBlock(pos.getZ()),
+                context.randomState().sampler()
+            ))
+        ) return false;
+        return this.config.spawnCondition().test(context, pos);
     }
 
     @Override
