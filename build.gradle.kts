@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "2.1.0"
-    id("earth.terrarium.cloche") version "0.11.20"
+    id("earth.terrarium.cloche") version "0.11.20+patched5"
 }
 
 repositories {
@@ -13,12 +13,13 @@ repositories {
         librariesMinecraft()
         main()
     }
+    mavenLocal()
     mavenCentral()
     maven("https://api.modrinth.com/maven")
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.5.0+beta2"
+version = "1.5.0+beta4"
 
 cloche {
     mappings {
@@ -50,7 +51,7 @@ cloche {
     fabric("fabric:1.21.1") {
         dependsOn(shared1211)
 
-        loaderVersion = "0.16.13"
+        loaderVersion = "0.17.0"
         minecraftVersion = "1.21.1"
         mixins.from(file("src/fabric/1.21.1/main/lithostitched.fabric.mixins.json"))
 
@@ -74,7 +75,7 @@ cloche {
     fabric("fabric:1.21.8") {
         dependsOn(shared1218)
 
-        loaderVersion = "0.16.13"
+        loaderVersion = "0.17.0"
         minecraftVersion = "1.21.8"
         mixins.from(file("src/fabric/1.21.8/main/lithostitched.fabric.mixins.json"))
 
@@ -98,7 +99,7 @@ cloche {
     neoforge("neoforge:1.21.1") {
         dependsOn(shared1211)
 
-        loaderVersion = "21.1.26"
+        loaderVersion = "21.1.206"
         minecraftVersion = "1.21.1"
         mixins.from(file("src/neoforge/1.21.1/main/lithostitched.neoforge.mixins.json"))
 
@@ -116,7 +117,7 @@ cloche {
     neoforge("neoforge:1.21.8") {
         dependsOn(shared1218)
 
-        loaderVersion = "21.8.4-beta"
+        loaderVersion = "21.8.40"
         minecraftVersion = "1.21.8"
         mixins.from(file("src/neoforge/1.21.8/main/lithostitched.neoforge.mixins.json"))
 

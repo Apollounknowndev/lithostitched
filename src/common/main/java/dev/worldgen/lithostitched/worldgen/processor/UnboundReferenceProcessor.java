@@ -2,6 +2,7 @@ package dev.worldgen.lithostitched.worldgen.processor;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.Lithostitched;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
@@ -27,8 +28,12 @@ public class UnboundReferenceProcessor extends StructureProcessor {
     public static final StructureProcessorType<UnboundReferenceProcessor> TYPE = () -> CODEC;
     private final ResourceLocation name;
 
-    public UnboundReferenceProcessor(ResourceLocation name) {
+    private UnboundReferenceProcessor(ResourceLocation name) {
         this.name = name;
+    }
+
+    public static UnboundReferenceProcessor of(String name) {
+        return new UnboundReferenceProcessor(Lithostitched.id(name));
     }
 
     public ResourceLocation name() {

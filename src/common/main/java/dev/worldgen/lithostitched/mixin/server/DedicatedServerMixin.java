@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(DedicatedServer.class)
 public final class DedicatedServerMixin {
 	@Inject(method = "initServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/dedicated/DedicatedServer;loadLevel()V", shift = At.Shift.BEFORE), allow = 1)
-	private void applyModdedBiomeSlices(CallbackInfoReturnable<Boolean> info) {
+	private void initServer(CallbackInfoReturnable<Boolean> info) {
 		ModifierManager.applyModifiers((MinecraftServer) (Object) this);
 		SurfaceRuleManager.applySurfaceRules((MinecraftServer) (Object) this);
 	}

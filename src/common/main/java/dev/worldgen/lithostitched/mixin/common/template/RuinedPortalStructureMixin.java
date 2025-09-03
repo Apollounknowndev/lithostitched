@@ -1,7 +1,6 @@
 package dev.worldgen.lithostitched.mixin.common.template;
 
 import dev.worldgen.lithostitched.config.ConfigHandler;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateLists;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -20,11 +19,11 @@ public class RuinedPortalStructureMixin {
             ordinal = 1
         )
     )
-    private ResourceLocation useStandardTemplateList(String name, Structure.GenerationContext generationContext) {
+    private ResourceLocation useStandardTemplateList(String name, Structure.GenerationContext context) {
         if (!ConfigHandler.getConfig().breaksSeedParity()) {
             return ResourceLocation.withDefaultNamespace(name);
         }
-        return generationContext.registryAccess().lookupOrThrow(LithostitchedRegistryKeys.TEMPLATE_LIST).get(TemplateLists.RUINED_PORTAL_STANDARD).get().value().getRandom(generationContext.random());
+        return TemplateLists.getRandom(context.registryAccess(), TemplateLists.RUINED_PORTAL_STANDARD, context.random());
     }
 
     @Redirect(
@@ -35,10 +34,10 @@ public class RuinedPortalStructureMixin {
             ordinal = 0
         )
     )
-    private ResourceLocation useGiantTemplateList(String name, Structure.GenerationContext generationContext) {
+    private ResourceLocation useGiantTemplateList(String name, Structure.GenerationContext context) {
         if (!ConfigHandler.getConfig().breaksSeedParity()) {
             return ResourceLocation.withDefaultNamespace(name);
         }
-        return generationContext.registryAccess().lookupOrThrow(LithostitchedRegistryKeys.TEMPLATE_LIST).get(TemplateLists.RUINED_PORTAL_GIANT).get().value().getRandom(generationContext.random());
+        return TemplateLists.getRandom(context.registryAccess(), TemplateLists.RUINED_PORTAL_GIANT, context.random());
     }
 }

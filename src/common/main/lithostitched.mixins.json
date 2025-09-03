@@ -7,7 +7,24 @@
     "common.bandlands.SurfaceRulesContextMixin",
     "common.bandlands.SurfaceSystemMixin",
 
+    "common.processor.EndCityPieceMixin",
+    "common.processor.IglooPieceMixin",
+    "common.processor.NetherFossilPieceMixin",
+    "common.processor.RuinedPortalPieceMixin",
+    "common.processor.ShipwreckPieceMixin",
+    "common.processor.StructureTemplateMixin",
+    "common.processor.WoodlandMansionPieceMixin",
+
+    "common.template.mansion.floor.FirstFloorMixin",
+    "common.template.mansion.floor.SecondFloorMixin",
+    "common.template.mansion.floor.ThirdFloorMixin",
+    "common.template.mansion.FloorRoomCollectionMixin",
+    "common.template.mansion.PiecePlacerMixin",
+    "common.template.mansion.WoodlandMansionStructureMixin",
+    "common.template.mansion.WoodlandMansionPieceMixin",
+    "common.template.NetherFossilStructureMixin",
     "common.template.RuinedPortalStructureMixin",
+    "common.template.ShipwreckStructureMixin",
 
     "common.ChunkGeneratorAccessor",
     "common.ChunkMapMixin",
@@ -21,11 +38,9 @@
     "common.PlacedFeatureAccessor",
     "common.PoolAliasLookupMixin",
     "common.RandomStateAccessor",
-    "common.ShipwreckPieceMixin",
     "common.SinglePoolElementAccessor",
     "common.StructureProcessorListAccessor",
     "common.StructureSetAccessor",
-    "common.StructureTemplateMixin",
     "common.StructureTemplatePoolAccessor",
     "common.StructureTemplatePoolMixin"
   ],
@@ -37,5 +52,8 @@
   ],
   "injectors": {
     "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.0"
   }
 }

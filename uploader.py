@@ -5,15 +5,15 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.5.0+beta2"
+MOD_VERSION = "1.5.0+beta4"
 CHANGELOG = """
-Fixed multiple crashes that could occur in beta 1.
+View changes in the technical changelog [here](https://github.com/Apollounknowndev/lithostitched/wiki/Technical-Changelog).
 """
 UPLOAD_VERSIONS = [
-    ("fabric", "1.21.1"),
-    ("neoforge", "1.21.1"),
-    ("fabric", "1.21.8"),
-    ("neoforge", "1.21.8"),
+    #("fabric", "1.21.1"),
+    #("neoforge", "1.21.1"),
+    #("fabric", "1.21.8"),
+    #("neoforge", "1.21.8"),
 ]
 
 MODRINTH_ID = "XaDC71GB"

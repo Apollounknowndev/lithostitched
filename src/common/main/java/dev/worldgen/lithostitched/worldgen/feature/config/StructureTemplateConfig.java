@@ -16,7 +16,7 @@ public record StructureTemplateConfig(ResourceLocation template, Holder<Structur
     public static final Codec<StructureTemplateConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         ResourceLocation.CODEC.fieldOf("template").forGetter(StructureTemplateConfig::template),
         StructureProcessorType.LIST_CODEC.fieldOf("processors").forGetter(StructureTemplateConfig::processors),
-        Rotation.CODEC.optionalFieldOf("fixedRotation").forGetter(StructureTemplateConfig::rotation),
+        Rotation.CODEC.optionalFieldOf("rotation").forGetter(StructureTemplateConfig::rotation),
         LiquidSettings.CODEC.fieldOf("liquid_settings").orElse(LiquidSettings.APPLY_WATERLOGGING).forGetter(StructureTemplateConfig::liquidSettings),
         ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(StructureTemplateConfig::startJigsawName)
     ).apply(instance, StructureTemplateConfig::new));

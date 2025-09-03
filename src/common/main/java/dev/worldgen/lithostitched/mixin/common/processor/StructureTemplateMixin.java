@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.mixin.common;
+package dev.worldgen.lithostitched.mixin.common.processor;
 
 import dev.worldgen.lithostitched.worldgen.processor.UnboundReferenceProcessor;
 import net.minecraft.core.BlockPos;
