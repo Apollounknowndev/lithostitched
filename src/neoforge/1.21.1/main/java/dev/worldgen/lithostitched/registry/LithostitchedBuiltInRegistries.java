@@ -12,6 +12,7 @@ import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorConditio
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.world.BiomeModifier;
@@ -61,6 +62,7 @@ public final class LithostitchedBuiltInRegistries {
 
 		bus.addListener((DataPackRegistryEvent.NewRegistry event) -> {
 			event.dataPackRegistry(LithostitchedRegistryKeys.WORLDGEN_MODIFIER, Modifier.CODEC);
+			event.dataPackRegistry(LithostitchedRegistryKeys.SURFACE_RULE, SurfaceRules.RuleSource.CODEC);
 			event.dataPackRegistry(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC);
 			event.dataPackRegistry(LithostitchedRegistryKeys.TEMPLATE_LIST, TemplateList.CODEC);
 		});

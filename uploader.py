@@ -5,15 +5,15 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.5.0+beta4"
+MOD_VERSION = "1.5.0+beta5"
 CHANGELOG = """
 View changes in the technical changelog [here](https://github.com/Apollounknowndev/lithostitched/wiki/Technical-Changelog).
 """
 UPLOAD_VERSIONS = [
-    #("fabric", "1.21.1"),
-    #("neoforge", "1.21.1"),
-    #("fabric", "1.21.8"),
-    #("neoforge", "1.21.8"),
+    ("fabric", "1.21.1"),
+    ("neoforge", "1.21.1"),
+    ("fabric", "1.21.8"),
+    ("neoforge", "1.21.8"),
 ]
 
 MODRINTH_ID = "XaDC71GB"
@@ -37,7 +37,7 @@ CURSEFORGE_URL = f"https://minecraft.curseforge.com/api/v1/projects/{CURSEFORGE_
 CURSEFORGE_GAME_VERSIONS = {
     "1.20.1": [9990],
     "1.21.1": [11779],
-    "1.21.8": [13422, 13506],
+    "1.21.8": [13422, 13506, 13620],
 }
 CURSEFORGE_LOADERS = {
     "fabric": 7499,

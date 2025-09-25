@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
+import dev.worldgen.lithostitched.worldgen.surface.rule.TransientMergedRule;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -26,7 +27,6 @@ import java.util.stream.Collectors;
  * @author Apollo
 */
 public class SurfaceRuleManager {
-
     @SuppressWarnings("deprecation")
     public static void applySurfaceRules(MinecraftServer server) {
         RegistryAccess registries = server.registryAccess();
@@ -44,10 +44,6 @@ public class SurfaceRuleManager {
             ResourceLocation location = entry.getKey().location();
             var surfaceRulesForKey = assignedSurfaceRules.get(location);
             if (surfaceRulesForKey != null) {
-                //if (surfaceRulesForKey.isEmpty()) {
-                //    LithostitchedCommon.LOGGER.info("Skipped applying surface rule additions for '" + location + "' dimension as none exist");
-                //    continue;
-                //}
                 ChunkGenerator chunkGenerator = entry.getValue().generator();
                 if (!(chunkGenerator instanceof NoiseBasedChunkGenerator)) continue;
                 NoiseGeneratorSettings settings = ((NoiseBasedChunkGenerator) chunkGenerator).generatorSettings().value();
@@ -79,11 +75,11 @@ public class SurfaceRuleManager {
         moddedSourceList.forEach((pair) -> newRuleSourceList.add(pair.getSecond().surfaceRule()));
 
         newRuleSourceList.add(originalSource);
-        if (originalSource instanceof LithostitchedSurfaceRules.TransientMergedRuleSource transientMerged) {
+        if (originalSource instanceof TransientMergedRule transientMerged) {
             transientMerged.sequence().addAll(newRuleSourceList);
             return originalSource;
         } else {
-            return new LithostitchedSurfaceRules.TransientMergedRuleSource(newRuleSourceList, originalSource);
+            return new TransientMergedRule(newRuleSourceList, originalSource);
         }
     }
 }

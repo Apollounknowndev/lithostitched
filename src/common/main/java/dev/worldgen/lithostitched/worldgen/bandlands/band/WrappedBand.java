@@ -21,8 +21,8 @@ public record WrappedBand(IntProvider interval, IntProvider maxCount, float wrap
     @Override
     public void fill(BlockState[] states, RandomSource random) {
         int count = 0;
-
-        for(int i = 0; count < maxCount.sample(random) && i < states.length; i += interval.sample(random)) {
+        int maxCount = this.maxCount.sample(random);
+        for(int i = 0; count < maxCount && i < states.length; i += interval.sample(random)) {
             states[i] = wrappedState;
             if (i - 1 > 0 && random.nextFloat() < wrapperChance) {
                 states[i - 1] = wrapperState;

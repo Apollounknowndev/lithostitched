@@ -10,6 +10,7 @@ import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition
 import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorCondition;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.SurfaceRules;
 
 /**
  * Class containing the resource keys of every registry registered by Lithostitched.
@@ -17,10 +18,13 @@ import net.minecraft.resources.ResourceKey;
  * @author SmellyModder (Luke Tonon)
  */
 public interface LithostitchedRegistryKeys {
+	// Dynamic
 	ResourceKey<Registry<Modifier>> WORLDGEN_MODIFIER = create("worldgen_modifier");
+	ResourceKey<Registry<SurfaceRules.RuleSource>> SURFACE_RULE = create("surface_rule");
 	ResourceKey<Registry<Bandlands>> BANDLANDS = create("bandlands");
 	ResourceKey<Registry<TemplateList>> TEMPLATE_LIST = create("template_list");
 
+	// Static
 	ResourceKey<Registry<MapCodec<? extends Modifier>>> MODIFIER_TYPE = create("modifier_type");
 	ResourceKey<Registry<MapCodec<? extends PlacementCondition>>> PLACEMENT_CONDITION_TYPE = create("placement_condition_type");
 	ResourceKey<Registry<MapCodec<? extends ProcessorCondition>>> PROCESSOR_CONDITION_TYPE = create("processor_condition_type");

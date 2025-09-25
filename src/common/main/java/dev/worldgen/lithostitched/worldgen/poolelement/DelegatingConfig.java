@@ -5,6 +5,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +29,7 @@ public record DelegatingConfig(StructurePoolElement delegate, Optional<ResourceL
         StructurePoolElement.CODEC.fieldOf("delegate").forGetter(DelegatingConfig::delegate),
         ResourceLocation.CODEC.optionalFieldOf("name").forGetter(DelegatingConfig::name),
         PlacementCondition.CODEC.optionalFieldOf("condition").forGetter(DelegatingConfig::placementCondition),
-        InclusiveRange.INT.optionalFieldOf("allowed_depth").forGetter(DelegatingConfig::allowedDepth),
+        LithostitchedCodecs.INT_RANGE.optionalFieldOf("allowed_depth").forGetter(DelegatingConfig::allowedDepth),
         ExtraCodecs.POSITIVE_INT.optionalFieldOf("forced_count").forGetter(DelegatingConfig::forcedCount),
         ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("max_count").forGetter(DelegatingConfig::maxCount),
         Codec.BOOL.optionalFieldOf("allow_bounding_box_collisions", false).forGetter(DelegatingConfig::allowBoundingBoxCollisions),

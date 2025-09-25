@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.levelgen.SurfaceRules;
 
 import java.util.function.BiConsumer;
 
@@ -18,6 +19,7 @@ import static dev.worldgen.lithostitched.registry.LithostitchedBuiltInRegistries
 public class LithostitchedRegistrations {
     public static void init() {
         DynamicRegistries.register(LithostitchedRegistryKeys.WORLDGEN_MODIFIER, Modifier.CODEC);
+        DynamicRegistries.register(LithostitchedRegistryKeys.SURFACE_RULE, SurfaceRules.RuleSource.CODEC);
         DynamicRegistries.register(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC);
         DynamicRegistries.register(LithostitchedRegistryKeys.TEMPLATE_LIST, TemplateList.CODEC);
 
@@ -38,6 +40,7 @@ public class LithostitchedRegistrations {
         Lithostitched.registerCommonStructureProcessors((name, type) -> register(BuiltInRegistries.STRUCTURE_PROCESSOR, name, type));
         Lithostitched.registerCommonBlockEntityModifiers((name, type) -> register(BuiltInRegistries.RULE_BLOCK_ENTITY_MODIFIER, name, type));
         Lithostitched.registerCommonRuleSources((name, codec) -> register(BuiltInRegistries.MATERIAL_RULE, name, codec));
+        Lithostitched.registerCommonSurfaceConditions((name, codec) -> register(BuiltInRegistries.MATERIAL_CONDITION, name, codec));
 
         ResourceConditions.register(BreaksSeedParityCondition.TYPE);
     }

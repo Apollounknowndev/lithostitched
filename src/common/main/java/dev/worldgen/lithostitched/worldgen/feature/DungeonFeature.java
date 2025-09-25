@@ -4,6 +4,7 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.worldgen.feature.config.DungeonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.WorldGenLevel;
@@ -33,7 +34,7 @@ public class DungeonFeature extends Feature<DungeonConfig> {
         RandomSource random = context.random();
         WorldGenLevel world = context.level();
         DungeonConfig config = context.config();
-        Predicate<BlockState> predicate = state -> !state.is(config.dungeonInvalidBlocks());
+        Predicate<BlockState> predicate = config.dungeonInvalidBlocks().<Predicate<BlockState>>map(set -> (state -> state.is(set))).orElse(state -> state.is(BlockTags.FEATURES_CANNOT_REPLACE));
         int xRadius = config.radius().sample(random);
         int minX = -xRadius - 1;
         int maxX = xRadius + 1;

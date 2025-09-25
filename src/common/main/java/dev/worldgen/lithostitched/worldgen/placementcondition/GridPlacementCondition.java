@@ -1,8 +1,8 @@
 package dev.worldgen.lithostitched.worldgen.placementcondition;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.InclusiveRange;
@@ -10,9 +10,9 @@ import net.minecraft.util.InclusiveRange;
 public record GridPlacementCondition(int radius, int distBetweenPoints, PlacementCondition condition, InclusiveRange<Integer> allowedCount) implements PlacementCondition {
     public static final MapCodec<GridPlacementCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         ExtraCodecs.POSITIVE_INT.fieldOf("radius").forGetter(GridPlacementCondition::radius),
-        Codec.intRange(4, 1024).fieldOf("distance_between_points").forGetter(GridPlacementCondition::distBetweenPoints),
+        ExtraCodecs.POSITIVE_INT.fieldOf("distance_between_points").forGetter(GridPlacementCondition::distBetweenPoints),
         PlacementCondition.BASE_CODEC.fieldOf("condition").forGetter(GridPlacementCondition::condition),
-        InclusiveRange.INT.fieldOf("allowed_count").forGetter(GridPlacementCondition::allowedCount)
+        LithostitchedCodecs.INT_RANGE.fieldOf("allowed_count").forGetter(GridPlacementCondition::allowedCount)
     ).apply(instance, GridPlacementCondition::new));
 
     @Override

@@ -32,8 +32,11 @@ import dev.worldgen.lithostitched.worldgen.stateprovider.RandomBlockProvider;
 import dev.worldgen.lithostitched.worldgen.stateprovider.WeightedProvider;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
-import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules.BandlandsRuleSource;
-import dev.worldgen.lithostitched.worldgen.surface.LithostitchedSurfaceRules.TransientMergedRuleSource;
+import dev.worldgen.lithostitched.worldgen.surface.condition.*;
+import dev.worldgen.lithostitched.worldgen.surface.condition.internal.TagFilledCondition;
+import dev.worldgen.lithostitched.worldgen.surface.rule.BandlandsRule;
+import dev.worldgen.lithostitched.worldgen.surface.rule.ReferenceRule;
+import dev.worldgen.lithostitched.worldgen.surface.rule.TransientMergedRule;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -200,8 +203,18 @@ public final class Lithostitched {
 	}
 
 	public static void registerCommonRuleSources(BiConsumer<String, MapCodec<? extends SurfaceRules.RuleSource>> consumer) {
-		consumer.accept("transient_merged", TransientMergedRuleSource.CODEC.codec());
-		consumer.accept("bandlands", BandlandsRuleSource.CODEC.codec());
+		consumer.accept("transient_merged", TransientMergedRule.CODEC.codec());
+		consumer.accept("bandlands", BandlandsRule.CODEC.codec());
+		consumer.accept("reference", ReferenceRule.CODEC.codec());
+	}
+
+	public static void registerCommonSurfaceConditions(BiConsumer<String, MapCodec<? extends SurfaceRules.ConditionSource>> consumer) {
+		consumer.accept("internal/tag_filled", TagFilledCondition.CODEC.codec());
+
+		consumer.accept("all_of", AllOfCondition.CODEC.codec());
+		consumer.accept("any_of", AnyOfCondition.CODEC.codec());
+		consumer.accept("biome", BiomeCondition.CODEC.codec());
+		consumer.accept("slope", SlopeCondition.CODEC.codec());
 	}
 
 	public static void registerCommonBandlandsBandTypes(BiConsumer<String, MapCodec<? extends Band>> consumer) {

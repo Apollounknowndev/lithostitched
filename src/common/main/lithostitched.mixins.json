@@ -4,7 +4,6 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "common.bandlands.NoiseBasedChunkGeneratorMixin",
-    "common.bandlands.SurfaceRulesContextMixin",
     "common.bandlands.SurfaceSystemMixin",
 
     "common.processor.EndCityPieceMixin",
@@ -42,7 +41,8 @@
     "common.StructureProcessorListAccessor",
     "common.StructureSetAccessor",
     "common.StructureTemplatePoolAccessor",
-    "common.StructureTemplatePoolMixin"
+    "common.StructureTemplatePoolMixin",
+    "common.SurfaceRulesContextMixin"
   ],
   "client": [
     "client.IntegratedServerMixin"

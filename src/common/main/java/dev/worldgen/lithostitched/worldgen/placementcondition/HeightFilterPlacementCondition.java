@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.util.StringRepresentable;
@@ -15,7 +16,7 @@ public record HeightFilterPlacementCondition(RangeType rangeType, Optional<Heigh
     public static final MapCodec<HeightFilterPlacementCondition> CODEC = RecordCodecBuilder.<HeightFilterPlacementCondition>mapCodec(instance -> instance.group(
         RangeType.CODEC.fieldOf("range_type").forGetter(HeightFilterPlacementCondition::rangeType),
         Heightmap.Types.CODEC.optionalFieldOf("heightmap").forGetter(HeightFilterPlacementCondition::heightmap),
-        InclusiveRange.INT.fieldOf("permitted_range").forGetter(HeightFilterPlacementCondition::permittedRange)
+        LithostitchedCodecs.INT_RANGE.fieldOf("permitted_range").forGetter(HeightFilterPlacementCondition::permittedRange)
     ).apply(instance, HeightFilterPlacementCondition::new)).validate(HeightFilterPlacementCondition::validate);
 
     private DataResult<HeightFilterPlacementCondition> validate() {

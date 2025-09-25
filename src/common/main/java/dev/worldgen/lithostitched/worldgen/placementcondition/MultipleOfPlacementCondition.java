@@ -2,6 +2,7 @@ package dev.worldgen.lithostitched.worldgen.placementcondition;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.InclusiveRange;
 
@@ -10,7 +11,7 @@ import java.util.List;
 public record MultipleOfPlacementCondition(List<PlacementCondition> conditions, InclusiveRange<Integer> allowedCount) implements PlacementCondition {
     public static final MapCodec<MultipleOfPlacementCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         PlacementCondition.BASE_CODEC.listOf().fieldOf("conditions").forGetter(MultipleOfPlacementCondition::conditions),
-        InclusiveRange.INT.fieldOf("allowed_count").forGetter(MultipleOfPlacementCondition::allowedCount)
+        LithostitchedCodecs.INT_RANGE.fieldOf("allowed_count").forGetter(MultipleOfPlacementCondition::allowedCount)
     ).apply(instance, MultipleOfPlacementCondition::new));
 
     @Override
