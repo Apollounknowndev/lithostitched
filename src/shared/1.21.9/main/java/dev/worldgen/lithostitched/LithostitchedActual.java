@@ -7,6 +7,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.NoiseRouter;
 import net.minecraft.world.level.material.Fluid;
 import net.msrandom.multiplatform.annotations.Actual;
 
@@ -29,5 +31,15 @@ public class LithostitchedActual {
     @Actual
     public static String getString(CompoundTag tag, String name) {
         return tag.getStringOr(name, "");
+    }
+
+    @Actual
+    public static DensityFunction getInitialDensity(NoiseRouter router) {
+        return router.preliminarySurfaceLevel();
+    }
+
+    @Actual
+    public static String getInitialDensityName() {
+        return "preliminary_surface_level";
     }
 }

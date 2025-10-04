@@ -53,7 +53,7 @@ public class ChunkMapMixin {
                 modifyDensityFunction(NoiseRouterTarget.EROSION, router.erosion(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.DEPTH, router.depth(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.RIDGES, router.ridges(), modifiers),
-                modifyDensityFunction(NoiseRouterTarget.INITIAL_DENSITY, router.initialDensityWithoutJaggedness(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.INITIAL_DENSITY, Lithostitched.getInitialDensity(router), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.FINAL_DENSITY, router.finalDensity(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.VEIN_TOGGLE, router.veinToggle(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.VEIN_RIDGED, router.veinRidged(), modifiers),

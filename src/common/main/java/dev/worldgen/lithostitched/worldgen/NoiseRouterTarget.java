@@ -1,6 +1,7 @@
 package dev.worldgen.lithostitched.worldgen;
 
 import com.mojang.serialization.Codec;
+import dev.worldgen.lithostitched.Lithostitched;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.NoiseRouter;
@@ -18,7 +19,7 @@ public enum NoiseRouterTarget implements StringRepresentable {
     EROSION("erosion", NoiseRouter::erosion),
     DEPTH("depth", NoiseRouter::depth),
     RIDGES("ridges", NoiseRouter::ridges),
-    INITIAL_DENSITY("initial_density_without_jaggedness", NoiseRouter::initialDensityWithoutJaggedness),
+    INITIAL_DENSITY("initial_density_without_jaggedness", Lithostitched::getInitialDensity),
     FINAL_DENSITY("final_density", NoiseRouter::finalDensity),
     VEIN_TOGGLE("vein_toggle", NoiseRouter::veinToggle),
     VEIN_RIDGED("vein_ridged", NoiseRouter::veinRidged),
@@ -29,7 +30,11 @@ public enum NoiseRouterTarget implements StringRepresentable {
     private final Function<NoiseRouter, DensityFunction> getter;
 
     NoiseRouterTarget(String name, Function<NoiseRouter, DensityFunction> getter) {
-        this.name = name;
+        if (name.equals("initial_density")) {
+            this.name = Lithostitched.getInitialDensityName();
+        } else {
+            this.name = name;
+        }
         this.getter = getter;
     }
 

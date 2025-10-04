@@ -32,25 +32,25 @@ public class JigsawStructureMixin {
     @Shadow @Final private List<PoolAliasBinding> poolAliases;
 
     @Redirect(
-        method = "findGenerationPoint",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/level/levelgen/structure/pools/JigsawPlacement;addPieces(Lnet/minecraft/world/level/levelgen/structure/Structure$GenerationContext;Lnet/minecraft/core/Holder;Ljava/util/Optional;ILnet/minecraft/core/BlockPos;ZLjava/util/Optional;ILnet/minecraft/world/level/levelgen/structure/pools/alias/PoolAliasLookup;Lnet/minecraft/world/level/levelgen/structure/pools/DimensionPadding;Lnet/minecraft/world/level/levelgen/structure/templatesystem/LiquidSettings;)Ljava/util/Optional;"
-        )
+            method = "findGenerationPoint",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/levelgen/structure/pools/JigsawPlacement;addPieces(Lnet/minecraft/world/level/levelgen/structure/Structure$GenerationContext;Lnet/minecraft/core/Holder;Ljava/util/Optional;ILnet/minecraft/core/BlockPos;ZLjava/util/Optional;ILnet/minecraft/world/level/levelgen/structure/pools/alias/PoolAliasLookup;Lnet/minecraft/world/level/levelgen/structure/pools/DimensionPadding;Lnet/minecraft/world/level/levelgen/structure/templatesystem/LiquidSettings;)Ljava/util/Optional;"
+            )
     )
     private Optional<Structure.GenerationStub> init(Structure.GenerationContext context, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, BlockPos pos, boolean useExpansionHack, Optional<Heightmap.Types> heightmapProjection, int maxDistToCenter, PoolAliasLookup lookup, DimensionPadding padding, LiquidSettings liquidSettings) {
         return AlternateJigsawStructure.generate(context, new AlternateJigsawConfig(
-            startPool,
-            startJigsawName,
-            ConstantInt.of(size),
-            false,
-            ConstantHeight.of(VerticalAnchor.BOTTOM),
-            useExpansionHack,
-            heightmapProjection,
-            new MaxDistance(maxDistToCenter),
-            poolAliases,
-            padding,
-            liquidSettings
+                startPool,
+                startJigsawName,
+                ConstantInt.of(size),
+                false,
+                ConstantHeight.of(VerticalAnchor.BOTTOM),
+                useExpansionHack,
+                heightmapProjection,
+                new MaxDistance(maxDistToCenter),
+                poolAliases,
+                padding,
+                liquidSettings
         ), true, size, pos, lookup);
     }
 }

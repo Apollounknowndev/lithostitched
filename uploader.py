@@ -5,21 +5,21 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.5.0+beta5"
+MOD_VERSION = "1.5.0"
 CHANGELOG = """
-View changes in the technical changelog [here](https://github.com/Apollounknowndev/lithostitched/wiki/Technical-Changelog).
+Full release of Lithostitched 1.5. View changes in the technical changelog [here](https://github.com/Apollounknowndev/lithostitched/wiki/Technical-Changelog).
 """
 UPLOAD_VERSIONS = [
     ("fabric", "1.21.1"),
     ("neoforge", "1.21.1"),
-    ("fabric", "1.21.8"),
-    ("neoforge", "1.21.8"),
+    ("fabric", "1.21.9"),
+    ("neoforge", "1.21.9"),
 ]
 
 MODRINTH_ID = "XaDC71GB"
 CURSEFORGE_ID = "936015"
 
-RELEASE_TYPE = "beta"
+RELEASE_TYPE = "release"
 
 # Global: Should never need to be touched!
 
@@ -37,7 +37,7 @@ CURSEFORGE_URL = f"https://minecraft.curseforge.com/api/v1/projects/{CURSEFORGE_
 CURSEFORGE_GAME_VERSIONS = {
     "1.20.1": [9990],
     "1.21.1": [11779],
-    "1.21.8": [13422, 13506, 13620],
+    "1.21.9": [13927],
 }
 CURSEFORGE_LOADERS = {
     "fabric": 7499,
@@ -51,7 +51,7 @@ CURSEFORGE_LOADERS = {
 def upload_modrinth(loader: str, version: str, file_path: str):
     metadata = {
         "name": f"v{MOD_VERSION} ~ {loader.title()} {version}",
-        "version_number": MOD_VERSION,
+        "version_number": f"{MOD_VERSION}-{loader}-{version}",
         "project_id": MODRINTH_ID,
         "game_versions": [version],
         "loaders": [loader],

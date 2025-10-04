@@ -30,6 +30,7 @@ import dev.worldgen.lithostitched.worldgen.processor.*;
 import dev.worldgen.lithostitched.worldgen.processor.condition.*;
 import dev.worldgen.lithostitched.worldgen.stateprovider.RandomBlockProvider;
 import dev.worldgen.lithostitched.worldgen.stateprovider.WeightedProvider;
+import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawConfig;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
 import dev.worldgen.lithostitched.worldgen.surface.condition.*;
@@ -46,6 +47,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.NoiseRouter;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicateType;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -54,6 +56,7 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
+import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockentity.RuleBlockEntityModifierType;
 import net.minecraft.world.level.material.Fluid;
@@ -92,6 +95,12 @@ public final class Lithostitched {
 
 	@Expect
 	public static String getString(CompoundTag tag, String name);
+
+	@Expect
+	public static DensityFunction getInitialDensity(NoiseRouter router);
+
+	@Expect
+	public static String getInitialDensityName();
 
 	public static void registerCommonModifiers(BiConsumer<String, MapCodec<? extends Modifier>> consumer) {
 		consumer.accept("internal/compile_raw_templates", CompileRawTemplatesModifier.CODEC);

@@ -31,7 +31,6 @@
     "common.GameTestServerMixin",
     "common.HolderReferenceAccessor",
     "common.JigsawStructureAccessor",
-    "common.JigsawStructureMixin",
     "common.MappedRegistryAccessor",
     "common.NoiseGeneratorSettingsAccessor",
     "common.PlacedFeatureAccessor",
