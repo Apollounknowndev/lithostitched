@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.mixin.common;
 
+import com.mojang.datafixers.util.Either;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawConfig;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawConfig.MaxDistance;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
@@ -46,7 +47,7 @@ public class JigsawStructureMixin {
                 false,
                 ConstantHeight.of(VerticalAnchor.BOTTOM),
                 useExpansionHack,
-                heightmapProjection,
+                heightmapProjection.map(Either::right),
                 new MaxDistance(maxDistToCenter),
                 poolAliases,
                 padding,

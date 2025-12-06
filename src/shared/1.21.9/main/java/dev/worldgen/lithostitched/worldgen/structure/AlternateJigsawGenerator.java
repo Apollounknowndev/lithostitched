@@ -72,19 +72,24 @@ public class AlternateJigsawGenerator {
         BoundingBox blockBox = piece.getBoundingBox();
         int originX = (blockBox.maxX() + blockBox.minX()) / 2;
         int originZ = (blockBox.maxZ() + blockBox.minZ()) / 2;
-        int k;
-        k = config.projectStartToHeightmap().map(
-                type -> pos.getY() + chunkGenerator.getFirstFreeHeight(originX, originZ, type, heightLimitView, context.randomState())
-        ).orElseGet(blockPos2::getY);
+        Optional<Integer> y;
+        y = config.startProjection().map(
+            either -> either.map(
+                snap -> snap.findY(new BlockPos(originX, blockPos2.getY(), originZ), context, heightLimitView, context.randomState()),
+                type -> Optional.of(pos.getY() + chunkGenerator.getFirstFreeHeight(originX, originZ, type, heightLimitView, context.randomState()))
+            )
+        ).orElseGet(() -> Optional.of(blockPos2.getY()));
+
+        if (y.isEmpty()) return Optional.empty();
 
         int l = blockBox.minY() + piece.getGroundLevelDelta();
-        piece.move(0, k - l, 0);
+        piece.move(0, y.get() - l, 0);
 
         if (pieceWithinPaddingBounds(heightLimitView, config.dimensionPadding(), piece.getBoundingBox())) {
             return Optional.empty();
         }
 
-        int originY = k + vec3i.getY();
+        int originY = y.get() + vec3i.getY();
         return Optional.of(new Structure.GenerationStub(new BlockPos(originX, originY, originZ), (collector) -> {
             List<PoolElementStructurePiece> list = Lists.newArrayList();
             list.add(piece);
@@ -103,9 +108,9 @@ public class AlternateJigsawGenerator {
                     boxOctree.addBox(AABB.of(blockBox));
                 }
                 generatePieces(context, vanilla, size, config.useExpansionHack(), chunkGenerator, structureTemplateManager, heightLimitView, random, registry, piece, list, boxOctree, aliasLookup, config.liquidSettings());
-                Objects.requireNonNull(collector);
-                list.forEach(collector::addPiece);
             }
+            Objects.requireNonNull(collector);
+            list.forEach(collector::addPiece);
         }));
     }
 
