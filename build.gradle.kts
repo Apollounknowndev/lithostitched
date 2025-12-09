@@ -19,7 +19,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.5.1"
+version = "1.5.2"
 
 cloche {
     mappings {

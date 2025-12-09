@@ -19,7 +19,7 @@ public enum NoiseRouterTarget implements StringRepresentable {
     EROSION("erosion", NoiseRouter::erosion),
     DEPTH("depth", NoiseRouter::depth),
     RIDGES("ridges", NoiseRouter::ridges),
-    INITIAL_DENSITY("initial_density_without_jaggedness", Lithostitched::getInitialDensity),
+    INITIAL_DENSITY("initial_density", Lithostitched::getInitialDensity),
     FINAL_DENSITY("final_density", NoiseRouter::finalDensity),
     VEIN_TOGGLE("vein_toggle", NoiseRouter::veinToggle),
     VEIN_RIDGED("vein_ridged", NoiseRouter::veinRidged),

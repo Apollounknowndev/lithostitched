@@ -4,17 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="1.5.0+beta5">
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/structure/SurfaceSnap.java" afterDir="false" />
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Add jigsaw structure surface snapping">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/duck/mnbs/MNBSDuck.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/duck/mnbs/MNBSPLDuck.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/mnbs/MNBSMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/mnbs/MNBSPLMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/processor/OceanRuinPieceMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/util/CodecExtender.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/worldgen/processor_list/ocean_ruin_cold.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/worldgen/processor_list/ocean_ruin_warm.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/util/weighted/WeightedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/util/weighted/WeightedList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/1.21.1/main/java/dev/worldgen/lithostitched/mixin/common/JigsawStructureMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/1.21.1/main/java/dev/worldgen/lithostitched/mixin/common/JigsawStructureMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/1.21.1/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/1.21.1/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/1.21.9/main/java/dev/worldgen/lithostitched/mixin/common/JigsawStructureMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/1.21.9/main/java/dev/worldgen/lithostitched/mixin/common/JigsawStructureMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/1.21.9/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/1.21.9/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/NoiseRouterTarget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/NoiseRouterTarget.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/lithostitched.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/lithostitched.mixins.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,13 +109,14 @@
     &quot;Gradle.lithostitched [prepareFabric1219ClientRun].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;cloche&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Documents/Github/.not-actually-github/sellcraft&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/src/common/main/java/dev/worldgen/lithostitched/duck&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
@@ -121,11 +125,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\java\dev\worldgen\lithostitched\duck" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\java\dev\worldgen\lithostitched\mixin\common\mnbs" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\worldgen\processor_list" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\src\shared\1.21.9\main\java\dev\worldgen\lithostitched" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\src\shared\1.21.9\main" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\src\shared\1.21.1\main" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\src\common\main\resources\data\lithostitched\worldgen\processor_list" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\src\common\main\resources\data\lithostitched\lithostitched\template_list\woodland_mansion\third_floor" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -137,14 +141,14 @@
       <recent name="dev.worldgen.lithostitched.worldgen.bandlands" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.worldgen.lithostitched.util" />
+      <recent name="dev.worldgen.lithostitched.mixin.common.processor" />
       <recent name="dev.worldgen.lithostitched.worldgen.surface.condition" />
       <recent name="dev.worldgen.lithostitched.worldgen.surface.condition.internal" />
-      <recent name="dev.worldgen.lithostitched.mixin.common.processor" />
       <recent name="dev.worldgen.lithostitched.mixin.common.template.mansion" />
-      <recent name="dev.worldgen.lithostitched.mixin.common.template.mansion.floor" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Run :fabric:1.21.9:client">
+  <component name="RunManager" selected="Gradle.1.20.1 [build]">
     <configuration name="Run :fabric:1.21.1:client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.fabricmc.loader.impl.launch.knot.KnotClient" />
       <module name="lithostitched.fabric1211" />

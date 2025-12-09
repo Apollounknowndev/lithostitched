@@ -6,9 +6,13 @@
     "common.bandlands.NoiseBasedChunkGeneratorMixin",
     "common.bandlands.SurfaceSystemMixin",
 
+    "common.mnbs.MNBSMixin",
+    "common.mnbs.MNBSPLMixin",
+
     "common.processor.EndCityPieceMixin",
     "common.processor.IglooPieceMixin",
     "common.processor.NetherFossilPieceMixin",
+    "common.processor.OceanRuinPieceMixin",
     "common.processor.RuinedPortalPieceMixin",
     "common.processor.ShipwreckPieceMixin",
     "common.processor.StructureTemplateMixin",
