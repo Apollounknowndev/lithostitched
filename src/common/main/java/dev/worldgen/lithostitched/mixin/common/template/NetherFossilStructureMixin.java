@@ -6,7 +6,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateLists;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.structures.NetherFossilPieces;
@@ -34,7 +34,7 @@ public class NetherFossilStructureMixin {
                 pos,
                 builder -> {
                     Rotation rotation = Rotation.getRandom(context.random());
-                    ResourceLocation template = TemplateLists.getRandom(context.registryAccess(), TemplateLists.NETHER_FOSSIL, context.random());
+                    Identifier template = TemplateLists.getRandom(context.registryAccess(), TemplateLists.NETHER_FOSSIL, context.random());
                     builder.addPiece(new NetherFossilPieces.NetherFossilPiece(context.structureTemplateManager(), template, pos, rotation));
                 }
             )

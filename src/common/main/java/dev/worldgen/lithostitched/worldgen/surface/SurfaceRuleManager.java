@@ -2,6 +2,7 @@ package dev.worldgen.lithostitched.worldgen.surface;
 
 import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.mixin.common.NoiseBasedChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
 import dev.worldgen.lithostitched.worldgen.surface.rule.TransientMergedRule;
@@ -10,9 +11,8 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
@@ -33,23 +33,22 @@ public class SurfaceRuleManager {
         var surfaceRules = Lithostitched.registry(registries, LithostitchedRegistryKeys.WORLDGEN_MODIFIER).entrySet().stream().filter((entry) -> entry.getValue() instanceof AddSurfaceRuleModifier).collect(Collectors.toSet());
         if (surfaceRules.isEmpty()) return;
 
-        HashMap<ResourceLocation, ArrayList<Pair<ResourceLocation, AddSurfaceRuleModifier>>> assignedSurfaceRules = new HashMap<>();
+        HashMap<Identifier, ArrayList<Pair<Identifier, AddSurfaceRuleModifier>>> assignedSurfaceRules = new HashMap<>();
         for (var assignedSurfaceRule : surfaceRules) {
             AddSurfaceRuleModifier slice = (AddSurfaceRuleModifier)assignedSurfaceRule.getValue();
-            slice.levels().forEach(levelStemResourceKey -> assignedSurfaceRules.computeIfAbsent(levelStemResourceKey.location(), __ -> new ArrayList<>()).add(Pair.of(assignedSurfaceRule.getKey().location(), slice)));
+            slice.levels().forEach(levelStemResourceKey -> assignedSurfaceRules.computeIfAbsent(levelStemResourceKey.identifier(), __ -> new ArrayList<>()).add(Pair.of(assignedSurfaceRule.getKey().identifier(), slice)));
         }
 
         Registry<LevelStem> dimensions = Lithostitched.registry(registries, Registries.LEVEL_STEM);
         for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : dimensions.entrySet()) {
-            ResourceLocation location = entry.getKey().location();
+            Identifier location = entry.getKey().identifier();
             var surfaceRulesForKey = assignedSurfaceRules.get(location);
             if (surfaceRulesForKey != null) {
-                ChunkGenerator chunkGenerator = entry.getValue().generator();
-                if (!(chunkGenerator instanceof NoiseBasedChunkGenerator)) continue;
-                NoiseGeneratorSettings settings = ((NoiseBasedChunkGenerator) chunkGenerator).generatorSettings().value();
+                if (!(entry.getValue().generator() instanceof NoiseBasedChunkGenerator generator)) continue;
+                NoiseGeneratorSettings settings = generator.generatorSettings().value();
                 SurfaceRules.RuleSource oldRules = settings.surfaceRule();
                 // Noise generator settings must be rebuilt due to Forge not allowing surface rules to be directly modified.
-                ((NoiseBasedChunkGenerator)chunkGenerator).settings = Holder.direct(new NoiseGeneratorSettings(
+                ((NoiseBasedChunkGeneratorAccessor)(Object)generator).setSettings(Holder.direct(new NoiseGeneratorSettings(
                     settings.noiseSettings(),
                     settings.defaultBlock(),
                     settings.defaultFluid(),
@@ -61,14 +60,14 @@ public class SurfaceRuleManager {
                     settings.isAquifersEnabled(),
                     settings.oreVeinsEnabled(),
                     settings.useLegacyRandomSource()
-                ));
+                )));
 
                 Lithostitched.debug("Applied {} surface rule additions for '{}' dimension", surfaceRulesForKey.size(), location);
             }
         }
     }
 
-    private static SurfaceRules.RuleSource buildModdedSurfaceRules(ArrayList<Pair<ResourceLocation, AddSurfaceRuleModifier>> moddedSourceList, SurfaceRules.RuleSource originalSource) {
+    private static SurfaceRules.RuleSource buildModdedSurfaceRules(ArrayList<Pair<Identifier, AddSurfaceRuleModifier>> moddedSourceList, SurfaceRules.RuleSource originalSource) {
         // TODO: Implement caching
         List<SurfaceRules.RuleSource> newRuleSourceList = new ArrayList<>();
         moddedSourceList.sort(Comparator.comparingInt(pair -> pair.getSecond().priority()));

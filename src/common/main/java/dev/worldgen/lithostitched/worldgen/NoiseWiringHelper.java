@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.worldgen;
 import dev.worldgen.lithostitched.mixin.common.RandomStateAccessor;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.synth.BlendedNoise;
@@ -45,7 +45,7 @@ public class NoiseWiringHelper implements DensityFunction.Visitor {
             }
 
             if (noiseData.is(Noises.SHIFT)) {
-                noise = NormalNoise.create(this.random.fromHashOf(Noises.SHIFT.location()), new NormalNoise.NoiseParameters(0, 0.0));
+                noise = NormalNoise.create(this.random.fromHashOf(Noises.SHIFT.identifier()), new NormalNoise.NoiseParameters(0, 0.0));
                 return new DensityFunction.NoiseHolder(noiseData, noise);
             }
         }
@@ -60,7 +60,7 @@ public class NoiseWiringHelper implements DensityFunction.Visitor {
 
     private DensityFunction wrapNew(DensityFunction densityFunction) {
         if (densityFunction instanceof BlendedNoise noise) {
-            RandomSource random = this.useLegacySource ? this.newLegacyInstance(0L) : this.random.fromHashOf(ResourceLocation.withDefaultNamespace("terrain"));
+            RandomSource random = this.useLegacySource ? this.newLegacyInstance(0L) : this.random.fromHashOf(Identifier.withDefaultNamespace("terrain"));
             return noise.withNewRandom(random);
         } else {
             return (densityFunction instanceof DensityFunctions.EndIslandDensityFunction ? new DensityFunctions.EndIslandDensityFunction(this.seed) : densityFunction);

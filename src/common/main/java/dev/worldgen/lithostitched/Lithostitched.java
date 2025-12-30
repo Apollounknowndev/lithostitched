@@ -30,7 +30,6 @@ import dev.worldgen.lithostitched.worldgen.processor.*;
 import dev.worldgen.lithostitched.worldgen.processor.condition.*;
 import dev.worldgen.lithostitched.worldgen.stateprovider.RandomBlockProvider;
 import dev.worldgen.lithostitched.worldgen.stateprovider.WeightedProvider;
-import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawConfig;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
 import dev.worldgen.lithostitched.worldgen.surface.condition.*;
@@ -42,8 +41,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.DensityFunction;
@@ -56,7 +55,6 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
-import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockentity.RuleBlockEntityModifierType;
 import net.minecraft.world.level.material.Fluid;
@@ -80,8 +78,8 @@ public final class Lithostitched {
 		return ResourceKey.create(resourceKey, id(name));
 	}
 
-	public static ResourceLocation id(String name) {
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
+	public static Identifier id(String name) {
+		return Identifier.fromNamespaceAndPath(MOD_ID, name);
 	}
 
 	@Expect

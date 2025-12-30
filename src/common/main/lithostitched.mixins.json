@@ -15,7 +15,6 @@
     "common.processor.OceanRuinPieceMixin",
     "common.processor.RuinedPortalPieceMixin",
     "common.processor.ShipwreckPieceMixin",
-    "common.processor.StructureTemplateMixin",
     "common.processor.WoodlandMansionPieceMixin",
 
     "common.template.mansion.floor.FirstFloorMixin",
@@ -36,6 +35,7 @@
     "common.HolderReferenceAccessor",
     "common.JigsawStructureAccessor",
     "common.MappedRegistryAccessor",
+    "common.NoiseBasedChunkGeneratorAccessor",
     "common.NoiseGeneratorSettingsAccessor",
     "common.PlacedFeatureAccessor",
     "common.PoolAliasLookupMixin",

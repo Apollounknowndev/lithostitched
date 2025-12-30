@@ -16,7 +16,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.SequencedPriorityIterator;
 import net.minecraft.world.level.LevelHeightAccessor;
@@ -62,12 +62,12 @@ public class AlternateJigsawGenerator {
         }
 
         BlockPos startPos;
-        Optional<ResourceLocation> startJigsawName = config.startJigsawName();
+        Optional<Identifier> startJigsawName = config.startJigsawName();
         if (startJigsawName.isPresent()) {
-            ResourceLocation identifier = startJigsawName.get();
+            Identifier identifier = startJigsawName.get();
             Optional<BlockPos> optional = findNamedJigsaw(startingElement, identifier, pos, rotation, structureTemplateManager, random);
             if (optional.isEmpty()) {
-                Lithostitched.LOGGER.error("No starting jigsaw {} found in start pool {}", identifier, config.startPool().unwrapKey().map((key) -> key.location().toString()).orElse("<unregistered>"));
+                Lithostitched.LOGGER.error("No starting jigsaw {} found in start pool {}", identifier, config.startPool().unwrapKey().map((key) -> key.identifier().toString()).orElse("<unregistered>"));
                 return Optional.empty();
             }
 
@@ -134,12 +134,12 @@ public class AlternateJigsawGenerator {
         }
     }
 
-    private static Optional<BlockPos> findNamedJigsaw(StructurePoolElement pool, ResourceLocation id, BlockPos pos, Rotation rotation, StructureTemplateManager structureManager, WorldgenRandom random) {
+    private static Optional<BlockPos> findNamedJigsaw(StructurePoolElement pool, Identifier id, BlockPos pos, Rotation rotation, StructureTemplateManager structureManager, WorldgenRandom random) {
         List<StructureTemplate.StructureBlockInfo> list = pool.getShuffledJigsawBlocks(structureManager, pos, rotation, random);
         Optional<BlockPos> optional = Optional.empty();
         for (StructureTemplate.StructureBlockInfo structureBlockInfo : list) {
             if (structureBlockInfo.nbt() == null) continue;
-            ResourceLocation identifier = ResourceLocation.tryParse(structureBlockInfo.nbt().getString("name"));
+            Identifier identifier = Identifier.tryParse(structureBlockInfo.nbt().getString("name"));
             if (id.equals(identifier)) {
                 optional = Optional.of(structureBlockInfo.pos());
                 break;
@@ -172,7 +172,7 @@ public class AlternateJigsawGenerator {
         private final StructureTemplateManager structureTemplateManager;
         private final List<? super PoolElementStructurePiece> piecesToPlace;
         private final RandomSource random;
-        private final Map<ResourceLocation, Integer> groupCounts = new HashMap<>();
+        private final Map<Identifier, Integer> groupCounts = new HashMap<>();
         final SequencedPriorityIterator<PieceState> pieces = new SequencedPriorityIterator<>();
 
         private StructurePoolGenerator(Structure.GenerationContext context, boolean vanilla, Registry<StructureTemplatePool> registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List<? super PoolElementStructurePiece> children, RandomSource random) {
@@ -235,9 +235,9 @@ public class AlternateJigsawGenerator {
                 if (checkedPools.getValue().contains(poolKey)) {
                     StringBuilder stringBuilder = new StringBuilder();
                     for (ResourceKey<StructureTemplatePool> checkedPoolKey : checkedPools.getValue()) {
-                        stringBuilder.append(checkedPoolKey.location()).append(" -> ");
+                        stringBuilder.append(checkedPoolKey.identifier()).append(" -> ");
                     }
-                    stringBuilder.append(poolKey.location());
+                    stringBuilder.append(poolKey.identifier());
 
                     Lithostitched.debug("Template pool fallback chain found: {}", stringBuilder);
                     return List.of();
@@ -411,12 +411,12 @@ public class AlternateJigsawGenerator {
         private Holder<StructureTemplatePool> getTemplatePoolHolder(ResourceKey<StructureTemplatePool> key) {
             Optional<? extends Holder<StructureTemplatePool>> optional = this.registry.getHolder(key);
             if (optional.isEmpty()) {
-                Lithostitched.LOGGER.warn("Couldn't find template pool reference: {}", key.location());
+                Lithostitched.LOGGER.warn("Couldn't find template pool reference: {}", key.identifier());
             } else {
                 Holder<StructureTemplatePool> regularPool = optional.get();
                 if ((regularPool.value()).size() == 0) {
                     if (!regularPool.is(Pools.EMPTY)) {
-                        Lithostitched.LOGGER.warn("Referenced template pool is empty: {}", key.location());
+                        Lithostitched.LOGGER.warn("Referenced template pool is empty: {}", key.identifier());
                     }
                 } else {
                     return regularPool;

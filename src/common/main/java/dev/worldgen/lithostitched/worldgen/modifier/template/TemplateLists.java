@@ -4,7 +4,7 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 
 import java.util.Map;
@@ -28,7 +28,7 @@ public interface TemplateLists {
         return ResourceKey.create(LithostitchedRegistryKeys.TEMPLATE_LIST, Lithostitched.id("woodland_mansion/" + MANSION_FLOORS.get(floor) + name));
     }
 
-    static ResourceLocation getRandom(RegistryAccess registries, ResourceKey<TemplateList> list, RandomSource random) {
+    static Identifier getRandom(RegistryAccess registries, ResourceKey<TemplateList> list, RandomSource random) {
         return registries.lookupOrThrow(LithostitchedRegistryKeys.TEMPLATE_LIST).get(list).get().value().getRandom(random);
     }
 

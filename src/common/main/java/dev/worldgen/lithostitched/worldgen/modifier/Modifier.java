@@ -2,11 +2,16 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import net.minecraft.core.Holder;
+import net.minecraft.core.RegistrationInfo;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -17,7 +22,7 @@ import java.util.function.Function;
 public interface Modifier {
     @SuppressWarnings("unchecked")
     Codec<Modifier> CODEC = Codec.lazyInitialized(() -> {
-        var modifierRegistry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistryKeys.MODIFIER_TYPE.location());
+        var modifierRegistry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistryKeys.MODIFIER_TYPE.identifier());
         if (modifierRegistry.isEmpty()) throw new NullPointerException("Worldgen modifier registry does not exist yet!");
         return ((Registry<MapCodec<? extends Modifier>>) modifierRegistry.get()).byNameCodec();
     }).dispatch(Modifier::codec, Function.identity());
@@ -37,5 +42,13 @@ public interface Modifier {
 
     default boolean internal$modifiesFabricFeatures() {
         return false;
+    }
+
+    static <T> void resetRegistrationInfo(Registry<T> registry, Holder<T> holder) {
+        if (holder.unwrapKey().isPresent()) {
+            ResourceKey<T> key = holder.unwrapKey().get();
+            Optional<RegistrationInfo> knownPackInfo = registry.registrationInfo(key);
+            knownPackInfo.ifPresent(registrationInfo -> ((MappedRegistryAccessor<T>)registry).lithostitched$getRegistrationInfos().put(key, new RegistrationInfo(Optional.empty(), registrationInfo.lifecycle())));
+        }
     }
 }

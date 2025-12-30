@@ -58,6 +58,7 @@ public final class LithostitchedBuiltInRegistries {
 			Lithostitched.registerCommonStructureProcessors((name, type) -> register(event, Registries.STRUCTURE_PROCESSOR, name, type));
 			Lithostitched.registerCommonBlockEntityModifiers((name, type) -> register(event, Registries.RULE_BLOCK_ENTITY_MODIFIER, name, type));
 			Lithostitched.registerCommonRuleSources((name, codec) -> register(event, Registries.MATERIAL_RULE, name, codec));
+			Lithostitched.registerCommonSurfaceConditions((name, codec) -> register(event, Registries.MATERIAL_CONDITION, name, codec));
 		});
 
 		bus.addListener((DataPackRegistryEvent.NewRegistry event) -> {

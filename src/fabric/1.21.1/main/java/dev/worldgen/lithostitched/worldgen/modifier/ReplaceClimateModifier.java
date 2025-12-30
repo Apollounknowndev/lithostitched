@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
+import dev.worldgen.lithostitched.worldgen.modifier.util.BiomeClimate;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -17,11 +18,11 @@ import java.util.Optional;
  *
  * @author Apollo
  */
-public record ReplaceClimateModifier(int priority, HolderSet<Biome> biomes, Biome.ClimateSettings climateSettings) implements Modifier {
+public record ReplaceClimateModifier(int priority, HolderSet<Biome> biomes, BiomeClimate climateSettings) implements Modifier {
     public static final MapCodec<ReplaceClimateModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         PRIORITY_DEFAULT.forGetter(ReplaceClimateModifier::priority),
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceClimateModifier::biomes),
-        Biome.ClimateSettings.CODEC.fieldOf("climate").forGetter(ReplaceClimateModifier::climateSettings)
+        BiomeClimate.CODEC.fieldOf("climate").forGetter(ReplaceClimateModifier::climateSettings)
     ).apply(instance, ReplaceClimateModifier::new));
 
     @SuppressWarnings("unchecked")
@@ -44,7 +45,14 @@ public record ReplaceClimateModifier(int priority, HolderSet<Biome> biomes, Biom
     public void applyModifier() {}
 
     public void applyModifier(Biome biome) {
-        ((BiomeAccessor) (Object) biome).setClimateSettings(this.climateSettings());
+        var originalClimate = ((BiomeAccessor) (Object) biome).getClimateSettings();
+
+        var hasPrecipitation = this.climateSettings.hasPrecipitation().orElse(originalClimate.hasPrecipitation());
+        var temperature = this.climateSettings.temperature().orElse(originalClimate.temperature());
+        var temperatureModifier = this.climateSettings.temperatureModifier().orElse(originalClimate.temperatureModifier());
+        var downfall = this.climateSettings.downfall().orElse(originalClimate.downfall());
+
+        ((BiomeAccessor) (Object) biome).setClimateSettings(new Biome.ClimateSettings(hasPrecipitation, temperature, temperatureModifier, downfall));
     }
 
     @Override

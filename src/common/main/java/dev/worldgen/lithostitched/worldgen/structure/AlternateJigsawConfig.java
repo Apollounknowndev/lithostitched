@@ -5,7 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.util.valueproviders.IntProvider;
@@ -25,7 +25,7 @@ import java.util.function.Function;
 
 public record AlternateJigsawConfig(
     Holder<StructureTemplatePool> startPool,
-    Optional<ResourceLocation> startJigsawName,
+    Optional<Identifier> startJigsawName,
     IntProvider size,
     boolean fixedRotation,
     HeightProvider startHeight,
@@ -38,7 +38,7 @@ public record AlternateJigsawConfig(
 ) {
     public static final MapCodec<AlternateJigsawConfig> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(AlternateJigsawConfig::startPool),
-        ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(AlternateJigsawConfig::startJigsawName),
+        Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(AlternateJigsawConfig::startJigsawName),
         IntProvider.codec(0, 128).fieldOf("size").forGetter(AlternateJigsawConfig::size),
         Codec.BOOL.optionalFieldOf("fixed_rotation", false).forGetter(AlternateJigsawConfig::fixedRotation),
         HeightProvider.CODEC.fieldOf("start_height").forGetter(AlternateJigsawConfig::startHeight),
@@ -53,7 +53,7 @@ public record AlternateJigsawConfig(
 
     public static AlternateJigsawConfig create(
             Holder<StructureTemplatePool> startPool,
-            Optional<ResourceLocation> startJigsawName,
+            Optional<Identifier> startJigsawName,
             IntProvider size,
             boolean fixedRotation,
             HeightProvider startHeight,

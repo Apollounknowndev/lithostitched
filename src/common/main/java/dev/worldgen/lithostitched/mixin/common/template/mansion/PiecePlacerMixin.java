@@ -1,19 +1,12 @@
 package dev.worldgen.lithostitched.mixin.common.template.mansion;
 
-import com.llamalad7.mixinextras.expression.Definition;
-import com.llamalad7.mixinextras.expression.Expression;
-import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.worldgen.lithostitched.duck.RegistryHolder;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
 
 @Mixin(WoodlandMansionPieces.MansionPiecePlacer.class)
 public class PiecePlacerMixin implements RegistryHolder {
@@ -29,19 +22,42 @@ public class PiecePlacerMixin implements RegistryHolder {
         this.registries = registries;
     }
 
-    @Definition(id = "floorRoomCollections", local = @Local(type = WoodlandMansionPieces.FloorRoomCollection[].class))
-    @Expression("floorRoomCollections[2] = ?")
-    @Inject(
+    @WrapOperation(
         method = "createMansion",
         at = @At(
-            value = "MIXINEXTRAS:EXPRESSION",
-            shift = At.Shift.AFTER
+            value = "NEW",
+            target = "net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionPieces$FirstFloorRoomCollection"
         )
     )
-    private void addRegistries(BlockPos pos, Rotation rotation, List<WoodlandMansionPieces.WoodlandMansionPiece> list,
-       WoodlandMansionPieces.MansionGrid grid, CallbackInfo ci, @Local(ordinal = 0) WoodlandMansionPieces.FloorRoomCollection[] collection) {
-        ((RegistryHolder)collection[0]).setRegistries(this.registries);
-        ((RegistryHolder)collection[1]).setRegistries(this.registries);
-        ((RegistryHolder)collection[2]).setRegistries(this.registries);
+    private WoodlandMansionPieces.FirstFloorRoomCollection addFirstFloorRegistries(Operation<WoodlandMansionPieces.FirstFloorRoomCollection> operation) {
+        var collection = operation.call();
+        ((RegistryHolder)collection).setRegistries(this.registries);
+        return collection;
+    }
+
+    @WrapOperation(
+        method = "createMansion",
+        at = @At(
+            value = "NEW",
+            target = "net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionPieces$SecondFloorRoomCollection"
+        )
+    )
+    private WoodlandMansionPieces.SecondFloorRoomCollection addSecondFloorRegistries(Operation<WoodlandMansionPieces.SecondFloorRoomCollection> operation) {
+        var collection = operation.call();
+        ((RegistryHolder)collection).setRegistries(this.registries);
+        return collection;
+    }
+
+    @WrapOperation(
+        method = "createMansion",
+        at = @At(
+            value = "NEW",
+            target = "net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionPieces$ThirdFloorRoomCollection"
+        )
+    )
+    private WoodlandMansionPieces.ThirdFloorRoomCollection addThirdFloorRegistries(Operation<WoodlandMansionPieces.ThirdFloorRoomCollection> operation) {
+        var collection = operation.call();
+        ((RegistryHolder)collection).setRegistries(this.registries);
+        return collection;
     }
 }

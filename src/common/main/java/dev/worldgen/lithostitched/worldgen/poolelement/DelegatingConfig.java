@@ -8,7 +8,7 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -24,10 +24,10 @@ import java.util.Optional;
  * @param forcedCount The number of instances of this element to "force" to place (attempt to place in every allowed position before testing other pieces). Mutually exclusive with maxCount.
  * @param maxCount The maximum number of instances of this element that can be placed. Mutually exclusive with forcedCount.
  */
-public record DelegatingConfig(StructurePoolElement delegate, Optional<ResourceLocation> name, Optional<PlacementCondition> placementCondition, Optional<InclusiveRange<Integer>> allowedDepth, Optional<Integer> forcedCount, Optional<Integer> maxCount, boolean allowBoundingBoxCollisions, boolean otherPiecesCanIntersect, Optional<TerrainAdjustment> overrideTerrainAdaption) {
+public record DelegatingConfig(StructurePoolElement delegate, Optional<Identifier> name, Optional<PlacementCondition> placementCondition, Optional<InclusiveRange<Integer>> allowedDepth, Optional<Integer> forcedCount, Optional<Integer> maxCount, boolean allowBoundingBoxCollisions, boolean otherPiecesCanIntersect, Optional<TerrainAdjustment> overrideTerrainAdaption) {
     public static final MapCodec<DelegatingConfig> CODEC = RecordCodecBuilder.<DelegatingConfig>mapCodec(instance -> instance.group(
         StructurePoolElement.CODEC.fieldOf("delegate").forGetter(DelegatingConfig::delegate),
-        ResourceLocation.CODEC.optionalFieldOf("name").forGetter(DelegatingConfig::name),
+        Identifier.CODEC.optionalFieldOf("name").forGetter(DelegatingConfig::name),
         PlacementCondition.CODEC.optionalFieldOf("condition").forGetter(DelegatingConfig::placementCondition),
         LithostitchedCodecs.INT_RANGE.optionalFieldOf("allowed_depth").forGetter(DelegatingConfig::allowedDepth),
         ExtraCodecs.POSITIVE_INT.optionalFieldOf("forced_count").forGetter(DelegatingConfig::forcedCount),
@@ -48,7 +48,7 @@ public record DelegatingConfig(StructurePoolElement delegate, Optional<ResourceL
         this(delegate, Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), false, false, Optional.empty());
     }
 
-    public ResourceLocation getName() {
+    public Identifier getName() {
         return this.name.orElseGet(() -> Lithostitched.id("generated/" + this.delegate.hashCode()));
     }
 

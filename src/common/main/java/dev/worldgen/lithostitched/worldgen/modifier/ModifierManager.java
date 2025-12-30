@@ -24,7 +24,7 @@ public class ModifierManager {
         HolderLookup.RegistryLookup<Modifier> modifiers = registries.lookupOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER);
 
         for (Holder.Reference<Modifier> reference : sortByPriority(modifiers.listElements())) {
-            Lithostitched.debug("Applying modifier with id: {}", reference.key().location());
+            Lithostitched.debug("Applying modifier with id: {}", reference.key().identifier());
             reference.value().applyModifier(registries);
 
             if (reference.value().internal$modifiesFabricFeatures()) {

@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
-import dev.worldgen.lithostitched.worldgen.modifier.util.BiomeEffects;
+import dev.worldgen.lithostitched.worldgen.util.BiomeEffects;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -67,12 +67,7 @@ public record ReplaceEffectsModifier(int priority, HolderSet<Biome> biomes, Biom
         tryApplyOptional(BiomeEffects::ambientSound, effects::getAmbientLoopSoundEvent, builder::ambientLoopSound);
         tryApplyOptional(BiomeEffects::moodSound, effects::getAmbientMoodSettings, builder::ambientMoodSound);
         tryApplyOptional(BiomeEffects::additionsSound, effects::getAmbientAdditionsSettings, builder::ambientAdditionsSound);
-
-        if (this.specialEffects.music().isPresent() && !this.specialEffects.music().get().isEmpty()) {
-            builder.backgroundMusic(this.specialEffects.music().get().unwrap().getFirst().value());
-        } else if (effects.getBackgroundMusic().isPresent()) {
-            builder.backgroundMusic(effects.getBackgroundMusic().get());
-        }
+        tryApplyOptional(BiomeEffects::music, effects::getBackgroundMusic, builder::backgroundMusic);
 
         accessor.setSpecialEffects(builder.build());
     }

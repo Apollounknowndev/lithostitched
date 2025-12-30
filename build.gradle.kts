@@ -1,29 +1,30 @@
 plugins {
     kotlin("jvm") version "2.1.0"
-    id("earth.terrarium.cloche") version "0.13.4-patched3"
+    id("earth.terrarium.cloche") version "0.17.1"
 }
 
 repositories {
+    cloche.librariesMinecraft()
+    mavenCentral()
     cloche {
+        main()
         mavenNeoforgedMeta()
         mavenNeoforged()
-        mavenForge()
         mavenFabric()
-        mavenParchment()
-        librariesMinecraft()
-        main()
     }
-    mavenLocal()
-    mavenCentral()
-    maven("https://api.modrinth.com/maven")
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.5.2"
+version = "1.5.7"
 
 cloche {
-    mappings {
-        official()
+    targets.all {
+        mappings {
+            official()
+            custom(minecraftVersion.map {
+                project.dependencies.create(files("mappings/$it.tiny"))
+            })
+        }
     }
 
     metadata {
@@ -45,17 +46,17 @@ cloche {
         }
     }
 
-    val shared1211 = common("shared:1.21.1") {
+    val sharedOld = common("shared:1.21.1") {
         mixins.from(file("src/shared/1.21.1/main/lithostitched.1211.mixins.json"))
     }
-    val shared1219 = common("shared:1.21.9") {
-        mixins.from(file("src/shared/1.21.9/main/lithostitched.1219.mixins.json"))
+    val sharedNew = common("shared:1.21.11") {
+        mixins.from(file("src/shared/1.21.11/main/lithostitched.12111.mixins.json"))
     }
 
     fabric("fabric:1.21.1") {
-        dependsOn(shared1211)
+        dependsOn(sharedOld)
 
-        loaderVersion = "0.17.0"
+        loaderVersion = "0.18.2"
         minecraftVersion = "1.21.1"
         mixins.from(file("src/fabric/1.21.1/main/lithostitched.fabric.mixins.json"))
 
@@ -76,15 +77,15 @@ cloche {
         }
     }
 
-    fabric("fabric:1.21.9") {
-        dependsOn(shared1219)
+    fabric("fabric:1.21.11") {
+        dependsOn(sharedNew)
 
-        loaderVersion = "0.17.2"
-        minecraftVersion = "1.21.9"
-        mixins.from(file("src/fabric/1.21.9/main/lithostitched.fabric.mixins.json"))
+        loaderVersion = "0.18.2"
+        minecraftVersion = "1.21.11"
+        mixins.from(file("src/fabric/1.21.11/main/lithostitched.fabric.mixins.json"))
 
         dependencies {
-            fabricApi("0.133.14")
+            fabricApi("0.139.4")
         }
 
         includedClient()
@@ -101,9 +102,9 @@ cloche {
     }
 
     neoforge("neoforge:1.21.1") {
-        dependsOn(shared1211)
+        dependsOn(sharedOld)
 
-        loaderVersion = "21.1.206"
+        loaderVersion = "21.1.217"
         minecraftVersion = "1.21.1"
         mixins.from(file("src/neoforge/1.21.1/main/lithostitched.neoforge.mixins.json"))
 
@@ -111,19 +112,14 @@ cloche {
             client()
             server()
         }
-
-        metadata {
-            dependencies {
-            }
-        }
     }
 
-    neoforge("neoforge:1.21.9") {
-        dependsOn(shared1219)
+    neoforge("neoforge:1.21.11") {
+        dependsOn(sharedNew)
 
-        loaderVersion = "21.9.1-beta"
-        minecraftVersion = "1.21.9"
-        mixins.from(file("src/neoforge/1.21.9/main/lithostitched.neoforge.mixins.json"))
+        loaderVersion = "21.11.12-beta"
+        minecraftVersion = "1.21.11"
+        mixins.from(file("src/neoforge/1.21.11/main/lithostitched.neoforge.mixins.json"))
 
         runs {
             client()

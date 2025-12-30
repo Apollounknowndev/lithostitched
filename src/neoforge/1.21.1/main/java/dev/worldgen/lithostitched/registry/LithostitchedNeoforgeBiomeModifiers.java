@@ -2,8 +2,8 @@ package dev.worldgen.lithostitched.registry;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.util.weighted.WeightedList;
-import dev.worldgen.lithostitched.worldgen.modifier.util.BiomeEffects;
+import dev.worldgen.lithostitched.worldgen.modifier.util.BiomeClimate;
+import dev.worldgen.lithostitched.worldgen.util.BiomeEffects;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.biome.Biome;
@@ -17,21 +17,25 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class LithostitchedNeoforgeBiomeModifiers {
-    public record ReplaceClimateBiomeModifier(HolderSet<Biome> biomes, Biome.ClimateSettings climateSettings) implements BiomeModifier {
+    public record ReplaceClimateBiomeModifier(HolderSet<Biome> biomes, BiomeClimate climateSettings) implements BiomeModifier {
         public static final MapCodec<ReplaceClimateBiomeModifier> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
             Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceClimateBiomeModifier::biomes),
-            Biome.ClimateSettings.CODEC.fieldOf("climate").forGetter(ReplaceClimateBiomeModifier::climateSettings)
+            BiomeClimate.CODEC.fieldOf("climate").forGetter(ReplaceClimateBiomeModifier::climateSettings)
         ).apply(builder, ReplaceClimateBiomeModifier::new));
 
         @Override
         public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
             if (phase == Phase.MODIFY && this.biomes().contains(biome)) {
                 ClimateSettingsBuilder climateSettings = builder.getClimateSettings();
-                climateSettings.setTemperature(this.climateSettings().temperature());
-                climateSettings.setDownfall(this.climateSettings().downfall());
-                climateSettings.setHasPrecipitation(this.climateSettings().hasPrecipitation());
-                climateSettings.setTemperatureModifier(this.climateSettings().temperatureModifier());
+                tryApply(this.climateSettings.temperature(), climateSettings::setTemperature);
+                tryApply(this.climateSettings.temperatureModifier(), climateSettings::setTemperatureModifier);
+                tryApply(this.climateSettings.hasPrecipitation(), climateSettings::setHasPrecipitation);
+                tryApply(this.climateSettings.downfall(), climateSettings::setDownfall);
             }
+        }
+
+        private <T> void tryApply(Optional<T> value, Consumer<T> consumer) {
+            value.ifPresent(consumer::accept);
         }
 
         @Override
@@ -40,6 +44,7 @@ public class LithostitchedNeoforgeBiomeModifiers {
             return CODEC;
         }
     }
+
     public record ReplaceEffectsBiomeModifier(HolderSet<Biome> biomes, BiomeEffects specialEffects) implements BiomeModifier {
         public static final MapCodec<ReplaceEffectsBiomeModifier> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
             Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceEffectsBiomeModifier::biomes),
@@ -63,9 +68,7 @@ public class LithostitchedNeoforgeBiomeModifiers {
                 tryApply(BiomeEffects::ambientSound, builder::ambientLoopSound);
                 tryApply(BiomeEffects::moodSound, builder::ambientMoodSound);
                 tryApply(BiomeEffects::additionsSound, builder::ambientAdditionsSound);
-                if (specialEffects.music().isPresent() && !specialEffects.music().get().isEmpty()) {
-                    builder.backgroundMusic(specialEffects.music().get().unwrap().getFirst().value());
-                }
+                tryApply(BiomeEffects::music, builder::backgroundMusic);
             }
         }
 

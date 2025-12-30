@@ -22,7 +22,7 @@ public record SampleNoiseRouterPlacementCondition(NoiseRouterTarget target, Opti
     public boolean test(Context context, BlockPos pos) {
         if (!(context.generator() instanceof NoiseBasedChunkGenerator chunkGenerator)) return false;
 
-        DensityFunction df = this.target().getDensityFunction(context.randomState().router()).mapAll(new NoiseWiringHelper(context, chunkGenerator.settings.value()));
+        DensityFunction df = this.target().getDensityFunction(context.randomState().router()).mapAll(new NoiseWiringHelper(context, chunkGenerator.generatorSettings().value()));
         double density = df.compute(new DensityFunction.SinglePointContext(pos.getX(), pos.getY(), pos.getZ()));
         boolean min = this.minInclusive.isEmpty() || density >= this.minInclusive.get();
         boolean max = this.maxInclusive.isEmpty() || density <= this.maxInclusive.get();

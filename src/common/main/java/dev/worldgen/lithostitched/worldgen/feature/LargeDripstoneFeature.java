@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
+import dev.worldgen.lithostitched.util.MathUtils;
 import dev.worldgen.lithostitched.worldgen.feature.config.LargeDripstoneConfig;
 import dev.worldgen.lithostitched.worldgen.feature.util.DripstoneUtils;
 import net.minecraft.core.BlockPos;
@@ -178,7 +179,7 @@ public class LargeDripstoneFeature extends Feature<LargeDripstoneConfig> {
             this.originY = y;
             float $$3 = $$2.sample(random);
             float $$4 = Mth.randomBetween(random, 0.0F, (float) Math.PI);
-            this.windSpeed = new Vec3(Mth.cos($$4) * $$3, 0.0, Mth.sin($$4) * $$3);
+            this.windSpeed = new Vec3(MathUtils.cos($$4) * $$3, 0.0, MathUtils.sin($$4) * $$3);
         }
 
         private WindOffsetter() {

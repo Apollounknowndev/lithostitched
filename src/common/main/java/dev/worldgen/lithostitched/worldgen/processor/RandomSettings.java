@@ -5,15 +5,15 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.worldgen.processor.enums.RandomMode;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
-public record RandomSettings(RandomMode mode, ResourceLocation name) {
+public record RandomSettings(RandomMode mode, Identifier name) {
     private static final Codec<RandomSettings> FULL_CODEC = RecordCodecBuilder.create(instance -> instance.group(
         RandomMode.CODEC.fieldOf("mode").orElse(RandomMode.PER_BLOCK).forGetter(RandomSettings::mode),
-        ResourceLocation.CODEC.fieldOf("name").forGetter(RandomSettings::name)
+        Identifier.CODEC.fieldOf("name").forGetter(RandomSettings::name)
     ).apply(instance, RandomSettings::new));
 
     public RandomSettings(RandomMode mode) {

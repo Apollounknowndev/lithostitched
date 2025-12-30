@@ -1,26 +1,26 @@
 package dev.worldgen.lithostitched.worldgen.modifier.template;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.Util;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Util;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.RandomSource;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record TemplateList(List<ResourceLocation> templates) {
-    public static final Codec<TemplateList> CODEC = ExtraCodecs.nonEmptyList(ResourceLocation.CODEC.listOf()).xmap(TemplateList::new, TemplateList::templates);
+public record TemplateList(List<Identifier> templates) {
+    public static final Codec<TemplateList> CODEC = ExtraCodecs.nonEmptyList(Identifier.CODEC.listOf()).xmap(TemplateList::new, TemplateList::templates);
 
-    public TemplateList(List<ResourceLocation> templates) {
+    public TemplateList(List<Identifier> templates) {
         this.templates = new ArrayList<>(templates);
     }
 
-    public ResourceLocation getRandom(RandomSource randomSource) {
+    public Identifier getRandom(RandomSource randomSource) {
         return Util.getRandom(this.templates, randomSource);
     }
 
-    public void addAll(List<ResourceLocation> templates) {
+    public void addAll(List<Identifier> templates) {
         this.templates.addAll(templates);
     }
 }

@@ -4,7 +4,7 @@ import dev.worldgen.lithostitched.duck.SurfaceSystemAccessor;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -22,7 +22,7 @@ public class NoiseBasedChunkGeneratorMixin {
         HolderLookup.RegistryLookup<Bandlands> registry = region.registryAccess().lookupOrThrow(LithostitchedRegistryKeys.BANDLANDS);
 
         registry.listElements().forEach(holder -> holder.value().fillBands(
-                ((SurfaceSystemAccessor)randomState.surfaceSystem()).getNoiseRandom().fromHashOf(ResourceLocation.withDefaultNamespace("clay_bands")))
+                ((SurfaceSystemAccessor)randomState.surfaceSystem()).getNoiseRandom().fromHashOf(Identifier.withDefaultNamespace("clay_bands")))
         );
     }
 }

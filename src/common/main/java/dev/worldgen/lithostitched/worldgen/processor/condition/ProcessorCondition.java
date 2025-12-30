@@ -16,7 +16,7 @@ import java.util.function.Function;
 public interface ProcessorCondition {
     @SuppressWarnings("unchecked")
     Codec<ProcessorCondition> BASE_CODEC = Codec.lazyInitialized(() -> {
-        var registry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistryKeys.PROCESSOR_CONDITION_TYPE.location());
+        var registry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistryKeys.PROCESSOR_CONDITION_TYPE.identifier());
         if (registry.isEmpty()) throw new NullPointerException("Processor condition registry does not exist yet!");
         return ((Registry<MapCodec<? extends ProcessorCondition>>) registry.get()).byNameCodec();
     }).dispatch(ProcessorCondition::codec, Function.identity());

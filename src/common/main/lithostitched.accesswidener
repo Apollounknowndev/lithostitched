@@ -5,6 +5,7 @@ accessible method net/minecraft/world/level/levelgen/feature/stateproviders/Bloc
 
 # Biomes
 accessible class net/minecraft/world/level/biome/Biome$ClimateSettings
+accessible method net/minecraft/world/level/biome/Biome$ClimateSettings <init> (ZFLnet/minecraft/world/level/biome/Biome$TemperatureModifier;F)V
 
 # Density functions
 accessible class net/minecraft/world/level/levelgen/DensityFunctions$EndIslandDensityFunction
@@ -16,6 +17,10 @@ accessible class net/minecraft/world/level/levelgen/structure/structures/Woodlan
 accessible class net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionPieces$SecondFloorRoomCollection
 accessible class net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionPieces$FirstFloorRoomCollection
 accessible class net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionPieces$FloorRoomCollection
+
+accessible method net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionPieces$FirstFloorRoomCollection <init> ()V
+accessible method net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionPieces$SecondFloorRoomCollection <init> ()V
+accessible method net/minecraft/world/level/levelgen/structure/structures/WoodlandMansionPieces$ThirdFloorRoomCollection <init> ()V
 
 # Surface rules
 mutable field net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator settings Lnet/minecraft/core/Holder;

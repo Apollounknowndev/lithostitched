@@ -22,7 +22,7 @@ public record SampleDensityPlacementCondition(Holder<DensityFunction> densityFun
     public boolean test(Context context, BlockPos pos) {
         if (!(context.generator() instanceof NoiseBasedChunkGenerator chunkGenerator)) return false;
 
-        DensityFunction df = this.densityFunction.value().mapAll(new NoiseWiringHelper(context, chunkGenerator.settings.value()));
+        DensityFunction df = this.densityFunction.value().mapAll(new NoiseWiringHelper(context, chunkGenerator.generatorSettings().value()));
         double density = df.compute(new DensityFunction.SinglePointContext(pos.getX(), pos.getY(), pos.getZ()));
 
         boolean min = this.minInclusive.isEmpty() || density >= this.minInclusive.get();

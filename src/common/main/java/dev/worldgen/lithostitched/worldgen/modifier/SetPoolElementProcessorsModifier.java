@@ -11,7 +11,7 @@ import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -30,11 +30,11 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  *
  * @author Apollo
  */
-public record SetPoolElementProcessorsModifier(int priority, HolderSet<StructureTemplatePool> templatePools, Optional<List<ResourceLocation>> locations, Holder<StructureProcessorList> processorList, boolean append) implements Modifier {
+public record SetPoolElementProcessorsModifier(int priority, HolderSet<StructureTemplatePool> templatePools, Optional<List<Identifier>> locations, Holder<StructureProcessorList> processorList, boolean append) implements Modifier {
     public static final MapCodec<SetPoolElementProcessorsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         PRIORITY_DEFAULT.forGetter(SetPoolElementProcessorsModifier::priority),
         registrySet(Registries.TEMPLATE_POOL, "template_pools").forGetter(SetPoolElementProcessorsModifier::templatePools),
-        LithostitchedCodecs.compactList(ResourceLocation.CODEC).optionalFieldOf("locations").forGetter(SetPoolElementProcessorsModifier::locations),
+        LithostitchedCodecs.compactList(Identifier.CODEC).optionalFieldOf("locations").forGetter(SetPoolElementProcessorsModifier::locations),
         StructureProcessorType.LIST_CODEC.fieldOf("processor_list").forGetter(SetPoolElementProcessorsModifier::processorList),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetPoolElementProcessorsModifier::append)
     ).apply(instance, SetPoolElementProcessorsModifier::new));

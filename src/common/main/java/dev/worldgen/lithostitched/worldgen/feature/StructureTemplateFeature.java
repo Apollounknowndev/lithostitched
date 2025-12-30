@@ -5,7 +5,7 @@ import dev.worldgen.lithostitched.worldgen.feature.config.StructureTemplateConfi
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
@@ -43,10 +43,10 @@ public class StructureTemplateFeature extends Feature<StructureTemplateConfig> {
 
         BlockPos jigsawPos = origin;
         if (config.startJigsawName().isPresent()) {
-            ResourceLocation startName = config.startJigsawName().get();
+            Identifier startName = config.startJigsawName().get();
             ObjectArrayList<StructureTemplate.StructureBlockInfo> jigsawBlocks = template.filterBlocks(origin, new StructurePlaceSettings().setRotation(rotation.getRotated(Rotation.CLOCKWISE_180)), Blocks.JIGSAW, true);
             for (StructureTemplate.StructureBlockInfo jigsaw : jigsawBlocks) {
-                ResourceLocation jigsawName = ResourceLocation.tryParse(Lithostitched.getString(Objects.requireNonNull(jigsaw.nbt(), () -> jigsaw + " nbt was null"), "name"));
+                Identifier jigsawName = Identifier.tryParse(Lithostitched.getString(Objects.requireNonNull(jigsaw.nbt(), () -> jigsaw + " nbt was null"), "name"));
                 if (jigsawName == null || !jigsawName.equals(startName)) continue;
                 jigsawPos = jigsaw.pos();
                 break;

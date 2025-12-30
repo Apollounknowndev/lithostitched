@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.feature.util;
 
+import dev.worldgen.lithostitched.util.MathUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.util.Mth;
@@ -31,8 +32,8 @@ public class DripstoneUtils {
             float $$4 = 6.0F / (float)$$2;
 
             for (float $$5 = 0.0F; $$5 < (float) (Math.PI * 2); $$5 += $$4) {
-                int $$6 = (int)(Mth.cos($$5) * (float)$$2);
-                int $$7 = (int)(Mth.sin($$5) * (float)$$2);
+                int $$6 = (int)(MathUtils.cos($$5) * (float)$$2);
+                int $$7 = (int)(MathUtils.sin($$5) * (float)$$2);
                 if (isEmptyOrWaterOrLava($$0, $$1.offset($$6, 0, $$7))) {
                     return false;
                 }

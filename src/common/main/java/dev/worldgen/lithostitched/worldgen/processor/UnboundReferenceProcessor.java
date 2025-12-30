@@ -4,17 +4,14 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 /**
  * Hack to allow references in structure processors without initially having registry access.
@@ -22,32 +19,44 @@ import org.jetbrains.annotations.NotNull;
  */
 public class UnboundReferenceProcessor extends StructureProcessor {
     public static final MapCodec<UnboundReferenceProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        ResourceLocation.CODEC.fieldOf("name").forGetter(UnboundReferenceProcessor::name)
+        ResourceKey.codec(Registries.PROCESSOR_LIST).fieldOf("name").forGetter(UnboundReferenceProcessor::name)
     ).apply(instance, UnboundReferenceProcessor::new));
 
     public static final StructureProcessorType<UnboundReferenceProcessor> TYPE = () -> CODEC;
-    private final ResourceLocation name;
+    private final ResourceKey<StructureProcessorList> name;
 
-    private UnboundReferenceProcessor(ResourceLocation name) {
+    private UnboundReferenceProcessor(ResourceKey<StructureProcessorList> name) {
         this.name = name;
     }
 
     public static UnboundReferenceProcessor of(String name) {
-        return new UnboundReferenceProcessor(Lithostitched.id(name));
+        return new UnboundReferenceProcessor(key(Lithostitched.id(name)));
     }
 
-    public ResourceLocation name() {
+    private static ResourceKey<StructureProcessorList> key(Identifier identifier) {
+        return ResourceKey.create(Registries.PROCESSOR_LIST, identifier);
+    }
+
+    public ResourceKey<StructureProcessorList> name() {
         return this.name;
     }
 
-    public ReferenceStructureProcessor bind(ServerLevel level) {
-        var set = level.registryAccess().lookupOrThrow(Registries.PROCESSOR_LIST).get(ResourceKey.create(Registries.PROCESSOR_LIST, this.name));
-        return new ReferenceStructureProcessor(set.isPresent() ? HolderSet.direct(set.get()) : HolderSet.empty());
-    }
-
     @Override
-    public StructureTemplate.StructureBlockInfo processBlock(LevelReader levelReader, BlockPos blockPos, BlockPos blockPos2, StructureTemplate.StructureBlockInfo structureBlockInfo, StructureTemplate.StructureBlockInfo currentBlockInfo, StructurePlaceSettings structurePlaceSettings) {
-        throw new IllegalStateException("[Lithostitched] Unbound reference structure processor should never be processed!");
+    public StructureTemplate.StructureBlockInfo processBlock(LevelReader levelReader, BlockPos pos, BlockPos pivot, StructureTemplate.StructureBlockInfo relative, StructureTemplate.StructureBlockInfo absolute, StructurePlaceSettings settings) {
+        StructureTemplate.StructureBlockInfo processedBlock = absolute;
+
+        var registry = Lithostitched.registry(levelReader.registryAccess(), Registries.PROCESSOR_LIST);
+        Optional<StructureProcessorList> list = registry.getOptional(this.name);
+
+        if (list.isPresent()) {
+            for (StructureProcessor processor : list.get().list()) {
+                processedBlock = processor.processBlock(levelReader, pos, pivot, relative, processedBlock, settings);
+
+                if (processedBlock == null) return null;
+            }
+        }
+
+        return processedBlock;
     }
 
     @Override

@@ -5,15 +5,15 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.5.1"
+MOD_VERSION = "1.5.7"
 CHANGELOG = """
-Fix pack metadata issues on 1.21.9.
+- Patched crashing issues (primarily on Neoforge) due to Woodland Mansions.
 """
 UPLOAD_VERSIONS = [
-    #("fabric", "1.21.1"),
-    #("neoforge", "1.21.1"),
-    ("fabric", "1.21.9"),
-    ("neoforge", "1.21.9"),
+    ("fabric", "1.21.1"),
+    ("neoforge", "1.21.1"),
+    ("fabric", "1.21.11"),
+    ("neoforge", "1.21.11"),
 ]
 
 MODRINTH_ID = "XaDC71GB"
@@ -35,9 +35,8 @@ if not CURSEFORGE_TOKEN:
     raise EnvironmentError("CURSEFORGE_TOKEN is unset!")
 CURSEFORGE_URL = f"https://minecraft.curseforge.com/api/v1/projects/{CURSEFORGE_ID}/upload-file"
 CURSEFORGE_GAME_VERSIONS = {
-    "1.20.1": [9990],
     "1.21.1": [11779],
-    "1.21.9": [13927, 13964],
+    "1.21.11": [14406],
 }
 CURSEFORGE_LOADERS = {
     "fabric": 7499,
@@ -146,3 +145,5 @@ for modloader, game_version in UPLOAD_VERSIONS:
 
     upload_modrinth(modloader, game_version, mod_path)
     upload_curseforge(modloader, game_version, mod_path)
+
+input("Press any key to close")

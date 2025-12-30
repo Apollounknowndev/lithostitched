@@ -6,7 +6,7 @@ import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawConfig.MaxDi
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -39,7 +39,7 @@ public class JigsawStructureMixin {
                     target = "Lnet/minecraft/world/level/levelgen/structure/pools/JigsawPlacement;addPieces(Lnet/minecraft/world/level/levelgen/structure/Structure$GenerationContext;Lnet/minecraft/core/Holder;Ljava/util/Optional;ILnet/minecraft/core/BlockPos;ZLjava/util/Optional;ILnet/minecraft/world/level/levelgen/structure/pools/alias/PoolAliasLookup;Lnet/minecraft/world/level/levelgen/structure/pools/DimensionPadding;Lnet/minecraft/world/level/levelgen/structure/templatesystem/LiquidSettings;)Ljava/util/Optional;"
             )
     )
-    private Optional<Structure.GenerationStub> init(Structure.GenerationContext context, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, int size, BlockPos pos, boolean useExpansionHack, Optional<Heightmap.Types> heightmapProjection, int maxDistToCenter, PoolAliasLookup lookup, DimensionPadding padding, LiquidSettings liquidSettings) {
+    private Optional<Structure.GenerationStub> init(Structure.GenerationContext context, Holder<StructureTemplatePool> startPool, Optional<Identifier> startJigsawName, int size, BlockPos pos, boolean useExpansionHack, Optional<Heightmap.Types> heightmapProjection, int maxDistToCenter, PoolAliasLookup lookup, DimensionPadding padding, LiquidSettings liquidSettings) {
         return AlternateJigsawStructure.generate(context, new AlternateJigsawConfig(
                 startPool,
                 startJigsawName,
