@@ -15,6 +15,8 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
+import java.util.Optional;
+
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
 public record SetStructureSpawnConditionModifier(int priority, HolderSet<Structure> structures, PlacementCondition spawnCondition, boolean append) implements Modifier {
@@ -35,7 +37,7 @@ public record SetStructureSpawnConditionModifier(int priority, HolderSet<Structu
             delegating.config().setSpawnCondition(this.spawnCondition, this.append);
         } else {
             if (structure instanceof Holder.Reference<Structure> reference) {
-                final Structure delegating = new DelegatingStructure(new DelegatingConfig(Holder.direct(structure.value()), this.spawnCondition));
+                final Structure delegating = new DelegatingStructure(new DelegatingConfig(Holder.direct(structure.value()), Optional.of(this.spawnCondition)));
                 ((HolderReferenceAccessor<Structure>)structure).setValue(delegating);
                 ((MappedRegistryAccessor<Structure>) Lithostitched.registry(registries, Registries.STRUCTURE)).getByValue().put(delegating, reference);
             }

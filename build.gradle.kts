@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "2.1.0"
-    id("earth.terrarium.cloche") version "0.17.1"
+    id("earth.terrarium.cloche") version "0.18.0"
 }
 
 repositories {
@@ -15,7 +15,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.5.7"
+version = "1.5.8+beta1"
 
 cloche {
     targets.all {
@@ -95,6 +95,9 @@ cloche {
         }
 
         metadata {
+            entrypoint("client") {
+                value = "dev.worldgen.lithostitched.client.LithostitchedFabricClient"
+            }
             entrypoint("main") {
                 value = "dev.worldgen.lithostitched.LithostitchedFabric"
             }

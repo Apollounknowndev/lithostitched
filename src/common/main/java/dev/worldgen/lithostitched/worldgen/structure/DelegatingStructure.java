@@ -16,7 +16,7 @@ import net.minecraft.world.level.levelgen.structure.pieces.PiecesContainer;
 import java.util.Optional;
 
 public class DelegatingStructure extends Structure {
-    public static final MapCodec<DelegatingStructure> CODEC = DelegatingConfig.CODEC.xmap(DelegatingStructure::new, DelegatingStructure::config);
+    public static final MapCodec<DelegatingStructure> CODEC = DelegatingConfig.getCodec().xmap(DelegatingStructure::new, DelegatingStructure::config);
     public static final StructureType<DelegatingStructure> TYPE = () -> DelegatingStructure.CODEC;
     private final DelegatingConfig config;
 
@@ -48,7 +48,7 @@ public class DelegatingStructure extends Structure {
                 context.randomState().sampler()
             ))
         ) return false;
-        return this.config.spawnCondition().test(context, pos);
+        return this.config.spawnCondition().map(condition -> condition.test(context, pos)).orElse(true);
     }
 
     @Override

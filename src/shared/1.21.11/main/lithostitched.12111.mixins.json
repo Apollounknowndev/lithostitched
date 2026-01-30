@@ -8,6 +8,10 @@
     "common.JigsawStructureMixin",
     "common.TimelineAccessor"
   ],
+  "client": [
+    "client.ClientLevelMixin",
+    "client.EnvironmentAttributeSystemMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

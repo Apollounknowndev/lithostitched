@@ -15,7 +15,7 @@ public record Weighted<T>(T value, int weight) {
 
     public Weighted(T value, int weight) {
         if (weight < 0) {
-            throw Util.pauseInIde(new IllegalArgumentException("Weight should be >= 0"));
+            throw new IllegalArgumentException("Weight should be >= 0");
         } else {
             if (weight == 0 && SharedConstants.IS_RUNNING_IN_IDE) {
                 LOGGER.warn("Found 0 weight, make sure this is intentional!");
