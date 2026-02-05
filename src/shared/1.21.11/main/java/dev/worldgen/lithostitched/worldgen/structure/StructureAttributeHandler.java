@@ -49,6 +49,10 @@ public class StructureAttributeHandler {
 		}
 	}
 	
+	public static void disconnect(ServerPlayer player) {
+		playersToStructures.remove(player);
+	}
+	
 	private static boolean hasStructureNotChanged(ServerPlayer player, Structure structure) {
 		return structure == playersToStructures.getOrDefault(player, null);
 	}

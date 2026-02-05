@@ -41,11 +41,13 @@ public class EnvironmentAttributeSystemMixin {
 		builder.addTimeBasedLayer(attribute, (result, cacheTickId) -> {
 			float delta = Math.min(holder.getTicksSinceUpdated(), (float) STRUCTURE_ATTRIBUTE_LERP) / STRUCTURE_ATTRIBUTE_LERP;
 			
-			var previousAttributeEntry = holder.getPreviousStructureAttributes().get(attribute);
-			if (previousAttributeEntry != null) {
-				Value updatedValue = previousAttributeEntry.applyModifier(result);
-				result = attribute.type().stateChangeLerp().apply(1 - delta, result, updatedValue);
-			};
+			if (delta < 0.999) {
+				var previousAttributeEntry = holder.getPreviousStructureAttributes().get(attribute);
+				if (previousAttributeEntry != null) {
+					Value updatedValue = previousAttributeEntry.applyModifier(result);
+					result = attribute.type().stateChangeLerp().apply(1 - delta, result, updatedValue);
+				}
+			}
 			
 			var attributeEntry = holder.getStructureAttributes().get(attribute);
 			if (attributeEntry != null) {

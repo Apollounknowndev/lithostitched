@@ -5,13 +5,15 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.5.7"
+MOD_VERSION = "1.5.8+beta1"
 CHANGELOG = """
-- Patched crashing issues (primarily on Neoforge) due to Woodland Mansions.
+- Added experimental support for structures to use environment attributes.
+  - **The client must have Lithostitched installed to use this.**
+- Added `lithostitched:structure/reset_music` boolean environment attribute. When added to a structure, the music will fade out when leaving/entering the structure.
 """
 UPLOAD_VERSIONS = [
-    ("fabric", "1.21.1"),
-    ("neoforge", "1.21.1"),
+    #("fabric", "1.21.1"),
+    #("neoforge", "1.21.1"),
     ("fabric", "1.21.11"),
     ("neoforge", "1.21.11"),
 ]

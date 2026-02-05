@@ -10,7 +10,8 @@
   ],
   "client": [
     "client.ClientLevelMixin",
-    "client.EnvironmentAttributeSystemMixin"
+    "client.EnvironmentAttributeSystemMixin",
+    "client.MusicManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -3,6 +3,7 @@ package dev.worldgen.lithostitched.registry;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
+import dev.worldgen.lithostitched.worldgen.attribute.LithostitchedEnvironmentAttributes;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.Band;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
@@ -13,6 +14,7 @@ import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorCondition;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.SurfaceRules;
@@ -62,6 +64,10 @@ public final class LithostitchedBuiltInRegistries {
 			Lithostitched.registerCommonBlockEntityModifiers((name, type) -> register(event, Registries.RULE_BLOCK_ENTITY_MODIFIER, name, type));
 			Lithostitched.registerCommonRuleSources((name, codec) -> register(event, Registries.MATERIAL_RULE, name, codec));
 			Lithostitched.registerCommonSurfaceConditions((name, codec) -> register(event, Registries.MATERIAL_CONDITION, name, codec));
+			
+			LithostitchedEnvironmentAttributes.registerEnvironmentAttributes(
+				(name, attribute) -> register(event, Registries.ENVIRONMENT_ATTRIBUTE, name, attribute)
+			);
 		});
 
 		bus.addListener((DataPackRegistryEvent.NewRegistry event) -> {

@@ -1,7 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.modifier.template;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.util.Util;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.RandomSource;
@@ -17,7 +16,7 @@ public record TemplateList(List<Identifier> templates) {
     }
 
     public Identifier getRandom(RandomSource randomSource) {
-        return Util.getRandom(this.templates, randomSource);
+        return templates.get(randomSource.nextInt(templates.size()));
     }
 
     public void addAll(List<Identifier> templates) {

@@ -6,8 +6,10 @@ import dev.worldgen.lithostitched.registry.LithostitchedBuiltInRegistries;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistrations;
 import dev.worldgen.lithostitched.worldgen.structure.StructureAttributeHandler;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 
 /**
@@ -27,5 +29,6 @@ public final class LithostitchedFabric implements ModInitializer {
 		);
 		
 		ServerTickEvents.START_WORLD_TICK.register(StructureAttributeHandler::tick);
+		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> StructureAttributeHandler.disconnect(handler.getPlayer()));
 	}
 }

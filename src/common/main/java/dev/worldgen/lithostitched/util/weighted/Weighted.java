@@ -6,7 +6,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.function.Function;
 import net.minecraft.SharedConstants;
-import net.minecraft.util.Util;
 import net.minecraft.util.ExtraCodecs;
 import org.slf4j.Logger;
 

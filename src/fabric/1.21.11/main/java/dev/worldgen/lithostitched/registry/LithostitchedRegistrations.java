@@ -3,6 +3,7 @@ package dev.worldgen.lithostitched.registry;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
+import dev.worldgen.lithostitched.worldgen.attribute.LithostitchedEnvironmentAttributes;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetBiomeAttributesModifier;
@@ -13,6 +14,9 @@ import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.attribute.AttributeTypes;
+import net.minecraft.world.attribute.EnvironmentAttribute;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
 import java.util.function.BiConsumer;
@@ -31,6 +35,9 @@ public class LithostitchedRegistrations {
         Lithostitched.registerCommonPlacementConditions((name, codec) -> register(PLACEMENT_CONDITION_TYPE, name, codec));
         Lithostitched.registerCommonProcessorConditions((name, codec) -> register(PROCESSOR_CONDITION_TYPE, name, codec));
         Lithostitched.registerCommonBandlandsBandTypes((name, codec) -> register(BANDLANDS_BAND_TYPE, name, codec));
+        LithostitchedEnvironmentAttributes.registerEnvironmentAttributes(
+            (name, attribute) -> register(BuiltInRegistries.ENVIRONMENT_ATTRIBUTE, name, attribute)
+        );
 
         Lithostitched.registerCommonBlockPredicateTypes((name, type) -> register(BuiltInRegistries.BLOCK_PREDICATE_TYPE, name, type));
         Lithostitched.registerCommonStateProviders((name, type) -> register(BuiltInRegistries.BLOCKSTATE_PROVIDER_TYPE, name, type));
