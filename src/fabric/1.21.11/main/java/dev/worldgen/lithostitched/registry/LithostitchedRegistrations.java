@@ -5,6 +5,7 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.attribute.LithostitchedEnvironmentAttributes;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
+import dev.worldgen.lithostitched.worldgen.biomeinjector.BiomeInjector;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetBiomeAttributesModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetDimensionAttributesModifier;
@@ -29,6 +30,7 @@ public class LithostitchedRegistrations {
         DynamicRegistries.register(LithostitchedRegistryKeys.SURFACE_RULE, SurfaceRules.RuleSource.CODEC);
         DynamicRegistries.register(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC);
         DynamicRegistries.register(LithostitchedRegistryKeys.TEMPLATE_LIST, TemplateList.CODEC);
+        DynamicRegistries.register(LithostitchedRegistryKeys.BIOME_INJECTOR, BiomeInjector.CODEC);;
 
         Lithostitched.registerCommonModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));
         registerFabricModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));
@@ -38,7 +40,8 @@ public class LithostitchedRegistrations {
         LithostitchedEnvironmentAttributes.registerEnvironmentAttributes(
             (name, attribute) -> register(BuiltInRegistries.ENVIRONMENT_ATTRIBUTE, name, attribute)
         );
-
+        
+        Lithostitched.registerCommonBiomeSources((name, codec) -> register(BuiltInRegistries.BIOME_SOURCE, name, codec));
         Lithostitched.registerCommonBlockPredicateTypes((name, type) -> register(BuiltInRegistries.BLOCK_PREDICATE_TYPE, name, type));
         Lithostitched.registerCommonStateProviders((name, type) -> register(BuiltInRegistries.BLOCKSTATE_PROVIDER_TYPE, name, type));
         Lithostitched.registerCommonPlacementModifiers((name, type) -> register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, name, type));

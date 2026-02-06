@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.mixin.common;
 
+import dev.worldgen.lithostitched.worldgen.biomeinjector.BiomeInjectorManager;
 import dev.worldgen.lithostitched.worldgen.modifier.ModifierManager;
 import dev.worldgen.lithostitched.worldgen.surface.SurfaceRuleManager;
 import net.minecraft.gametest.framework.GameTestServer;
@@ -15,5 +16,6 @@ public abstract class GameTestServerMixin {
 	private void initServer(CallbackInfoReturnable<Boolean> info) {
 		ModifierManager.applyModifiers((MinecraftServer) (Object) this);
 		SurfaceRuleManager.applySurfaceRules((MinecraftServer) (Object) this);
+		BiomeInjectorManager.applyBiomeInjections((MinecraftServer) (Object) this);
 	}
 }

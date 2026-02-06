@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.Band;
+import dev.worldgen.lithostitched.worldgen.biomeinjector.BiomeInjector;
 import dev.worldgen.lithostitched.worldgen.modifier.Modifier;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
@@ -23,6 +24,7 @@ public interface LithostitchedRegistryKeys {
 	ResourceKey<Registry<SurfaceRules.RuleSource>> SURFACE_RULE = create("surface_rule");
 	ResourceKey<Registry<Bandlands>> BANDLANDS = create("bandlands");
 	ResourceKey<Registry<TemplateList>> TEMPLATE_LIST = create("template_list");
+	ResourceKey<Registry<BiomeInjector>> BIOME_INJECTOR = create("biome_injector");
 
 	// Static
 	ResourceKey<Registry<MapCodec<? extends Modifier>>> MODIFIER_TYPE = create("modifier_type");

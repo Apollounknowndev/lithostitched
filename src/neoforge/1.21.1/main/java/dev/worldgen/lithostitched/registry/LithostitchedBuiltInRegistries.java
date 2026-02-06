@@ -5,6 +5,7 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.Band;
+import dev.worldgen.lithostitched.worldgen.biomeinjector.BiomeInjector;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
@@ -47,6 +48,7 @@ public final class LithostitchedBuiltInRegistries {
 
 	public static void init(IEventBus bus) {
 		bus.addListener((RegisterEvent event) -> {
+			Lithostitched.registerCommonBiomeSources((name, codec) -> register(event, Registries.BIOME_SOURCE, name, codec));
 			Lithostitched.registerCommonBlockPredicateTypes((name, type) -> register(event, Registries.BLOCK_PREDICATE_TYPE, name, type));
 			Lithostitched.registerCommonStateProviders((name, type) -> register(event, Registries.BLOCK_STATE_PROVIDER_TYPE, name, type));
 			Lithostitched.registerCommonPlacementModifiers((name, type) -> register(event, Registries.PLACEMENT_MODIFIER_TYPE, name, type));
@@ -66,6 +68,7 @@ public final class LithostitchedBuiltInRegistries {
 			event.dataPackRegistry(LithostitchedRegistryKeys.SURFACE_RULE, SurfaceRules.RuleSource.CODEC);
 			event.dataPackRegistry(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC);
 			event.dataPackRegistry(LithostitchedRegistryKeys.TEMPLATE_LIST, TemplateList.CODEC);
+			event.dataPackRegistry(LithostitchedRegistryKeys.BIOME_INJECTOR, BiomeInjector.CODEC);
 		});
 
 		Lithostitched.registerCommonModifiers((name, codec) -> DEFERRED_MODIFIER_TYPES.register(name, () -> codec));

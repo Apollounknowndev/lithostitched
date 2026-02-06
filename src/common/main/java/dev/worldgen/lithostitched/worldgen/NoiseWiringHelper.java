@@ -11,9 +11,10 @@ import net.minecraft.world.level.levelgen.synth.NormalNoise;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class NoiseWiringHelper implements DensityFunction.Visitor {
-    private final Map<DensityFunction, DensityFunction> wrapped = new HashMap<>();
+    private final Map<DensityFunction, DensityFunction> wrapped = new ConcurrentHashMap<>();
     private final boolean useLegacySource;
     private final long seed;
     final RandomState randomState;

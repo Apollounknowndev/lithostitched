@@ -6,6 +6,7 @@ import dev.worldgen.lithostitched.worldgen.bandlands.band.Band;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.BaseBand;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.RepeatingBand;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.WrappedBand;
+import dev.worldgen.lithostitched.worldgen.biomeinjector.InjectorBiomeSource;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.BlockStatePredicate;
@@ -44,6 +45,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.NoiseRouter;
@@ -115,6 +117,10 @@ public final class Lithostitched {
 		consumer.accept("stack_feature", StackFeatureModifier.CODEC);
 		consumer.accept("wrap_density_function", WrapDensityFunctionModifier.CODEC);
 		consumer.accept("wrap_noise_router", WrapNoiseRouterModifier.CODEC);
+	}
+	
+	public static void registerCommonBiomeSources(BiConsumer<String, MapCodec<? extends BiomeSource>> consumer) {
+		consumer.accept("injector", InjectorBiomeSource.CODEC);
 	}
 
 	public static void registerCommonBlockPredicateTypes(BiConsumer<String, BlockPredicateType<?>> consumer) {

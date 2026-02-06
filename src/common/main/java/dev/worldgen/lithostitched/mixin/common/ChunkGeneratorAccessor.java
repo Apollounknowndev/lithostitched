@@ -18,6 +18,10 @@ import java.util.function.Supplier;
 public interface ChunkGeneratorAccessor {
     @Accessor("biomeSource")
     BiomeSource getBiomeSource();
+    
+    @Accessor("biomeSource")
+    @Mutable
+    void setBiomeSource(BiomeSource biomeSource);
 
     @Accessor("generationSettingsGetter")
     Function<Holder<Biome>, BiomeGenerationSettings> getGetter();
