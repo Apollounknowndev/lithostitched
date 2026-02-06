@@ -4,22 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Structure environment attributes">
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/BiomeInjector.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/BiomeInjectorManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/InjectorBiomeSource.java" afterDir="false" />
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Implement basic biome injectors">
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/BiomeParameter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/Lithostitched.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/Lithostitched.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/client/IntegratedServerMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/client/IntegratedServerMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/ChunkGeneratorAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/ChunkGeneratorAccessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/GameTestServerMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/GameTestServerMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/server/DedicatedServerMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/server/DedicatedServerMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistryKeys.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistryKeys.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/NoiseWiringHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/NoiseWiringHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fabric/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/neoforge/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/neoforge/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/BiomeInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/BiomeInjector.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,8 +56,8 @@
         <option value="JUnit5 Test Class" />
         <option value="Enum" />
         <option value="Record" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -166,7 +154,7 @@
       <recent name="dev.worldgen.lithostitched.mixin" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Run :fabric:1.21.1:client">
+  <component name="RunManager" selected="Gradle.1.20.1 [build]">
     <configuration name="Run :fabric:1.21.11:client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.fabricmc.loader.impl.launch.knot.KnotClient" />
       <module name="lithostitched.fabric12111" />
@@ -591,7 +579,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770258512603</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Implement basic biome injectors">
+      <option name="closed" value="true" />
+      <created>1770351141949</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1770351141949</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -602,6 +598,7 @@
     <MESSAGE value="1.5.0+beta5" />
     <MESSAGE value="MNBS migration, sketchy but should work?" />
     <MESSAGE value="Structure environment attributes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Structure environment attributes" />
+    <MESSAGE value="Implement basic biome injectors" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement basic biome injectors" />
   </component>
 </project>
