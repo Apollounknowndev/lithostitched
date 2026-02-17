@@ -23,8 +23,11 @@ public interface BiomeInjector {
 		return ((Registry<MapCodec<? extends BiomeInjector>>) registry.get()).byNameCodec();
 	}).dispatch(BiomeInjector::codec, Function.identity());
 	MapCodec<ResourceKey<LevelStem>> DIMENSION_CODEC = ResourceKey.codec(Registries.LEVEL_STEM).fieldOf("dimension");
+	MapCodec<Integer> PRIORITY_CODEC = Codec.INT.optionalFieldOf("priority", 1000);
 	
 	ResourceKey<LevelStem> dimension();
+	
+	int priority();
 	
 	List<Holder<Biome>> biomes();
 	

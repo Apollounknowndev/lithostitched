@@ -14,9 +14,14 @@ import dev.worldgen.lithostitched.worldgen.blockpredicate.BlockStatePredicate;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.InStructurePredicate;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.MultipleOfPredicate;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.RandomChancePredicate;
-import dev.worldgen.lithostitched.worldgen.densityfunction.MergedDensityFunction;
-import dev.worldgen.lithostitched.worldgen.densityfunction.OriginalMarkerDensityFunction;
-import dev.worldgen.lithostitched.worldgen.densityfunction.WrappedMarkerDensityFunction;
+import dev.worldgen.lithostitched.worldgen.densityfunction.fastnoise.FastNoiseDensityFunction;
+import dev.worldgen.lithostitched.worldgen.densityfunction.fastnoise.config.CellularNoiseType;
+import dev.worldgen.lithostitched.worldgen.densityfunction.fastnoise.config.FastNoiseConfig;
+import dev.worldgen.lithostitched.worldgen.densityfunction.fastnoise.config.PerlinNoiseType;
+import dev.worldgen.lithostitched.worldgen.densityfunction.fastnoise.config.SimplexNoiseType;
+import dev.worldgen.lithostitched.worldgen.densityfunction.marker.MergedDensityFunction;
+import dev.worldgen.lithostitched.worldgen.densityfunction.marker.OriginalMarkerDensityFunction;
+import dev.worldgen.lithostitched.worldgen.densityfunction.marker.WrappedMarkerDensityFunction;
 import dev.worldgen.lithostitched.worldgen.feature.*;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.internal.CompileRawTemplatesModifier;
@@ -102,9 +107,6 @@ public final class Lithostitched {
 
 	@Expect
 	public static String getInitialDensityName();
-	
-	@Expect
-	public static boolean isModLoaded(String modId);
 
 	public static void registerCommonModifiers(BiConsumer<String, MapCodec<? extends Modifier>> consumer) {
 		consumer.accept("internal/compile_raw_templates", CompileRawTemplatesModifier.CODEC);
@@ -167,6 +169,7 @@ public final class Lithostitched {
 		consumer.accept("internal/merged", MergedDensityFunction.CODEC.codec());
 		consumer.accept("wrapped_marker", WrappedMarkerDensityFunction.CODEC.codec());
 		consumer.accept("original_marker", OriginalMarkerDensityFunction.CODEC.codec());
+		consumer.accept("fast_noise", FastNoiseDensityFunction.CODEC.codec());
 	}
 
 	public static void registerCommonPoolAliasBindings(BiConsumer<String, MapCodec<? extends PoolAliasBinding>> consumer) {
@@ -240,8 +243,15 @@ public final class Lithostitched {
 		consumer.accept("wrapped", WrappedBand.CODEC);
 	}
 	
+	public static void registerCommonFastNoiseConfigTypes(BiConsumer<String, MapCodec<? extends FastNoiseConfig>> consumer) {
+		consumer.accept("cellular", CellularNoiseType.CODEC);
+		consumer.accept("perlin", PerlinNoiseType.CODEC);
+		consumer.accept("simplex", SimplexNoiseType.CODEC);
+	}
+	
 	public static void registerCommonBiomeInjectorTypes(BiConsumer<String, MapCodec<? extends BiomeInjector>> consumer) {
 		consumer.accept("add_points", AddPoints.CODEC);
+		consumer.accept("force_placement", ForcePlacement.CODEC);
 		consumer.accept("replace_fully", ReplaceFully.CODEC);
 		consumer.accept("replace_partially", ReplacePartially.CODEC);
 	}

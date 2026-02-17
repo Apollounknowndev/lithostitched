@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.worldgen.densityfunction;
+package dev.worldgen.lithostitched.worldgen.densityfunction.marker;
 
 import net.minecraft.world.level.levelgen.DensityFunction;
 

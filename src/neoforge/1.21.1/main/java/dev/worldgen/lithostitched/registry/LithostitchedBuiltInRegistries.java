@@ -6,6 +6,7 @@ import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.Band;
 import dev.worldgen.lithostitched.worldgen.biomeinjector.BiomeInjector;
+import dev.worldgen.lithostitched.worldgen.densityfunction.fastnoise.config.FastNoiseConfig;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
@@ -45,6 +46,9 @@ public final class LithostitchedBuiltInRegistries {
 	
 	private static final DeferredRegister<MapCodec<? extends BiomeInjector>> DEFERRED_BIOME_INJECTOR_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.BIOME_INJECTOR_TYPE, MOD_ID);
 	public static final Registry<MapCodec<? extends BiomeInjector>> BANDLANDS_BIOME_INJECTOR_TYPE = DEFERRED_BIOME_INJECTOR_TYPES.makeRegistry(builder -> builder.sync(false));
+	
+	private static final DeferredRegister<MapCodec<? extends FastNoiseConfig>> DEFERRED_FAST_NOISE_CONFIG_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.FAST_NOISE_CONFIG_TYPE, MOD_ID);
+	public static final Registry<MapCodec<? extends FastNoiseConfig>> BANDLANDS_FAST_NOISE_CONFIG_TYPE = DEFERRED_FAST_NOISE_CONFIG_TYPES.makeRegistry(builder -> builder.sync(false));
 
 	private static final DeferredRegister<MapCodec<? extends BiomeModifier>> BIOME_MODIFIER_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MOD_ID);
 	private static final DeferredRegister<MapCodec<? extends ICondition>> RESOURCE_CONDITION_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, MOD_ID);
@@ -72,6 +76,7 @@ public final class LithostitchedBuiltInRegistries {
 			event.dataPackRegistry(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC);
 			event.dataPackRegistry(LithostitchedRegistryKeys.TEMPLATE_LIST, TemplateList.CODEC);
 			event.dataPackRegistry(LithostitchedRegistryKeys.BIOME_INJECTOR, BiomeInjector.CODEC);
+			event.dataPackRegistry(LithostitchedRegistryKeys.FAST_NOISE_CONFIG, FastNoiseConfig.CODEC);
 		});
 
 		Lithostitched.registerCommonModifiers((name, codec) -> DEFERRED_MODIFIER_TYPES.register(name, () -> codec));
@@ -89,7 +94,10 @@ public final class LithostitchedBuiltInRegistries {
 		
 		Lithostitched.registerCommonBiomeInjectorTypes((name, codec) -> DEFERRED_BIOME_INJECTOR_TYPES.register(name, () -> codec));
 		DEFERRED_BIOME_INJECTOR_TYPES.register(bus);
-
+		
+		Lithostitched.registerCommonFastNoiseConfigTypes((name, codec) -> DEFERRED_FAST_NOISE_CONFIG_TYPES.register(name, () -> codec));
+		DEFERRED_FAST_NOISE_CONFIG_TYPES.register(bus);
+		
 		registerForgeBiomeModifiers((name, codec) -> BIOME_MODIFIER_TYPES.register(name, () -> codec));
 		BIOME_MODIFIER_TYPES.register(bus);
 

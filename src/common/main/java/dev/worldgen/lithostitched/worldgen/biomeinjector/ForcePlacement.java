@@ -15,28 +15,26 @@ import net.minecraft.world.level.levelgen.DensityFunction;
 import java.util.HashMap;
 import java.util.List;
 
-public record ReplacePartially(ResourceKey<LevelStem> dimension, int priority, HolderSet<Biome> targets, Holder<Biome> replacement, ParameterMap parameters) implements BiomeInjector {
-	public static final MapCodec<ReplacePartially> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-		BiomeInjector.DIMENSION_CODEC.forGetter(ReplacePartially::dimension),
-		BiomeInjector.PRIORITY_CODEC.forGetter(ReplacePartially::priority),
-		Biome.LIST_CODEC.fieldOf("targets").forGetter(ReplacePartially::targets),
-		Biome.CODEC.fieldOf("replacement").forGetter(ReplacePartially::replacement),
-		ParameterMap.CODEC.forGetter(ReplacePartially::parameters)
-	).apply(i, ReplacePartially::new));
+public record ForcePlacement(ResourceKey<LevelStem> dimension, int priority, Holder<Biome> biome, ParameterMap parameters) implements BiomeInjector {
+	public static final MapCodec<ForcePlacement> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+		BiomeInjector.DIMENSION_CODEC.forGetter(ForcePlacement::dimension),
+		BiomeInjector.PRIORITY_CODEC.forGetter(ForcePlacement::priority),
+		Biome.CODEC.fieldOf("biome").forGetter(ForcePlacement::biome),
+		ParameterMap.CODEC.forGetter(ForcePlacement::parameters)
+	).apply(i, ForcePlacement::new));
 	
 	@Override
 	public void mapAll(NoiseWiringHelper noiseHelper) {
 		this.parameters.mapAll(noiseHelper);
 	}
 	
-	public boolean matches(DensityFunction.FunctionContext context, Climate.TargetPoint point, HashMap<DensityFunction, Double> densities, Holder<Biome> biome) {
-		if (!this.targets().contains(biome)) return false;
+	public boolean matches(DensityFunction.FunctionContext context, Climate.TargetPoint point, HashMap<DensityFunction, Double> densities) {
 		return this.parameters.matches(context, point, densities);
 	}
 	
 	@Override
 	public List<Holder<Biome>> biomes() {
-		return List.of(this.replacement);
+		return List.of(this.biome);
 	}
 	
 	@Override

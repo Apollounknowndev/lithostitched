@@ -1,8 +1,8 @@
 package dev.worldgen.lithostitched.worldgen.modifier.util;
 
-import dev.worldgen.lithostitched.worldgen.densityfunction.MarkerFunction;
-import dev.worldgen.lithostitched.worldgen.densityfunction.MergedDensityFunction;
-import dev.worldgen.lithostitched.worldgen.densityfunction.OriginalMarkerDensityFunction;
+import dev.worldgen.lithostitched.worldgen.densityfunction.marker.MarkerFunction;
+import dev.worldgen.lithostitched.worldgen.densityfunction.marker.MergedDensityFunction;
+import dev.worldgen.lithostitched.worldgen.densityfunction.marker.OriginalMarkerDensityFunction;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.DensityFunctions;
 

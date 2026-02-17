@@ -5,6 +5,7 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.biomeinjector.BiomeInjector;
+import dev.worldgen.lithostitched.worldgen.densityfunction.fastnoise.config.FastNoiseConfig;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
@@ -24,6 +25,7 @@ public class LithostitchedRegistrations {
         DynamicRegistries.register(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC);
         DynamicRegistries.register(LithostitchedRegistryKeys.TEMPLATE_LIST, TemplateList.CODEC);
         DynamicRegistries.register(LithostitchedRegistryKeys.BIOME_INJECTOR, BiomeInjector.CODEC);
+        DynamicRegistries.register(LithostitchedRegistryKeys.FAST_NOISE_CONFIG, FastNoiseConfig.CODEC);
 
         Lithostitched.registerCommonModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));
         registerFabricModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));
@@ -31,6 +33,7 @@ public class LithostitchedRegistrations {
         Lithostitched.registerCommonProcessorConditions((name, codec) -> register(PROCESSOR_CONDITION_TYPE, name, codec));
         Lithostitched.registerCommonBandlandsBandTypes((name, codec) -> register(BANDLANDS_BAND_TYPE, name, codec));
         Lithostitched.registerCommonBiomeInjectorTypes((name, codec) -> register(BIOME_INJECTOR_TYPE, name, codec));
+        Lithostitched.registerCommonFastNoiseConfigTypes((name, codec) -> register(FAST_NOISE_CONFIG_TYPE, name, codec));
 
         Lithostitched.registerCommonBiomeSources((name, codec) -> register(BuiltInRegistries.BIOME_SOURCE, name, codec));
         Lithostitched.registerCommonBlockPredicateTypes((name, type) -> register(BuiltInRegistries.BLOCK_PREDICATE_TYPE, name, type));

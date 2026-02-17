@@ -13,9 +13,10 @@ import net.minecraft.world.level.dimension.LevelStem;
 import java.util.ArrayList;
 import java.util.List;
 
-public record AddPoints(ResourceKey<LevelStem> dimension, ParameterList<Holder<Biome>> points) implements BiomeInjector {
+public record AddPoints(ResourceKey<LevelStem> dimension, int priority, ParameterList<Holder<Biome>> points) implements BiomeInjector {
 	public static final MapCodec<AddPoints> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 		BiomeInjector.DIMENSION_CODEC.forGetter(AddPoints::dimension),
+		BiomeInjector.PRIORITY_CODEC.forGetter(AddPoints::priority),
 		ParameterList.codec(Biome.CODEC.fieldOf("biome")).fieldOf("points").forGetter(AddPoints::points)
 	).apply(i, AddPoints::new));
 	

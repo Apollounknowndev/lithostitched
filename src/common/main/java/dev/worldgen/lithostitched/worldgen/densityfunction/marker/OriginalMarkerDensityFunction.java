@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.worldgen.densityfunction;
+package dev.worldgen.lithostitched.worldgen.densityfunction.marker;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.util.KeyDispatchDataCodec;

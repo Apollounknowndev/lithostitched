@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.mixin.common;
 
+import dev.worldgen.lithostitched.worldgen.LithostitchedEvents;
 import dev.worldgen.lithostitched.worldgen.biomeinjector.internal.BiomeInjectorManager;
 import dev.worldgen.lithostitched.worldgen.modifier.ModifierManager;
 import dev.worldgen.lithostitched.worldgen.surface.SurfaceRuleManager;
@@ -16,8 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class GameTestServerMixin {
 	@Inject(method = "initServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/gametest/framework/GameTestServer;loadLevel()V", shift = At.Shift.BEFORE))
 	private void initServer(CallbackInfoReturnable<Boolean> info) {
-		ModifierManager.applyModifiers((MinecraftServer) (Object) this);
-		SurfaceRuleManager.applySurfaceRules((MinecraftServer) (Object) this);
-		BiomeInjectorManager.applyBiomeInjectors((MinecraftServer) (Object) this);
+		LithostitchedEvents.onServerAboutToStart((MinecraftServer) (Object) this);
 	}
 }

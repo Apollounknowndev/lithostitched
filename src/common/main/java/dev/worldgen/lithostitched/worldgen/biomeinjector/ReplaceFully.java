@@ -13,9 +13,10 @@ import net.minecraft.world.level.dimension.LevelStem;
 import java.util.ArrayList;
 import java.util.List;
 
-public record ReplaceFully(ResourceKey<LevelStem> dimension, HolderSet<Biome> targets, Holder<Biome> replacement) implements BiomeInjector {
+public record ReplaceFully(ResourceKey<LevelStem> dimension, int priority, HolderSet<Biome> targets, Holder<Biome> replacement) implements BiomeInjector {
 	public static final MapCodec<ReplaceFully> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 		BiomeInjector.DIMENSION_CODEC.forGetter(ReplaceFully::dimension),
+		BiomeInjector.PRIORITY_CODEC.forGetter(ReplaceFully::priority),
 		Biome.LIST_CODEC.fieldOf("targets").forGetter(ReplaceFully::targets),
 		Biome.CODEC.fieldOf("replacement").forGetter(ReplaceFully::replacement)
 	).apply(i, ReplaceFully::new));
