@@ -42,6 +42,9 @@ public final class LithostitchedBuiltInRegistries {
 
 	private static final DeferredRegister<MapCodec<? extends Band>> DEFERRED_BANDLANDS_BAND_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.BANDLANDS_BAND_TYPE, MOD_ID);
 	public static final Registry<MapCodec<? extends Band>> BANDLANDS_BAND_TYPE = DEFERRED_BANDLANDS_BAND_TYPES.makeRegistry(builder -> builder.sync(false));
+	
+	private static final DeferredRegister<MapCodec<? extends BiomeInjector>> DEFERRED_BIOME_INJECTOR_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.BIOME_INJECTOR_TYPE, MOD_ID);
+	public static final Registry<MapCodec<? extends BiomeInjector>> BANDLANDS_BIOME_INJECTOR_TYPE = DEFERRED_BIOME_INJECTOR_TYPES.makeRegistry(builder -> builder.sync(false));
 
 	private static final DeferredRegister<MapCodec<? extends BiomeModifier>> BIOME_MODIFIER_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MOD_ID);
 	private static final DeferredRegister<MapCodec<? extends ICondition>> RESOURCE_CONDITION_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, MOD_ID);
@@ -83,6 +86,9 @@ public final class LithostitchedBuiltInRegistries {
 
 		Lithostitched.registerCommonBandlandsBandTypes((name, codec) -> DEFERRED_BANDLANDS_BAND_TYPES.register(name, () -> codec));
 		DEFERRED_BANDLANDS_BAND_TYPES.register(bus);
+		
+		Lithostitched.registerCommonBiomeInjectorTypes((name, codec) -> DEFERRED_BIOME_INJECTOR_TYPES.register(name, () -> codec));
+		DEFERRED_BIOME_INJECTOR_TYPES.register(bus);
 
 		registerForgeBiomeModifiers((name, codec) -> BIOME_MODIFIER_TYPES.register(name, () -> codec));
 		BIOME_MODIFIER_TYPES.register(bus);

@@ -30,6 +30,7 @@ public class LithostitchedRegistrations {
         Lithostitched.registerCommonPlacementConditions((name, codec) -> register(PLACEMENT_CONDITION_TYPE, name, codec));
         Lithostitched.registerCommonProcessorConditions((name, codec) -> register(PROCESSOR_CONDITION_TYPE, name, codec));
         Lithostitched.registerCommonBandlandsBandTypes((name, codec) -> register(BANDLANDS_BAND_TYPE, name, codec));
+        Lithostitched.registerCommonBiomeInjectorTypes((name, codec) -> register(BIOME_INJECTOR_TYPE, name, codec));
 
         Lithostitched.registerCommonBiomeSources((name, codec) -> register(BuiltInRegistries.BIOME_SOURCE, name, codec));
         Lithostitched.registerCommonBlockPredicateTypes((name, type) -> register(BuiltInRegistries.BLOCK_PREDICATE_TYPE, name, type));

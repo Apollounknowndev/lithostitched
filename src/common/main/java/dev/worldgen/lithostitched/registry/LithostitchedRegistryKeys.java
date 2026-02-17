@@ -31,6 +31,7 @@ public interface LithostitchedRegistryKeys {
 	ResourceKey<Registry<MapCodec<? extends PlacementCondition>>> PLACEMENT_CONDITION_TYPE = create("placement_condition_type");
 	ResourceKey<Registry<MapCodec<? extends ProcessorCondition>>> PROCESSOR_CONDITION_TYPE = create("processor_condition_type");
 	ResourceKey<Registry<MapCodec<? extends Band>>> BANDLANDS_BAND_TYPE = create("bandlands_band_type");
+	ResourceKey<Registry<MapCodec<? extends BiomeInjector>>> BIOME_INJECTOR_TYPE = create("biome_injector_type");
 
 	private static <T> ResourceKey<Registry<T>> create(String name) {
 		return ResourceKey.createRegistryKey(Lithostitched.id(name));

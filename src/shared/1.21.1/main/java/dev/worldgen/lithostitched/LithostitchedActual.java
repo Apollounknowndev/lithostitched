@@ -11,6 +11,7 @@ import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.NoiseRouter;
 import net.minecraft.world.level.material.Fluid;
 import net.msrandom.multiplatform.annotations.Actual;
+import net.msrandom.multiplatform.annotations.Expect;
 
 public class LithostitchedActual {
     @Actual

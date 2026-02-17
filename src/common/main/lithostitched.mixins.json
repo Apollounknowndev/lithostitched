@@ -7,6 +7,7 @@
     "common.bandlands.SurfaceSystemMixin",
 
     "common.mnbs.MNBSMixin",
+    "common.mnbs.MNBSPLAccessor",
     "common.mnbs.MNBSPLMixin",
 
     "common.processor.EndCityPieceMixin",
@@ -35,6 +36,7 @@
     "common.HolderReferenceAccessor",
     "common.JigsawStructureAccessor",
     "common.MappedRegistryAccessor",
+    "common.MultiNoiseBiomeSourceAccessor",
     "common.NoiseBasedChunkGeneratorAccessor",
     "common.NoiseGeneratorSettingsAccessor",
     "common.PlacedFeatureAccessor",

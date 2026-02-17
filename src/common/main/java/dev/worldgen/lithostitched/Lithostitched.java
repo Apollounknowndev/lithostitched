@@ -6,7 +6,8 @@ import dev.worldgen.lithostitched.worldgen.bandlands.band.Band;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.BaseBand;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.RepeatingBand;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.WrappedBand;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.InjectorBiomeSource;
+import dev.worldgen.lithostitched.worldgen.biomeinjector.*;
+import dev.worldgen.lithostitched.worldgen.biomeinjector.internal.InjectorBiomeSource;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.BlockStatePredicate;
@@ -101,6 +102,9 @@ public final class Lithostitched {
 
 	@Expect
 	public static String getInitialDensityName();
+	
+	@Expect
+	public static boolean isModLoaded(String modId);
 
 	public static void registerCommonModifiers(BiConsumer<String, MapCodec<? extends Modifier>> consumer) {
 		consumer.accept("internal/compile_raw_templates", CompileRawTemplatesModifier.CODEC);
@@ -234,6 +238,12 @@ public final class Lithostitched {
 		consumer.accept("base", BaseBand.CODEC);
 		consumer.accept("repeating", RepeatingBand.CODEC);
 		consumer.accept("wrapped", WrappedBand.CODEC);
+	}
+	
+	public static void registerCommonBiomeInjectorTypes(BiConsumer<String, MapCodec<? extends BiomeInjector>> consumer) {
+		consumer.accept("add_points", AddPoints.CODEC);
+		consumer.accept("replace_fully", ReplaceFully.CODEC);
+		consumer.accept("replace_partially", ReplacePartially.CODEC);
 	}
 
 
