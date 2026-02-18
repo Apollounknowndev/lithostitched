@@ -5,6 +5,7 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.biomeinjector.BiomeInjector;
+import dev.worldgen.lithostitched.worldgen.biomeinjector.region.Region;
 import dev.worldgen.lithostitched.worldgen.densityfunction.fastnoise.config.FastNoiseConfig;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
@@ -26,6 +27,7 @@ public class LithostitchedRegistrations {
         DynamicRegistries.register(LithostitchedRegistryKeys.TEMPLATE_LIST, TemplateList.CODEC);
         DynamicRegistries.register(LithostitchedRegistryKeys.BIOME_INJECTOR, BiomeInjector.CODEC);
         DynamicRegistries.register(LithostitchedRegistryKeys.FAST_NOISE_CONFIG, FastNoiseConfig.CODEC);
+        DynamicRegistries.register(LithostitchedRegistryKeys.REGION, Region.CODEC);
 
         Lithostitched.registerCommonModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));
         registerFabricModifiers((name, codec) -> register(MODIFIER_TYPE, name, codec));

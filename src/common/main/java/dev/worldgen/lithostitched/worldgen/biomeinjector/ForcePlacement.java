@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
 import dev.worldgen.lithostitched.worldgen.biomeinjector.internal.ParameterMap;
+import dev.worldgen.lithostitched.worldgen.biomeinjector.region.Region;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceKey;
@@ -28,8 +29,8 @@ public record ForcePlacement(ResourceKey<LevelStem> dimension, int priority, Hol
 		this.parameters.mapAll(noiseHelper);
 	}
 	
-	public boolean matches(DensityFunction.FunctionContext context, Climate.TargetPoint point, HashMap<DensityFunction, Double> densities) {
-		return this.parameters.matches(context, point, densities);
+	public boolean matches(DensityFunction.FunctionContext context, Climate.TargetPoint point, HashMap<DensityFunction, Double> densities, ResourceKey<Region> currentRegion) {
+		return this.parameters.matches(context, point, densities, currentRegion);
 	}
 	
 	@Override

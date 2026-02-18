@@ -9,8 +9,13 @@ import dev.worldgen.lithostitched.mixin.common.mnbs.MNBSPLAccessor;
 import dev.worldgen.lithostitched.util.LithostitchedPlatform;
 import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
 import dev.worldgen.lithostitched.worldgen.biomeinjector.*;
+import dev.worldgen.lithostitched.worldgen.biomeinjector.region.Region;
+import dev.worldgen.lithostitched.worldgen.biomeinjector.region.RegionManager;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.biome.Climate.TargetPoint;
 import net.minecraft.world.level.levelgen.DensityFunction;
@@ -31,6 +36,7 @@ public class InjectorBiomeSource extends BiomeSource {
 	private final BiomeSource delegate;
 	private final Map<MapCodec<? extends BiomeInjector>, List<BiomeInjector>> injectorsByType = new HashMap<>();
 	private List<Holder<Biome>> possibleBiomes = new ArrayList<>();
+	private RegionManager regionManager;
 	
 	private static BiomeSource getRootBiomeSource(BiomeSource source) {
 		if (!(source instanceof InjectorBiomeSource injector)) return source;
@@ -41,8 +47,9 @@ public class InjectorBiomeSource extends BiomeSource {
 		this.delegate = delegate;
 	}
 	
-	public void applyInjectors(List<BiomeInjector> injectors, NoiseWiringHelper noiseHelper) {
+	public void applyInjectors(List<BiomeInjector> injectors, Optional<DensityFunction> regionFunction, List<Holder<Region>> regions, NoiseWiringHelper noiseHelper) {
 		this.possibleBiomes = new ArrayList<>();
+		this.regionManager = new RegionManager(regionFunction, regions, noiseHelper);
 		
 		injectors.forEach(injector -> {
 			injector.mapAll(noiseHelper);
@@ -100,11 +107,12 @@ public class InjectorBiomeSource extends BiomeSource {
 		SinglePointContext context = new SinglePointContext(blockX, blockY, blockZ);
 		TargetPoint point = sampler.sample(quartX, quartY, quartZ);
 		HashMap<DensityFunction, Double> densities = new HashMap<>();
+		ResourceKey<Region> currentRegion = this.regionManager.getRegion(context);
 		
 		if (this.injectorsByType.containsKey(ForcePlacement.CODEC)) {
 			for (BiomeInjector injector : this.injectorsByType.getOrDefault(ForcePlacement.CODEC, List.of())) {
 				ForcePlacement forcePlacement = (ForcePlacement) injector;
-				if (forcePlacement.matches(context, point, densities)) return forcePlacement.biome();
+				if (forcePlacement.matches(context, point, densities, currentRegion)) return forcePlacement.biome();
 			}
 		}
 		
@@ -112,10 +120,17 @@ public class InjectorBiomeSource extends BiomeSource {
 			multiNoise.getNoiseBiome(point) :
 			this.delegate.getNoiseBiome(quartX, quartY, quartZ, sampler);
 		
-		return applyReplacements(context, point, densities, baseBiome);
+		return applyReplacements(context, point, densities, baseBiome, currentRegion);
 	}
 	
-	public Holder<Biome> applyReplacements(SinglePointContext context, TargetPoint point, HashMap<DensityFunction, Double> densities, Holder<Biome> biome) {
+	public String getRegionLine(BlockPos pos) {
+		var context = new SinglePointContext(pos.getX(), pos.getY(), pos.getZ());
+		Identifier region = this.regionManager.getRegion(context).identifier();
+		int rawValue = this.regionManager.getRegionValue(context);
+		return String.format("Region: %s (Raw value: %s)", region, rawValue);
+	}
+	
+	public Holder<Biome> applyReplacements(SinglePointContext context, TargetPoint point, HashMap<DensityFunction, Double> densities, Holder<Biome> biome, ResourceKey<Region> currentRegion) {
 		if (APPLY_FULL_REPLACEMENTS_LATE) {
 			for (BiomeInjector injector : this.injectorsByType.getOrDefault(ReplaceFully.CODEC, List.of())) {
 				ReplaceFully replaceFully = (ReplaceFully) injector;
@@ -125,7 +140,7 @@ public class InjectorBiomeSource extends BiomeSource {
 		
 		for (BiomeInjector injector : this.injectorsByType.getOrDefault(ReplacePartially.CODEC, List.of())) {
 			ReplacePartially replacePartially = (ReplacePartially) injector;
-			if (replacePartially.matches(context, point, densities, biome)) return replacePartially.replacement();
+			if (replacePartially.matches(context, point, densities, biome, currentRegion)) return replacePartially.replacement();
 		}
 		return biome;
 	}

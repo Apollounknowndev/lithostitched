@@ -6,6 +6,7 @@ import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.Band;
 import dev.worldgen.lithostitched.worldgen.biomeinjector.BiomeInjector;
+import dev.worldgen.lithostitched.worldgen.biomeinjector.region.Region;
 import dev.worldgen.lithostitched.worldgen.densityfunction.fastnoise.config.FastNoiseConfig;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
@@ -77,6 +78,7 @@ public final class LithostitchedBuiltInRegistries {
 			event.dataPackRegistry(LithostitchedRegistryKeys.TEMPLATE_LIST, TemplateList.CODEC);
 			event.dataPackRegistry(LithostitchedRegistryKeys.BIOME_INJECTOR, BiomeInjector.CODEC);
 			event.dataPackRegistry(LithostitchedRegistryKeys.FAST_NOISE_CONFIG, FastNoiseConfig.CODEC);
+			event.dataPackRegistry(LithostitchedRegistryKeys.REGION, Region.CODEC);
 		});
 
 		Lithostitched.registerCommonModifiers((name, codec) -> DEFERRED_MODIFIER_TYPES.register(name, () -> codec));

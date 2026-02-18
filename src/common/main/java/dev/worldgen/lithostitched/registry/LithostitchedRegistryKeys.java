@@ -5,6 +5,7 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.Band;
 import dev.worldgen.lithostitched.worldgen.biomeinjector.BiomeInjector;
+import dev.worldgen.lithostitched.worldgen.biomeinjector.region.Region;
 import dev.worldgen.lithostitched.worldgen.densityfunction.fastnoise.config.FastNoiseConfig;
 import dev.worldgen.lithostitched.worldgen.modifier.Modifier;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
@@ -27,6 +28,7 @@ public interface LithostitchedRegistryKeys {
 	ResourceKey<Registry<TemplateList>> TEMPLATE_LIST = create("template_list");
 	ResourceKey<Registry<BiomeInjector>> BIOME_INJECTOR = create("biome_injector");
 	ResourceKey<Registry<FastNoiseConfig>> FAST_NOISE_CONFIG = create("fast_noise_config");
+	ResourceKey<Registry<Region>> REGION = create("region");
 
 	// Static
 	ResourceKey<Registry<MapCodec<? extends Modifier>>> MODIFIER_TYPE = create("modifier_type");

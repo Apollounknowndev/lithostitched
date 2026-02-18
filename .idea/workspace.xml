@@ -4,40 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="So much progress aaaaaaaa">
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/util/LithostitchedPlatform.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/LithostitchedEvents.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/ForcePlacement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/fastnoise/FNL.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/fastnoise/FastNoiseDensityFunction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/fastnoise/config/CellularNoiseType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/fastnoise/config/FastNoiseConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/fastnoise/config/PerlinNoiseType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/fastnoise/config/SimplexNoiseType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/Lithostitched.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/Lithostitched.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/client/IntegratedServerMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/client/IntegratedServerMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/GameTestServerMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/GameTestServerMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/server/DedicatedServerMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/server/DedicatedServerMixin.java" afterDir="false" />
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Injector priority, force placement injector, FNL">
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/region/Region.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/region/RegionManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/lithostitched/fast_noise_config/region/overworld.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/lithostitched/fast_noise_config/region/the_end.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/lithostitched/fast_noise_config/region/the_nether.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/lithostitched/region/overworld.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/lithostitched/region/the_end.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/lithostitched/region/the_nether.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/worldgen/density_function/region/overworld.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/worldgen/density_function/region/shift_x.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/worldgen/density_function/region/shift_z.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/worldgen/density_function/region/the_end.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/worldgen/density_function/region/the_nether.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/worldgen/noise/region/offset.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistryKeys.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistryKeys.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/AddPoints.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/AddPoints.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/BiomeInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/BiomeInjector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/ReplaceFully.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/ReplaceFully.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/util/MathUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/util/MiscUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/ForcePlacement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/ForcePlacement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/ReplacePartially.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/ReplacePartially.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/internal/BiomeInjectorManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/internal/BiomeInjectorManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/internal/InjectorBiomeSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/internal/InjectorBiomeSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/MarkerFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/marker/MarkerFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/MergedDensityFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/marker/MergedDensityFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/OriginalMarkerDensityFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/marker/OriginalMarkerDensityFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/WrappedMarkerDensityFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/marker/WrappedMarkerDensityFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/modifier/util/DensityFunctionWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/modifier/util/DensityFunctionWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fabric/1.21.1/main/java/dev/worldgen/lithostitched/LithostitchedActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.1/main/java/dev/worldgen/lithostitched/util/LithostitchedPlatformActual.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fabric/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/internal/ParameterMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/biomeinjector/internal/ParameterMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/fastnoise/FastNoiseDensityFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/fastnoise/FastNoiseDensityFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/LargeDripstoneFeature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/LargeDripstoneFeature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/OreFeature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/OreFeature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/util/DripstoneUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/util/DripstoneUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fabric/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/LithostitchedActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/util/LithostitchedPlatformActual.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/client/LithostitchedFabricClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/client/LithostitchedFabricClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/neoforge/1.21.1/main/java/dev/worldgen/lithostitched/LithostitchedActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/1.21.1/main/java/dev/worldgen/lithostitched/util/LithostitchedPlatformActual.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/neoforge/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/1.21.1/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/neoforge/1.21.11/main/java/dev/worldgen/lithostitched/LithostitchedActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/1.21.11/main/java/dev/worldgen/lithostitched/util/LithostitchedPlatformActual.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/neoforge/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,12 +66,6 @@
                 <item name="lithostitched" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="lithostitched" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
             </expand>
             <select />
           </tree_state>
@@ -85,9 +77,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit5 Test Class" />
-        <option value="Record" />
         <option value="Interface" />
         <option value="Enum" />
+        <option value="Record" />
         <option value="Class" />
       </list>
     </option>
@@ -116,69 +108,70 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.1.20.1 [:cpw.mods.bootstraplauncher.BootstrapLauncher.main()].executor": "Run",
-    "Gradle.1.20.1 [:net.fabricmc.loader.impl.launch.knot.KnotClient.main()].executor": "Run",
-    "Gradle.1.20.1 [:net.neoforged.fml.startup.Client.main()].executor": "Run",
-    "Gradle.1.20.1 [build].executor": "Run",
-    "Gradle.1.20.1 [clean].executor": "Run",
-    "Gradle.1.20.1 [prepareFabric1211ClientRun].executor": "Run",
-    "Gradle.1.20.1 [prepareFabric1218ClientRun].executor": "Run",
-    "Gradle.1.20.1 [prepareFabric1219ClientRun].executor": "Run",
-    "Gradle.1.20.1 [prepareNeoforge1211ClientRun].executor": "Run",
-    "Gradle.1.20.1 [prepareNeoforge1219ClientRun].executor": "Run",
-    "Gradle.Build lithostitched.executor": "Run",
-    "Gradle.Download Sources.executor": "Run",
-    "Gradle.lithostitched [:cpw.mods.bootstraplauncher.BootstrapLauncher.main()].executor": "Run",
-    "Gradle.lithostitched [:net.fabricmc.loader.impl.launch.knot.KnotClient.main()].executor": "Run",
-    "Gradle.lithostitched [:net.neoforged.fml.startup.Client.main()].executor": "Run",
-    "Gradle.lithostitched [generateFabric1211MappingsArtifact].executor": "Run",
-    "Gradle.lithostitched [prepareFabric12111ClientRun].executor": "Run",
-    "Gradle.lithostitched [prepareFabric1211ClientRun].executor": "Run",
-    "Gradle.lithostitched [prepareFabric1219ClientRun].executor": "Run",
-    "Gradle.lithostitched [prepareNeoforge12111ClientRun].executor": "Run",
-    "Gradle.lithostitched [prepareNeoforge1211ClientRun].executor": "Run",
-    "Gradle.lithostitched [remapFabric12111CommonMinecraftIntermediary].executor": "Run",
-    "Gradle.lithostitched [remapFabric1211ClientMinecraftIntermediary].executor": "Run",
-    "Gradle.lithostitched [remapFabric1219ClientMinecraftIntermediary].executor": "Run",
-    "Gradle.lithostitched [resolveNeoforge12111PatchedMinecraft].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "create.test.in.the.same.root": "true",
-    "git-widget-placeholder": "experimental/biome-injector",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ldglo/Documents/Github/lithostitched/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "two.files.diff.last.used.file": "C:/Users/ldglo/Documents/Github/lithostitched/1.20.1/src/shared/1.21.8/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.1.20.1 [:cpw.mods.bootstraplauncher.BootstrapLauncher.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [:net.fabricmc.loader.impl.launch.knot.KnotClient.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [:net.neoforged.fml.startup.Client.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [prepareFabric1211ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [prepareFabric1218ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [prepareFabric1219ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [prepareNeoforge1211ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [prepareNeoforge1219ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build lithostitched.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [:cpw.mods.bootstraplauncher.BootstrapLauncher.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [:net.fabricmc.loader.impl.launch.knot.KnotClient.main()].executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.lithostitched [:net.neoforged.fml.startup.Client.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [generateFabric1211MappingsArtifact].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareFabric12111ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareFabric1211ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareFabric1219ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareNeoforge12111ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareNeoforge1211ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [remapFabric12111CommonMinecraftIntermediary].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [remapFabric1211ClientMinecraftIntermediary].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [remapFabric1219ClientMinecraftIntermediary].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [resolveNeoforge12111PatchedMinecraft].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;experimental/biome-injector&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/src/common/main/resources/data/lithostitched/worldgen/density_function/region&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/1.20.1/src/shared/1.21.8/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java&quot;
   },
-  "keyToStringList": {
-    "dev.kikugie.stonecutter.projects": []
+  &quot;keyToStringList&quot;: {
+    &quot;dev.kikugie.stonecutter.projects&quot;: []
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\java\dev\worldgen\lithostitched\worldgen\densityfunction" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\neoforge\1.21.11\main\java\dev\worldgen\lithostitched" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\neoforge\1.21.1\main\java\dev\worldgen\lithostitched" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\fabric\1.21.11\main\java\dev\worldgen\lithostitched" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\neoforge\1.21.11\main\java\dev\worldgen\lithostitched\worldgen" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\worldgen\density_function\region" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\worldgen\noise" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\lithostitched" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\lithostitched\tags\lithostitched" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\lithostitched\region" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\worldgen\noise\region" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\lithostitched\fast_noise_config\region" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\mappings" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\1.21.1.tiny" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\src\common\main\resources\data\test\lithostitched\worldgen_modifier" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="dev.worldgen.lithostitched.worldgen.bandlands" />
@@ -191,7 +184,7 @@
       <recent name="dev.worldgen.lithostitched.worldgen.structure" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Run :fabric:1.21.11:client">
+  <component name="RunManager" selected="Gradle.1.20.1 [build]">
     <configuration name="Run :fabric:1.21.11:client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.fabricmc.loader.impl.launch.knot.KnotClient" />
       <module name="lithostitched.fabric12111" />
@@ -670,7 +663,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771286940492</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Injector priority, force placement injector, FNL">
+      <option name="closed" value="true" />
+      <created>1771292330747</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1771292330747</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -685,6 +686,22 @@
     <MESSAGE value="Cleaned up parameters" />
     <MESSAGE value="Cleaned up reserved names" />
     <MESSAGE value="So much progress aaaaaaaa" />
-    <option name="LAST_COMMIT_MESSAGE" value="So much progress aaaaaaaa" />
+    <MESSAGE value="Injector priority, force placement injector, FNL" />
+    <option name="LAST_COMMIT_MESSAGE" value="Injector priority, force placement injector, FNL" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/densityfunction/fastnoise/FastNoiseDensityFunction.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
