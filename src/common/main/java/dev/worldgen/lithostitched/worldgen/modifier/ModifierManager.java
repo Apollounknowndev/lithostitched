@@ -2,6 +2,7 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.google.common.base.Suppliers;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
 import net.minecraft.core.Holder;
@@ -21,13 +22,13 @@ public class ModifierManager {
     public static void applyModifiers(MinecraftServer server) {
         boolean fabricFeaturesModified = false;
         RegistryAccess registries = server.registryAccess();
-        HolderLookup.RegistryLookup<Modifier> modifiers = registries.lookupOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER);
+        HolderLookup.RegistryLookup<WorldgenModifier> modifiers = registries.lookupOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER);
 
-        for (Holder.Reference<Modifier> reference : sortByPriority(modifiers.listElements())) {
+        for (Holder.Reference<WorldgenModifier> reference : sortByPriority(modifiers.listElements())) {
             Lithostitched.debug("Applying modifier with id: {}", reference.key().identifier());
-            reference.value().applyModifier(registries);
+            reference.value().apply(registries);
 
-            if (reference.value().internal$modifiesFabricFeatures()) {
+            if (reference.value().shouldRecompileSortedFeatures()) {
                 fabricFeaturesModified = true;
             }
         }
@@ -43,7 +44,7 @@ public class ModifierManager {
         }
     }
 
-    static List<Holder.Reference<Modifier>> sortByPriority(Stream<Holder.Reference<Modifier>> modifiers) {
+    static List<Holder.Reference<WorldgenModifier>> sortByPriority(Stream<Holder.Reference<WorldgenModifier>> modifiers) {
         return modifiers.sorted(Comparator.comparingInt(reference -> reference.value().priority())).toList();
     }
 }

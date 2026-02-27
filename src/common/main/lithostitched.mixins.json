@@ -29,6 +29,7 @@
     "common.template.RuinedPortalStructureMixin",
     "common.template.ShipwreckStructureMixin",
 
+    "common.BiomeSourceInvoker",
     "common.ChunkGeneratorAccessor",
     "common.ChunkMapMixin",
     "common.DripstoneUtilsAccessor",

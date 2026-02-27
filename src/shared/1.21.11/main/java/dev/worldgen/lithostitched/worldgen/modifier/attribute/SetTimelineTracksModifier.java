@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.TimelineAccessor;
 import dev.worldgen.lithostitched.worldgen.modifier.Modifier;
 import net.minecraft.core.Holder;
@@ -42,7 +43,7 @@ public record SetTimelineTracksModifier(int priority, HolderSet<Timeline> timeli
             map.putAll(this.tracks);
 
             accessor.setTracks(map);
-            Modifier.resetRegistrationInfo(Lithostitched.registry(registries, Registries.TIMELINE), timeline);
+            WorldgenModifier.resetRegistrationInfo(Lithostitched.registry(registries, Registries.TIMELINE), timeline);
         }
     }
 

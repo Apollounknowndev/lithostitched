@@ -29,7 +29,7 @@ public interface BiomeInjector {
 	
 	int priority();
 	
-	List<Holder<Biome>> biomes();
+	List<Holder<Biome>> possibleBiomes();
 	
 	default void mapAll(NoiseWiringHelper noiseHelper) {
 	

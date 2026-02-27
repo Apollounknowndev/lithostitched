@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor2;
 import dev.worldgen.lithostitched.worldgen.modifier.Modifier;
 import net.minecraft.core.Holder;
@@ -31,7 +32,7 @@ public record SetBiomeAttributesModifier(int priority, HolderSet<Biome> biomes, 
             builder.putAll(this.attributes);
 
             ((BiomeAccessor2)(Object)biome.value()).setAttributes(builder.build());
-            Modifier.resetRegistrationInfo(Lithostitched.registry(registries, Registries.BIOME), biome);
+            WorldgenModifier.resetRegistrationInfo(Lithostitched.registry(registries, Registries.BIOME), biome);
         }
     }
 

@@ -3,3 +3,8 @@ c	akq	net/minecraft/resources/ResourceKey
 	m	()Lakr;	a	identifier
 c	akr	net/minecraft/resources/Identifier
 c	eb	net/minecraft/advancements/criterion/StatePropertiesPredicate
+c	eb$a	net/minecraft/advancements/criterion/StatePropertiesPredicate$Builder
+c	eb$b	net/minecraft/advancements/criterion/StatePropertiesPredicate$ExactMatcher
+c	eb$c	net/minecraft/advancements/criterion/StatePropertiesPredicate$PropertyMatcher
+c	eb$d	net/minecraft/advancements/criterion/StatePropertiesPredicate$RangedMatcher
+c	eb$e	net/minecraft/advancements/criterion/StatePropertiesPredicate$ValueMatcher

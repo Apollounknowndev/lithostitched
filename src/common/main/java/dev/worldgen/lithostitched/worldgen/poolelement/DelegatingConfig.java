@@ -26,7 +26,7 @@ import java.util.Optional;
  */
 public record DelegatingConfig(StructurePoolElement delegate, Optional<Identifier> name, Optional<PlacementCondition> placementCondition, Optional<InclusiveRange<Integer>> allowedDepth, Optional<Integer> forcedCount, Optional<Integer> maxCount, boolean allowBoundingBoxCollisions, boolean otherPiecesCanIntersect, Optional<TerrainAdjustment> overrideTerrainAdaption) {
     public static final MapCodec<DelegatingConfig> CODEC = RecordCodecBuilder.<DelegatingConfig>mapCodec(instance -> instance.group(
-        StructurePoolElement.CODEC.fieldOf("delegate").forGetter(DelegatingConfig::delegate),
+        StructurePoolElement.CODEC.fieldOf("root").forGetter(DelegatingConfig::delegate),
         Identifier.CODEC.optionalFieldOf("name").forGetter(DelegatingConfig::name),
         PlacementCondition.CODEC.optionalFieldOf("condition").forGetter(DelegatingConfig::placementCondition),
         LithostitchedCodecs.INT_RANGE.optionalFieldOf("allowed_depth").forGetter(DelegatingConfig::allowedDepth),

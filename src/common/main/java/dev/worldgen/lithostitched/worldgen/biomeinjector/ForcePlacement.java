@@ -34,7 +34,7 @@ public record ForcePlacement(ResourceKey<LevelStem> dimension, int priority, Hol
 	}
 	
 	@Override
-	public List<Holder<Biome>> biomes() {
+	public List<Holder<Biome>> possibleBiomes() {
 		return List.of(this.biome);
 	}
 	

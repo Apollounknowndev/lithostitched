@@ -43,6 +43,7 @@ public final class ParameterMap {
 	}
 	
 	public boolean matches(DensityFunction.FunctionContext context, TargetPoint point, HashMap<DensityFunction, Double> densities, ResourceKey<Region> currentRegion) {
+		if (!region.map(currentRegion::equals).orElse(true)) return false;
 		for (var entry : this.parameters.entrySet()) {
 			double density = entry.getKey().map(
 				reserved -> reserved.getter.apply(point) / 10000D,
@@ -50,7 +51,7 @@ public final class ParameterMap {
 			);
 			if (!entry.getValue().isValueInRange(density)) return false;
 		}
-		return region.map(currentRegion::equals).orElse(true);
+		return true;
 	}
 	
 	public enum ClimateParameter implements StringRepresentable {

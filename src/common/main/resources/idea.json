@@ -1,38 +1,13 @@
 {
-  "feature": "something:idk",
-  "placement": [
-    {
-      "type": "lithostitched:noise_based_count",
-      "noise": "my_mod:feature_noise",
-      "count": {
-        "type": "sum",
-        "arguments": [
-          2,
-          {
-            "type": "mul",
-            "arguments": [
-              -3,
-              {
-                "type": "input"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "type": "lithostitched:noise_based_count",
-      "noise": "my_mod:feature_noise",
-      "count": {
-        "type": "range_choice",
-        "range": [-0.5, 0],
-        "when_in_range": 0,
-        "when_out_of_range": {
-          "type": "input"
-        }
-      }
-    }
-  ]
+  "fabric:load_conditions": {
+    "condition": "fabric:all_mods_loaded",
+    "values": [
+      "tectonic"
+    ]
+  },
+  "type": "lithostitched:wrap_density_function",
+  "target_function": "tectonic:caves",
+  "wrapper_function": {
+    "type": "lithostitched:wrapped_marker"
+  }
 }
-
-

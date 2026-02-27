@@ -2,6 +2,7 @@ package dev.worldgen.lithostitched.registry;
 
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.biomeinjector.BiomeInjector;
@@ -17,11 +18,12 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 
 import java.util.function.BiConsumer;
 
+import static dev.worldgen.lithostitched.api.registry.LithostitchedRegistries.MODIFIER_TYPE;
 import static dev.worldgen.lithostitched.registry.LithostitchedBuiltInRegistries.*;
 
 public class LithostitchedRegistrations {
     public static void init() {
-        DynamicRegistries.register(LithostitchedRegistryKeys.WORLDGEN_MODIFIER, Modifier.CODEC);
+        DynamicRegistries.register(LithostitchedRegistryKeys.WORLDGEN_MODIFIER, WorldgenModifier.CODEC);
         DynamicRegistries.register(LithostitchedRegistryKeys.SURFACE_RULE, SurfaceRules.RuleSource.CODEC);
         DynamicRegistries.register(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC);
         DynamicRegistries.register(LithostitchedRegistryKeys.TEMPLATE_LIST, TemplateList.CODEC);
@@ -54,7 +56,7 @@ public class LithostitchedRegistrations {
         ResourceConditions.register(BreaksSeedParityCondition.TYPE);
     }
 
-    public static void registerFabricModifiers(BiConsumer<String, MapCodec<? extends Modifier>> consumer) {
+    public static void registerFabricModifiers(BiConsumer<String, MapCodec<? extends WorldgenModifier>> consumer) {
         consumer.accept("add_biome_spawns", AddBiomeSpawnsModifier.CODEC);
         consumer.accept("add_features", AddFeaturesModifier.CODEC);
         consumer.accept("remove_biome_spawns", RemoveBiomeSpawnsModifier.CODEC);

@@ -2,6 +2,7 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor2;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
@@ -40,7 +41,7 @@ public record ReplaceEffectsModifier(int priority, HolderSet<Biome> biomes, Biom
         Registry<Biome> registry = registryAccess.lookupOrThrow(Registries.BIOME);
         for (Holder<Biome> entry : biomes.stream().toList()) {
             this.applyModifier(entry.value());
-            Modifier.resetRegistrationInfo(registry, entry);
+            WorldgenModifier.resetRegistrationInfo(registry, entry);
         }
     }
 

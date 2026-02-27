@@ -2,6 +2,8 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.dimension.LevelStem;
@@ -15,7 +17,7 @@ import java.util.List;
  *
  * @author Apollo
  */
-public record AddSurfaceRuleModifier(int priority, List<ResourceKey<LevelStem>> levels, SurfaceRules.RuleSource surfaceRule) implements Modifier {
+public record AddSurfaceRuleModifier(int priority, List<ResourceKey<LevelStem>> levels, SurfaceRules.RuleSource surfaceRule) implements WorldgenModifier {
     public static final MapCodec<AddSurfaceRuleModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         PRIORITY_DEFAULT.forGetter(AddSurfaceRuleModifier::priority),
         ResourceKey.codec(Registries.LEVEL_STEM).listOf().fieldOf("levels").forGetter(AddSurfaceRuleModifier::levels),
@@ -23,10 +25,10 @@ public record AddSurfaceRuleModifier(int priority, List<ResourceKey<LevelStem>> 
     ).apply(instance, AddSurfaceRuleModifier::new));
 
     @Override
-    public void applyModifier() {}
+    public void apply(RegistryAccess registries) {}
 
     @Override
-    public MapCodec<? extends Modifier> codec() {
+    public MapCodec<? extends WorldgenModifier> codec() {
         return AddSurfaceRuleModifier.CODEC;
     }
 }

@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.DimensionTypeAccessor;
 import dev.worldgen.lithostitched.worldgen.modifier.Modifier;
 import net.minecraft.core.Holder;
@@ -32,7 +33,7 @@ public record SetDimensionAttributesModifier(int priority, HolderSet<DimensionTy
             builder.putAll(this.attributes);
 
             ((DimensionTypeAccessor)(Object)dimensionType.value()).setAttributes(builder.build());
-            Modifier.resetRegistrationInfo(Lithostitched.registry(registries, Registries.DIMENSION_TYPE), dimensionType);
+            WorldgenModifier.resetRegistrationInfo(Lithostitched.registry(registries, Registries.DIMENSION_TYPE), dimensionType);
         }
     }
 

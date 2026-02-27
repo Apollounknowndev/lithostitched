@@ -27,7 +27,7 @@ public record AddPoints(ResourceKey<LevelStem> dimension, int priority, Paramete
 	}
 	
 	@Override
-	public List<Holder<Biome>> biomes() {
+	public List<Holder<Biome>> possibleBiomes() {
 		return this.points.values().stream().map(Pair::getSecond).toList();
 	}
 	

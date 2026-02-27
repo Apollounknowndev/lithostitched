@@ -3,6 +3,7 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.worldgen.modifier.util.BiomeClimate;
 import net.minecraft.core.*;
@@ -30,7 +31,7 @@ public record ReplaceClimateModifier(int priority, HolderSet<Biome> biomes, Biom
         Registry<Biome> registry = Lithostitched.registry(registries, Registries.BIOME);
         for (Holder<Biome> entry : biomes) {
             this.applyModifier(entry.value());
-            Modifier.resetRegistrationInfo(registry, entry);
+            WorldgenModifier.resetRegistrationInfo(registry, entry);
         }
     }
 

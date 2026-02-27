@@ -36,7 +36,7 @@ public record ReplacePartially(ResourceKey<LevelStem> dimension, int priority, H
 	}
 	
 	@Override
-	public List<Holder<Biome>> biomes() {
+	public List<Holder<Biome>> possibleBiomes() {
 		return List.of(this.replacement);
 	}
 	

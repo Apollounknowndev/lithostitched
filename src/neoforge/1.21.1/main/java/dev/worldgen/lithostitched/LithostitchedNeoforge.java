@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched;
 
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.registry.LithostitchedBuiltInRegistries;
 import net.neoforged.bus.api.IEventBus;

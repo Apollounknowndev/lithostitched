@@ -1,6 +1,7 @@
 package dev.worldgen.lithostitched;
 
 import com.mojang.serialization.MapCodec;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.Band;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.BaseBand;
@@ -108,7 +109,7 @@ public final class Lithostitched {
 	@Expect
 	public static String getInitialDensityName();
 
-	public static void registerCommonModifiers(BiConsumer<String, MapCodec<? extends Modifier>> consumer) {
+	public static void registerCommonModifiers(BiConsumer<String, MapCodec<? extends WorldgenModifier>> consumer) {
 		consumer.accept("internal/compile_raw_templates", CompileRawTemplatesModifier.CODEC);
 		consumer.accept("add_processor_list_processors", AddProcessorListProcessorsModifier.CODEC);
 		consumer.accept("add_structure_set_entries", AddStructureSetEntriesModifier.CODEC);

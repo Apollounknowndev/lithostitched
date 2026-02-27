@@ -8,7 +8,7 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 
 public class ClocheHack {
 	public static final MapCodec<DelegatingConfig> DELEGATING_CONFIG_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-		Structure.CODEC.fieldOf("delegate").forGetter(DelegatingConfig::delegate),
+		Structure.CODEC.fieldOf("root").forGetter(DelegatingConfig::delegate),
 		PlacementCondition.CODEC.optionalFieldOf("spawn_condition").forGetter(DelegatingConfig::spawnCondition)
 	).apply(instance, DelegatingConfig::new));
 }

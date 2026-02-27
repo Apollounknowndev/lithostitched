@@ -2,6 +2,8 @@ package dev.worldgen.lithostitched.registry;
 
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.attribute.LithostitchedEnvironmentAttributes;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
@@ -17,7 +19,6 @@ import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.worldgen.processor.condition.ProcessorCondition;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.SurfaceRules;
@@ -38,8 +39,7 @@ import static dev.worldgen.lithostitched.Lithostitched.key;
  * Built-in registries for Lithostitched on Neoforge.
  */
 public final class LithostitchedBuiltInRegistries {
-	private static final DeferredRegister<MapCodec<? extends Modifier>> DEFERRED_MODIFIER_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.MODIFIER_TYPE, MOD_ID);
-	public static final Registry<MapCodec<? extends Modifier>> MODIFIER_TYPE = DEFERRED_MODIFIER_TYPES.makeRegistry(builder -> builder.sync(false));
+	public static final DeferredRegister<MapCodec<? extends WorldgenModifier>> DEFERRED_MODIFIER_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.MODIFIER_TYPE, MOD_ID);
 
 	private static final DeferredRegister<MapCodec<? extends PlacementCondition>> DEFERRED_PLACEMENT_CONDITION_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.PLACEMENT_CONDITION_TYPE, MOD_ID);
 	public static final Registry<MapCodec<? extends PlacementCondition>> PLACEMENT_CONDITION_TYPE = DEFERRED_PLACEMENT_CONDITION_TYPES.makeRegistry(builder -> builder.sync(false));
@@ -60,6 +60,8 @@ public final class LithostitchedBuiltInRegistries {
 	private static final DeferredRegister<MapCodec<? extends ICondition>> RESOURCE_CONDITION_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, MOD_ID);
 
 	public static void init(IEventBus bus) {
+		LithostitchedRegistries.init();
+		
 		bus.addListener((RegisterEvent event) -> {
 			Lithostitched.registerCommonBiomeSources((name, codec) -> register(event, Registries.BIOME_SOURCE, name, codec));
 			Lithostitched.registerCommonBlockPredicateTypes((name, type) -> register(event, Registries.BLOCK_PREDICATE_TYPE, name, type));
@@ -81,7 +83,7 @@ public final class LithostitchedBuiltInRegistries {
 		});
 
 		bus.addListener((DataPackRegistryEvent.NewRegistry event) -> {
-			event.dataPackRegistry(LithostitchedRegistryKeys.WORLDGEN_MODIFIER, Modifier.CODEC);
+			event.dataPackRegistry(LithostitchedRegistryKeys.WORLDGEN_MODIFIER, WorldgenModifier.CODEC);
 			event.dataPackRegistry(LithostitchedRegistryKeys.SURFACE_RULE, SurfaceRules.RuleSource.CODEC);
 			event.dataPackRegistry(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC);
 			event.dataPackRegistry(LithostitchedRegistryKeys.TEMPLATE_LIST, TemplateList.CODEC);
@@ -120,7 +122,7 @@ public final class LithostitchedBuiltInRegistries {
 		event.register(registry, helper -> helper.register(key(registry, name), object));
 	}
 
-	public static void registerForgeModifiers(BiConsumer<String, MapCodec<? extends Modifier>> consumer) {
+	public static void registerForgeModifiers(BiConsumer<String, MapCodec<? extends WorldgenModifier>> consumer) {
 		consumer.accept("add_biome_spawns", AddBiomeSpawnsModifier.CODEC);
 		consumer.accept("add_features", AddFeaturesModifier.CODEC);
 		consumer.accept("remove_biome_spawns", RemoveBiomeSpawnsModifier.CODEC);

@@ -46,7 +46,7 @@ public record AddFeaturesModifier(int priority, HolderSet<Biome> biomes, HolderS
     }
 
     @Override
-    public boolean internal$modifiesFabricFeatures() {
+    public boolean shouldRecompileSortedFeatures() {
         return true;
     }
 
