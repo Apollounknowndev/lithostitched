@@ -16,11 +16,7 @@ public class LithostitchedEvent<T> {
 		this.listeners.add(callback);
 	}
 	
-	public Function<List<T>, T> getInvoker() {
-		return this.invoker;
-	}
-	
-	public List<T> getListeners() {
-		return this.listeners;
+	public T invoker() {
+		return this.invoker.apply(this.listeners);
 	}
 }

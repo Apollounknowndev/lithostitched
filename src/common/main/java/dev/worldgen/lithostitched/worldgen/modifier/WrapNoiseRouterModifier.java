@@ -2,9 +2,11 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.worldgen.NoiseRouterTarget;
 import dev.worldgen.lithostitched.worldgen.modifier.util.DensityFunctionWrapper;
 import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ExtraCodecs;
@@ -14,7 +16,7 @@ import net.minecraft.world.level.levelgen.DensityFunction;
 import java.util.Comparator;
 import java.util.List;
 
-public record WrapNoiseRouterModifier(int priority, ResourceKey<Level> dimension, NoiseRouterTarget target, Holder<DensityFunction> wrapperFunction) implements Modifier {
+public record WrapNoiseRouterModifier(int priority, ResourceKey<Level> dimension, NoiseRouterTarget target, Holder<DensityFunction> wrapperFunction) implements WorldgenModifier {
     public static final MapCodec<WrapNoiseRouterModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("priority", 1000).forGetter(WrapNoiseRouterModifier::priority),
         ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension").forGetter(WrapNoiseRouterModifier::dimension),
@@ -23,10 +25,10 @@ public record WrapNoiseRouterModifier(int priority, ResourceKey<Level> dimension
     ).apply(instance, WrapNoiseRouterModifier::new));
 
     @Override
-    public void applyModifier() {}
+    public void apply(RegistryAccess registries) {}
 
     @Override
-    public MapCodec<? extends Modifier> codec() {
+    public MapCodec<? extends WorldgenModifier> codec() {
         return CODEC;
     }
 

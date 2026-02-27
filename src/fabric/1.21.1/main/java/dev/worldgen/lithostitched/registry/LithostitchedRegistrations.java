@@ -18,8 +18,7 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 
 import java.util.function.BiConsumer;
 
-import static dev.worldgen.lithostitched.api.registry.LithostitchedRegistries.MODIFIER_TYPE;
-import static dev.worldgen.lithostitched.registry.LithostitchedBuiltInRegistries.*;
+import static dev.worldgen.lithostitched.api.registry.LithostitchedRegistries.*;
 
 public class LithostitchedRegistrations {
     public static void init() {

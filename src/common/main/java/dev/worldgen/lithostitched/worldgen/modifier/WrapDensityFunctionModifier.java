@@ -3,14 +3,16 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
 import dev.worldgen.lithostitched.worldgen.modifier.util.DensityFunctionWrapper;
 import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
 
-public record WrapDensityFunctionModifier(int priority, Holder<DensityFunction> targetFunction, Holder<DensityFunction> wrapperFunction) implements Modifier {
+public record WrapDensityFunctionModifier(int priority, Holder<DensityFunction> targetFunction, Holder<DensityFunction> wrapperFunction) implements WorldgenModifier {
     private static final Codec<Holder<DensityFunction>> DF_REFERENCE_CODEC = RegistryFileCodec.create(Registries.DENSITY_FUNCTION, DensityFunction.DIRECT_CODEC, false);
 
     public static final MapCodec<WrapDensityFunctionModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -21,7 +23,7 @@ public record WrapDensityFunctionModifier(int priority, Holder<DensityFunction> 
 
     @Override
     @SuppressWarnings("unchecked")
-    public void applyModifier() {
+    public void apply(RegistryAccess registries) {
         if (this.targetFunction instanceof Holder.Reference<DensityFunction> reference) {
             var accessor = ((HolderReferenceAccessor<DensityFunction>)reference);
             accessor.setValue(DensityFunctionWrapper.wrap(this.targetFunction.value(), this.wrapperFunction.value()));
@@ -29,7 +31,7 @@ public record WrapDensityFunctionModifier(int priority, Holder<DensityFunction> 
     }
 
     @Override
-    public MapCodec<? extends Modifier> codec() {
+    public MapCodec<? extends WorldgenModifier> codec() {
         return CODEC;
     }
 }

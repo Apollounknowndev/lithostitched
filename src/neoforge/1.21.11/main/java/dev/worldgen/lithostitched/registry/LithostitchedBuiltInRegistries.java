@@ -30,6 +30,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 import static dev.worldgen.lithostitched.Lithostitched.MOD_ID;
@@ -40,6 +41,7 @@ import static dev.worldgen.lithostitched.Lithostitched.key;
  */
 public final class LithostitchedBuiltInRegistries {
 	public static final DeferredRegister<MapCodec<? extends WorldgenModifier>> DEFERRED_MODIFIER_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.MODIFIER_TYPE, MOD_ID);
+	public static final Registry<MapCodec<? extends WorldgenModifier>> MODIFIER_TYPE = DEFERRED_MODIFIER_TYPES.makeRegistry(builder -> builder.sync(false));
 
 	private static final DeferredRegister<MapCodec<? extends PlacementCondition>> DEFERRED_PLACEMENT_CONDITION_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.PLACEMENT_CONDITION_TYPE, MOD_ID);
 	public static final Registry<MapCodec<? extends PlacementCondition>> PLACEMENT_CONDITION_TYPE = DEFERRED_PLACEMENT_CONDITION_TYPES.makeRegistry(builder -> builder.sync(false));
@@ -51,14 +53,23 @@ public final class LithostitchedBuiltInRegistries {
 	public static final Registry<MapCodec<? extends Band>> BANDLANDS_BAND_TYPE = DEFERRED_BANDLANDS_BAND_TYPES.makeRegistry(builder -> builder.sync(false));
 	
 	private static final DeferredRegister<MapCodec<? extends BiomeInjector>> DEFERRED_BIOME_INJECTOR_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.BIOME_INJECTOR_TYPE, MOD_ID);
-	public static final Registry<MapCodec<? extends BiomeInjector>> BANDLANDS_BIOME_INJECTOR_TYPE = DEFERRED_BIOME_INJECTOR_TYPES.makeRegistry(builder -> builder.sync(false));
+	public static final Registry<MapCodec<? extends BiomeInjector>> BIOME_INJECTOR_TYPE = DEFERRED_BIOME_INJECTOR_TYPES.makeRegistry(builder -> builder.sync(false));
 	
 	private static final DeferredRegister<MapCodec<? extends FastNoiseConfig>> DEFERRED_FAST_NOISE_CONFIG_TYPES = DeferredRegister.create(LithostitchedRegistryKeys.FAST_NOISE_CONFIG_TYPE, MOD_ID);
-	public static final Registry<MapCodec<? extends FastNoiseConfig>> BANDLANDS_FAST_NOISE_CONFIG_TYPE = DEFERRED_FAST_NOISE_CONFIG_TYPES.makeRegistry(builder -> builder.sync(false));
+	public static final Registry<MapCodec<? extends FastNoiseConfig>> FAST_NOISE_CONFIG_TYPE = DEFERRED_FAST_NOISE_CONFIG_TYPES.makeRegistry(builder -> builder.sync(false));
 
 	private static final DeferredRegister<MapCodec<? extends BiomeModifier>> BIOME_MODIFIER_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MOD_ID);
 	private static final DeferredRegister<MapCodec<? extends ICondition>> RESOURCE_CONDITION_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.CONDITION_CODECS, MOD_ID);
-
+	
+	public static Map<ResourceKey<? extends Registry<?>>, Registry<?>> REGISTRIES = Map.of(
+		LithostitchedRegistryKeys.MODIFIER_TYPE, MODIFIER_TYPE,
+		LithostitchedRegistryKeys.PLACEMENT_CONDITION_TYPE, PLACEMENT_CONDITION_TYPE,
+		LithostitchedRegistryKeys.PROCESSOR_CONDITION_TYPE, PROCESSOR_CONDITION_TYPE,
+		LithostitchedRegistryKeys.BANDLANDS_BAND_TYPE, BANDLANDS_BAND_TYPE,
+		LithostitchedRegistryKeys.BIOME_INJECTOR_TYPE, BIOME_INJECTOR_TYPE,
+		LithostitchedRegistryKeys.FAST_NOISE_CONFIG_TYPE, FAST_NOISE_CONFIG_TYPE
+	);
+	
 	public static void init(IEventBus bus) {
 		LithostitchedRegistries.init();
 		

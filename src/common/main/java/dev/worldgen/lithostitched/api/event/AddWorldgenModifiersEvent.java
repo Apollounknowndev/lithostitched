@@ -14,7 +14,10 @@ import java.util.function.BiConsumer;
  * Example:
  * <pre>{@code
  * AddWorldgenModifiersEvent.EVENT.register((registries, consumer) -> {
- *     consumer.accept(MyMod.id(...), WorldgenModifierBuilder.addFeatures(...));
+ *     consumer.accept(
+ *         MyMod.id(...),
+ *         WorldgenModifier.builder().addFeatures(...)
+ *     );
  * });
  * }</pre>
  */

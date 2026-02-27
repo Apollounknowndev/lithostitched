@@ -12,7 +12,7 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 import java.util.List;
 
 /**
- * A {@link Modifier} implementation that adds surface rules to given level stems.
+ * A {@link WorldgenModifier} implementation that adds surface rules to given level stems.
  * <p>Surface rule injection is independent of all other modifiers.</p>
  *
  * @author Apollo

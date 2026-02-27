@@ -2,9 +2,11 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.StructureProcessorListAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
@@ -16,11 +18,11 @@ import java.util.List;
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
 /**
- * A {@link Modifier} implementation that adds structure processors to a {@link StructureProcessorList} entry.
+ * A {@link WorldgenModifier} implementation that adds structure processors to a {@link StructureProcessorList} entry.
  *
  * @author Apollo
  */
-public record AddProcessorListProcessorsModifier(int priority, HolderSet<StructureProcessorList> processorLists, StructureProcessorList processors) implements Modifier {
+public record AddProcessorListProcessorsModifier(int priority, HolderSet<StructureProcessorList> processorLists, StructureProcessorList processors) implements WorldgenModifier {
     public static final MapCodec<AddProcessorListProcessorsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         PRIORITY_DEFAULT.forGetter(AddProcessorListProcessorsModifier::priority),
         registrySet(Registries.PROCESSOR_LIST, "processor_lists").forGetter(AddProcessorListProcessorsModifier::processorLists),
@@ -28,7 +30,7 @@ public record AddProcessorListProcessorsModifier(int priority, HolderSet<Structu
     ).apply(instance, AddProcessorListProcessorsModifier::new));
 
     @Override
-    public void applyModifier() {
+    public void apply(RegistryAccess registries) {
         this.processorLists.stream().map(Holder::value).forEach(this::applyModifier);
     }
 
@@ -42,7 +44,7 @@ public record AddProcessorListProcessorsModifier(int priority, HolderSet<Structu
     }
 
     @Override
-    public MapCodec<? extends Modifier> codec() {
+    public MapCodec<? extends WorldgenModifier> codec() {
         return CODEC;
     }
 }

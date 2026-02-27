@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
 import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
@@ -19,7 +20,7 @@ import java.util.Optional;
 
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
-public record SetStructureSpawnConditionModifier(int priority, HolderSet<Structure> structures, PlacementCondition spawnCondition, boolean append) implements Modifier {
+public record SetStructureSpawnConditionModifier(int priority, HolderSet<Structure> structures, PlacementCondition spawnCondition, boolean append) implements WorldgenModifier {
     public static final MapCodec<SetStructureSpawnConditionModifier> CODEC = RecordCodecBuilder.<SetStructureSpawnConditionModifier>mapCodec(instance -> instance.group(
         PRIORITY_DEFAULT.forGetter(SetStructureSpawnConditionModifier::priority),
         registrySet(Registries.STRUCTURE, "structures").forGetter(SetStructureSpawnConditionModifier::structures),
@@ -28,7 +29,7 @@ public record SetStructureSpawnConditionModifier(int priority, HolderSet<Structu
     ).apply(instance, SetStructureSpawnConditionModifier::new));
 
     @Override
-    public void applyModifier(RegistryAccess registries) {
+    public void apply(RegistryAccess registries) {
         this.structures.forEach(structure -> this.applyModifier(registries, structure));
     }
 
@@ -45,10 +46,7 @@ public record SetStructureSpawnConditionModifier(int priority, HolderSet<Structu
     }
 
     @Override
-    public void applyModifier() {}
-
-    @Override
-    public MapCodec<? extends Modifier> codec() {
+    public MapCodec<? extends WorldgenModifier> codec() {
         return CODEC;
     }
 }

@@ -1,5 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.modifier;
 
+import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
+import net.minecraft.core.RegistryAccess;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 
 /**
@@ -7,7 +9,7 @@ import net.neoforged.neoforge.common.world.BiomeModifier;
  *
  * @author Apollo
  */
-public abstract class AbstractBiomeModifier implements Modifier {
+public abstract class AbstractBiomeModifier implements WorldgenModifier {
     private final BiomeModifier neoforgeBiomeModifier;
     protected AbstractBiomeModifier(BiomeModifier neoforgeBiomeModifier) {
         this.neoforgeBiomeModifier = neoforgeBiomeModifier;
@@ -26,5 +28,5 @@ public abstract class AbstractBiomeModifier implements Modifier {
     }
 
     @Override
-    public void applyModifier() {}
+    public void apply(RegistryAccess registries) {}
 }

@@ -1,13 +1,13 @@
 package dev.worldgen.lithostitched.api.registry;
 
-import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.registry.LithostitchedBuiltInRegistries;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.msrandom.multiplatform.annotations.Actual;
-
-import static dev.worldgen.lithostitched.registry.LithostitchedBuiltInRegistries.DEFERRED_MODIFIER_TYPES;
 
 public class LithostitchedRegistriesActual {
 	@Actual
-	public static final Registry<MapCodec<? extends WorldgenModifier>> MODIFIER_TYPE = DEFERRED_MODIFIER_TYPES.makeRegistry(builder -> builder.sync(false));
+	public static <T> Registry<T> create(ResourceKey<Registry<T>> key) {
+		return (Registry<T>) LithostitchedBuiltInRegistries.REGISTRIES.get(key);
+	}
 }

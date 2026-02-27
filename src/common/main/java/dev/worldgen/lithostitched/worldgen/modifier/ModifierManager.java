@@ -1,19 +1,22 @@
 package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.google.common.base.Suppliers;
+import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.event.AddWorldgenModifiersEvent;
 import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.FeatureSorter;
 import net.minecraft.world.level.dimension.LevelStem;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
@@ -22,13 +25,17 @@ public class ModifierManager {
     public static void applyModifiers(MinecraftServer server) {
         boolean fabricFeaturesModified = false;
         RegistryAccess registries = server.registryAccess();
-        HolderLookup.RegistryLookup<WorldgenModifier> modifiers = registries.lookupOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER);
+	    
+	    List<Pair<Identifier, WorldgenModifier>> modifiers = new ArrayList<>(
+            registries.lookupOrThrow(LithostitchedRegistryKeys.WORLDGEN_MODIFIER).listElements().map(ModifierManager::pair).toList()
+        );
+        AddWorldgenModifiersEvent.EVENT.invoker().addModifiers(registries, (id, modifier) -> modifiers.add(new Pair<>(id, modifier)));
 
-        for (Holder.Reference<WorldgenModifier> reference : sortByPriority(modifiers.listElements())) {
-            Lithostitched.debug("Applying modifier with id: {}", reference.key().identifier());
-            reference.value().apply(registries);
+        for (Pair<Identifier, WorldgenModifier> pair : sortByPriority(modifiers)) {
+            Lithostitched.debug("Applying modifier with id: {}", pair.getFirst());
+            pair.getSecond().apply(registries);
 
-            if (reference.value().shouldRecompileSortedFeatures()) {
+            if (pair.getSecond().shouldRecompileSortedFeatures()) {
                 fabricFeaturesModified = true;
             }
         }
@@ -44,7 +51,11 @@ public class ModifierManager {
         }
     }
 
-    static List<Holder.Reference<WorldgenModifier>> sortByPriority(Stream<Holder.Reference<WorldgenModifier>> modifiers) {
-        return modifiers.sorted(Comparator.comparingInt(reference -> reference.value().priority())).toList();
+    static List<Pair<Identifier, WorldgenModifier>> sortByPriority(List<Pair<Identifier, WorldgenModifier>> modifiers) {
+        return modifiers.stream().sorted(Comparator.comparingInt(pair -> pair.getSecond().priority())).toList();
+    }
+    
+    private static Pair<Identifier, WorldgenModifier> pair(Holder.Reference<WorldgenModifier> holder) {
+        return new Pair<>(holder.key().identifier(), holder.value());
     }
 }
