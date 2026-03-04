@@ -1,10 +1,13 @@
 package dev.worldgen.lithostitched;
 
+import com.mojang.serialization.Codec;
 import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
 import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.network.ApplyStructureAttributesPacket;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistrations;
 import dev.worldgen.lithostitched.worldgen.structure.StructureAttributeHandler;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.IEventBus;
@@ -14,6 +17,10 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.neoforged.neoforge.registries.DataPackRegistryEvent;
+import net.neoforged.neoforge.registries.RegistryBuilder;
+
+import java.util.function.Consumer;
 
 /**
  * Mod class for Lithostitched on Forge.
@@ -28,6 +35,14 @@ public final class LithostitchedNeoforge {
 		bus.addListener(this::registerPayloadHandlers);
 		NeoForge.EVENT_BUS.addListener(this::onStartWorldTick);
 		NeoForge.EVENT_BUS.addListener(this::onPlayerDisconnect);
+	}
+	
+	public static <T> Consumer<DataPackRegistryEvent.NewRegistry> registerDynamicRegistry(ResourceKey<Registry<T>> key, Codec<T> codec) {
+		return event -> event.dataPackRegistry(key, codec);
+	}
+	
+	public static <T> Consumer<RegistryBuilder<T>> emptyConsumer() {
+		return b -> {};
 	}
 	
 	private void registerPayloadHandlers(RegisterPayloadHandlersEvent event) {

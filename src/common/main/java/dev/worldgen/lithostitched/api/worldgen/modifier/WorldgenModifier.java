@@ -80,6 +80,7 @@ public interface WorldgenModifier {
 		return new ModifierBuilder(Optional.of(predicate));
 	}
 	
+	@SuppressWarnings("unused")
 	class ModifierBuilder {
 		private final Optional<LoadPredicate> predicate;
 		private Optional<Integer> priority = Optional.empty();

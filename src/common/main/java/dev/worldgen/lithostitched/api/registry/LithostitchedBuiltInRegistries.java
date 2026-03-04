@@ -3,6 +3,8 @@ package dev.worldgen.lithostitched.api.registry;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.impl.LithostitchedPlatform;
+import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.impl.predicate.*;
 import dev.worldgen.lithostitched.impl.registry.LithostitchedRegistrar;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
@@ -91,6 +93,9 @@ public class LithostitchedBuiltInRegistries {
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.BIOME_INJECTOR, BiomeInjector.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.FAST_NOISE_CONFIG, FastNoiseConfig.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.REGION, Region.CODEC);
+		
+		LithostitchedPlatform.initPlatformRegistrations();
+		LithostitchedVersion.initVersionRegistrations();
 		
 		LithostitchedRegistrar.register(LithostitchedRegistries.MODIFIER_TYPE, Map.ofEntries(
 			Map.entry("internal/compile_raw_templates", CompileRawTemplatesModifier.CODEC),

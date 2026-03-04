@@ -46,9 +46,6 @@ cloche {
         }
     }
 
-    var sharedFabric = common("shared:fabric")
-    var sharedNeoforge = common("shared:neoforge")
-
     val sharedOld = common("shared:1.21.1") {
         mixins.from(file("src/shared/1.21.1/main/lithostitched.1211.mixins.json"))
     }
@@ -58,7 +55,6 @@ cloche {
 
     fabric("fabric:1.21.1") {
         dependsOn(sharedOld)
-        dependsOn(sharedFabric)
 
         loaderVersion = "0.18.2"
         minecraftVersion = "1.21.1"
@@ -83,7 +79,6 @@ cloche {
 
     fabric("fabric:1.21.11") {
         dependsOn(sharedNew)
-        dependsOn(sharedFabric)
 
         loaderVersion = "0.18.2"
         minecraftVersion = "1.21.11"
@@ -111,7 +106,6 @@ cloche {
 
     neoforge("neoforge:1.21.1") {
         dependsOn(sharedOld)
-        dependsOn(sharedNeoforge)
 
         loaderVersion = "21.1.217"
         minecraftVersion = "1.21.1"
@@ -125,7 +119,6 @@ cloche {
 
     neoforge("neoforge:1.21.11") {
         dependsOn(sharedNew)
-        dependsOn(sharedNeoforge)
 
         loaderVersion = "21.11.12-beta"
         minecraftVersion = "1.21.11"
