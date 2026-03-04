@@ -6,7 +6,7 @@ import dev.worldgen.lithostitched.api.tag.LithostitchedBiomeSourceTags;
 import dev.worldgen.lithostitched.mixin.common.BiomeSourceInvoker;
 import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.mixin.common.RandomStateAccessor;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
 import dev.worldgen.lithostitched.worldgen.biomeinjector.BiomeInjector;
 import dev.worldgen.lithostitched.worldgen.biomeinjector.region.Region;
@@ -35,7 +35,7 @@ import java.util.Optional;
 public class BiomeInjectorManager {
 	public static void applyBiomeInjectors(MinecraftServer server) {
 		RegistryAccess registries = server.registryAccess();
-		Registry<BiomeInjector> injectorRegistry = Lithostitched.registry(registries, LithostitchedRegistryKeys.BIOME_INJECTOR);
+		Registry<BiomeInjector> injectorRegistry = Lithostitched.registry(registries, LithostitchedRegistries.BIOME_INJECTOR);
 		if (injectorRegistry.entrySet().isEmpty()) return;
 		
 		Registry<LevelStem> dimensions = Lithostitched.registry(registries, Registries.LEVEL_STEM);
@@ -59,7 +59,7 @@ public class BiomeInjectorManager {
 			
 			List<Holder<Region>> regions = new ArrayList<>();
 			regions.addAll(registries
-				.lookupOrThrow(LithostitchedRegistryKeys.REGION)
+				.lookupOrThrow(LithostitchedRegistries.REGION)
 				.listElements()
 				.map(reference -> (Holder<Region>)reference)
 				.filter(holder -> holder.value().dimension().equals(dimension))

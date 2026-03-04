@@ -4,8 +4,10 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "common.BiomeAccessor2",
+    "common.BiomeGenerationSettingsAccessor",
     "common.DimensionTypeAccessor",
     "common.JigsawStructureMixin",
+    "common.MobSpawnSettingsAccessor",
     "common.TimelineAccessor"
   ],
   "client": [

@@ -2,7 +2,8 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.StructureSetAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.levelgen.structure.StructureSet.StructureSelect
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
@@ -21,9 +23,10 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  *
  * @author Apollo
  */
-public record AddStructureSetEntriesModifier(int priority, HolderSet<StructureSet> structureSets, List<StructureSelectionEntry> entries) implements WorldgenModifier {
+public record AddStructureSetEntriesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<StructureSet> structureSets, List<StructureSelectionEntry> entries) implements WorldgenModifier {
     public static final MapCodec<AddStructureSetEntriesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        PRIORITY_DEFAULT.forGetter(AddStructureSetEntriesModifier::priority),
+        PREDICATE_CODEC.forGetter(WorldgenModifier::predicate),
+        PRIORITY_DEFAULT_CODEC.forGetter(AddStructureSetEntriesModifier::priority),
         registrySet(Registries.STRUCTURE_SET, "structure_sets").forGetter(AddStructureSetEntriesModifier::structureSets),
         StructureSelectionEntry.CODEC.listOf().fieldOf("entries").forGetter(AddStructureSetEntriesModifier::entries)
     ).apply(instance, AddStructureSetEntriesModifier::new));

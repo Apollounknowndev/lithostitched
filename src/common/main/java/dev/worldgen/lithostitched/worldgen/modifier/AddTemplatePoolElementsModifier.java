@@ -4,7 +4,8 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.StructureTemplatePoolAccessor;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.Holder;
@@ -16,6 +17,7 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
@@ -24,9 +26,10 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  *
  * @author Apollo
  */
-public record AddTemplatePoolElementsModifier(int priority, HolderSet<StructureTemplatePool> templatePools, List<Pair<StructurePoolElement, Integer>> elements) implements WorldgenModifier {
+public record AddTemplatePoolElementsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<StructureTemplatePool> templatePools, List<Pair<StructurePoolElement, Integer>> elements) implements WorldgenModifier {
     public static final MapCodec<AddTemplatePoolElementsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        PRIORITY_DEFAULT.forGetter(AddTemplatePoolElementsModifier::priority),
+        PREDICATE_CODEC.forGetter(WorldgenModifier::predicate),
+        PRIORITY_DEFAULT_CODEC.forGetter(AddTemplatePoolElementsModifier::priority),
         registrySet(Registries.TEMPLATE_POOL, "template_pools").forGetter(AddTemplatePoolElementsModifier::templatePools),
         Codec.mapPair(
             StructurePoolElement.CODEC.fieldOf("element"),

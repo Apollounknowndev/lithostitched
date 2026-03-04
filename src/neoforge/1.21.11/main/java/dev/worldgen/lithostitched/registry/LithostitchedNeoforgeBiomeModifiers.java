@@ -3,8 +3,8 @@ package dev.worldgen.lithostitched.registry;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor2;
-import dev.worldgen.lithostitched.worldgen.modifier.util.BiomeClimate;
-import dev.worldgen.lithostitched.worldgen.modifier.util.BiomeEffects;
+import dev.worldgen.lithostitched.api.worldgen.util.BiomeClimate;
+import dev.worldgen.lithostitched.api.worldgen.util.BiomeEffects;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.attribute.*;
@@ -22,8 +22,8 @@ import java.util.function.Function;
 public class LithostitchedNeoforgeBiomeModifiers {
     public record ReplaceClimateBiomeModifier(HolderSet<Biome> biomes, BiomeClimate climateSettings) implements BiomeModifier {
         public static final MapCodec<ReplaceClimateBiomeModifier> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-                Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceClimateBiomeModifier::biomes),
-                BiomeClimate.CODEC.fieldOf("climate").forGetter(ReplaceClimateBiomeModifier::climateSettings)
+            Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceClimateBiomeModifier::biomes),
+            BiomeClimate.CODEC.fieldOf("climate").forGetter(ReplaceClimateBiomeModifier::climateSettings)
         ).apply(builder, ReplaceClimateBiomeModifier::new));
 
         @Override

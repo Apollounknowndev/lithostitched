@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.worldgen.bandlands.band;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
@@ -13,7 +13,7 @@ import java.util.function.Function;
 public interface Band {
     @SuppressWarnings("unchecked")
     Codec<Band> CODEC = Codec.lazyInitialized(() -> {
-        var registry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistryKeys.BANDLANDS_BAND_TYPE.identifier());
+        var registry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistries.BANDLANDS_BAND_TYPE.identifier());
         if (registry.isEmpty()) throw new NullPointerException("Bandlands band type registry does not exist yet!");
         return ((Registry<MapCodec<? extends Band>>) registry.get()).byNameCodec();
     }).dispatch(Band::codec, Function.identity());

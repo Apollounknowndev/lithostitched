@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.worldgen.lithostitched.Lithostitched;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.NoiseRouterTarget;
 import dev.worldgen.lithostitched.worldgen.modifier.WrapNoiseRouterModifier;
 import net.minecraft.core.HolderGetter;
@@ -35,7 +35,7 @@ public class ChunkMapMixin {
         NoiseGeneratorSettingsAccessor accessor = ((NoiseGeneratorSettingsAccessor)(Object)noiseSettings);
         NoiseRouter router = noiseSettings.noiseRouter();
 
-        List<WrapNoiseRouterModifier> modifiers = Lithostitched.registry(registries, LithostitchedRegistryKeys.WORLDGEN_MODIFIER)
+        List<WrapNoiseRouterModifier> modifiers = Lithostitched.registry(registries, LithostitchedRegistries.WORLDGEN_MODIFIER)
             .stream()
             .filter(modifier -> modifier instanceof WrapNoiseRouterModifier wrapNoiseRouter && wrapNoiseRouter.dimension().equals(level.dimension()))
             .map(WrapNoiseRouterModifier.class::cast)

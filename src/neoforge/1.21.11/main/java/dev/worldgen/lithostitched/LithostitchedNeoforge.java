@@ -1,14 +1,14 @@
 package dev.worldgen.lithostitched;
 
+import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
 import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.network.ApplyStructureAttributesPacket;
-import dev.worldgen.lithostitched.registry.LithostitchedBuiltInRegistries;
+import dev.worldgen.lithostitched.registry.LithostitchedRegistrations;
 import dev.worldgen.lithostitched.worldgen.structure.StructureAttributeHandler;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
@@ -21,8 +21,9 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 @Mod(Lithostitched.MOD_ID)
 public final class LithostitchedNeoforge {
 	public LithostitchedNeoforge(IEventBus bus) {
-		ConfigHandler.load(FMLPaths.CONFIGDIR.get().resolve("lithostitched.json"));
-		LithostitchedBuiltInRegistries.init(bus);
+		ConfigHandler.load();
+		LithostitchedBuiltInRegistries.init();
+		LithostitchedRegistrations.init(bus);
 		
 		bus.addListener(this::registerPayloadHandlers);
 		NeoForge.EVENT_BUS.addListener(this::onStartWorldTick);

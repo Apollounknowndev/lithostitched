@@ -2,7 +2,8 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -10,6 +11,7 @@ import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A {@link WorldgenModifier} implementation that adds surface rules to given level stems.
@@ -17,9 +19,10 @@ import java.util.List;
  *
  * @author Apollo
  */
-public record AddSurfaceRuleModifier(int priority, List<ResourceKey<LevelStem>> levels, SurfaceRules.RuleSource surfaceRule) implements WorldgenModifier {
+public record AddSurfaceRuleModifier(Optional<LoadPredicate> predicate, int priority, List<ResourceKey<LevelStem>> levels, SurfaceRules.RuleSource surfaceRule) implements WorldgenModifier {
     public static final MapCodec<AddSurfaceRuleModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        PRIORITY_DEFAULT.forGetter(AddSurfaceRuleModifier::priority),
+        PREDICATE_CODEC.forGetter(WorldgenModifier::predicate),
+        PRIORITY_DEFAULT_CODEC.forGetter(AddSurfaceRuleModifier::priority),
         ResourceKey.codec(Registries.LEVEL_STEM).listOf().fieldOf("levels").forGetter(AddSurfaceRuleModifier::levels),
         SurfaceRules.RuleSource.CODEC.fieldOf("surface_rule").forGetter(AddSurfaceRuleModifier::surfaceRule)
     ).apply(instance, AddSurfaceRuleModifier::new));

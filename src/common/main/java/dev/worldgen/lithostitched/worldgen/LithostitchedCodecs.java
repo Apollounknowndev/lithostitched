@@ -29,8 +29,8 @@ public interface LithostitchedCodecs {
         ).apply(instance, InclusiveRange::new))
     );
 
-    static <T> MapCodec<HolderSet<T>> registrySet(ResourceKey<Registry<T>> registry, String name) {
-        return RegistryCodecs.homogeneousList(registry).fieldOf(name);
+    static <T> MapCodec<HolderSet<T>> registrySet(ResourceKey<Registry<T>> key, String name) {
+        return RegistryCodecs.homogeneousList(key).fieldOf(name);
     }
 
     static <T> Codec<List<T>> compactList(Codec<T> codec) {

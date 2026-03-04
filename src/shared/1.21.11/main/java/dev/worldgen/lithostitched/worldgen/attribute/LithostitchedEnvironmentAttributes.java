@@ -7,8 +7,4 @@ import java.util.function.BiConsumer;
 
 public interface LithostitchedEnvironmentAttributes {
 	EnvironmentAttribute<Boolean> RESET_MUSIC = EnvironmentAttribute.builder(AttributeTypes.BOOLEAN).syncable().defaultValue(false).build();
-	
-	static void registerEnvironmentAttributes(BiConsumer<String, EnvironmentAttribute<?>> consumer) {
-		consumer.accept("structure/reset_music", RESET_MUSIC);
-	}
 }

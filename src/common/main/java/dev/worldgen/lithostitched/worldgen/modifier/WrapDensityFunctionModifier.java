@@ -3,7 +3,8 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
 import dev.worldgen.lithostitched.worldgen.modifier.util.DensityFunctionWrapper;
 import net.minecraft.core.Holder;
@@ -12,11 +13,14 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
 
-public record WrapDensityFunctionModifier(int priority, Holder<DensityFunction> targetFunction, Holder<DensityFunction> wrapperFunction) implements WorldgenModifier {
+import java.util.Optional;
+
+public record WrapDensityFunctionModifier(Optional<LoadPredicate> predicate, int priority, Holder<DensityFunction> targetFunction, Holder<DensityFunction> wrapperFunction) implements WorldgenModifier {
     private static final Codec<Holder<DensityFunction>> DF_REFERENCE_CODEC = RegistryFileCodec.create(Registries.DENSITY_FUNCTION, DensityFunction.DIRECT_CODEC, false);
 
     public static final MapCodec<WrapDensityFunctionModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        PRIORITY_DEFAULT.forGetter(WrapDensityFunctionModifier::priority),
+        PREDICATE_CODEC.forGetter(WorldgenModifier::predicate),
+        PRIORITY_DEFAULT_CODEC.forGetter(WrapDensityFunctionModifier::priority),
         DF_REFERENCE_CODEC.fieldOf("target_function").forGetter(WrapDensityFunctionModifier::targetFunction),
         DensityFunction.CODEC.fieldOf("wrapper_function").forGetter(WrapDensityFunctionModifier::wrapperFunction)
     ).apply(instance, WrapDensityFunctionModifier::new));

@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.densityfunction.fastnoise.config.FastNoiseConfig;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.RegistryFileCodec;
@@ -14,7 +14,7 @@ import net.minecraft.world.level.levelgen.DensityFunctions;
 
 public record FastNoiseDensityFunction(Holder<FastNoiseConfig> config, double xzScale, double yScale, DensityFunction shiftX, DensityFunction shiftY, DensityFunction shiftZ) implements DensityFunction {
     public static final MapCodec<FastNoiseDensityFunction> DATA_CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
-        RegistryFileCodec.create(LithostitchedRegistryKeys.FAST_NOISE_CONFIG, FastNoiseConfig.CODEC, false).fieldOf("config").forGetter(FastNoiseDensityFunction::config),
+        RegistryFileCodec.create(LithostitchedRegistries.FAST_NOISE_CONFIG, FastNoiseConfig.CODEC, false).fieldOf("config").forGetter(FastNoiseDensityFunction::config),
         Codec.DOUBLE.optionalFieldOf("xz_scale", 1.0).forGetter(FastNoiseDensityFunction::xzScale),
         Codec.DOUBLE.optionalFieldOf("y_scale", 1.0).forGetter(FastNoiseDensityFunction::yScale),
         DensityFunction.HOLDER_HELPER_CODEC.optionalFieldOf("shift_x", DensityFunctions.constant(0)).forGetter(FastNoiseDensityFunction::shiftX),

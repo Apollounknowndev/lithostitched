@@ -4,7 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.JigsawStructureAccessor;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
@@ -18,12 +19,14 @@ import net.minecraft.world.level.levelgen.structure.structures.JigsawStructure;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
-public record SetPoolAliasesModifier(int priority, HolderSet<Structure> structures, List<PoolAliasBinding> poolAliases, boolean append) implements WorldgenModifier {
+public record SetPoolAliasesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Structure> structures, List<PoolAliasBinding> poolAliases, boolean append) implements WorldgenModifier {
     public static final MapCodec<SetPoolAliasesModifier> CODEC = RecordCodecBuilder.<SetPoolAliasesModifier>mapCodec(instance -> instance.group(
-        PRIORITY_DEFAULT.forGetter(SetPoolAliasesModifier::priority),
+        PREDICATE_CODEC.forGetter(WorldgenModifier::predicate),
+        PRIORITY_DEFAULT_CODEC.forGetter(SetPoolAliasesModifier::priority),
         registrySet(Registries.STRUCTURE, "structures").forGetter(SetPoolAliasesModifier::structures),
         Codec.list(PoolAliasBinding.CODEC).fieldOf("pool_aliases").forGetter(SetPoolAliasesModifier::poolAliases),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetPoolAliasesModifier::append)

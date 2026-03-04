@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.worldgen.placementcondition;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -26,7 +26,7 @@ import java.util.function.Function;
 public interface PlacementCondition {
     @SuppressWarnings("unchecked")
     Codec<PlacementCondition> BASE_CODEC = Codec.lazyInitialized(() -> {
-        var registry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistryKeys.PLACEMENT_CONDITION_TYPE.identifier());
+        var registry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistries.PLACEMENT_CONDITION_TYPE.identifier());
         if (registry.isEmpty()) throw new NullPointerException("Placement condition registry does not exist yet!");
         return ((Registry<MapCodec<? extends PlacementCondition>>) registry.get()).byNameCodec();
     }).dispatch(PlacementCondition::codec, Function.identity());

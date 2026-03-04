@@ -1,8 +1,11 @@
 package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import net.minecraft.core.RegistryAccess;
+
+import java.util.Optional;
 
 /**
  * A {@link WorldgenModifier} implementation that does nothing.
@@ -15,7 +18,12 @@ public record NoOpModifier() implements WorldgenModifier {
 
     @Override
     public void apply(RegistryAccess registries) {}
-
+    
+    @Override
+    public Optional<LoadPredicate> predicate() {
+        return Optional.empty();
+    }
+    
     @Override
     public int priority() {
         return 0;

@@ -2,6 +2,7 @@ package dev.worldgen.lithostitched.worldgen.biomeinjector;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
 import dev.worldgen.lithostitched.worldgen.biomeinjector.internal.ParameterMap;
 import dev.worldgen.lithostitched.worldgen.biomeinjector.region.Region;
@@ -15,9 +16,11 @@ import net.minecraft.world.level.levelgen.DensityFunction;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
-public record ForcePlacement(ResourceKey<LevelStem> dimension, int priority, Holder<Biome> biome, ParameterMap parameters) implements BiomeInjector {
+public record ForcePlacement(Optional<LoadPredicate> predicate, ResourceKey<LevelStem> dimension, int priority, Holder<Biome> biome, ParameterMap parameters) implements BiomeInjector {
 	public static final MapCodec<ForcePlacement> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+		LoadPredicate.FIELD_CODEC.forGetter(ForcePlacement::predicate),
 		BiomeInjector.DIMENSION_CODEC.forGetter(ForcePlacement::dimension),
 		BiomeInjector.PRIORITY_CODEC.forGetter(ForcePlacement::priority),
 		Biome.CODEC.fieldOf("biome").forGetter(ForcePlacement::biome),

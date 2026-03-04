@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.worldgen.surface;
 import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.mixin.common.NoiseBasedChunkGeneratorAccessor;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
 import dev.worldgen.lithostitched.worldgen.surface.rule.TransientMergedRule;
 import net.minecraft.core.Holder;
@@ -30,7 +30,7 @@ public class SurfaceRuleManager {
     @SuppressWarnings("deprecation")
     public static void applySurfaceRules(MinecraftServer server) {
         RegistryAccess registries = server.registryAccess();
-        var surfaceRules = Lithostitched.registry(registries, LithostitchedRegistryKeys.WORLDGEN_MODIFIER).entrySet().stream().filter((entry) -> entry.getValue() instanceof AddSurfaceRuleModifier).collect(Collectors.toSet());
+        var surfaceRules = Lithostitched.registry(registries, LithostitchedRegistries.WORLDGEN_MODIFIER).entrySet().stream().filter((entry) -> entry.getValue() instanceof AddSurfaceRuleModifier).collect(Collectors.toSet());
         if (surfaceRules.isEmpty()) return;
 
         HashMap<Identifier, ArrayList<Pair<Identifier, AddSurfaceRuleModifier>>> assignedSurfaceRules = new HashMap<>();

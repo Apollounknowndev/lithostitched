@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.worldgen.densityfunction.fastnoise.config;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.densityfunction.fastnoise.FNL;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -11,7 +11,7 @@ import java.util.function.Function;
 
 public abstract class FastNoiseConfig {
     public static final Codec<FastNoiseConfig> CODEC = Codec.lazyInitialized(() -> {
-        var registry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistryKeys.FAST_NOISE_CONFIG_TYPE.identifier());
+        var registry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistries.FAST_NOISE_CONFIG_TYPE.identifier());
         if (registry.isEmpty()) throw new NullPointerException("Worldgen modifier registry does not exist yet!");
         return ((Registry<MapCodec<? extends FastNoiseConfig>>) registry.get()).byNameCodec();
     }).dispatch(FastNoiseConfig::getCodec, Function.identity());

@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.api.event;
 
-import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.impl.event.LithostitchedEvent;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.Identifier;

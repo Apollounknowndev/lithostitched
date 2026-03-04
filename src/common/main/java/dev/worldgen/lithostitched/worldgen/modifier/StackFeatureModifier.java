@@ -2,7 +2,8 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
 import dev.worldgen.lithostitched.worldgen.feature.CompositeFeature;
 import dev.worldgen.lithostitched.worldgen.feature.config.CompositeConfig;
@@ -14,12 +15,14 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 import java.util.List;
+import java.util.Optional;
 
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
-public record StackFeatureModifier(int priority, HolderSet<ConfiguredFeature<?, ?>> baseFeatures, Holder<PlacedFeature> stackedFeature, CompositeConfig.Type placementType) implements WorldgenModifier {
+public record StackFeatureModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<ConfiguredFeature<?, ?>> baseFeatures, Holder<PlacedFeature> stackedFeature, CompositeConfig.Type placementType) implements WorldgenModifier {
     public static final MapCodec<StackFeatureModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        PRIORITY_DEFAULT.forGetter(StackFeatureModifier::priority),
+        PREDICATE_CODEC.forGetter(WorldgenModifier::predicate),
+        PRIORITY_DEFAULT_CODEC.forGetter(StackFeatureModifier::priority),
         registrySet(Registries.CONFIGURED_FEATURE, "base_features").forGetter(StackFeatureModifier::baseFeatures),
         PlacedFeature.CODEC.fieldOf("stacked_feature").forGetter(StackFeatureModifier::stackedFeature),
         CompositeConfig.Type.CODEC.fieldOf("placement_type").orElse(CompositeConfig.Type.CANCEL_ON_FAILURE).forGetter(StackFeatureModifier::placementType)

@@ -2,7 +2,8 @@ package dev.worldgen.lithostitched.worldgen.modifier;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.api.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.StructureProcessorListAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
@@ -22,9 +24,10 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
  *
  * @author Apollo
  */
-public record AddProcessorListProcessorsModifier(int priority, HolderSet<StructureProcessorList> processorLists, StructureProcessorList processors) implements WorldgenModifier {
+public record AddProcessorListProcessorsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<StructureProcessorList> processorLists, StructureProcessorList processors) implements WorldgenModifier {
     public static final MapCodec<AddProcessorListProcessorsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        PRIORITY_DEFAULT.forGetter(AddProcessorListProcessorsModifier::priority),
+        PREDICATE_CODEC.forGetter(WorldgenModifier::predicate),
+        PRIORITY_DEFAULT_CODEC.forGetter(AddProcessorListProcessorsModifier::priority),
         registrySet(Registries.PROCESSOR_LIST, "processor_lists").forGetter(AddProcessorListProcessorsModifier::processorLists),
         StructureProcessorType.LIST_OBJECT_CODEC.fieldOf("processors").forGetter(AddProcessorListProcessorsModifier::processors)
     ).apply(instance, AddProcessorListProcessorsModifier::new));

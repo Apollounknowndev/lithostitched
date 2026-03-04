@@ -2,8 +2,8 @@ package dev.worldgen.lithostitched.registry;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.worldgen.modifier.util.BiomeClimate;
-import dev.worldgen.lithostitched.worldgen.util.BiomeEffects;
+import dev.worldgen.lithostitched.api.worldgen.util.BiomeClimate;
+import dev.worldgen.lithostitched.api.worldgen.util.BiomeEffects;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.biome.Biome;
@@ -45,10 +45,10 @@ public class LithostitchedNeoforgeBiomeModifiers {
         }
     }
 
-    public record ReplaceEffectsBiomeModifier(HolderSet<Biome> biomes, BiomeEffects specialEffects) implements BiomeModifier {
+    public record ReplaceEffectsBiomeModifier(HolderSet<Biome> biomes, BiomeEffects effects) implements BiomeModifier {
         public static final MapCodec<ReplaceEffectsBiomeModifier> CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
             Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceEffectsBiomeModifier::biomes),
-            BiomeEffects.CODEC.fieldOf("effects").forGetter(ReplaceEffectsBiomeModifier::specialEffects)
+            BiomeEffects.CODEC.fieldOf("effects").forGetter(ReplaceEffectsBiomeModifier::effects)
         ).apply(builder, ReplaceEffectsBiomeModifier::new));
 
         @Override
@@ -73,7 +73,7 @@ public class LithostitchedNeoforgeBiomeModifiers {
         }
 
         private <T> void tryApply(Function<BiomeEffects, Optional<T>> getter, Consumer<T> applier) {
-            getter.apply(this.specialEffects).ifPresent(applier);
+            getter.apply(this.effects).ifPresent(applier);
         }
 
         @Override

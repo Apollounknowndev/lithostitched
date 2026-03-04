@@ -2,36 +2,39 @@ package dev.worldgen.lithostitched.worldgen.modifier.internal;
 
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.duck.StructurePoolAccess;
-import dev.worldgen.lithostitched.worldgen.modifier.Modifier;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
-public record CompileRawTemplatesModifier() implements Modifier {
+import java.util.Optional;
+
+public record CompileRawTemplatesModifier() implements WorldgenModifier {
 
     public static final MapCodec<CompileRawTemplatesModifier> CODEC = MapCodec.unit(CompileRawTemplatesModifier::new);
 
     @Override
-    public void applyModifier(RegistryAccess registries) {
+    public void apply(RegistryAccess registries) {
         var poolRegistry = Lithostitched.registry(registries, Registries.TEMPLATE_POOL).stream().toList();
         for (StructureTemplatePool pool : poolRegistry) {
             ((StructurePoolAccess)pool).compileRawTemplates();
         }
     }
-
+    
     @Override
-    public void applyModifier() {
-
+    public Optional<LoadPredicate> predicate() {
+        return Optional.empty();
     }
-
+    
     @Override
     public int priority() {
         return Integer.MAX_VALUE;
     }
 
     @Override
-    public MapCodec<? extends Modifier> codec() {
+    public MapCodec<? extends WorldgenModifier> codec() {
         return CODEC;
     }
 }

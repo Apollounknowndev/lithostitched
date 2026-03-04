@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.worldgen.biomeinjector;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -18,7 +18,7 @@ import java.util.function.Function;
 public interface BiomeInjector {
 	@SuppressWarnings("unchecked")
 	Codec<BiomeInjector> CODEC = Codec.lazyInitialized(() -> {
-		var registry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistryKeys.BIOME_INJECTOR_TYPE.identifier());
+		var registry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistries.BIOME_INJECTOR_TYPE.identifier());
 		if (registry.isEmpty()) throw new NullPointerException("Bandlands band type registry does not exist yet!");
 		return ((Registry<MapCodec<? extends BiomeInjector>>) registry.get()).byNameCodec();
 	}).dispatch(BiomeInjector::codec, Function.identity());

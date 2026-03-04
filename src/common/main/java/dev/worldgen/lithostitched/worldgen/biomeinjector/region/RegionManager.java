@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.biomeinjector.region;
 
 import dev.worldgen.lithostitched.Lithostitched;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
@@ -60,6 +60,6 @@ public class RegionManager {
 	}
 	
 	private static ResourceKey<Region> error(String message) {
-		return Lithostitched.key(LithostitchedRegistryKeys.REGION, "error/" + message);
+		return Lithostitched.key(LithostitchedRegistries.REGION, "error/" + message);
 	}
 }

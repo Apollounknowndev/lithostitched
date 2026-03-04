@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.surface.rule;
 
 import com.google.common.collect.ImmutableList;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
@@ -11,7 +11,7 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 
 public record ReferenceRule(HolderSet<SurfaceRules.RuleSource> rules) implements SurfaceRules.RuleSource {
     public static final KeyDispatchDataCodec<ReferenceRule> CODEC = KeyDispatchDataCodec.of(
-        RegistryCodecs.homogeneousList(LithostitchedRegistryKeys.SURFACE_RULE).fieldOf("rules").xmap(ReferenceRule::new, ReferenceRule::rules)
+        RegistryCodecs.homogeneousList(LithostitchedRegistries.SURFACE_RULE).fieldOf("rules").xmap(ReferenceRule::new, ReferenceRule::rules)
     );
 
     @Override

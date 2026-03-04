@@ -1,10 +1,10 @@
 package dev.worldgen.lithostitched;
 
 import dev.worldgen.lithostitched.config.ConfigHandler;
-import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistrations;
+import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
+import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 
 /**
  * Mod class for Lithostitched on Fabric.
@@ -13,8 +13,8 @@ public final class LithostitchedFabric implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ConfigHandler.load(FabricLoader.getInstance().getConfigDir().resolve("lithostitched.json"));
-		LithostitchedRegistries.init();
-		LithostitchedRegistrations.init();
+		ConfigHandler.load();
+		LithostitchedBuiltInRegistries.init();
+		ResourceConditions.register(BreaksSeedParityCondition.TYPE);
 	}
 }
