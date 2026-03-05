@@ -193,7 +193,7 @@ public class AlternateJigsawGenerator {
 
             for (StructureTemplate.StructureBlockInfo anchorJigsawInfo : anchorElement.getShuffledJigsawBlocks(this.structureTemplateManager, parentPiece.getPosition(), parentPiece.getRotation(), this.random)) {
                 BlockPos candidateConnectorPos = anchorJigsawInfo.pos().relative(JigsawBlock.getFrontFacing(anchorJigsawInfo.state()));
-                Holder<StructureTemplatePool> poolEntry = getTemplatePoolHolder(getTemplatePoolKey(anchorJigsawInfo, aliasLookup));
+                Holder<StructureTemplatePool> poolEntry = getTemplatePoolHolder(getTemplatePoolKey(anchorJigsawInfo, aliasLookup), candidateConnectorPos);
                 if (poolEntry == null) continue;
                 boolean connectorInParentBoundingBox = parentBoundingBox.isInside(candidateConnectorPos);
 
@@ -408,15 +408,15 @@ public class AlternateJigsawGenerator {
             return false;
         }
 
-        private Holder<StructureTemplatePool> getTemplatePoolHolder(ResourceKey<StructureTemplatePool> key) {
+        private Holder<StructureTemplatePool> getTemplatePoolHolder(ResourceKey<StructureTemplatePool> key, BlockPos pos) {
             Optional<? extends Holder<StructureTemplatePool>> optional = this.registry.getHolder(key);
             if (optional.isEmpty()) {
-                Lithostitched.LOGGER.warn("Couldn't find template pool reference: {}", key.identifier());
+                Lithostitched.LOGGER.warn("Couldn't find template pool reference: {} (Jigsaw block location: {})", key.identifier(), pos.toShortString());
             } else {
                 Holder<StructureTemplatePool> regularPool = optional.get();
                 if ((regularPool.value()).size() == 0) {
                     if (!regularPool.is(Pools.EMPTY)) {
-                        Lithostitched.LOGGER.warn("Referenced template pool is empty: {}", key.identifier());
+                        Lithostitched.LOGGER.warn("Referenced template pool is empty: {} (Jigsaw block location: {})", key.identifier(), pos.toShortString());
                     }
                 } else {
                     return regularPool;
