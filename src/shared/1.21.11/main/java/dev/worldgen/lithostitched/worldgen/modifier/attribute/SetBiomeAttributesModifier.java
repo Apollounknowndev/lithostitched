@@ -18,7 +18,7 @@ import java.util.Optional;
 
 public record SetBiomeAttributesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, EnvironmentAttributeMap attributes, boolean append) implements WorldgenModifier {
     public static final MapCodec<SetBiomeAttributesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        PREDICATE_CODEC.forGetter(WorldgenModifier::predicate),
+        LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetBiomeAttributesModifier::priority),
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(SetBiomeAttributesModifier::biomes),
         EnvironmentAttributeMap.CODEC_ONLY_POSITIONAL.fieldOf("attributes").forGetter(SetBiomeAttributesModifier::attributes),

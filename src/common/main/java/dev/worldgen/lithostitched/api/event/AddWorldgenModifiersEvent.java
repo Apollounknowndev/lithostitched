@@ -8,7 +8,7 @@ import net.minecraft.resources.Identifier;
 import java.util.function.BiConsumer;
 
 /**
- * Event for adding worldgen modifiers just before they are sorted and ran.
+ * Event for adding worldgen modifier(s) just before they are sorted and ran.
  * To add a modifier, add a listener in {@link AddWorldgenModifiersEvent#EVENT}.
  * <p>
  * Example:

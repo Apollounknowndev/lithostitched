@@ -4,7 +4,7 @@ import com.mojang.serialization.DynamicOps;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.duck.StructureAttributesHolder;
 import dev.worldgen.lithostitched.network.ApplyStructureAttributesPacket;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.internal.InjectorBiomeSource;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.InjectorBiomeSource;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

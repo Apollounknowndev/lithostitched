@@ -25,7 +25,7 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
 
 public record SetPoolAliasesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Structure> structures, List<PoolAliasBinding> poolAliases, boolean append) implements WorldgenModifier {
     public static final MapCodec<SetPoolAliasesModifier> CODEC = RecordCodecBuilder.<SetPoolAliasesModifier>mapCodec(instance -> instance.group(
-        PREDICATE_CODEC.forGetter(WorldgenModifier::predicate),
+        LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetPoolAliasesModifier::priority),
         registrySet(Registries.STRUCTURE, "structures").forGetter(SetPoolAliasesModifier::structures),
         Codec.list(PoolAliasBinding.CODEC).fieldOf("pool_aliases").forGetter(SetPoolAliasesModifier::poolAliases),

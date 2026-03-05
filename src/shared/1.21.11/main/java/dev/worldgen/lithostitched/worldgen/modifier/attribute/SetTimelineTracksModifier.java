@@ -26,7 +26,7 @@ import java.util.Optional;
 public record SetTimelineTracksModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Timeline> timelines, Map<EnvironmentAttribute<?>, AttributeTrack<?, ?>> tracks, boolean append) implements WorldgenModifier {
     private static final Codec<Map<EnvironmentAttribute<?>, AttributeTrack<?, ?>>> TRACKS_CODEC = Codec.dispatchedMap(EnvironmentAttributes.CODEC, Util.memoize(AttributeTrack::createCodec));
     public static final MapCodec<SetTimelineTracksModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        PREDICATE_CODEC.forGetter(WorldgenModifier::predicate),
+        LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetTimelineTracksModifier::priority),
         RegistryCodecs.homogeneousList(Registries.TIMELINE).fieldOf("timelines").forGetter(SetTimelineTracksModifier::timelines),
         TRACKS_CODEC.fieldOf("tracks").forGetter(SetTimelineTracksModifier::tracks),

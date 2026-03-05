@@ -23,7 +23,7 @@ import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySe
 
 public record SetStructureSpawnConditionModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Structure> structures, PlacementCondition spawnCondition, boolean append) implements WorldgenModifier {
     public static final MapCodec<SetStructureSpawnConditionModifier> CODEC = RecordCodecBuilder.<SetStructureSpawnConditionModifier>mapCodec(instance -> instance.group(
-        PREDICATE_CODEC.forGetter(WorldgenModifier::predicate),
+        LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetStructureSpawnConditionModifier::priority),
         registrySet(Registries.STRUCTURE, "structures").forGetter(SetStructureSpawnConditionModifier::structures),
         PlacementCondition.CODEC.fieldOf("spawn_condition").forGetter(SetStructureSpawnConditionModifier::spawnCondition),

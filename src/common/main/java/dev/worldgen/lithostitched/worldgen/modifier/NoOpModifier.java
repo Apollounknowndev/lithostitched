@@ -15,14 +15,14 @@ import java.util.Optional;
  */
 public record NoOpModifier() implements WorldgenModifier {
     public static final MapCodec<NoOpModifier> CODEC = MapCodec.unit(NoOpModifier::new);
-
-    @Override
-    public void apply(RegistryAccess registries) {}
     
     @Override
     public Optional<LoadPredicate> predicate() {
         return Optional.empty();
     }
+    
+    @Override
+    public void apply(RegistryAccess registries) {}
     
     @Override
     public int priority() {

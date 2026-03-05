@@ -1,13 +1,13 @@
-package dev.worldgen.lithostitched.worldgen.biomeinjector;
+package dev.worldgen.lithostitched.impl.worldgen.biomeinjector;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
 import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.internal.ParameterMap;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.region.Region;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.ParameterMap;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Climate;

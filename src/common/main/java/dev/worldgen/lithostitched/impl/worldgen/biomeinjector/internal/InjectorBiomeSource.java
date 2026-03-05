@@ -1,17 +1,18 @@
-package dev.worldgen.lithostitched.worldgen.biomeinjector.internal;
+package dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal;
 
 import com.google.common.base.Suppliers;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
 import dev.worldgen.lithostitched.impl.LithostitchedPlatform;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.*;
 import dev.worldgen.lithostitched.mixin.common.MultiNoiseBiomeSourceAccessor;
 import dev.worldgen.lithostitched.mixin.common.mnbs.MNBSPLAccessor;
 import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.*;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.region.Region;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.region.RegionManager;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.RegionManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
@@ -54,11 +55,11 @@ public class InjectorBiomeSource extends BiomeSource {
 		this.rootDelegate = getRootSource(directDelegate);
 	}
 	
-	public void applyInjectors(List<BiomeInjector> injectors, Optional<DensityFunction> regionFunction, List<Holder<Region>> regions, NoiseWiringHelper noiseHelper) {
+	public void applyInjectors(Map<Identifier, BiomeInjector> injectors, Optional<DensityFunction> regionFunction, Map<ResourceKey<Region>, Region> regions, NoiseWiringHelper noiseHelper) {
 		this.possibleBiomes = new ArrayList<>();
 		this.regionManager = new RegionManager(regionFunction, regions, noiseHelper);
 		
-		injectors.forEach(injector -> {
+		injectors.values().forEach(injector -> {
 			injector.mapAll(noiseHelper);
 			
 			List<BiomeInjector> byType = this.injectorsByType.getOrDefault(injector.codec(), new ArrayList<>());

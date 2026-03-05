@@ -11,6 +11,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+/**
+ * Interface representing a Load Predicate.
+ * <p>
+ * Load Predicates can be added to any dynamic registry by putting the "predicate" field in the root object.
+ * <p>
+ * If the load predicate is parsed and resolves as false, the file does not load.
+ */
+@SuppressWarnings("unused")
 public interface LoadPredicate {
 	Codec<LoadPredicate> CODEC = LithostitchedBuiltInRegistries.LOAD_PREDICATE_TYPE.byNameCodec().dispatch(LoadPredicate::codec, Function.identity());
 	MapCodec<Optional<LoadPredicate>> FIELD_CODEC = LoadPredicate.CODEC.optionalFieldOf("predicate");
@@ -46,6 +54,10 @@ public interface LoadPredicate {
 	
 	static LoadPredicate packFormat(InclusiveRange<Integer> supportedFormats) {
 		return new PackFormatPredicate(supportedFormats);
+	}
+	
+	static LoadPredicate alwaysFalse() {
+		return not(alwaysTrue());
 	}
 	
 	static LoadPredicate alwaysTrue() {

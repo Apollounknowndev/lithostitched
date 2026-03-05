@@ -1,35 +1,35 @@
-package dev.worldgen.lithostitched.worldgen.biomeinjector.region;
+package dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region;
 
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.levelgen.DensityFunction;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class RegionManager {
 	private static final ResourceKey<Region> NO_REGIONS = error("no_regions");
-	private static final ResourceKey<Region> REGION_NAME_MISSING = error("region_name_missing");
 	private static final ResourceKey<Region> NO_REGIONS_IN_RANGE = error("no_regions_in_range");
 	
-	
 	private final Optional<DensityFunction> regionFunction;
-	private final Map<InclusiveRange<Integer>, Holder<Region>> regionsByOutputs;
+	private final Map<InclusiveRange<Integer>, ResourceKey<Region>> regionsByOutputs;
 	private final int totalWeight;
 	
-	public RegionManager(Optional<DensityFunction> regionFunction, List<Holder<Region>> regions, NoiseWiringHelper noiseHelper) {
+	public RegionManager(Optional<DensityFunction> regionFunction, Map<ResourceKey<Region>, Region> regions, NoiseWiringHelper noiseHelper) {
 		this.regionFunction = regionFunction.flatMap(df -> Optional.of(df.mapAll(noiseHelper)));
 		this.regionsByOutputs = new HashMap<>();
 		int weight = 1;
-		for (Holder<Region> region : regions) {
-			this.regionsByOutputs.put(InclusiveRange.create(weight, weight + region.value().weight() - 1).getOrThrow(), region);
-			weight += region.value().weight();
+		for (Map.Entry<ResourceKey<Region>, Region> entry : regions.entrySet().stream().sorted(Comparator.comparing(entry -> entry.getKey().identifier())).toList()) {
+			Region region = entry.getValue();
+			if (region.weight() <= 0) continue;
+			
+			var outputRange = InclusiveRange.create(weight, weight + region.weight() - 1).getOrThrow();
+			this.regionsByOutputs.put(outputRange, entry.getKey());
+			weight += region.weight();
 		}
 		this.totalWeight = weight - 1;
 	}
@@ -46,14 +46,7 @@ public class RegionManager {
 		
 		for (var entry : this.regionsByOutputs.entrySet()) {
 			if (entry.getKey().isValueInRange(value)) {
-				Holder<Region> region = entry.getValue();
-				if (region.unwrapKey().isPresent()) {
-					return region.unwrapKey().get();
-				}
-				if (region.value().name().isPresent()) {
-					return region.value().name().get();
-				}
-				return REGION_NAME_MISSING;
+				return entry.getValue();
 			}
 		}
 		return NO_REGIONS_IN_RANGE;

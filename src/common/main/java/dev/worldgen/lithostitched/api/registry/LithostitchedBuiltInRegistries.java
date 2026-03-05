@@ -1,21 +1,22 @@
 package dev.worldgen.lithostitched.api.registry;
 
 import com.mojang.serialization.MapCodec;
+import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.impl.LithostitchedPlatform;
 import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.impl.predicate.*;
 import dev.worldgen.lithostitched.impl.registry.LithostitchedRegistrar;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.*;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.Band;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.BaseBand;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.RepeatingBand;
 import dev.worldgen.lithostitched.worldgen.bandlands.band.WrappedBand;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.*;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.internal.InjectorBiomeSource;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.region.Region;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.InjectorBiomeSource;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.BlockStatePredicate;
@@ -59,9 +60,7 @@ import dev.worldgen.lithostitched.worldgen.surface.rule.TransientMergedRule;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.SurfaceRules;
-import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
 import net.msrandom.multiplatform.annotations.Expect;
 
 import java.util.Map;

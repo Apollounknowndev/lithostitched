@@ -14,7 +14,6 @@ public interface Modifier extends WorldgenModifier {
     default Optional<LoadPredicate> predicate() {
         return Optional.empty();
     }
-    
     /**
      * All worldgen modifiers should only override {@code apply}, not either {@code applyModifier}.
      */

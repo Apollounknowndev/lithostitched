@@ -19,7 +19,7 @@ import java.util.Optional;
 
 public record SetDimensionAttributesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<DimensionType> dimensionTypes, EnvironmentAttributeMap attributes, boolean append) implements WorldgenModifier {
     public static final MapCodec<SetDimensionAttributesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        PREDICATE_CODEC.forGetter(WorldgenModifier::predicate),
+        LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetDimensionAttributesModifier::priority),
         RegistryCodecs.homogeneousList(Registries.DIMENSION_TYPE).fieldOf("dimension_types").forGetter(SetDimensionAttributesModifier::dimensionTypes),
         EnvironmentAttributeMap.CODEC.fieldOf("attributes").forGetter(SetDimensionAttributesModifier::attributes),

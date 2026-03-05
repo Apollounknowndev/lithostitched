@@ -1,22 +1,20 @@
-package dev.worldgen.lithostitched.worldgen.biomeinjector.internal;
+package dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector.ClimateParameter;
 import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.region.Region;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.region.RegionManager;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.InclusiveRange;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.biome.Climate.TargetPoint;
 import net.minecraft.world.level.levelgen.DensityFunction;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 
 public final class ParameterMap {
 	public static final MapCodec<ParameterMap> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
@@ -52,29 +50,5 @@ public final class ParameterMap {
 			if (!entry.getValue().isValueInRange(density)) return false;
 		}
 		return true;
-	}
-	
-	public enum ClimateParameter implements StringRepresentable {
-		CONTINENTALNESS("continentalness", TargetPoint::continentalness),
-		EROSION("erosion", TargetPoint::erosion),
-		WEIRDNESS("weirdness", TargetPoint::weirdness),
-		HUMIDITY("humidity", TargetPoint::humidity),
-		TEMPERATURE("temperature", TargetPoint::temperature),
-		DEPTH("depth", TargetPoint::depth);
-		
-		public static final Codec<ClimateParameter> CODEC = StringRepresentable.fromEnum(ClimateParameter::values);
-		
-		public final String name;
-		public final Function<TargetPoint, Long> getter;
-		
-		ClimateParameter(String name, Function<TargetPoint, Long> getter) {
-			this.name = name;
-			this.getter = getter;
-		}
-		
-		@Override
-		public String getSerializedName() {
-			return this.name;
-		}
 	}
 }

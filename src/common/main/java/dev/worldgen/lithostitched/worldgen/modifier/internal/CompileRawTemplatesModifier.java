@@ -12,20 +12,19 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import java.util.Optional;
 
 public record CompileRawTemplatesModifier() implements WorldgenModifier {
-
     public static final MapCodec<CompileRawTemplatesModifier> CODEC = MapCodec.unit(CompileRawTemplatesModifier::new);
-
+    
+    @Override
+    public Optional<LoadPredicate> predicate() {
+        return Optional.empty();
+    }
+    
     @Override
     public void apply(RegistryAccess registries) {
         var poolRegistry = Lithostitched.registry(registries, Registries.TEMPLATE_POOL).stream().toList();
         for (StructureTemplatePool pool : poolRegistry) {
             ((StructurePoolAccess)pool).compileRawTemplates();
         }
-    }
-    
-    @Override
-    public Optional<LoadPredicate> predicate() {
-        return Optional.empty();
     }
     
     @Override

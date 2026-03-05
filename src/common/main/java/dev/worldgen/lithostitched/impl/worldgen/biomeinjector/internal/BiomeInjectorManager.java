@@ -1,16 +1,17 @@
-package dev.worldgen.lithostitched.worldgen.biomeinjector.internal;
+package dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal;
 
 import com.google.common.base.Suppliers;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.event.AddBiomeInjectorsEvent;
+import dev.worldgen.lithostitched.api.event.AddRegionsEvent;
 import dev.worldgen.lithostitched.api.tag.LithostitchedBiomeSourceTags;
 import dev.worldgen.lithostitched.mixin.common.BiomeSourceInvoker;
 import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.mixin.common.RandomStateAccessor;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.BiomeInjector;
-import dev.worldgen.lithostitched.worldgen.biomeinjector.region.Region;
-import net.minecraft.core.Holder;
+import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -26,11 +27,7 @@ import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.RandomState;
 
-import java.awt.event.HierarchyBoundsAdapter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class BiomeInjectorManager {
 	public static void applyBiomeInjectors(MinecraftServer server) {
@@ -43,7 +40,18 @@ public class BiomeInjectorManager {
 		for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : dimensions.entrySet()) {
 			ResourceKey<LevelStem> dimension = entry.getKey();
 			
-			var injectors = injectorRegistry.entrySet().stream().map(Map.Entry::getValue).filter(injector -> dimension.equals(injector.dimension())).toList();
+			
+			Map<Identifier, BiomeInjector> injectors = new HashMap<>();
+			registries.lookupOrThrow(LithostitchedRegistries.BIOME_INJECTOR).listElements().forEach(holder -> {
+				if (holder.value().dimension().equals(dimension)) {
+					injectors.put(holder.key().identifier(), holder.value());
+				}
+			});
+			AddBiomeInjectorsEvent.EVENT.invoker().addInjectors(registries, (id, injector) -> {
+				if (!injectors.containsKey(id) && injector.dimension().equals(dimension)) {
+					injectors.put(id, injector);
+				}
+			});
 			if (injectors.isEmpty()) continue;
 			
 			ChunkGenerator generator = entry.getValue().generator();
@@ -57,14 +65,18 @@ public class BiomeInjectorManager {
 				((RandomStateAccessor)(Object)randomState).getRandom()
 			);
 			
-			List<Holder<Region>> regions = new ArrayList<>();
-			regions.addAll(registries
+			Map<ResourceKey<Region>, Region> regions = new HashMap<>();
+			registries
 				.lookupOrThrow(LithostitchedRegistries.REGION)
 				.listElements()
-				.map(reference -> (Holder<Region>)reference)
 				.filter(holder -> holder.value().dimension().equals(dimension))
-				.toList()
-			);
+				.forEach(reference -> regions.put(reference.key(), reference.value()));
+			AddRegionsEvent.EVENT.invoker().addRegions(registries, (key, level, weight) -> {
+				Region region = Region.create(key, level, weight);
+				if (!injectors.containsKey(key) && region.dimension().equals(dimension)) {
+					regions.put(key, region);
+				}
+			});
 			
 			ResourceKey<DensityFunction> regionKey = ResourceKey.create(Registries.DENSITY_FUNCTION, createRegionId(dimension).withPrefix("region/"));
 			Optional<DensityFunction> regionFunction = Lithostitched.registry(registries, Registries.DENSITY_FUNCTION).getOptional(regionKey);

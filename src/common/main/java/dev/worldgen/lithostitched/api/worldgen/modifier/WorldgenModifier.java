@@ -42,14 +42,16 @@ import java.util.function.Function;
 import static net.minecraft.core.HolderSet.direct;
 
 /**
- * The root interface of a worldgen modifier type.
+ * The root interface of a worldgen modifier.
+ * <p>
+ * Worldgen modifiers are applied right before levels are created and worldgen can begin, but after the server starting events on both loaders.
+ *
  */
 public interface WorldgenModifier {
 	Codec<WorldgenModifier> CODEC = LithostitchedBuiltInRegistries.MODIFIER_TYPE.byNameCodec().dispatch(WorldgenModifier::codec, Function.identity());
 	Integer DEFAULT_PRIORITY = 1000;
 	Integer REMOVAL_PRIORITY = 2000;
 	
-	MapCodec<Optional<LoadPredicate>> PREDICATE_CODEC = LoadPredicate.FIELD_CODEC;
 	MapCodec<Integer> PRIORITY_DEFAULT_CODEC = Codec.INT.optionalFieldOf("priority", 1000);
 	MapCodec<Integer> PRIORITY_REMOVE_CODEC = Codec.INT.optionalFieldOf("priority", 2000);
 	

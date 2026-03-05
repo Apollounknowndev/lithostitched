@@ -1,9 +1,10 @@
-package dev.worldgen.lithostitched.worldgen.biomeinjector;
+package dev.worldgen.lithostitched.impl.worldgen.biomeinjector;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
