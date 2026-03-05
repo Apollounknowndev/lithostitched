@@ -2,10 +2,8 @@ package dev.worldgen.lithostitched.worldgen.surface;
 
 import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.Lithostitched;
-import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
 import dev.worldgen.lithostitched.mixin.common.NoiseBasedChunkGeneratorAccessor;
-import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier.InjectionType;
 import dev.worldgen.lithostitched.worldgen.surface.rule.TransientMergedRule;
@@ -22,7 +20,6 @@ import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * The manager class for surface rule injection.
@@ -33,13 +30,14 @@ public class SurfaceRuleManager {
     @SuppressWarnings("deprecation")
     public static void applySurfaceRules(MinecraftServer server) {
         RegistryAccess registries = server.registryAccess();
-	    Set<Map.Entry<Identifier, WorldgenModifier>> surfaceRules = ModifierManager.MODIFIERS.entrySet().stream().filter(entry -> entry.getValue() instanceof AddSurfaceRuleModifier).collect(Collectors.toSet());
+	    List<Map.Entry<Identifier, AddSurfaceRuleModifier>> surfaceRules = ModifierManager.getModifiersOfType(registries, AddSurfaceRuleModifier.CODEC);
         if (surfaceRules.isEmpty()) return;
 
         HashMap<Identifier, ArrayList<Pair<Identifier, AddSurfaceRuleModifier>>> assignedSurfaceRules = new HashMap<>();
-        for (Map.Entry<Identifier, WorldgenModifier> entry : surfaceRules) {
-            AddSurfaceRuleModifier modifier = (AddSurfaceRuleModifier)entry.getValue();
-            modifier.levels().forEach(levelStemResourceKey -> assignedSurfaceRules.computeIfAbsent(levelStemResourceKey.identifier(), __ -> new ArrayList<>()).add(Pair.of(entry.getKey(), modifier)));
+        for (Map.Entry<Identifier, AddSurfaceRuleModifier> entry : surfaceRules) {
+            entry.getValue().levels().forEach(level ->
+                assignedSurfaceRules.computeIfAbsent(level.identifier(), __ -> new ArrayList<>()).add(Pair.of(entry.getKey(), entry.getValue()))
+            );
         }
 
         Registry<LevelStem> dimensions = Lithostitched.registry(registries, Registries.LEVEL_STEM);
