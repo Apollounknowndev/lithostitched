@@ -5,6 +5,7 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.mixin.common.NoiseBasedChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
+import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier.InjectionType;
 import dev.worldgen.lithostitched.worldgen.surface.rule.TransientMergedRule;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -67,18 +68,27 @@ public class SurfaceRuleManager {
         }
     }
 
-    private static SurfaceRules.RuleSource buildModdedSurfaceRules(ArrayList<Pair<Identifier, AddSurfaceRuleModifier>> moddedSourceList, SurfaceRules.RuleSource originalSource) {
+    private static SurfaceRules.RuleSource buildModdedSurfaceRules(ArrayList<Pair<Identifier, AddSurfaceRuleModifier>> surfaceInjections, SurfaceRules.RuleSource originalSource) {
         // TODO: Implement caching
-        List<SurfaceRules.RuleSource> newRuleSourceList = new ArrayList<>();
-        moddedSourceList.sort(Comparator.comparingInt(pair -> pair.getSecond().priority()));
-        moddedSourceList.forEach((pair) -> newRuleSourceList.add(pair.getSecond().surfaceRule()));
-
-        newRuleSourceList.add(originalSource);
+        List<SurfaceRules.RuleSource> sources = new ArrayList<>();
+        surfaceInjections.sort(Comparator.comparingInt(pair -> pair.getSecond().priority()));
+        surfaceInjections.forEach(pair -> {
+            if (pair.getSecond().injectionType() == InjectionType.PREPEND) {
+                sources.add(pair.getSecond().surfaceRule());
+            }
+        });
+        sources.add(originalSource);
+        surfaceInjections.forEach(pair -> {
+            if (pair.getSecond().injectionType() == InjectionType.APPEND) {
+                sources.add(pair.getSecond().surfaceRule());
+            }
+        });
+        
         if (originalSource instanceof TransientMergedRule transientMerged) {
-            transientMerged.sequence().addAll(newRuleSourceList);
+            transientMerged.prependedRules().addAll(sources);
             return originalSource;
         } else {
-            return new TransientMergedRule(newRuleSourceList, originalSource);
+            return new TransientMergedRule(sources, originalSource);
         }
     }
 }
