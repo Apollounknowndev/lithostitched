@@ -8,7 +8,7 @@ import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
-import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
+import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingConfig;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
 import net.minecraft.core.Holder;

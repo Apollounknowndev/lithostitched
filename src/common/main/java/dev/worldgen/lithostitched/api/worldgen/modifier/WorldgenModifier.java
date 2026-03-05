@@ -10,10 +10,11 @@ import dev.worldgen.lithostitched.api.worldgen.util.BiomeEffects;
 import dev.worldgen.lithostitched.api.worldgen.util.WeightedSpawnerData;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
-import dev.worldgen.lithostitched.worldgen.NoiseRouterTarget;
+import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
 import dev.worldgen.lithostitched.worldgen.feature.config.CompositeConfig;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
-import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
+import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier.InjectionType;
+import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -136,14 +137,6 @@ public interface WorldgenModifier {
 			return new AddStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), sets, List.of(entries));
 		}
 		
-		public WorldgenModifier addSurfaceRule(ResourceKey<LevelStem> dimension, SurfaceRules.RuleSource ruleSource) {
-			return new AddSurfaceRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), List.of(dimension), ruleSource);
-		}
-		
-		public WorldgenModifier addSurfaceRule(List<ResourceKey<LevelStem>> dimensions, SurfaceRules.RuleSource ruleSource) {
-			return new AddSurfaceRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), dimensions, ruleSource);
-		}
-		
 		@SafeVarargs
 		public final WorldgenModifier addTemplatePoolElements(Holder<StructureTemplatePool> pool, Pair<StructurePoolElement, Integer>... elements) {
 			return new AddTemplatePoolElementsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(pool), List.of(elements));
@@ -154,8 +147,24 @@ public interface WorldgenModifier {
 			return new AddTemplatePoolElementsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), pools, List.of(elements));
 		}
 		
+		public WorldgenModifier appendSurfaceRule(ResourceKey<LevelStem> dimension, SurfaceRules.RuleSource ruleSource) {
+			return new AddSurfaceRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), List.of(dimension), InjectionType.APPEND, ruleSource);
+		}
+		
+		public WorldgenModifier appendSurfaceRule(List<ResourceKey<LevelStem>> dimensions, SurfaceRules.RuleSource ruleSource) {
+			return new AddSurfaceRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), dimensions, InjectionType.APPEND, ruleSource);
+		}
+		
 		public WorldgenModifier noop() {
 			return new NoOpModifier();
+		}
+		
+		public WorldgenModifier prependSurfaceRule(ResourceKey<LevelStem> dimension, SurfaceRules.RuleSource ruleSource) {
+			return new AddSurfaceRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), List.of(dimension), InjectionType.PREPEND, ruleSource);
+		}
+		
+		public WorldgenModifier preendSurfaceRule(List<ResourceKey<LevelStem>> dimensions, SurfaceRules.RuleSource ruleSource) {
+			return new AddSurfaceRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), dimensions, InjectionType.PREPEND, ruleSource);
 		}
 		
 		public WorldgenModifier removeBiomeSpawns(Holder<Biome> biome, Holder<EntityType<?>> mob) {

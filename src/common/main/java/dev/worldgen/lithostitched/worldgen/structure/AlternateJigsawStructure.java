@@ -32,10 +32,11 @@ public class AlternateJigsawStructure extends Structure {
         };
         return structure.config().maxDistanceFromCenter().horizontal() + i > 128 ? DataResult.error(() -> "Structure size including terrain adaptation must not exceed 128") : DataResult.success(structure);
     }
-    protected AlternateJigsawStructure(StructureSettings settings, AlternateJigsawConfig config) {
+    public AlternateJigsawStructure(StructureSettings settings, AlternateJigsawConfig config) {
         super(settings);
         this.config = config;
     }
+    
     public void setPoolAliases(List<PoolAliasBinding> poolAliases, boolean append) {
         this.config = this.config.setPoolAliases(poolAliases, append);
     }

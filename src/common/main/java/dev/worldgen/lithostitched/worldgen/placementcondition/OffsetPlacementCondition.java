@@ -2,6 +2,7 @@ package dev.worldgen.lithostitched.worldgen.placementcondition;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.BlockPos;
 
 public record OffsetPlacementCondition(PlacementCondition condition, BlockPos offset) implements PlacementCondition {

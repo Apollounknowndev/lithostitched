@@ -5,11 +5,11 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.event.AddBiomeInjectorsEvent;
 import dev.worldgen.lithostitched.api.event.AddRegionsEvent;
 import dev.worldgen.lithostitched.api.tag.LithostitchedBiomeSourceTags;
+import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
 import dev.worldgen.lithostitched.mixin.common.BiomeSourceInvoker;
 import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.mixin.common.RandomStateAccessor;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
-import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import net.minecraft.core.Registry;
@@ -58,7 +58,7 @@ public class BiomeInjectorManager {
 			if (!(generator instanceof NoiseBasedChunkGenerator noiseGenerator)) continue;
 			
 			RandomState randomState = RandomState.create(noiseGenerator.generatorSettings().value(), registries.lookupOrThrow(Registries.NOISE), seed);
-			NoiseWiringHelper noiseHelper = new NoiseWiringHelper(
+			DensityFunctionWrapper noiseHelper = new DensityFunctionWrapper(
 				seed,
 				noiseGenerator.generatorSettings().value().useLegacyRandomSource(),
 				randomState,

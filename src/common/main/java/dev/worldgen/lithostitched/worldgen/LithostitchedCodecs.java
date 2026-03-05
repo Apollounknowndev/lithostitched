@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.worldgen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.util.weighted.WeightedList;
+import dev.worldgen.lithostitched.api.util.WeightedList;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;

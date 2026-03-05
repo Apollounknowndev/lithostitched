@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.worldgen.processor;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.worldgen.processor.enums.RandomMode;
+import dev.worldgen.lithostitched.api.worldgen.processor.enums.RandomMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;

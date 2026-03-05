@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.feature.config;
 
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
@@ -13,6 +14,10 @@ public record OreConfig(int size, List<Target> targets) implements FeatureConfig
         Codec.intRange(0, 128).fieldOf("size").forGetter(OreConfig::size),
         Target.CODEC.listOf().fieldOf("targets").forGetter(OreConfig::targets)
     ).apply(instance, OreConfig::new));
+    
+    public static OreConfig create(int size, List<Pair<BlockPredicate, BlockStateProvider>> targets) {
+        return new OreConfig(size, targets.stream().map(pair -> new Target(pair.getFirst(), pair.getSecond())).toList());
+    }
 
     public record Target(BlockPredicate predicate, BlockStateProvider stateProvider) {
         public static final Codec<Target> CODEC = RecordCodecBuilder.create(instance -> instance.group(

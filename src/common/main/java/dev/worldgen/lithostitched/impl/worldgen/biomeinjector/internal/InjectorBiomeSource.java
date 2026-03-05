@@ -6,11 +6,11 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
+import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
 import dev.worldgen.lithostitched.impl.LithostitchedPlatform;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.*;
 import dev.worldgen.lithostitched.mixin.common.MultiNoiseBiomeSourceAccessor;
 import dev.worldgen.lithostitched.mixin.common.mnbs.MNBSPLAccessor;
-import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.RegionManager;
 import net.minecraft.core.BlockPos;
@@ -55,7 +55,7 @@ public class InjectorBiomeSource extends BiomeSource {
 		this.rootDelegate = getRootSource(directDelegate);
 	}
 	
-	public void applyInjectors(Map<Identifier, BiomeInjector> injectors, Optional<DensityFunction> regionFunction, Map<ResourceKey<Region>, Region> regions, NoiseWiringHelper noiseHelper) {
+	public void applyInjectors(Map<Identifier, BiomeInjector> injectors, Optional<DensityFunction> regionFunction, Map<ResourceKey<Region>, Region> regions, DensityFunctionWrapper noiseHelper) {
 		this.possibleBiomes = new ArrayList<>();
 		this.regionManager = new RegionManager(regionFunction, regions, noiseHelper);
 		

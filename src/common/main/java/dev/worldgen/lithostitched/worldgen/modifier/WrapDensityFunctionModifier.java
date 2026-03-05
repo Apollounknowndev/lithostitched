@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
-import dev.worldgen.lithostitched.worldgen.modifier.util.DensityFunctionWrapper;
+import dev.worldgen.lithostitched.worldgen.modifier.util.DensityFunctionInjectorHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -30,7 +30,7 @@ public record WrapDensityFunctionModifier(Optional<LoadPredicate> predicate, int
     public void apply(RegistryAccess registries) {
         if (this.targetFunction instanceof Holder.Reference<DensityFunction> reference) {
             var accessor = ((HolderReferenceAccessor<DensityFunction>)reference);
-            accessor.setValue(DensityFunctionWrapper.wrap(this.targetFunction.value(), this.wrapperFunction.value()));
+            accessor.setValue(DensityFunctionInjectorHelper.wrap(this.targetFunction.value(), this.wrapperFunction.value()));
         }
     }
 

@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.placementmodifier;
 
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
+import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;

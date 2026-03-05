@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
+import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingConfig;
 import net.minecraft.world.level.levelgen.structure.Structure;
 

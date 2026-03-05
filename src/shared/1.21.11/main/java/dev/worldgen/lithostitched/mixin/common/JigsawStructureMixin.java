@@ -1,8 +1,8 @@
 package dev.worldgen.lithostitched.mixin.common;
 
 import com.mojang.datafixers.util.Either;
+import dev.worldgen.lithostitched.api.worldgen.structure.MaxDistanceFromCenter;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawConfig;
-import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawConfig.MaxDistance;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -48,7 +48,7 @@ public class JigsawStructureMixin {
                 ConstantHeight.of(VerticalAnchor.BOTTOM),
                 useExpansionHack,
                 heightmapProjection.map(Either::right),
-                new MaxDistance(maxDistToCenter.horizontal(), maxDistToCenter.vertical()),
+                MaxDistanceFromCenter.of(maxDistToCenter.horizontal(), maxDistToCenter.vertical()),
                 poolAliases,
                 padding,
                 liquidSettings

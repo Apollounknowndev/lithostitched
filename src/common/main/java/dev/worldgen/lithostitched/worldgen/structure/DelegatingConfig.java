@@ -1,9 +1,8 @@
 package dev.worldgen.lithostitched.worldgen.structure;
 
 import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.worldgen.placementcondition.AllOfPlacementCondition;
-import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
+import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.msrandom.multiplatform.annotations.Expect;

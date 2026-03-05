@@ -24,13 +24,13 @@ public abstract class BeardifierMixin {
             ordinal = 0
         )
     )
-    private static boolean overrideTerrainAdaption(ObjectList<Beardifier.Rigid> list, Object rigid, Operation<Boolean> operation, @Local(ordinal = 0) StructurePiece structurePiece) {
+    private static boolean overrideTerrainAdaptation(ObjectList<Beardifier.Rigid> list, Object rigid, Operation<Boolean> operation, @Local(ordinal = 0) StructurePiece structurePiece) {
         PoolElementStructurePiece piece = (PoolElementStructurePiece) structurePiece;
 
         if (piece.getElement() instanceof DelegatingPoolElement delegating) {
-            Optional<TerrainAdjustment> terrainAdaption = delegating.config().overrideTerrainAdaption();
-            if (terrainAdaption.isPresent()) {
-                return operation.call(list, new Beardifier.Rigid(piece.getBoundingBox(), terrainAdaption.get(), piece.getGroundLevelDelta()));
+            Optional<TerrainAdjustment> terrainAdaptation = delegating.config().overrideTerrainAdaptation();
+            if (terrainAdaptation.isPresent()) {
+                return operation.call(list, new Beardifier.Rigid(piece.getBoundingBox(), terrainAdaptation.get(), piece.getGroundLevelDelta()));
             }
         }
         return operation.call(list, rigid);

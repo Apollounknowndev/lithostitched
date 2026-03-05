@@ -4,13 +4,12 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
-import dev.worldgen.lithostitched.worldgen.NoiseRouterTarget;
-import dev.worldgen.lithostitched.worldgen.modifier.util.DensityFunctionWrapper;
+import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
+import dev.worldgen.lithostitched.worldgen.modifier.util.DensityFunctionInjectorHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.DensityFunction;
 
@@ -46,7 +45,7 @@ public record WrapNoiseRouterModifier(Optional<LoadPredicate> predicate, int pri
 
         DensityFunction mergedFunction = wrapped;
         for (DensityFunction function : orderedFunctions) {
-            mergedFunction = DensityFunctionWrapper.wrap(mergedFunction, function);
+            mergedFunction = DensityFunctionInjectorHelper.wrap(mergedFunction, function);
         }
 
         return mergedFunction;

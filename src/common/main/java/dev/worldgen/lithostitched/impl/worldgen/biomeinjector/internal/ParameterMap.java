@@ -5,7 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector.ClimateParameter;
-import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
+import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.InclusiveRange;
@@ -33,7 +33,7 @@ public final class ParameterMap {
 		this.region = region;
 	}
 	
-	public void mapAll(NoiseWiringHelper noiseHelper) {
+	public void mapAll(DensityFunctionWrapper noiseHelper) {
 		for (var entry : this.parameters.entrySet()) {
 			var right = entry.getKey().right();
 			right.ifPresent(densityFunction -> this.parameters.put(Either.right(densityFunction.mapAll(noiseHelper)), entry.getValue()));

@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.mixin.common.bandlands;
 
 import dev.worldgen.lithostitched.duck.SurfaceSystemAccessor;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
-import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
+import dev.worldgen.lithostitched.impl.worldgen.bandlands.Bandlands;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.WorldGenRegion;

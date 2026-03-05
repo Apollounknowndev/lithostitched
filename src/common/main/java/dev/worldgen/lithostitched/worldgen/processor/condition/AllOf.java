@@ -1,6 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.processor.condition;
 
 import com.mojang.serialization.MapCodec;
+import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;

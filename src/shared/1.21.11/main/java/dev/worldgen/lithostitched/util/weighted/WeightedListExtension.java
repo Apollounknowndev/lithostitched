@@ -1,5 +1,7 @@
 package dev.worldgen.lithostitched.util.weighted;
 
+import dev.worldgen.lithostitched.api.util.Weighted;
+import dev.worldgen.lithostitched.api.util.WeightedList;
 import net.msrandom.classextensions.ClassExtension;
 import net.msrandom.classextensions.ExtensionInject;
 import net.msrandom.classextensions.ExtensionShadow;

@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
-import it.unimi.dsi.fastutil.objects.ObjectList;
 import net.minecraft.world.level.levelgen.Beardifier;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
@@ -25,13 +24,13 @@ public abstract class BeardifierMixin {
             ordinal = 1
         )
     )
-    private static boolean overrideTerrainAdaption(List<Beardifier.Rigid> list, Object rigid, Operation<Boolean> operation, @Local(ordinal = 0) StructurePiece structurePiece) {
+    private static boolean overrideTerrainAdaptation(List<Beardifier.Rigid> list, Object rigid, Operation<Boolean> operation, @Local(ordinal = 0) StructurePiece structurePiece) {
         PoolElementStructurePiece piece = (PoolElementStructurePiece) structurePiece;
 
         if (piece.getElement() instanceof DelegatingPoolElement delegating) {
-            Optional<TerrainAdjustment> terrainAdaption = delegating.config().overrideTerrainAdaption();
-            if (terrainAdaption.isPresent()) {
-                return operation.call(list, new Beardifier.Rigid(piece.getBoundingBox(), terrainAdaption.get(), piece.getGroundLevelDelta()));
+            Optional<TerrainAdjustment> terrainAdaptation = delegating.config().overrideTerrainAdaptation();
+            if (terrainAdaptation.isPresent()) {
+                return operation.call(list, new Beardifier.Rigid(piece.getBoundingBox(), terrainAdaptation.get(), piece.getGroundLevelDelta()));
             }
         }
         return operation.call(list, rigid);

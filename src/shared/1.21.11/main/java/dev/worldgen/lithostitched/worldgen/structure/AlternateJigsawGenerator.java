@@ -2,6 +2,7 @@ package dev.worldgen.lithostitched.worldgen.structure;
 
 import com.google.common.collect.Lists;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.worldgen.structure.MaxDistanceFromCenter;
 import dev.worldgen.lithostitched.config.ConfigHandler;
 import dev.worldgen.lithostitched.duck.StructurePoolAccess;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingConfig;
@@ -94,7 +95,7 @@ public class AlternateJigsawGenerator {
             List<PoolElementStructurePiece> list = Lists.newArrayList();
             list.add(piece);
             if (size > 0) {
-                AlternateJigsawConfig.MaxDistance maxDistance = config.maxDistanceFromCenter();
+                MaxDistanceFromCenter maxDistance = config.maxDistanceFromCenter();
                 AABB box = new AABB(
                         originX - maxDistance.horizontal(),
                         Math.max(originY - maxDistance.vertical(), heightLimitView.getMinY() + config.dimensionPadding().bottom()),

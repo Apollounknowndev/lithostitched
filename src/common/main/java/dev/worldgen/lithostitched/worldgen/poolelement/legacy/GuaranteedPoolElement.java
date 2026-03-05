@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class GuaranteedPoolElement extends DelegatingPoolElement {
     public static final MapCodec<GuaranteedPoolElement> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        StructurePoolElement.CODEC.fieldOf("root").forGetter(DelegatingPoolElement::delegate),
+        StructurePoolElement.CODEC.fieldOf("delegate").forGetter(DelegatingPoolElement::delegate),
         ExtraCodecs.NON_NEGATIVE_INT.optionalFieldOf("min_depth").forGetter(DelegatingPoolElement::minDepth),
         ExtraCodecs.POSITIVE_INT.fieldOf("count").forGetter(GuaranteedPoolElement::count)
     ).apply(instance, GuaranteedPoolElement::new));

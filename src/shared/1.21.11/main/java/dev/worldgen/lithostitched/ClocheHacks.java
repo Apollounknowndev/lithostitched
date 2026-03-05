@@ -3,17 +3,14 @@ package dev.worldgen.lithostitched;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeEffects;
-import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
+import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingConfig;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.attribute.EnvironmentAttribute;
 import net.minecraft.world.attribute.EnvironmentAttributeMap;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class ClocheHacks {
 	public static final MapCodec<DelegatingConfig> DELEGATING_CONFIG_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

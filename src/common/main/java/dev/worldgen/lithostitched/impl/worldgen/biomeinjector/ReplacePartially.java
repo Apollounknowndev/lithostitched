@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
-import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
+import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.ParameterMap;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import net.minecraft.core.Holder;
@@ -30,7 +30,7 @@ public record ReplacePartially(Optional<LoadPredicate> predicate, ResourceKey<Le
 	).apply(i, ReplacePartially::new));
 	
 	@Override
-	public void mapAll(NoiseWiringHelper noiseHelper) {
+	public void mapAll(DensityFunctionWrapper noiseHelper) {
 		this.parameters.mapAll(noiseHelper);
 	}
 	

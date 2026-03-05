@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region;
 
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
-import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
+import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -19,7 +19,7 @@ public class RegionManager {
 	private final Map<InclusiveRange<Integer>, ResourceKey<Region>> regionsByOutputs;
 	private final int totalWeight;
 	
-	public RegionManager(Optional<DensityFunction> regionFunction, Map<ResourceKey<Region>, Region> regions, NoiseWiringHelper noiseHelper) {
+	public RegionManager(Optional<DensityFunction> regionFunction, Map<ResourceKey<Region>, Region> regions, DensityFunctionWrapper noiseHelper) {
 		this.regionFunction = regionFunction.flatMap(df -> Optional.of(df.mapAll(noiseHelper)));
 		this.regionsByOutputs = new HashMap<>();
 		int weight = 1;
