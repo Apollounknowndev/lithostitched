@@ -47,10 +47,6 @@ public interface LithostitchedProcessors {
 		return new ReferenceStructureProcessor(HolderSet.direct(list));
 	}
 	
-	static StructureProcessor reference(Holder<StructureProcessorList> list) {
-		return new ReferenceStructureProcessor(HolderSet.direct(list));
-	}
-	
 	static StructureProcessor reference(HolderSet<StructureProcessorList> lists) {
 		return new ReferenceStructureProcessor(lists);
 	}

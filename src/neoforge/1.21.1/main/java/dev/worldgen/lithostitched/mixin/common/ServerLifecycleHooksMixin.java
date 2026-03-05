@@ -21,7 +21,7 @@ public class ServerLifecycleHooksMixin {
     )
     private static List<BiomeModifier> lithostitched$injectBiomeModifers(List<BiomeModifier> biomeModifiers, MinecraftServer server) {
         List<BiomeModifier> allBiomeModifiers = new ArrayList<>(biomeModifiers);
-
+        
         var lithostitchedBiomeModifiers = server.registryAccess().registryOrThrow(LithostitchedRegistries.WORLDGEN_MODIFIER)
             .entrySet()
             .stream()

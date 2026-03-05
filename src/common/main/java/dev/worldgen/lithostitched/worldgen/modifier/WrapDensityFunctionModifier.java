@@ -12,6 +12,8 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.DensityFunctions;
+import net.minecraft.world.level.levelgen.DensityFunctions.HolderHolder;
 
 import java.util.Optional;
 
@@ -24,7 +26,11 @@ public record WrapDensityFunctionModifier(Optional<LoadPredicate> predicate, int
         DF_REFERENCE_CODEC.fieldOf("target_function").forGetter(WrapDensityFunctionModifier::targetFunction),
         DensityFunction.CODEC.fieldOf("wrapper_function").forGetter(WrapDensityFunctionModifier::wrapperFunction)
     ).apply(instance, WrapDensityFunctionModifier::new));
-
+    
+    public static WorldgenModifier create(Optional<LoadPredicate> predicate, int priority, Holder<DensityFunction> targetFunction, Holder<DensityFunction> wrapperFunction) {
+        return new WrapDensityFunctionModifier(predicate, priority, targetFunction, wrapperFunction);
+    }
+    
     @Override
     @SuppressWarnings("unchecked")
     public void apply(RegistryAccess registries) {

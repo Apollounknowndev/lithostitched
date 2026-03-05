@@ -266,11 +266,11 @@ public interface WorldgenModifier {
 		}
 		
 		public WorldgenModifier wrapDensityFunction(Holder<DensityFunction> target, DensityFunction wrapper) {
-			return new WrapDensityFunctionModifier(predicate, priority.orElse(DEFAULT_PRIORITY), target, Holder.direct(wrapper));
+			return WrapDensityFunctionModifier.create(predicate, priority.orElse(DEFAULT_PRIORITY), target, Holder.direct(wrapper));
 		}
 		
 		public WorldgenModifier wrapDensityFunction(Holder<DensityFunction> target, Holder<DensityFunction> wrapper) {
-			return new WrapDensityFunctionModifier(predicate, priority.orElse(DEFAULT_PRIORITY), target, wrapper);
+			return WrapDensityFunctionModifier.create(predicate, priority.orElse(DEFAULT_PRIORITY), target, wrapper);
 		}
 		
 		public WorldgenModifier wrapNoiseRouter(ResourceKey<Level> dimension, NoiseRouterTarget target, DensityFunction wrapper) {

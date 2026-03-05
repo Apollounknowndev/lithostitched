@@ -1,7 +1,9 @@
 package dev.worldgen.lithostitched.impl.worldgen.modifier;
 
 import com.google.common.base.Suppliers;
+import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.JsonOps;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.event.AddWorldgenModifiersEvent;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
@@ -12,6 +14,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.FeatureSorter;
@@ -21,19 +24,22 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ModifierManager {
+    // TODO: This is probably unsafe, clear out in server start?
+    public static final Map<Identifier, WorldgenModifier> MODIFIERS = new HashMap<>();
+    
     public static void applyModifiers(MinecraftServer server) {
         boolean fabricFeaturesModified = false;
         RegistryAccess registries = server.registryAccess();
         
-        Map<Identifier, WorldgenModifier> modifiers = new HashMap<>();
-        registries.lookupOrThrow(LithostitchedRegistries.WORLDGEN_MODIFIER).listElements().forEach(holder -> modifiers.put(holder.key().identifier(), holder.value()));
+        MODIFIERS.clear();
+        registries.lookupOrThrow(LithostitchedRegistries.WORLDGEN_MODIFIER).listElements().forEach(holder -> MODIFIERS.put(holder.key().identifier(), holder.value()));
         AddWorldgenModifiersEvent.EVENT.invoker().addModifiers(registries, (id, modifier) -> {
-            if (!modifiers.containsKey(id)) {
-                modifiers.put(id, modifier);
+            if (!MODIFIERS.containsKey(id)) {
+                MODIFIERS.put(id, modifier);
             }
         });
 
-        for (Map.Entry<Identifier, WorldgenModifier> entry : sortByPriority(modifiers)) {
+        for (Map.Entry<Identifier, WorldgenModifier> entry : sortByPriority(MODIFIERS)) {
             Lithostitched.debug("Applying modifier with id: {}", entry.getKey());
             entry.getValue().apply(registries);
 
@@ -55,9 +61,5 @@ public class ModifierManager {
 
     static List<Map.Entry<Identifier, WorldgenModifier>> sortByPriority(Map<Identifier, WorldgenModifier> modifiers) {
         return modifiers.entrySet().stream().sorted(Comparator.comparingInt(entry -> entry.getValue().priority())).toList();
-    }
-    
-    private static Map.Entry<Identifier, WorldgenModifier> entry(Holder.Reference<WorldgenModifier> holder) {
-        return Map.entry(holder.key().identifier(), holder.value());
     }
 }

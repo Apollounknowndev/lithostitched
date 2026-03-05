@@ -2,6 +2,8 @@ package dev.worldgen.lithostitched.worldgen.surface;
 
 import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
 import dev.worldgen.lithostitched.mixin.common.NoiseBasedChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
@@ -31,13 +33,13 @@ public class SurfaceRuleManager {
     @SuppressWarnings("deprecation")
     public static void applySurfaceRules(MinecraftServer server) {
         RegistryAccess registries = server.registryAccess();
-        var surfaceRules = Lithostitched.registry(registries, LithostitchedRegistries.WORLDGEN_MODIFIER).entrySet().stream().filter((entry) -> entry.getValue() instanceof AddSurfaceRuleModifier).collect(Collectors.toSet());
+	    Set<Map.Entry<Identifier, WorldgenModifier>> surfaceRules = ModifierManager.MODIFIERS.entrySet().stream().filter(entry -> entry.getValue() instanceof AddSurfaceRuleModifier).collect(Collectors.toSet());
         if (surfaceRules.isEmpty()) return;
 
         HashMap<Identifier, ArrayList<Pair<Identifier, AddSurfaceRuleModifier>>> assignedSurfaceRules = new HashMap<>();
-        for (var assignedSurfaceRule : surfaceRules) {
-            AddSurfaceRuleModifier slice = (AddSurfaceRuleModifier)assignedSurfaceRule.getValue();
-            slice.levels().forEach(levelStemResourceKey -> assignedSurfaceRules.computeIfAbsent(levelStemResourceKey.identifier(), __ -> new ArrayList<>()).add(Pair.of(assignedSurfaceRule.getKey().identifier(), slice)));
+        for (Map.Entry<Identifier, WorldgenModifier> entry : surfaceRules) {
+            AddSurfaceRuleModifier modifier = (AddSurfaceRuleModifier)entry.getValue();
+            modifier.levels().forEach(levelStemResourceKey -> assignedSurfaceRules.computeIfAbsent(levelStemResourceKey.identifier(), __ -> new ArrayList<>()).add(Pair.of(entry.getKey(), modifier)));
         }
 
         Registry<LevelStem> dimensions = Lithostitched.registry(registries, Registries.LEVEL_STEM);

@@ -175,7 +175,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("ceil", CeilDensityFunction.DATA_CODEC),
 			Map.entry("cos", CosDensityFunction.DATA_CODEC),
 			Map.entry("floor", FloorDensityFunction.DATA_CODEC),
-			Map.entry("min", MixDensityFunction.DATA_CODEC),
+			Map.entry("mix", MixDensityFunction.DATA_CODEC),
 			Map.entry("select", SelectDensityFunction.DATA_CODEC),
 			Map.entry("shift", ShiftDensityFunction.DATA_CODEC),
 			Map.entry("sin", SinDensityFunction.DATA_CODEC),

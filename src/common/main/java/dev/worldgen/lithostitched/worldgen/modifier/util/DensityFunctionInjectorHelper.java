@@ -32,6 +32,9 @@ public class DensityFunctionInjectorHelper {
     }
 
     private static boolean isMarker(DensityFunction df) {
-        return df instanceof DensityFunctions.HolderHolder hh && hh.function().value() instanceof MarkerFunction;
+        if (df instanceof DensityFunctions.HolderHolder hh) {
+            df = hh.function().value();
+        }
+        return df instanceof MarkerFunction;
     }
 }
