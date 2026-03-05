@@ -3,6 +3,7 @@ package dev.worldgen.lithostitched.worldgen.placementcondition;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.worldgen.densityfunction.SimpleContext;
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
 import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
@@ -27,7 +28,7 @@ public record SampleNoiseRouterPlacementCondition(NoiseRouterTarget target, Incl
         if (!(context.generator() instanceof NoiseBasedChunkGenerator chunkGenerator)) return false;
 
         DensityFunction df = this.target().getDensityFunction(context.randomState().router()).mapAll(new DensityFunctionWrapper(context, chunkGenerator.generatorSettings().value()));
-        double density = df.compute(new DensityFunction.SinglePointContext(pos.getX(), pos.getY(), pos.getZ()));
+        double density = df.compute(SimpleContext.of(pos));
         
         return this.range.isValueInRange(density);
     }

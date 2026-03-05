@@ -11,6 +11,7 @@ import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.impl.predicate.*;
 import dev.worldgen.lithostitched.impl.registry.LithostitchedRegistrar;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.*;
+import dev.worldgen.lithostitched.impl.worldgen.densityfunction.*;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
 import dev.worldgen.lithostitched.impl.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.api.worldgen.bandlands.Band;
@@ -59,6 +60,7 @@ import dev.worldgen.lithostitched.worldgen.surface.condition.internal.TagFilledC
 import dev.worldgen.lithostitched.worldgen.surface.rule.BandlandsRule;
 import dev.worldgen.lithostitched.worldgen.surface.rule.ReferenceRule;
 import dev.worldgen.lithostitched.worldgen.surface.rule.TransientMergedRule;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -167,7 +169,17 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("internal/merged", MergedDensityFunction.CODEC.codec()),
 			Map.entry("wrapped_marker", WrappedMarkerDensityFunction.CODEC.codec()),
 			Map.entry("original_marker", OriginalMarkerDensityFunction.CODEC.codec()),
-			Map.entry("fast_noise", FastNoiseDensityFunction.CODEC.codec())
+			Map.entry("fast_noise", FastNoiseDensityFunction.CODEC.codec()),
+			
+			Map.entry("axis", AxisDensityFunction.DATA_CODEC),
+			Map.entry("ceil", CeilDensityFunction.DATA_CODEC),
+			Map.entry("cos", CosDensityFunction.DATA_CODEC),
+			Map.entry("floor", FloorDensityFunction.DATA_CODEC),
+			Map.entry("min", MixDensityFunction.DATA_CODEC),
+			Map.entry("select", SelectDensityFunction.DATA_CODEC),
+			Map.entry("shift", ShiftDensityFunction.DATA_CODEC),
+			Map.entry("sin", SinDensityFunction.DATA_CODEC),
+			Map.entry("sqrt", SqrtDensityFunction.DATA_CODEC)
 		));
 		LithostitchedRegistrar.register(Registries.POOL_ALIAS_BINDING, Map.ofEntries(
 			Map.entry("internal/random_entries", RandomEntries.CODEC)

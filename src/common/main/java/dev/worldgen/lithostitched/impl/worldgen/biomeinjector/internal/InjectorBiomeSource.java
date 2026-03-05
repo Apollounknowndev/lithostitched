@@ -6,6 +6,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
+import dev.worldgen.lithostitched.api.worldgen.densityfunction.SimpleContext;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
 import dev.worldgen.lithostitched.impl.LithostitchedPlatform;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.*;
@@ -21,7 +22,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.biome.Climate.TargetPoint;
 import net.minecraft.world.level.levelgen.DensityFunction;
-import net.minecraft.world.level.levelgen.DensityFunction.SinglePointContext;
+import net.minecraft.world.level.levelgen.DensityFunction.FunctionContext;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -117,7 +118,7 @@ public class InjectorBiomeSource extends BiomeSource {
 		int blockX = QuartPos.toBlock(quartX);
 		int blockY = QuartPos.toBlock(quartY);
 		int blockZ = QuartPos.toBlock(quartZ);
-		SinglePointContext context = new SinglePointContext(blockX, blockY, blockZ);
+		SimpleContext context = SimpleContext.of(blockX, blockY, blockZ);
 		TargetPoint point = sampler.sample(quartX, quartY, quartZ);
 		HashMap<DensityFunction, Double> densities = new HashMap<>();
 		ResourceKey<Region> currentRegion = this.regionManager.getRegion(context);
@@ -137,13 +138,13 @@ public class InjectorBiomeSource extends BiomeSource {
 	}
 	
 	public String getRegionLine(BlockPos pos) {
-		var context = new SinglePointContext(pos.getX(), pos.getY(), pos.getZ());
+		SimpleContext context = SimpleContext.of(pos);
 		Identifier region = this.regionManager.getRegion(context).identifier();
 		int rawValue = this.regionManager.getRegionValue(context);
 		return String.format("Region: %s (Raw value: %s)", region, rawValue);
 	}
 	
-	public Holder<Biome> applyReplacements(SinglePointContext context, TargetPoint point, HashMap<DensityFunction, Double> densities, Holder<Biome> biome, ResourceKey<Region> currentRegion) {
+	public Holder<Biome> applyReplacements(FunctionContext context, TargetPoint point, HashMap<DensityFunction, Double> densities, Holder<Biome> biome, ResourceKey<Region> currentRegion) {
 		if (APPLY_FULL_REPLACEMENTS_LATE.get()) {
 			if (this.replacedBiomes.contains(biome)) {
 				for (BiomeInjector injector : this.injectorsByType.getOrDefault(ReplaceFully.CODEC, List.of())) {

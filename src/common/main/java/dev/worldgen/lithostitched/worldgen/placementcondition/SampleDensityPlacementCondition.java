@@ -3,6 +3,7 @@ package dev.worldgen.lithostitched.worldgen.placementcondition;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.worldgen.densityfunction.SimpleContext;
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
 import net.minecraft.core.BlockPos;
@@ -10,8 +11,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
-
-import java.util.Optional;
 
 public record SampleDensityPlacementCondition(Holder<DensityFunction> densityFunction, InclusiveRange<Double> range) implements PlacementCondition {
     public static final MapCodec<SampleDensityPlacementCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -29,7 +28,7 @@ public record SampleDensityPlacementCondition(Holder<DensityFunction> densityFun
         if (!(context.generator() instanceof NoiseBasedChunkGenerator chunkGenerator)) return false;
 
         DensityFunction df = this.densityFunction.value().mapAll(new DensityFunctionWrapper(context, chunkGenerator.generatorSettings().value()));
-        double density = df.compute(new DensityFunction.SinglePointContext(pos.getX(), pos.getY(), pos.getZ()));
+        double density = df.compute(SimpleContext.of(pos));
 
         return this.range.isValueInRange(density);
     }

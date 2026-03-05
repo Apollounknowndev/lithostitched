@@ -8,6 +8,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.DensityFunction.FunctionContext;
 
 import java.util.*;
 
@@ -34,12 +35,12 @@ public class RegionManager {
 		this.totalWeight = weight - 1;
 	}
 	
-	public int getRegionValue(DensityFunction.SinglePointContext context) {
+	public int getRegionValue(FunctionContext context) {
 		double density = this.regionFunction.get().compute(context);
 		return (int) (Math.clamp(density, 0, 1) * totalWeight + 1);
 	}
 	
-	public ResourceKey<Region> getRegion(DensityFunction.SinglePointContext context) {
+	public ResourceKey<Region> getRegion(FunctionContext context) {
 		if (this.regionFunction.isEmpty()) return NO_REGIONS;
 		
 		int value = getRegionValue(context);
