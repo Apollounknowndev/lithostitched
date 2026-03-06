@@ -21,7 +21,7 @@ import java.util.function.Function;
 @SuppressWarnings("unused")
 public interface LoadPredicate {
 	Codec<LoadPredicate> CODEC = LithostitchedBuiltInRegistries.LOAD_PREDICATE_TYPE.byNameCodec().dispatch(LoadPredicate::codec, Function.identity());
-	MapCodec<Optional<LoadPredicate>> FIELD_CODEC = LoadPredicate.CODEC.optionalFieldOf("predicate");
+	MapCodec<Optional<LoadPredicate>> FIELD_CODEC = LoadPredicate.CODEC.lenientOptionalFieldOf("predicate");
 	
 	boolean test();
 	MapCodec<? extends LoadPredicate> codec();

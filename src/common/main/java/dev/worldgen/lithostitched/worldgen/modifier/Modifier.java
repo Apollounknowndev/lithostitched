@@ -1,5 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.modifier;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import net.minecraft.core.RegistryAccess;
@@ -11,6 +13,9 @@ import java.util.Optional;
  */
 @Deprecated(forRemoval = true)
 public interface Modifier extends WorldgenModifier {
+    MapCodec<Integer> PRIORITY_DEFAULT = WorldgenModifier.PRIORITY_DEFAULT_CODEC;
+    MapCodec<Integer> PRIORITY_REMOVE = WorldgenModifier.PRIORITY_REMOVE_CODEC;
+    
     default Optional<LoadPredicate> predicate() {
         return Optional.empty();
     }

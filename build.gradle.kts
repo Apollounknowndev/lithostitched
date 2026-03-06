@@ -15,7 +15,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.5.8+biome_layout_beta3"
+version = "1.6.0"
 
 cloche {
     targets.all {
