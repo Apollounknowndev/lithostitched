@@ -251,6 +251,7 @@ public class LithostitchedBuiltInRegistries {
 		));
 		LithostitchedRegistrar.register(LithostitchedRegistries.BIOME_INJECTOR_TYPE, Map.ofEntries(
 			Map.entry("add_points", AddPoints.CODEC),
+			Map.entry("dispatch_alternate_layout", DispatchAlternateLayout.CODEC),
 			Map.entry("force_placement", ForcePlacement.CODEC),
 			Map.entry("replace_fully", ReplaceFully.CODEC),
 			Map.entry("replace_partially", ReplacePartially.CODEC)

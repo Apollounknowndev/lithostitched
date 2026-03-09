@@ -5,9 +5,9 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.6.0"
+MOD_VERSION = "1.6.1"
 CHANGELOG = """
-Custom biome layout injection, environment attributes for structures, and plenty more. View changes in the technical changelog [here](https://github.com/Apollounknowndev/lithostitched/wiki/Technical-Changelog).
+Added a new biome injection type. View changes in the technical changelog [here](https://github.com/Apollounknowndev/lithostitched/wiki/Technical-Changelog).
 """
 UPLOAD_VERSIONS = [
     ("fabric", "1.21.1"),
@@ -144,6 +144,6 @@ for modloader, game_version in UPLOAD_VERSIONS:
         continue
 
     upload_modrinth(modloader, game_version, mod_path)
-    #upload_curseforge(modloader, game_version, mod_path)
+    upload_curseforge(modloader, game_version, mod_path)
 
 input("Press any key to close")

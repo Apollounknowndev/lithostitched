@@ -7,6 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector.ClimateParameter;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
+import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.biome.Climate.TargetPoint;
@@ -20,7 +21,7 @@ public final class ParameterMap {
 	public static final MapCodec<ParameterMap> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 		Codec.unboundedMap(
 			Codec.either(ClimateParameter.CODEC, DensityFunction.HOLDER_HELPER_CODEC),
-			InclusiveRange.codec(Codec.DOUBLE)
+			LithostitchedCodecs.DOUBLE_RANGE
 		).fieldOf("parameters").forGetter(map -> map.parameters),
 		Region.KEY_CODEC.optionalFieldOf("region").forGetter(map -> map.region)
 	).apply(i, ParameterMap::new));

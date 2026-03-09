@@ -37,7 +37,7 @@ public class InjectorBiomeSource extends BiomeSource {
 		BiomeSource.CODEC.fieldOf("delegate").forGetter(InjectorBiomeSource::getRootSource)
 	).apply(i, Function.identity()));
 	
-	private static final Supplier<Boolean> APPLY_FULL_REPLACEMENTS_LATE = Suppliers.memoize(() ->
+	private static final Supplier<Boolean> OTHER_BIOME_INJECTION_MOD_INSTALLED = Suppliers.memoize(() ->
 		LithostitchedPlatform.isModLoaded("terrablender") ||
 		LithostitchedPlatform.isModLoaded("biolith") ||
 		LithostitchedPlatform.isModLoaded("blueprint")
@@ -50,6 +50,7 @@ public class InjectorBiomeSource extends BiomeSource {
 	private List<Holder<Biome>> possibleBiomes = new ArrayList<>();
 	private List<Holder<Biome>> replacedBiomes = new ArrayList<>();
 	private RegionManager regionManager;
+	private boolean applyFullReplacementsLate = false;
 	
 	public InjectorBiomeSource(BiomeSource directDelegate) {
 		this.directDelegate = directDelegate;
@@ -78,7 +79,8 @@ public class InjectorBiomeSource extends BiomeSource {
 		}
 		
 		if (!(this.rootDelegate instanceof MultiNoiseBiomeSource multiNoise)) {
-			Lithostitched.debug("Biome source is not a MultiNoiseBiomeSource instance, got {}. add_points and replace_fully injectors will not run.", this.rootDelegate.getClass().getSimpleName());
+			Lithostitched.debug("Biome source is not a MultiNoiseBiomeSource instance, got {}. add_points injectors will not run.", this.rootDelegate.getClass().getSimpleName());
+			this.applyFullReplacementsLate = true;
 			return;
 		}
 		var accessor = (MultiNoiseBiomeSourceAccessor) multiNoise;
@@ -87,7 +89,9 @@ public class InjectorBiomeSource extends BiomeSource {
 		
 		var modifiedParameters = new ArrayList<>(left.orElseGet(() -> right.get().value().parameters()).values());
 		AddPoints.apply(modifiedParameters, this.injectorsByType.getOrDefault(AddPoints.CODEC, new ArrayList<>()));
-		if (!APPLY_FULL_REPLACEMENTS_LATE.get()) {
+		if (OTHER_BIOME_INJECTION_MOD_INSTALLED.get()) {
+			this.applyFullReplacementsLate = true;
+		} else {
 			ReplaceFully.apply(modifiedParameters, this.injectorsByType.getOrDefault(ReplaceFully.CODEC, new ArrayList<>()));
 		}
 		if (left.isPresent()) {
@@ -130,9 +134,23 @@ public class InjectorBiomeSource extends BiomeSource {
 			}
 		}
 		
-		Holder<Biome> baseBiome = this.directDelegate instanceof MultiNoiseBiomeSource multiNoise ?
-			multiNoise.getNoiseBiome(point) :
-			this.directDelegate.getNoiseBiome(quartX, quartY, quartZ, sampler);
+		Holder<Biome> baseBiome = null;
+		
+		if (this.injectorsByType.containsKey(DispatchAlternateLayout.CODEC)) {
+			for (BiomeInjector injector : this.injectorsByType.getOrDefault(DispatchAlternateLayout.CODEC, List.of())) {
+				DispatchAlternateLayout alternateLayout = (DispatchAlternateLayout) injector;
+				if (alternateLayout.matches(context, point, densities, currentRegion)) {
+					baseBiome = alternateLayout.points().findValue(point);
+					break;
+				}
+			}
+		}
+		
+		if (baseBiome == null) {
+			baseBiome = this.directDelegate instanceof MultiNoiseBiomeSource multiNoise ?
+				multiNoise.getNoiseBiome(point) :
+				this.directDelegate.getNoiseBiome(quartX, quartY, quartZ, sampler);
+		}
 		
 		return applyReplacements(context, point, densities, baseBiome, currentRegion);
 	}
@@ -145,7 +163,7 @@ public class InjectorBiomeSource extends BiomeSource {
 	}
 	
 	public Holder<Biome> applyReplacements(FunctionContext context, TargetPoint point, HashMap<DensityFunction, Double> densities, Holder<Biome> biome, ResourceKey<Region> currentRegion) {
-		if (APPLY_FULL_REPLACEMENTS_LATE.get()) {
+		if (this.applyFullReplacementsLate) {
 			if (this.replacedBiomes.contains(biome)) {
 				for (BiomeInjector injector : this.injectorsByType.getOrDefault(ReplaceFully.CODEC, List.of())) {
 					ReplaceFully replaceFully = (ReplaceFully) injector;

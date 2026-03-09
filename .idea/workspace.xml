@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Fix runtime modifier injection">
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Remove test code">
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/DispatchAlternateLayout.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/InjectorBiomeSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/InjectorBiomeSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/ParameterMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/ParameterMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +98,7 @@
     "Gradle.Build lithostitched.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
     "Gradle.lithostitched [:cpw.mods.bootstraplauncher.BootstrapLauncher.main()].executor": "Run",
-    "Gradle.lithostitched [:net.fabricmc.loader.impl.launch.knot.KnotClient.main()].executor": "Run",
+    "Gradle.lithostitched [:net.fabricmc.loader.impl.launch.knot.KnotClient.main()].executor": "Debug",
     "Gradle.lithostitched [:net.neoforged.fml.startup.Client.main()].executor": "Run",
     "Gradle.lithostitched [:net.neoforged.fml.startup.Server.main()].executor": "Run",
     "Gradle.lithostitched [generateFabric1211MappingsArtifact].executor": "Run",
@@ -149,11 +154,11 @@
       <recent name="dev.worldgen.lithostitched.worldgen.bandlands" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.worldgen.lithostitched.impl.worldgen.biomeinjector" />
       <recent name="dev.worldgen.lithostitched.impl.worldgen.densityfunction" />
       <recent name="dev.worldgen.lithostitched.api.worldgen.surface" />
       <recent name="dev.worldgen.lithostitched.api.worldgen.util" />
       <recent name="dev.worldgen.lithostitched.api.event" />
-      <recent name="dev.worldgen.lithostitched.impl.worldgen.modifier" />
     </key>
   </component>
   <component name="RunManager" selected="Gradle.1.20.1 [build]">
@@ -739,7 +744,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772753984854</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Remove test code">
+      <option name="closed" value="true" />
+      <created>1772765040202</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1772765040202</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -766,7 +779,8 @@
     <MESSAGE value="Density functions" />
     <MESSAGE value="Fix runtime df wrappers" />
     <MESSAGE value="Fix runtime modifier injection" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix runtime modifier injection" />
+    <MESSAGE value="Remove test code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove test code" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

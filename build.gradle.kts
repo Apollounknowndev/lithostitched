@@ -15,7 +15,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.6.0"
+version = "1.6.1"
 
 cloche {
     targets.all {
