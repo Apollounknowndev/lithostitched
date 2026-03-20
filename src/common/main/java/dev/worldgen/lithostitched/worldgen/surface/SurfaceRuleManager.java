@@ -85,7 +85,7 @@ public class SurfaceRuleManager {
         });
         
         if (originalSource instanceof TransientMergedRule transientMerged) {
-            transientMerged.prependedRules().addAll(sources);
+            transientMerged.rules().addAll(sources);
             return originalSource;
         } else {
             return new TransientMergedRule(sources, originalSource);

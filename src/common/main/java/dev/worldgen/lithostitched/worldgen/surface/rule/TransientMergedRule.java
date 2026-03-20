@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author SmellyModder (Luke Tonon)
  */
-public record TransientMergedRule(List<RuleSource> prependedRules, RuleSource original) implements RuleSource {
+public record TransientMergedRule(List<RuleSource> rules, RuleSource original) implements RuleSource {
     public static final KeyDispatchDataCodec<RuleSource> CODEC = KeyDispatchDataCodec.of(
         RuleSource.CODEC.xmap(
             source -> source,
@@ -28,11 +28,11 @@ public record TransientMergedRule(List<RuleSource> prependedRules, RuleSource or
 
     @Override
     public SurfaceRules.SurfaceRule apply(SurfaceRules.Context context) {
-        if (this.prependedRules.size() == 1) {
-            return this.prependedRules.getFirst().apply(context);
+        if (this.rules.size() == 1) {
+            return this.rules.getFirst().apply(context);
         } else {
             ImmutableList.Builder<SurfaceRules.SurfaceRule> builder = ImmutableList.builder();
-            for (RuleSource ruleSource : this.prependedRules) {
+            for (RuleSource ruleSource : this.rules) {
                 builder.add(ruleSource.apply(context));
             }
             builder.add(this.original.apply(context));
