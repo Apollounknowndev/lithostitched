@@ -7,7 +7,10 @@
     "common.bandlands.SurfaceSystemMixin",
 
     "common.mnbs.MNBSMixin",
+    "common.mnbs.MNBSPLAccessor",
     "common.mnbs.MNBSPLMixin",
+
+    "common.predicate.RegistryDataLoaderMixin",
 
     "common.processor.EndCityPieceMixin",
     "common.processor.IglooPieceMixin",
@@ -28,6 +31,8 @@
     "common.template.RuinedPortalStructureMixin",
     "common.template.ShipwreckStructureMixin",
 
+    "common.BiomeAccessor",
+    "common.BiomeSourceInvoker",
     "common.ChunkGeneratorAccessor",
     "common.ChunkMapMixin",
     "common.DripstoneUtilsAccessor",
@@ -35,6 +40,7 @@
     "common.HolderReferenceAccessor",
     "common.JigsawStructureAccessor",
     "common.MappedRegistryAccessor",
+    "common.MultiNoiseBiomeSourceAccessor",
     "common.NoiseBasedChunkGeneratorAccessor",
     "common.NoiseGeneratorSettingsAccessor",
     "common.PlacedFeatureAccessor",

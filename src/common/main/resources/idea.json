@@ -1,0 +1,13 @@
+{
+  "fabric:load_conditions": {
+    "condition": "fabric:all_mods_loaded",
+    "values": [
+      "tectonic"
+    ]
+  },
+  "type": "lithostitched:wrap_density_function",
+  "target_function": "tectonic:caves",
+  "wrapper_function": {
+    "type": "lithostitched:wrapped_marker"
+  }
+}

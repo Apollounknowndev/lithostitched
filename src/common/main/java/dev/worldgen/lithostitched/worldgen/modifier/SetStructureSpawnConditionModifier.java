@@ -4,9 +4,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
-import dev.worldgen.lithostitched.worldgen.placementcondition.PlacementCondition;
+import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingConfig;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
 import net.minecraft.core.Holder;
@@ -19,16 +21,17 @@ import java.util.Optional;
 
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
-public record SetStructureSpawnConditionModifier(int priority, HolderSet<Structure> structures, PlacementCondition spawnCondition, boolean append) implements Modifier {
+public record SetStructureSpawnConditionModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Structure> structures, PlacementCondition spawnCondition, boolean append) implements WorldgenModifier {
     public static final MapCodec<SetStructureSpawnConditionModifier> CODEC = RecordCodecBuilder.<SetStructureSpawnConditionModifier>mapCodec(instance -> instance.group(
-        PRIORITY_DEFAULT.forGetter(SetStructureSpawnConditionModifier::priority),
+        LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
+        PRIORITY_DEFAULT_CODEC.forGetter(SetStructureSpawnConditionModifier::priority),
         registrySet(Registries.STRUCTURE, "structures").forGetter(SetStructureSpawnConditionModifier::structures),
         PlacementCondition.CODEC.fieldOf("spawn_condition").forGetter(SetStructureSpawnConditionModifier::spawnCondition),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetStructureSpawnConditionModifier::append)
     ).apply(instance, SetStructureSpawnConditionModifier::new));
 
     @Override
-    public void applyModifier(RegistryAccess registries) {
+    public void apply(RegistryAccess registries) {
         this.structures.forEach(structure -> this.applyModifier(registries, structure));
     }
 
@@ -45,10 +48,7 @@ public record SetStructureSpawnConditionModifier(int priority, HolderSet<Structu
     }
 
     @Override
-    public void applyModifier() {}
-
-    @Override
-    public MapCodec<? extends Modifier> codec() {
+    public MapCodec<? extends WorldgenModifier> codec() {
         return CODEC;
     }
 }

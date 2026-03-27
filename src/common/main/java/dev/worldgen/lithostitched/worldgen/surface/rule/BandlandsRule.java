@@ -1,8 +1,8 @@
 package dev.worldgen.lithostitched.worldgen.surface.rule;
 
 import dev.worldgen.lithostitched.duck.ContextAccessor;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
-import dev.worldgen.lithostitched.worldgen.bandlands.Bandlands;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
+import dev.worldgen.lithostitched.impl.worldgen.bandlands.Bandlands;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.util.KeyDispatchDataCodec;
@@ -10,7 +10,7 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 
 public record BandlandsRule(Holder<Bandlands> options) implements SurfaceRules.RuleSource {
     public static final KeyDispatchDataCodec<BandlandsRule> CODEC = KeyDispatchDataCodec.of(
-        RegistryFileCodec.create(LithostitchedRegistryKeys.BANDLANDS, Bandlands.CODEC, false).fieldOf("options").xmap(BandlandsRule::new, BandlandsRule::options)
+        RegistryFileCodec.create(LithostitchedRegistries.BANDLANDS, Bandlands.CODEC, false).fieldOf("options").xmap(BandlandsRule::new, BandlandsRule::options)
     );
 
     @Override

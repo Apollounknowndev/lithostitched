@@ -2,6 +2,7 @@ package dev.worldgen.lithostitched.worldgen.placementmodifier;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
@@ -11,13 +12,13 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 
 import java.util.stream.Stream;
 
-import static net.minecraft.util.valueproviders.ConstantInt.ZERO;
-
 public class OffsetPlacement extends PlacementModifier {
+    public static final IntProvider ZERO = LithostitchedVersion.constantInt(0);
+    
     public static final MapCodec<OffsetPlacement> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        IntProvider.codec(-16, 16).orElse(ZERO).fieldOf("x_offset").forGetter(OffsetPlacement::xOffset),
-        IntProvider.CODEC.orElse(ZERO).fieldOf("y_offset").forGetter(OffsetPlacement::yOffset),
-        IntProvider.codec(-16, 16).orElse(ZERO).fieldOf("z_offset").forGetter(OffsetPlacement::zOffset)
+        LithostitchedVersion.intProviderCodec(-16, 16).orElse(ZERO).fieldOf("x_offset").forGetter(OffsetPlacement::xOffset),
+        LithostitchedVersion.intProviderCodec(-4064,4064).orElse(ZERO).fieldOf("y_offset").forGetter(OffsetPlacement::yOffset),
+        LithostitchedVersion.intProviderCodec(-16, 16).orElse(ZERO).fieldOf("z_offset").forGetter(OffsetPlacement::zOffset)
     ).apply(instance, OffsetPlacement::new));
     public static final PlacementModifierType<OffsetPlacement> TYPE = () -> CODEC;
 

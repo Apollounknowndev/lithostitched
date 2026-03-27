@@ -3,8 +3,9 @@ package dev.worldgen.lithostitched.worldgen.processor;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.util.weighted.Weighted;
-import dev.worldgen.lithostitched.util.weighted.WeightedList;
+import dev.worldgen.lithostitched.api.util.Weighted;
+import dev.worldgen.lithostitched.api.util.WeightedList;
+import dev.worldgen.lithostitched.api.worldgen.processor.RandomSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -28,7 +29,7 @@ public class ApplyRandomStructureProcessor extends StructureProcessor {
         RandomSettings.CODEC.fieldOf("mode").forGetter(ApplyRandomStructureProcessor::randomSettings)
     ).apply(instance, ApplyRandomStructureProcessor::new));
 
-    private static HolderSet<StructureProcessorList> convertToSet(WeightedList<Holder<StructureProcessorList>> weightedList) {
+    public static HolderSet<StructureProcessorList> convertToSet(WeightedList<Holder<StructureProcessorList>> weightedList) {
         List<Holder<StructureProcessorList>> holders = new ArrayList<>();
         for (Weighted<Holder<StructureProcessorList>> processor : weightedList.unwrap()) {
             for (int i = 0; i < processor.weight(); i++) {

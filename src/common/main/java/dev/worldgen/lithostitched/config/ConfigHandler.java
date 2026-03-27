@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 import com.mojang.serialization.JsonOps;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.impl.LithostitchedPlatform;
 import net.minecraft.util.GsonHelper;
 
 import java.io.BufferedReader;
@@ -18,17 +19,18 @@ import java.util.Optional;
 
 public class ConfigHandler {
     private static ConfigCodec LOADED_CONFIG = ConfigCodec.DEFAULT;
+    private static final Path CONFIG_PATH = LithostitchedPlatform.getConfigFolder().resolve("lithostitched.json");
 
     public static ConfigCodec getConfig() {
         return LOADED_CONFIG;
     }
 
-    public static void load(Path path) {
-        if (!Files.isRegularFile(path)) {
-            write(path);
+    public static void load() {
+        if (!Files.isRegularFile(CONFIG_PATH)) {
+            write();
         }
 
-        try (BufferedReader reader = Files.newBufferedReader(path)) {
+        try (BufferedReader reader = Files.newBufferedReader(CONFIG_PATH)) {
             JsonElement json = JsonParser.parseReader(reader);
             Optional<ConfigCodec> result = ConfigCodec.CODEC.parse(JsonOps.INSTANCE, json).result();
             if (result.isPresent()) {
@@ -42,11 +44,11 @@ public class ConfigHandler {
             throw new RuntimeException(e);
         }
 
-        write(path);
+        write();
     }
 
-    private static void write(Path path) {
-        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+    private static void write() {
+        try (BufferedWriter writer = Files.newBufferedWriter(CONFIG_PATH)) {
             JsonElement element = ConfigCodec.CODEC.encodeStart(JsonOps.INSTANCE, LOADED_CONFIG).result().get();
             StringWriter stringWriter = new StringWriter();
             JsonWriter jsonWriter = new JsonWriter(stringWriter);

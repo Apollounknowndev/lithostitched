@@ -3,30 +3,34 @@ package dev.worldgen.lithostitched.worldgen.placementcondition;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.worldgen.NoiseRouterTarget;
-import dev.worldgen.lithostitched.worldgen.NoiseWiringHelper;
+import dev.worldgen.lithostitched.api.worldgen.densityfunction.SimpleContext;
+import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
+import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
+import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 
-import java.util.Optional;
-
-public record SampleNoiseRouterPlacementCondition(NoiseRouterTarget target, Optional<Double> minInclusive, Optional<Double> maxInclusive) implements PlacementCondition {
+public record SampleNoiseRouterPlacementCondition(NoiseRouterTarget target, InclusiveRange<Double> range) implements PlacementCondition {
     public static final MapCodec<SampleNoiseRouterPlacementCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         NoiseRouterTarget.CODEC.fieldOf("target").forGetter(SampleNoiseRouterPlacementCondition::target),
-        Codec.DOUBLE.optionalFieldOf("min_inclusive").forGetter(SampleNoiseRouterPlacementCondition::minInclusive),
-        Codec.DOUBLE.optionalFieldOf("max_inclusive").forGetter(SampleNoiseRouterPlacementCondition::maxInclusive)
+        Codec.DOUBLE.optionalFieldOf("min_inclusive", Double.MIN_VALUE).forGetter(condition -> condition.range.minInclusive()),
+        Codec.DOUBLE.optionalFieldOf("max_inclusive", Double.MAX_VALUE).forGetter(condition -> condition.range.maxInclusive())
     ).apply(instance, SampleNoiseRouterPlacementCondition::new));
+    
+    public SampleNoiseRouterPlacementCondition(NoiseRouterTarget target, double minInclusive, double maxInclusive) {
+        this(target, new InclusiveRange<>(minInclusive, maxInclusive));
+    }
 
     @Override
     public boolean test(Context context, BlockPos pos) {
         if (!(context.generator() instanceof NoiseBasedChunkGenerator chunkGenerator)) return false;
 
-        DensityFunction df = this.target().getDensityFunction(context.randomState().router()).mapAll(new NoiseWiringHelper(context, chunkGenerator.generatorSettings().value()));
-        double density = df.compute(new DensityFunction.SinglePointContext(pos.getX(), pos.getY(), pos.getZ()));
-        boolean min = this.minInclusive.isEmpty() || density >= this.minInclusive.get();
-        boolean max = this.maxInclusive.isEmpty() || density <= this.maxInclusive.get();
-        return min && max;
+        DensityFunction df = this.target().getDensityFunction(context.randomState().router()).mapAll(new DensityFunctionWrapper(context, chunkGenerator.generatorSettings().value()));
+        double density = df.compute(SimpleContext.of(pos));
+        
+        return this.range.isValueInRange(density);
     }
 
     @Override

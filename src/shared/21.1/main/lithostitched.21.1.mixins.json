@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "dev.worldgen.lithostitched.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "common.BiomeGenerationSettingsAccessor",
+    "common.JigsawStructureMixin",
+    "common.MobSpawnSettingsAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,6 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.placementcondition;
 
 import com.mojang.serialization.MapCodec;
+import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.BlockPos;
 
 public record NotPlacementCondition(PlacementCondition condition) implements PlacementCondition {

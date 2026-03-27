@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.worldgen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.util.weighted.WeightedList;
+import dev.worldgen.lithostitched.api.util.WeightedList;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
@@ -28,9 +28,16 @@ public interface LithostitchedCodecs {
             Codec.INT.fieldOf("max_inclusive").orElse(Integer.MAX_VALUE).forGetter(InclusiveRange::maxInclusive)
         ).apply(instance, InclusiveRange::new))
     );
+    Codec<InclusiveRange<Double>> DOUBLE_RANGE = Codec.withAlternative(
+        InclusiveRange.codec(Codec.DOUBLE),
+        RecordCodecBuilder.create(instance -> instance.group(
+            Codec.DOUBLE.fieldOf("min_inclusive").orElse(Double.MIN_VALUE).forGetter(InclusiveRange::minInclusive),
+            Codec.DOUBLE.fieldOf("max_inclusive").orElse(Double.MAX_VALUE).forGetter(InclusiveRange::maxInclusive)
+        ).apply(instance, InclusiveRange::new))
+    );
 
-    static <T> MapCodec<HolderSet<T>> registrySet(ResourceKey<Registry<T>> registry, String name) {
-        return RegistryCodecs.homogeneousList(registry).fieldOf(name);
+    static <T> MapCodec<HolderSet<T>> registrySet(ResourceKey<Registry<T>> key, String name) {
+        return RegistryCodecs.homogeneousList(key).fieldOf(name);
     }
 
     static <T> Codec<List<T>> compactList(Codec<T> codec) {

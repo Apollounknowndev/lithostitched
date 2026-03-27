@@ -4,32 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Structure environment attributes">
-      <change afterPath="$PROJECT_DIR$/src/neoforge/1.21.11/main/java/dev/worldgen/lithostitched/client/LithostitchedNeoforgeClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/neoforge/1.21.11/main/java/dev/worldgen/lithostitched/worldgen/structure/StructureAttributeHandlerActual.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/1.21.1/main/java/dev/worldgen/lithostitched/ClocheHack.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/1.21.11/main/java/dev/worldgen/lithostitched/ClocheHack.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/1.21.11/main/java/dev/worldgen/lithostitched/mixin/client/MusicManagerMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/1.21.11/main/java/dev/worldgen/lithostitched/worldgen/attribute/LithostitchedEnvironmentAttributes.java" afterDir="false" />
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Failed 26.1 port">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mappings/1.21.1.tiny" beforeDir="false" afterPath="$PROJECT_DIR$/mappings/1.21.1.tiny" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/util/MathUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/util/MathUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/util/weighted/Weighted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/util/weighted/Weighted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/modifier/template/TemplateList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/modifier/template/TemplateList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/resources/data/minecraft/worldgen/structure/trial_chambers.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/LithostitchedFabric.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/LithostitchedFabric.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedRegistrations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/worldgen/structure/StructureAttributeHandlerActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/1.21.11/main/java/dev/worldgen/lithostitched/worldgen/structure/StructureAttributeHandlerActual.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/neoforge/1.21.11/main/java/dev/worldgen/lithostitched/LithostitchedNeoforge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/1.21.11/main/java/dev/worldgen/lithostitched/LithostitchedNeoforge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/neoforge/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/1.21.11/main/java/dev/worldgen/lithostitched/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/1.21.1/main/java/dev/worldgen/lithostitched/LithostitchedActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/1.21.1/main/java/dev/worldgen/lithostitched/LithostitchedActual.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/1.21.1/main/java/dev/worldgen/lithostitched/worldgen/structure/DelegatingConfigActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/1.21.1/main/java/dev/worldgen/lithostitched/worldgen/structure/DelegatingConfigActual.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/1.21.11/main/java/dev/worldgen/lithostitched/duck/StructureAttributesHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/1.21.11/main/java/dev/worldgen/lithostitched/duck/StructureAttributesHolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/1.21.11/main/java/dev/worldgen/lithostitched/mixin/client/EnvironmentAttributeSystemMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/1.21.11/main/java/dev/worldgen/lithostitched/mixin/client/EnvironmentAttributeSystemMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/1.21.11/main/java/dev/worldgen/lithostitched/worldgen/structure/DelegatingConfigActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/1.21.11/main/java/dev/worldgen/lithostitched/worldgen/structure/DelegatingConfigActual.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/1.21.11/main/java/dev/worldgen/lithostitched/worldgen/structure/StructureAttributeHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/1.21.11/main/java/dev/worldgen/lithostitched/worldgen/structure/StructureAttributeHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/1.21.11/main/lithostitched.12111.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/1.21.11/main/lithostitched.12111.mixins.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/bandlands/BandlandsBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/bandlands/BandlandsBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/LithostitchedVersion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/LithostitchedVersion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/DungeonFeature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/DungeonFeature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/config/DungeonConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/config/DungeonConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/config/LargeDripstoneConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/config/LargeDripstoneConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/config/VinesConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/config/VinesConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/config/WellConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/feature/config/WellConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/placementmodifier/OffsetPlacement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/placementmodifier/OffsetPlacement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fabric/26.1/main/java/dev/worldgen/lithostitched/LithostitchedFabric.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/26.1/main/java/dev/worldgen/lithostitched/LithostitchedFabric.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,12 +46,6 @@
                 <item name="lithostitched" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="lithostitched" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
             </expand>
             <select />
           </tree_state>
@@ -77,8 +58,8 @@
       <list>
         <option value="JUnit5 Test Class" />
         <option value="Enum" />
-        <option value="Record" />
         <option value="Interface" />
+        <option value="Record" />
         <option value="Class" />
       </list>
     </option>
@@ -98,6 +79,7 @@
     &quot;accountId&quot;: &quot;7891143c-883a-4944-b9fb-b68c3c023df8&quot;
   }
 }</component>
+  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="C:\Users\ldglo\.gradle\wrapper\dists\gradle-9.2.0-bin\11i5gvueggl8a5cioxuftxrik\gradle-9.2.0" javaHome="C:\Users\ldglo\.jdks\corretto-21.0.3" gradleVersion="9.2.0" />
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 8
@@ -118,14 +100,19 @@
     &quot;Gradle.1.20.1 [prepareFabric1219ClientRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.1.20.1 [prepareNeoforge1211ClientRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.1.20.1 [prepareNeoforge1219ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build lithostitched.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [:cpw.mods.bootstraplauncher.BootstrapLauncher.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [:net.fabricmc.loader.impl.launch.knot.KnotClient.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [:net.neoforged.fml.startup.Client.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [:net.neoforged.fml.startup.Server.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [generateFabric1211MappingsArtifact].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [prepareFabric12111ClientRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [prepareFabric1211ClientRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [prepareFabric1219ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareFabric211ClientRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [prepareNeoforge12111ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareNeoforge12111ServerRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [prepareNeoforge1211ClientRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [remapFabric12111CommonMinecraftIntermediary].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [remapFabric1211ClientMinecraftIntermediary].executor&quot;: &quot;Run&quot;,
@@ -137,244 +124,197 @@
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;cloche&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;experimental/biome-injector&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/src/neoforge/1.21.11/main/java/dev/worldgen/lithostitched/worldgen&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/src/common/main&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;,
     &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/1.20.1/src/shared/1.21.8/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;dev.kikugie.stonecutter.projects&quot;: []
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\neoforge\1.21.11\main\java\dev\worldgen\lithostitched\worldgen" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\shared\1.21.11\main\java\dev\worldgen\lithostitched\worldgen" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\mappings" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\java\dev\worldgen\lithostitched\duck" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\shared\26.1\main" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\fabric\1.21.11\main\java\dev\worldgen\lithostitched\impl" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\fabric\1.21.1\main\java\dev\worldgen\lithostitched\impl" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\neoforge\1.21.11\main\java\dev\worldgen\lithostitched\impl" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\shared\21.1\main" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\worldgen\noise\region" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\lithostitched\fast_noise_config\region" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\mappings" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\1.21.1.tiny" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\src\common\main\resources\data\test\lithostitched\worldgen_modifier" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="dev.worldgen.lithostitched.worldgen.bandlands" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="dev.worldgen.lithostitched" />
-      <recent name="dev.worldgen.lithostitched.client" />
-      <recent name="dev.worldgen.lithostitched.worldgen.structure" />
-      <recent name="dev.worldgen.lithostitched.mixin.common" />
-      <recent name="dev.worldgen.lithostitched.mixin" />
+      <recent name="dev.worldgen.lithostitched.impl.worldgen.biomeinjector" />
+      <recent name="dev.worldgen.lithostitched.impl.worldgen.densityfunction" />
+      <recent name="dev.worldgen.lithostitched.api.worldgen.surface" />
+      <recent name="dev.worldgen.lithostitched.api.worldgen.util" />
+      <recent name="dev.worldgen.lithostitched.api.event" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.1.20.1 [build]">
-    <configuration name="Run :fabric:1.21.11:client" type="Application" factoryName="Application">
+  <component name="RunManager" selected="Application.Run :fabric:21.1:client">
+    <configuration name="Run :fabric:21.11:client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.fabricmc.loader.impl.launch.knot.KnotClient" />
-      <module name="lithostitched.fabric12111" />
+      <module name="lithostitched.fabric2111" />
       <option name="PROGRAM_PARAMETERS" value="--assetsDir=C:\Users\ldglo\.gradle\caches\minecraft-codev\assets --assetIndex=29" />
-      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric12111;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric12111;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric12111 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-1.21.11\common\minecraft-1.21.11-named.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric12111ClientGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric12111RemapClasspath\classpath.txt -Djava.library.path=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric12111Natives -Dorg.lwjgl.librarypath=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric12111Natives -Dfabric.gameJarPath.client=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-1.21.11\main\minecraft-1.21.11-client-named.jar" />
+      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric2111;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric2111;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric2111 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-21.11\common\minecraft-1.21.11-named.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric2111ClientGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric2111RemapClasspath\classpath.txt -Djava.library.path=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric2111Natives -Dorg.lwjgl.librarypath=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric2111Natives -Dfabric.gameJarPath.client=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-21.11\main\minecraft-1.21.11-client-named.jar" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric12111ClientRun" externalProjectPath="$PROJECT_DIR$" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric2111ClientRun" externalProjectPath="$PROJECT_DIR$" />
       </method>
     </configuration>
-    <configuration name="Run :fabric:1.21.11:server" type="Application" factoryName="Application">
+    <configuration name="Run :fabric:21.11:server" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.fabricmc.loader.impl.launch.knot.KnotServer" />
-      <module name="lithostitched.fabric12111" />
+      <module name="lithostitched.fabric2111" />
       <option name="PROGRAM_PARAMETERS" value="nogui" />
-      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric12111;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric12111;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric12111 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-1.21.11\common\minecraft-1.21.11-named.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric12111CommonGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric12111RemapClasspath\classpath.txt" />
+      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric2111;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric2111;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric2111 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-21.11\common\minecraft-1.21.11-named.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric2111CommonGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric2111RemapClasspath\classpath.txt" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric12111ServerRun" externalProjectPath="$PROJECT_DIR$" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric2111ServerRun" externalProjectPath="$PROJECT_DIR$" />
       </method>
     </configuration>
-    <configuration name="Run :fabric:1.21.1:client" type="Application" factoryName="Application">
+    <configuration name="Run :fabric:21.1:client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.fabricmc.loader.impl.launch.knot.KnotClient" />
-      <module name="lithostitched.fabric1211" />
+      <module name="lithostitched.fabric211" />
       <option name="PROGRAM_PARAMETERS" value="--assetsDir=C:\Users\ldglo\.gradle\caches\minecraft-codev\assets --assetIndex=17" />
-      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric1211;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric1211;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric1211 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-1.21.1\common\minecraft-1.21.1-named.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric1211ClientGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric1211RemapClasspath\classpath.txt -Djava.library.path=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric1211Natives -Dorg.lwjgl.librarypath=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric1211Natives -Dfabric.gameJarPath.client=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-1.21.1\main\minecraft-1.21.1-client-named.jar" />
+      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric211;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric211;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric211 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-21.1\common\minecraft-1.21.1-named.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric211ClientGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric211RemapClasspath\classpath.txt -Djava.library.path=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric211Natives -Dorg.lwjgl.librarypath=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric211Natives -Dfabric.gameJarPath.client=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-21.1\main\minecraft-1.21.1-client-named.jar" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric1211ClientRun" externalProjectPath="$PROJECT_DIR$" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric211ClientRun" externalProjectPath="$PROJECT_DIR$" />
       </method>
     </configuration>
-    <configuration name="Run :fabric:1.21.1:server" type="Application" factoryName="Application">
+    <configuration name="Run :fabric:21.1:server" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.fabricmc.loader.impl.launch.knot.KnotServer" />
-      <module name="lithostitched.fabric1211" />
+      <module name="lithostitched.fabric211" />
       <option name="PROGRAM_PARAMETERS" value="nogui" />
-      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric1211;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric1211;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric1211 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-1.21.1\common\minecraft-1.21.1-named.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric1211CommonGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric1211RemapClasspath\classpath.txt" />
+      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric211;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric211;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric211 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-21.1\common\minecraft-1.21.1-named.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric211CommonGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric211RemapClasspath\classpath.txt" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric1211ServerRun" externalProjectPath="$PROJECT_DIR$" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric211ServerRun" externalProjectPath="$PROJECT_DIR$" />
       </method>
     </configuration>
-    <configuration name="Run :fabric:1.21.8:client" type="Application" factoryName="Application">
+    <configuration name="Run :fabric:26.1:client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.fabricmc.loader.impl.launch.knot.KnotClient" />
-      <module name="lithostitched.fabric1218" />
-      <option name="PROGRAM_PARAMETERS" value="--assetsDir=C:\Users\ldglo\.gradle\caches\minecraft-codev\assets --assetIndex=26" />
-      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\classes\java\fabric1218;C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\classes\kotlin\fabric1218;C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\resources\fabric1218 -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\tmp\writeFabric1218RemapClasspath\classpath.txt -Djava.library.path=C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\tmp\extractFabric1218Natives -Dorg.lwjgl.librarypath=C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\tmp\extractFabric1218Natives" />
+      <module name="lithostitched.fabric261" />
+      <option name="PROGRAM_PARAMETERS" value="--assetsDir=C:\Users\ldglo\.gradle\caches\minecraft-codev\assets --assetIndex=30" />
+      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric261;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric261;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric261 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-26.1\common\minecraft-26.1.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric261ClientGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric261RemapClasspath\classpath.txt -Djava.library.path=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric261Natives -Dorg.lwjgl.librarypath=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric261Natives -Dfabric.gameJarPath.client=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-26.1\main\minecraft-26.1-client.jar" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric1218ClientRun" externalProjectPath="$PROJECT_DIR$" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric261ClientRun" externalProjectPath="$PROJECT_DIR$" />
       </method>
     </configuration>
-    <configuration name="Run :fabric:1.21.8:server" type="Application" factoryName="Application">
+    <configuration name="Run :fabric:26.1:server" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.fabricmc.loader.impl.launch.knot.KnotServer" />
-      <module name="lithostitched.fabric1218" />
+      <module name="lithostitched.fabric261" />
       <option name="PROGRAM_PARAMETERS" value="nogui" />
-      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\classes\java\fabric1218;C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\classes\kotlin\fabric1218;C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\resources\fabric1218 -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\tmp\writeFabric1218RemapClasspath\classpath.txt" />
+      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric261;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric261;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric261 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-26.1\common\minecraft-26.1.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric261CommonGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric261RemapClasspath\classpath.txt" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric1218ServerRun" externalProjectPath="$PROJECT_DIR$" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric261ServerRun" externalProjectPath="$PROJECT_DIR$" />
       </method>
     </configuration>
-    <configuration name="Run :fabric:1.21.9:client" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="net.fabricmc.loader.impl.launch.knot.KnotClient" />
-      <module name="lithostitched.fabric1219" />
-      <option name="PROGRAM_PARAMETERS" value="--assetsDir=C:\Users\ldglo\.gradle\caches\minecraft-codev\assets --assetIndex=27" />
-      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric1219;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric1219;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric1219 -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric1219RemapClasspath\classpath.txt -Djava.library.path=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric1219Natives -Dorg.lwjgl.librarypath=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric1219Natives" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric1219ClientRun" externalProjectPath="$PROJECT_DIR$" />
-      </method>
-    </configuration>
-    <configuration name="Run :fabric:1.21.9:server" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="net.fabricmc.loader.impl.launch.knot.KnotServer" />
-      <module name="lithostitched.fabric1219" />
-      <option name="PROGRAM_PARAMETERS" value="nogui" />
-      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric1219;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric1219;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric1219 -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric1219RemapClasspath\classpath.txt" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareFabric1219ServerRun" externalProjectPath="$PROJECT_DIR$" />
-      </method>
-    </configuration>
-    <configuration name="Run :neoforge:1.21.11:client" type="Application" factoryName="Application">
+    <configuration name="Run :neoforge:21.11:client" type="Application" factoryName="Application">
       <envs>
-        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\neoforge12111;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\neoforge12111;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\resources\neoforge12111" />
+        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\neoforge2111;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\neoforge2111;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\resources\neoforge2111" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="net.neoforged.fml.startup.Client" />
-      <module name="lithostitched.neoforge12111" />
+      <module name="lithostitched.neoforge2111" />
       <option name="PROGRAM_PARAMETERS" value="--version 21.11.12-beta --assetIndex 29 --assetsDir C:\Users\ldglo\.gradle\caches\minecraft-codev\assets --fml.mcVersion 1.21.11 --fml.neoForgeVersion 21.11.12-beta --fml.neoFormVersion 20251209.172050" />
       <option name="VM_PARAMETERS" value="--add-opens java.base/java.lang.invoke=ALL-UNNAMED --add-exports jdk.naming.dns/com.sun.jndi.dns=java.naming -Djava.net.preferIPv6Addresses=system -Dneoforge.enableGameTest=true" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge12111ClientRun" externalProjectPath="$PROJECT_DIR$" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge2111ClientRun" externalProjectPath="$PROJECT_DIR$" />
       </method>
     </configuration>
-    <configuration name="Run :neoforge:1.21.11:server" type="Application" factoryName="Application">
+    <configuration name="Run :neoforge:21.11:server" type="Application" factoryName="Application">
       <envs>
-        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\neoforge12111;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\neoforge12111;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\resources\neoforge12111" />
+        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\neoforge2111;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\neoforge2111;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\resources\neoforge2111" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="net.neoforged.fml.startup.Server" />
-      <module name="lithostitched.neoforge12111" />
+      <module name="lithostitched.neoforge2111" />
       <option name="PROGRAM_PARAMETERS" value="--fml.mcVersion 1.21.11 --fml.neoForgeVersion 21.11.12-beta --fml.neoFormVersion 20251209.172050" />
       <option name="VM_PARAMETERS" value="--add-opens java.base/java.lang.invoke=ALL-UNNAMED --add-exports jdk.naming.dns/com.sun.jndi.dns=java.naming -Djava.net.preferIPv6Addresses=system" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge12111ServerRun" externalProjectPath="$PROJECT_DIR$" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge2111ServerRun" externalProjectPath="$PROJECT_DIR$" />
       </method>
     </configuration>
-    <configuration name="Run :neoforge:1.21.1:client" type="Application" factoryName="Application">
+    <configuration name="Run :neoforge:21.1:client" type="Application" factoryName="Application">
       <envs>
-        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\neoforge1211;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\neoforge1211;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\resources\neoforge1211" />
+        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\neoforge211;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\neoforge211;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\resources\neoforge211" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="cpw.mods.bootstraplauncher.BootstrapLauncher" />
-      <module name="lithostitched.neoforge1211" />
+      <module name="lithostitched.neoforge211" />
       <option name="PROGRAM_PARAMETERS" value="--launchTarget forgeclientdev --version 21.1.217 --assetIndex 17 --assetsDir C:\Users\ldglo\.gradle\caches\minecraft-codev\assets --gameDir . --fml.fmlVersion 4.0.42 --fml.mcVersion 1.21.1 --fml.neoForgeVersion 21.1.217 --fml.neoFormVersion 20240808.144430" />
-      <option name="VM_PARAMETERS" value="-p C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\cpw.mods\bootstraplauncher\2.0.2\1a2d076cbc33b0520cbacd591224427b2a20047d\bootstraplauncher-2.0.2.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\cpw.mods\securejarhandler\3.0.8\c0ef95cecd8699a0449053ac7d9c160748d902cd\securejarhandler-3.0.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-commons\9.8\36e4d212970388e5bd2c5180292012502df461bb\asm-commons-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-util\9.8\395f1c1f035258511f27bc9b2583d76e4b143f59\asm-util-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-analysis\9.8\b9747a320844b6cb1eacd90d8ecfd260a16c01d3\asm-analysis-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-tree\9.8\18419ca5b77a2f81097c741e7872e6ab8d2f40d\asm-tree-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm\9.8\dc19ecb3f7889b7860697215cae99c0f9b6f6b4b\asm-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\net.neoforged\JarJarFileSystems\0.4.1\78f59f89defcd032ed788b151ca6a0d40ace796a\JarJarFileSystems-0.4.1.jar --add-modules ALL-MODULE-PATH --add-opens java.base/java.util.jar=cpw.mods.securejarhandler --add-opens java.base/java.lang.invoke=cpw.mods.securejarhandler --add-exports java.base/sun.security.util=cpw.mods.securejarhandler --add-exports jdk.naming.dns/com.sun.jndi.dns=java.naming -Djava.net.preferIPv6Addresses=system -DignoreList=mixinextras-neoforge-0.5.0.jar,client-extra,neoforge- -DlegacyClassPath.file=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeNeoforge1211LegacyClasspath\classpath.txt -Dneoforge.enableGameTest=true" />
+      <option name="VM_PARAMETERS" value="-p C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\cpw.mods\bootstraplauncher\2.0.2\1a2d076cbc33b0520cbacd591224427b2a20047d\bootstraplauncher-2.0.2.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\cpw.mods\securejarhandler\3.0.8\c0ef95cecd8699a0449053ac7d9c160748d902cd\securejarhandler-3.0.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-commons\9.8\36e4d212970388e5bd2c5180292012502df461bb\asm-commons-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-util\9.8\395f1c1f035258511f27bc9b2583d76e4b143f59\asm-util-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-analysis\9.8\b9747a320844b6cb1eacd90d8ecfd260a16c01d3\asm-analysis-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-tree\9.8\18419ca5b77a2f81097c741e7872e6ab8d2f40d\asm-tree-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm\9.8\dc19ecb3f7889b7860697215cae99c0f9b6f6b4b\asm-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\net.neoforged\JarJarFileSystems\0.4.1\78f59f89defcd032ed788b151ca6a0d40ace796a\JarJarFileSystems-0.4.1.jar --add-modules ALL-MODULE-PATH --add-opens java.base/java.util.jar=cpw.mods.securejarhandler --add-opens java.base/java.lang.invoke=cpw.mods.securejarhandler --add-exports java.base/sun.security.util=cpw.mods.securejarhandler --add-exports jdk.naming.dns/com.sun.jndi.dns=java.naming -Djava.net.preferIPv6Addresses=system -DignoreList=mixinextras-neoforge-0.5.0.jar,client-extra,neoforge- -DlegacyClassPath.file=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeNeoforge211LegacyClasspath\classpath.txt -Dneoforge.enableGameTest=true" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge1211ClientRun" externalProjectPath="$PROJECT_DIR$" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge211ClientRun" externalProjectPath="$PROJECT_DIR$" />
       </method>
     </configuration>
-    <configuration name="Run :neoforge:1.21.1:server" type="Application" factoryName="Application">
+    <configuration name="Run :neoforge:21.1:server" type="Application" factoryName="Application">
       <envs>
-        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\neoforge1211;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\neoforge1211;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\resources\neoforge1211" />
+        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\neoforge211;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\neoforge211;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\resources\neoforge211" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="cpw.mods.bootstraplauncher.BootstrapLauncher" />
-      <module name="lithostitched.neoforge1211" />
+      <module name="lithostitched.neoforge211" />
       <option name="PROGRAM_PARAMETERS" value="--launchTarget forgeserverdev --gameDir . --fml.fmlVersion 4.0.42 --fml.mcVersion 1.21.1 --fml.neoForgeVersion 21.1.217 --fml.neoFormVersion 20240808.144430" />
-      <option name="VM_PARAMETERS" value="-p C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\cpw.mods\bootstraplauncher\2.0.2\1a2d076cbc33b0520cbacd591224427b2a20047d\bootstraplauncher-2.0.2.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\cpw.mods\securejarhandler\3.0.8\c0ef95cecd8699a0449053ac7d9c160748d902cd\securejarhandler-3.0.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-commons\9.8\36e4d212970388e5bd2c5180292012502df461bb\asm-commons-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-util\9.8\395f1c1f035258511f27bc9b2583d76e4b143f59\asm-util-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-analysis\9.8\b9747a320844b6cb1eacd90d8ecfd260a16c01d3\asm-analysis-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-tree\9.8\18419ca5b77a2f81097c741e7872e6ab8d2f40d\asm-tree-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm\9.8\dc19ecb3f7889b7860697215cae99c0f9b6f6b4b\asm-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\net.neoforged\JarJarFileSystems\0.4.1\78f59f89defcd032ed788b151ca6a0d40ace796a\JarJarFileSystems-0.4.1.jar --add-modules ALL-MODULE-PATH --add-opens java.base/java.util.jar=cpw.mods.securejarhandler --add-opens java.base/java.lang.invoke=cpw.mods.securejarhandler --add-exports java.base/sun.security.util=cpw.mods.securejarhandler --add-exports jdk.naming.dns/com.sun.jndi.dns=java.naming -Djava.net.preferIPv6Addresses=system -DignoreList=mixinextras-neoforge-0.5.0.jar,client-extra,neoforge- -DlegacyClassPath.file=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeNeoforge1211LegacyClasspath\classpath.txt" />
+      <option name="VM_PARAMETERS" value="-p C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\cpw.mods\bootstraplauncher\2.0.2\1a2d076cbc33b0520cbacd591224427b2a20047d\bootstraplauncher-2.0.2.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\cpw.mods\securejarhandler\3.0.8\c0ef95cecd8699a0449053ac7d9c160748d902cd\securejarhandler-3.0.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-commons\9.8\36e4d212970388e5bd2c5180292012502df461bb\asm-commons-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-util\9.8\395f1c1f035258511f27bc9b2583d76e4b143f59\asm-util-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-analysis\9.8\b9747a320844b6cb1eacd90d8ecfd260a16c01d3\asm-analysis-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-tree\9.8\18419ca5b77a2f81097c741e7872e6ab8d2f40d\asm-tree-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm\9.8\dc19ecb3f7889b7860697215cae99c0f9b6f6b4b\asm-9.8.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\net.neoforged\JarJarFileSystems\0.4.1\78f59f89defcd032ed788b151ca6a0d40ace796a\JarJarFileSystems-0.4.1.jar --add-modules ALL-MODULE-PATH --add-opens java.base/java.util.jar=cpw.mods.securejarhandler --add-opens java.base/java.lang.invoke=cpw.mods.securejarhandler --add-exports java.base/sun.security.util=cpw.mods.securejarhandler --add-exports jdk.naming.dns/com.sun.jndi.dns=java.naming -Djava.net.preferIPv6Addresses=system -DignoreList=mixinextras-neoforge-0.5.0.jar,client-extra,neoforge- -DlegacyClassPath.file=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeNeoforge211LegacyClasspath\classpath.txt" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge1211ServerRun" externalProjectPath="$PROJECT_DIR$" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge211ServerRun" externalProjectPath="$PROJECT_DIR$" />
       </method>
     </configuration>
-    <configuration name="Run :neoforge:1.21.8:client" type="Application" factoryName="Application">
+    <configuration name="Run :neoforge:26.1:client" type="Application" factoryName="Application">
       <envs>
-        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\classes\java\neoforge1218;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\classes\kotlin\neoforge1218;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\resources\neoforge1218" />
-      </envs>
-      <option name="MAIN_CLASS_NAME" value="cpw.mods.bootstraplauncher.BootstrapLauncher" />
-      <module name="lithostitched.neoforge1218" />
-      <option name="PROGRAM_PARAMETERS" value="--launchTarget neoforgeclientdev --version 21.8.40 --assetIndex 26 --assetsDir C:\Users\ldglo\.gradle\caches\minecraft-codev\assets --fml.fmlVersion 9.0.18 --fml.mcVersion 1.21.8 --fml.neoForgeVersion 21.8.40 --fml.neoFormVersion 20250717.133445" />
-      <option name="VM_PARAMETERS" value="-p C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\net.neoforged.fancymodloader\bootstraplauncher\9.0.18\ec6c91c3e44cd3c77be98069010ce94b1555e292\bootstraplauncher-9.0.18.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\net.neoforged.fancymodloader\securejarhandler\9.0.18\a130f48d1f454285428953ba2ab79861b7532db7\securejarhandler-9.0.18.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\net.neoforged\JarJarFileSystems\0.4.1\78f59f89defcd032ed788b151ca6a0d40ace796a\JarJarFileSystems-0.4.1.jar --add-modules ALL-MODULE-PATH --add-opens java.base/java.util.jar=cpw.mods.securejarhandler --add-opens java.base/java.lang.invoke=cpw.mods.securejarhandler --add-exports java.base/sun.security.util=cpw.mods.securejarhandler --add-exports jdk.naming.dns/com.sun.jndi.dns=java.naming -Djava.net.preferIPv6Addresses=system -DignoreList=mixinextras-neoforge-0.5.0.jar,client-extra,neoforge- -DlegacyClassPath.file=C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\tmp\writeNeoforge1218LegacyClasspath\classpath.txt -Dneoforge.enableGameTest=true" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge1218ClientRun" externalProjectPath="$PROJECT_DIR$" />
-      </method>
-    </configuration>
-    <configuration name="Run :neoforge:1.21.8:server" type="Application" factoryName="Application">
-      <envs>
-        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\classes\java\neoforge1218;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\classes\kotlin\neoforge1218;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\resources\neoforge1218" />
-      </envs>
-      <option name="MAIN_CLASS_NAME" value="cpw.mods.bootstraplauncher.BootstrapLauncher" />
-      <module name="lithostitched.neoforge1218" />
-      <option name="PROGRAM_PARAMETERS" value="--launchTarget neoforgeserverdev --fml.fmlVersion 9.0.18 --fml.mcVersion 1.21.8 --fml.neoForgeVersion 21.8.40 --fml.neoFormVersion 20250717.133445" />
-      <option name="VM_PARAMETERS" value="-p C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\net.neoforged.fancymodloader\bootstraplauncher\9.0.18\ec6c91c3e44cd3c77be98069010ce94b1555e292\bootstraplauncher-9.0.18.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\net.neoforged.fancymodloader\securejarhandler\9.0.18\a130f48d1f454285428953ba2ab79861b7532db7\securejarhandler-9.0.18.jar;C:\Users\ldglo\.gradle\caches\modules-2\files-2.1\net.neoforged\JarJarFileSystems\0.4.1\78f59f89defcd032ed788b151ca6a0d40ace796a\JarJarFileSystems-0.4.1.jar --add-modules ALL-MODULE-PATH --add-opens java.base/java.util.jar=cpw.mods.securejarhandler --add-opens java.base/java.lang.invoke=cpw.mods.securejarhandler --add-exports java.base/sun.security.util=cpw.mods.securejarhandler --add-exports jdk.naming.dns/com.sun.jndi.dns=java.naming -Djava.net.preferIPv6Addresses=system -DignoreList=mixinextras-neoforge-0.5.0.jar,client-extra,neoforge- -DlegacyClassPath.file=C:\Users\ldglo\Documents\Github\lithostitched\1.20.1\build\tmp\writeNeoforge1218LegacyClasspath\classpath.txt" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge1218ServerRun" externalProjectPath="$PROJECT_DIR$" />
-      </method>
-    </configuration>
-    <configuration name="Run :neoforge:1.21.9:client" type="Application" factoryName="Application">
-      <envs>
-        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\neoforge1219;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\neoforge1219;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\resources\neoforge1219" />
+        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\neoforge261;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\neoforge261;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\resources\neoforge261" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="net.neoforged.fml.startup.Client" />
-      <module name="lithostitched.neoforge1219" />
-      <option name="PROGRAM_PARAMETERS" value="--version 21.10.64 --assetIndex 27 --assetsDir C:\Users\ldglo\.gradle\caches\minecraft-codev\assets --fml.mcVersion 1.21.10 --fml.neoForgeVersion 21.10.64 --fml.neoFormVersion 20251010.172816" />
-      <option name="VM_PARAMETERS" value="--add-opens java.base/java.lang.invoke=ALL-UNNAMED --add-exports jdk.naming.dns/com.sun.jndi.dns=java.naming -Djava.net.preferIPv6Addresses=system -Dneoforge.enableGameTest=true" />
+      <module name="lithostitched.neoforge261" />
+      <option name="PROGRAM_PARAMETERS" value="--version 26.1.0.5-beta --assetIndex 30 --assetsDir C:\Users\ldglo\.gradle\caches\minecraft-codev\assets" />
+      <option name="VM_PARAMETERS" value="--sun-misc-unsafe-memory-access=allow --enable-native-access=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED --add-exports jdk.naming.dns/com.sun.jndi.dns=java.naming -Djava.net.preferIPv6Addresses=system -Dneoforge.enableGameTest=true" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge1219ClientRun" externalProjectPath="$PROJECT_DIR$" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge261ClientRun" externalProjectPath="$PROJECT_DIR$" />
       </method>
     </configuration>
-    <configuration name="Run :neoforge:1.21.9:server" type="Application" factoryName="Application">
+    <configuration name="Run :neoforge:26.1:server" type="Application" factoryName="Application">
       <envs>
-        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\neoforge1219;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\neoforge1219;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\resources\neoforge1219" />
+        <env name="MOD_CLASSES" value="lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\neoforge261;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\neoforge261;lithostitched%%C:\Users\ldglo\Documents\Github\lithostitched\build\resources\neoforge261" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="net.neoforged.fml.startup.Server" />
-      <module name="lithostitched.neoforge1219" />
-      <option name="PROGRAM_PARAMETERS" value="--fml.mcVersion 1.21.10 --fml.neoForgeVersion 21.10.64 --fml.neoFormVersion 20251010.172816" />
-      <option name="VM_PARAMETERS" value="--add-opens java.base/java.lang.invoke=ALL-UNNAMED --add-exports jdk.naming.dns/com.sun.jndi.dns=java.naming -Djava.net.preferIPv6Addresses=system" />
+      <module name="lithostitched.neoforge261" />
+      <option name="VM_PARAMETERS" value="--sun-misc-unsafe-memory-access=allow --enable-native-access=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED --add-exports jdk.naming.dns/com.sun.jndi.dns=java.naming -Djava.net.preferIPv6Addresses=system" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge1219ServerRun" externalProjectPath="$PROJECT_DIR$" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="prepareNeoforge261ServerRun" externalProjectPath="$PROJECT_DIR$" />
       </method>
     </configuration>
     <configuration name="1.20.1 [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -395,8 +335,11 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <configuration name="lithostitched [generateFabric1211MappingsArtifact]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -417,8 +360,11 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <configuration name="lithostitched [remapFabric12111CommonMinecraftIntermediary]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -439,8 +385,11 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <configuration name="lithostitched [remapFabric1211ClientMinecraftIntermediary]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -461,8 +410,11 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <configuration name="lithostitched [resolveNeoforge12111PatchedMinecraft]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -483,27 +435,26 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.Run :fabric:1.21.11:client" />
-      <item itemvalue="Application.Run :fabric:1.21.11:server" />
-      <item itemvalue="Application.Run :fabric:1.21.1:client" />
-      <item itemvalue="Application.Run :fabric:1.21.1:server" />
-      <item itemvalue="Application.Run :fabric:1.21.8:client" />
-      <item itemvalue="Application.Run :fabric:1.21.8:server" />
-      <item itemvalue="Application.Run :fabric:1.21.9:client" />
-      <item itemvalue="Application.Run :fabric:1.21.9:server" />
-      <item itemvalue="Application.Run :neoforge:1.21.11:client" />
-      <item itemvalue="Application.Run :neoforge:1.21.11:server" />
-      <item itemvalue="Application.Run :neoforge:1.21.1:client" />
-      <item itemvalue="Application.Run :neoforge:1.21.1:server" />
-      <item itemvalue="Application.Run :neoforge:1.21.8:client" />
-      <item itemvalue="Application.Run :neoforge:1.21.8:server" />
-      <item itemvalue="Application.Run :neoforge:1.21.9:client" />
-      <item itemvalue="Application.Run :neoforge:1.21.9:server" />
+      <item itemvalue="Application.Run :fabric:21.11:client" />
+      <item itemvalue="Application.Run :fabric:21.11:server" />
+      <item itemvalue="Application.Run :fabric:21.1:client" />
+      <item itemvalue="Application.Run :fabric:21.1:server" />
+      <item itemvalue="Application.Run :fabric:26.1:client" />
+      <item itemvalue="Application.Run :fabric:26.1:server" />
+      <item itemvalue="Application.Run :neoforge:21.11:client" />
+      <item itemvalue="Application.Run :neoforge:21.11:server" />
+      <item itemvalue="Application.Run :neoforge:21.1:client" />
+      <item itemvalue="Application.Run :neoforge:21.1:server" />
+      <item itemvalue="Application.Run :neoforge:26.1:client" />
+      <item itemvalue="Application.Run :neoforge:26.1:server" />
       <item itemvalue="Gradle.1.20.1 [build]" />
       <item itemvalue="Gradle.lithostitched [generateFabric1211MappingsArtifact]" />
       <item itemvalue="Gradle.lithostitched [remapFabric12111CommonMinecraftIntermediary]" />
@@ -519,6 +470,13 @@
         <item itemvalue="Gradle.lithostitched [remapFabric1211ClientMinecraftIntermediary]" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.32098.37" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -593,17 +551,207 @@
       <option name="project" value="LOCAL" />
       <updated>1769751040628</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Structure environment attributes">
+      <option name="closed" value="true" />
+      <created>1770258512603</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1770258512603</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Implement basic biome injectors">
+      <option name="closed" value="true" />
+      <created>1770351141949</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1770351141949</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Cleaned up parameters">
+      <option name="closed" value="true" />
+      <created>1770411903252</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1770411903252</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Cleaned up reserved names">
+      <option name="closed" value="true" />
+      <created>1770428573332</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1770428573332</updated>
+    </task>
+    <task id="LOCAL-00013" summary="So much progress aaaaaaaa">
+      <option name="closed" value="true" />
+      <created>1771286940492</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1771286940492</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Injector priority, force placement injector, FNL">
+      <option name="closed" value="true" />
+      <created>1771292330747</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1771292330747</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Remove crashing code :3">
+      <option name="closed" value="true" />
+      <created>1771485155098</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1771485155098</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Begin 1.6">
+      <option name="closed" value="true" />
+      <created>1772150508465</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1772150508465</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Modifier progress">
+      <option name="closed" value="true" />
+      <created>1772179575777</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1772179575777</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Neoforge works">
+      <option name="closed" value="true" />
+      <created>1772610194823</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1772610194823</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Optional load predicates again">
+      <option name="closed" value="true" />
+      <created>1772671038825</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1772671038825</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Optional load predicates again">
+      <option name="closed" value="true" />
+      <created>1772671060063</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1772671060063</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Add jigsaw warning block pos">
+      <option name="closed" value="true" />
+      <created>1772672890564</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1772672890564</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Surface rule injection types">
+      <option name="closed" value="true" />
+      <created>1772676863791</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1772676863791</updated>
+    </task>
+    <task id="LOCAL-00023" summary="DATAGENNNNN UTILSSSSSSSS RAAAAAAAAA">
+      <option name="closed" value="true" />
+      <created>1772695770612</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1772695770612</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Density functions">
+      <option name="closed" value="true" />
+      <created>1772698848582</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1772698848582</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Fix runtime df wrappers">
+      <option name="closed" value="true" />
+      <created>1772701722047</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1772701722047</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Fix runtime modifier injection">
+      <option name="closed" value="true" />
+      <created>1772753984854</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1772753984854</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Remove test code">
+      <option name="closed" value="true" />
+      <created>1772765040202</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1772765040202</updated>
+    </task>
+    <task id="LOCAL-00028" summary="1.6.1">
+      <option name="closed" value="true" />
+      <created>1773019805635</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1773019805635</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Remove '1.' prefix from version folders">
+      <option name="closed" value="true" />
+      <created>1773967588170</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1773967588170</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Structure additions, misc. cleanup" />
     <MESSAGE value="Delegating pool element additions, in_structure block predicate" />
     <MESSAGE value="Optimize jigsaw structures" />
     <MESSAGE value="1.5.0+beta4" />
     <MESSAGE value="1.5.0+beta5" />
     <MESSAGE value="MNBS migration, sketchy but should work?" />
     <MESSAGE value="Structure environment attributes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Structure environment attributes" />
+    <MESSAGE value="Implement basic biome injectors" />
+    <MESSAGE value="Cleaned up parameters" />
+    <MESSAGE value="Cleaned up reserved names" />
+    <MESSAGE value="So much progress aaaaaaaa" />
+    <MESSAGE value="Injector priority, force placement injector, FNL" />
+    <MESSAGE value="Remove crashing code :3" />
+    <MESSAGE value="Begin 1.6" />
+    <MESSAGE value="Modifier progress" />
+    <MESSAGE value="Neoforge works" />
+    <MESSAGE value="Optional load predicates again" />
+    <MESSAGE value="Add jigsaw warning block pos" />
+    <MESSAGE value="Surface rule injection types" />
+    <MESSAGE value="DATAGENNNNN UTILSSSSSSSS RAAAAAAAAA" />
+    <MESSAGE value="Density functions" />
+    <MESSAGE value="Fix runtime df wrappers" />
+    <MESSAGE value="Fix runtime modifier injection" />
+    <MESSAGE value="Remove test code" />
+    <MESSAGE value="1.6.1" />
+    <MESSAGE value="Remove '1.' prefix from version folders" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove '1.' prefix from version folders" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

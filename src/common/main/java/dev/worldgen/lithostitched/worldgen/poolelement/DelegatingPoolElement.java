@@ -25,12 +25,12 @@ public class DelegatingPoolElement extends StructurePoolElement {
 
     protected final DelegatingConfig config;
 
-    protected DelegatingPoolElement(DelegatingConfig config) {
+    public DelegatingPoolElement(DelegatingConfig config) {
         super(config.delegate().getProjection());
         this.config = config;
     }
 
-    protected DelegatingPoolElement(StructurePoolElement delegate, Optional<Integer> minDepth, Optional<Integer> forcedCount, Optional<Integer> maxCount) {
+    public DelegatingPoolElement(StructurePoolElement delegate, Optional<Integer> minDepth, Optional<Integer> forcedCount, Optional<Integer> maxCount) {
         this(new DelegatingConfig(delegate, Optional.empty(), Optional.empty(), minDepth.map(min -> Optional.of(new InclusiveRange<>(min, Integer.MAX_VALUE))).orElse(Optional.empty()), forcedCount, maxCount, false, false, Optional.empty()));
     }
 

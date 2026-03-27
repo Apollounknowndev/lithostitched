@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.stateprovider;
 
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.util.weighted.WeightedList;
+import dev.worldgen.lithostitched.api.util.WeightedList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;

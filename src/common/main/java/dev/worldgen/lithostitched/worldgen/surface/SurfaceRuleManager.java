@@ -2,9 +2,10 @@ package dev.worldgen.lithostitched.worldgen.surface;
 
 import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
 import dev.worldgen.lithostitched.mixin.common.NoiseBasedChunkGeneratorAccessor;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
+import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier.InjectionType;
 import dev.worldgen.lithostitched.worldgen.surface.rule.TransientMergedRule;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -19,7 +20,6 @@ import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * The manager class for surface rule injection.
@@ -30,13 +30,14 @@ public class SurfaceRuleManager {
     @SuppressWarnings("deprecation")
     public static void applySurfaceRules(MinecraftServer server) {
         RegistryAccess registries = server.registryAccess();
-        var surfaceRules = Lithostitched.registry(registries, LithostitchedRegistryKeys.WORLDGEN_MODIFIER).entrySet().stream().filter((entry) -> entry.getValue() instanceof AddSurfaceRuleModifier).collect(Collectors.toSet());
+	    List<Map.Entry<Identifier, AddSurfaceRuleModifier>> surfaceRules = ModifierManager.getModifiersOfType(registries, AddSurfaceRuleModifier.CODEC);
         if (surfaceRules.isEmpty()) return;
 
         HashMap<Identifier, ArrayList<Pair<Identifier, AddSurfaceRuleModifier>>> assignedSurfaceRules = new HashMap<>();
-        for (var assignedSurfaceRule : surfaceRules) {
-            AddSurfaceRuleModifier slice = (AddSurfaceRuleModifier)assignedSurfaceRule.getValue();
-            slice.levels().forEach(levelStemResourceKey -> assignedSurfaceRules.computeIfAbsent(levelStemResourceKey.identifier(), __ -> new ArrayList<>()).add(Pair.of(assignedSurfaceRule.getKey().identifier(), slice)));
+        for (Map.Entry<Identifier, AddSurfaceRuleModifier> entry : surfaceRules) {
+            entry.getValue().levels().forEach(level ->
+                assignedSurfaceRules.computeIfAbsent(level.identifier(), __ -> new ArrayList<>()).add(Pair.of(entry.getKey(), entry.getValue()))
+            );
         }
 
         Registry<LevelStem> dimensions = Lithostitched.registry(registries, Registries.LEVEL_STEM);
@@ -67,18 +68,27 @@ public class SurfaceRuleManager {
         }
     }
 
-    private static SurfaceRules.RuleSource buildModdedSurfaceRules(ArrayList<Pair<Identifier, AddSurfaceRuleModifier>> moddedSourceList, SurfaceRules.RuleSource originalSource) {
+    private static SurfaceRules.RuleSource buildModdedSurfaceRules(ArrayList<Pair<Identifier, AddSurfaceRuleModifier>> surfaceInjections, SurfaceRules.RuleSource originalSource) {
         // TODO: Implement caching
-        List<SurfaceRules.RuleSource> newRuleSourceList = new ArrayList<>();
-        moddedSourceList.sort(Comparator.comparingInt(pair -> pair.getSecond().priority()));
-        moddedSourceList.forEach((pair) -> newRuleSourceList.add(pair.getSecond().surfaceRule()));
-
-        newRuleSourceList.add(originalSource);
+        List<SurfaceRules.RuleSource> sources = new ArrayList<>();
+        surfaceInjections.sort(Comparator.comparingInt(pair -> pair.getSecond().priority()));
+        surfaceInjections.forEach(pair -> {
+            if (pair.getSecond().injectionType() == InjectionType.PREPEND) {
+                sources.add(pair.getSecond().surfaceRule());
+            }
+        });
+        sources.add(originalSource);
+        surfaceInjections.forEach(pair -> {
+            if (pair.getSecond().injectionType() == InjectionType.APPEND) {
+                sources.add(pair.getSecond().surfaceRule());
+            }
+        });
+        
         if (originalSource instanceof TransientMergedRule transientMerged) {
-            transientMerged.sequence().addAll(newRuleSourceList);
+            transientMerged.rules().addAll(sources);
             return originalSource;
         } else {
-            return new TransientMergedRule(newRuleSourceList, originalSource);
+            return new TransientMergedRule(sources, originalSource);
         }
     }
 }

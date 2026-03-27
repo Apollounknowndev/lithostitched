@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.modifier.template;
 
 import dev.worldgen.lithostitched.Lithostitched;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
@@ -21,15 +21,15 @@ public interface TemplateLists {
     ResourceKey<TemplateList> SHIPWRECK_OCEAN = key("shipwreck/ocean");
 
     private static ResourceKey<TemplateList> key(String name) {
-        return ResourceKey.create(LithostitchedRegistryKeys.TEMPLATE_LIST, Lithostitched.id(name));
+        return ResourceKey.create(LithostitchedRegistries.TEMPLATE_LIST, Lithostitched.id(name));
     }
 
     static ResourceKey<TemplateList> mansion(int floor, String name) {
-        return ResourceKey.create(LithostitchedRegistryKeys.TEMPLATE_LIST, Lithostitched.id("woodland_mansion/" + MANSION_FLOORS.get(floor) + name));
+        return ResourceKey.create(LithostitchedRegistries.TEMPLATE_LIST, Lithostitched.id("woodland_mansion/" + MANSION_FLOORS.get(floor) + name));
     }
 
     static Identifier getRandom(RegistryAccess registries, ResourceKey<TemplateList> list, RandomSource random) {
-        return registries.lookupOrThrow(LithostitchedRegistryKeys.TEMPLATE_LIST).get(list).get().value().getRandom(random);
+        return registries.lookupOrThrow(LithostitchedRegistries.TEMPLATE_LIST).get(list).get().value().getRandom(random);
     }
 
     interface Mansion {

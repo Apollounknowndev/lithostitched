@@ -4,27 +4,32 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.StructureTemplatePoolAccessor;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
 
 /**
- * A {@link Modifier} implementation that adds template pool elements to a {@link StructureTemplatePool} entry.
+ * A {@link WorldgenModifier} implementation that adds template pool elements to a {@link StructureTemplatePool} entry.
  *
  * @author Apollo
  */
-public record AddTemplatePoolElementsModifier(int priority, HolderSet<StructureTemplatePool> templatePools, List<Pair<StructurePoolElement, Integer>> elements) implements Modifier {
+public record AddTemplatePoolElementsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<StructureTemplatePool> templatePools, List<Pair<StructurePoolElement, Integer>> elements) implements WorldgenModifier {
     public static final MapCodec<AddTemplatePoolElementsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        PRIORITY_DEFAULT.forGetter(AddTemplatePoolElementsModifier::priority),
+        LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
+        PRIORITY_DEFAULT_CODEC.forGetter(AddTemplatePoolElementsModifier::priority),
         registrySet(Registries.TEMPLATE_POOL, "template_pools").forGetter(AddTemplatePoolElementsModifier::templatePools),
         Codec.mapPair(
             StructurePoolElement.CODEC.fieldOf("element"),
@@ -33,12 +38,7 @@ public record AddTemplatePoolElementsModifier(int priority, HolderSet<StructureT
     ).apply(instance, AddTemplatePoolElementsModifier::new));
 
     @Override
-    public MapCodec<? extends Modifier> codec() {
-        return CODEC;
-    }
-
-    @Override
-    public void applyModifier() {
+    public void apply(RegistryAccess registries) {
         this.templatePools.stream().map(Holder::value).forEach(this::applyModifier);
     }
 
@@ -57,5 +57,10 @@ public record AddTemplatePoolElementsModifier(int priority, HolderSet<StructureT
         }
 
         poolAccessor.setVanillaTemplates(vanillaTemplates);
+    }
+    
+    @Override
+    public MapCodec<? extends WorldgenModifier> codec() {
+        return CODEC;
     }
 }

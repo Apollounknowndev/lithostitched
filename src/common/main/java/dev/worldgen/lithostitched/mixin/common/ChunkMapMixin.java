@@ -4,8 +4,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.worldgen.lithostitched.Lithostitched;
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
-import dev.worldgen.lithostitched.worldgen.NoiseRouterTarget;
+import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
 import dev.worldgen.lithostitched.worldgen.modifier.WrapNoiseRouterModifier;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.RegistryAccess;
@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.List;
+import java.util.Map;
 
 import static dev.worldgen.lithostitched.worldgen.modifier.WrapNoiseRouterModifier.modifyDensityFunction;
 
@@ -35,11 +36,7 @@ public class ChunkMapMixin {
         NoiseGeneratorSettingsAccessor accessor = ((NoiseGeneratorSettingsAccessor)(Object)noiseSettings);
         NoiseRouter router = noiseSettings.noiseRouter();
 
-        List<WrapNoiseRouterModifier> modifiers = Lithostitched.registry(registries, LithostitchedRegistryKeys.WORLDGEN_MODIFIER)
-            .stream()
-            .filter(modifier -> modifier instanceof WrapNoiseRouterModifier wrapNoiseRouter && wrapNoiseRouter.dimension().equals(level.dimension()))
-            .map(WrapNoiseRouterModifier.class::cast)
-            .toList();
+        List<WrapNoiseRouterModifier> modifiers = ModifierManager.getModifiersOfType(registries, WrapNoiseRouterModifier.CODEC).stream().map(Map.Entry::getValue).toList();
 
         if (!modifiers.isEmpty()) {
             accessor.setNoiseRouter(new NoiseRouter(

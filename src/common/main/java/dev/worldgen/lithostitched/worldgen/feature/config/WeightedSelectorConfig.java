@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.feature.config;
 
 import com.mojang.serialization.Codec;
-import dev.worldgen.lithostitched.util.weighted.WeightedList;
+import dev.worldgen.lithostitched.api.util.WeightedList;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;

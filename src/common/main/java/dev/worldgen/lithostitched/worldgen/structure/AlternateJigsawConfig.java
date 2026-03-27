@@ -4,15 +4,17 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.worldgen.structure.MaxDistanceFromCenter;
+import dev.worldgen.lithostitched.api.worldgen.structure.SurfaceSnap;
+import dev.worldgen.lithostitched.impl.LithostitchedVersion;
+import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
-import net.minecraft.world.level.levelgen.placement.EnvironmentScanPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.DimensionPadding;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasBinding;
@@ -31,7 +33,7 @@ public record AlternateJigsawConfig(
     HeightProvider startHeight,
     boolean useExpansionHack,
     Optional<Either<SurfaceSnap, Heightmap.Types>> startProjection,
-    MaxDistance maxDistanceFromCenter,
+    MaxDistanceFromCenter maxDistanceFromCenter,
     List<PoolAliasBinding> poolAliases,
     DimensionPadding dimensionPadding,
     LiquidSettings liquidSettings
@@ -39,13 +41,13 @@ public record AlternateJigsawConfig(
     public static final MapCodec<AlternateJigsawConfig> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(AlternateJigsawConfig::startPool),
         Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(AlternateJigsawConfig::startJigsawName),
-        IntProvider.codec(0, 128).fieldOf("size").forGetter(AlternateJigsawConfig::size),
+        LithostitchedVersion.intProviderCodec(0, 128).fieldOf("size").forGetter(AlternateJigsawConfig::size),
         Codec.BOOL.optionalFieldOf("fixed_rotation", false).forGetter(AlternateJigsawConfig::fixedRotation),
         HeightProvider.CODEC.fieldOf("start_height").forGetter(AlternateJigsawConfig::startHeight),
         Codec.BOOL.fieldOf("use_expansion_hack").forGetter(AlternateJigsawConfig::useExpansionHack),
         Heightmap.Types.CODEC.optionalFieldOf("project_start_to_heightmap").forGetter(AlternateJigsawConfig::projectStartToHeightmap),
         Codec.either(SurfaceSnap.CODEC, Heightmap.Types.CODEC).optionalFieldOf("start_projection").forGetter(AlternateJigsawConfig::startProjection),
-        MaxDistance.CODEC.fieldOf("max_distance_from_center").forGetter(AlternateJigsawConfig::maxDistanceFromCenter),
+        MaxDistanceFromCenter.CODEC.fieldOf("max_distance_from_center").forGetter(AlternateJigsawConfig::maxDistanceFromCenter),
         Codec.list(PoolAliasBinding.CODEC).optionalFieldOf("pool_aliases", List.of()).forGetter(AlternateJigsawConfig::poolAliases),
         DimensionPadding.CODEC.optionalFieldOf("dimension_padding", DimensionPadding.ZERO).forGetter(AlternateJigsawConfig::dimensionPadding),
         LiquidSettings.CODEC.optionalFieldOf("liquid_settings", LiquidSettings.APPLY_WATERLOGGING).forGetter(AlternateJigsawConfig::liquidSettings)
@@ -60,7 +62,7 @@ public record AlternateJigsawConfig(
             boolean useExpansionHack,
             Optional<Heightmap.Types> legacyHeightmapProjection,
             Optional<Either<SurfaceSnap, Heightmap.Types>> startProjection,
-            MaxDistance maxDistanceFromCenter,
+            MaxDistanceFromCenter maxDistanceFromCenter,
             List<PoolAliasBinding> poolAliases,
             DimensionPadding dimensionPadding,
             LiquidSettings liquidSettings
@@ -105,23 +107,5 @@ public record AlternateJigsawConfig(
             return this.startProjection.get().map(surfaceSnap -> Optional.empty(), Optional::of);
         }
         return Optional.empty();
-    }
-
-
-    public record MaxDistance(int horizontal, int vertical) {
-        private static final Codec<Integer> BASE_CODEC = Codec.intRange(1, 128);
-        private static final Codec<MaxDistance> FULL_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            BASE_CODEC.fieldOf("horizontal").forGetter(MaxDistance::horizontal),
-            ExtraCodecs.intRange(1, DimensionType.Y_SIZE).optionalFieldOf("vertical", DimensionType.Y_SIZE).forGetter(MaxDistance::vertical)
-        ).apply(instance, MaxDistance::new));
-
-        public static final Codec<MaxDistance> CODEC = Codec.either(FULL_CODEC, BASE_CODEC).xmap(
-            either -> either.map(Function.identity(), MaxDistance::new),
-            maxDistance -> maxDistance.horizontal == maxDistance.vertical ? Either.right(maxDistance.horizontal) : Either.left(maxDistance)
-        );
-
-        public MaxDistance(int value) {
-            this(value, value);
-        }
     }
 }

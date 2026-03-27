@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:mul",
+  "argument1": 0.5,
+  "argument2": {
+    "type": "minecraft:add",
+    "argument1": 1,
+    "argument2": {
+      "type": "lithostitched:fast_noise",
+      "config": "lithostitched:region/overworld",
+      "y_scale": 0,
+      "shift_x": "lithostitched:region/shift_x",
+      "shift_z": "lithostitched:region/shift_z"
+    }
+  }
+}
+

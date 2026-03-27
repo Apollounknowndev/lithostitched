@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
-import dev.worldgen.lithostitched.util.MathUtils;
+import dev.worldgen.lithostitched.util.MiscUtils;
 import dev.worldgen.lithostitched.worldgen.feature.config.OreConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
@@ -84,7 +84,7 @@ public class OreFeature extends Feature<OreConfig> {
             double $$22 = Mth.lerp($$20, $$7, $$8);
             double $$23 = Mth.lerp($$20, $$5, $$6);
             double $$24 = random.nextDouble() * (double)$$17 / 16.0;
-            double $$25 = ((double)(MathUtils.sin((float) Math.PI * $$20) + 1.0F) * $$24 + 1.0) / 2.0;
+            double $$25 = ((double)(MiscUtils.sin((float) Math.PI * $$20) + 1.0F) * $$24 + 1.0) / 2.0;
             $$18[$$19 * 4] = $$21;
             $$18[$$19 * 4 + 1] = $$22;
             $$18[$$19 * 4 + 2] = $$23;

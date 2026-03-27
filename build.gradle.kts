@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "2.1.0"
-    id("earth.terrarium.cloche") version "0.18.0"
+    id("earth.terrarium.cloche") version "0.18.8+beta-2"
 }
 
 repositories {
@@ -15,18 +15,9 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.5.8+beta1"
+version = "1.6.2"
 
 cloche {
-    targets.all {
-        mappings {
-            official()
-            custom(minecraftVersion.map {
-                project.dependencies.create(files("mappings/$it.tiny"))
-            })
-        }
-    }
-
     metadata {
         modId = "lithostitched"
         name = "Lithostitched"
@@ -46,19 +37,26 @@ cloche {
         }
     }
 
-    val sharedOld = common("shared:1.21.1") {
-        mixins.from(file("src/shared/1.21.1/main/lithostitched.1211.mixins.json"))
+    val sharedOld = common("shared:21.1") {
+        mixins.from(file("src/shared/21.1/main/lithostitched.21.1.mixins.json"))
     }
-    val sharedNew = common("shared:1.21.11") {
-        mixins.from(file("src/shared/1.21.11/main/lithostitched.12111.mixins.json"))
+    val sharedNew = common("shared:26.1") {
+        mixins.from(file("src/shared/26.1/main/lithostitched.26.1.mixins.json"))
     }
 
-    fabric("fabric:1.21.1") {
+    fabric("fabric:21.1") {
         dependsOn(sharedOld)
 
-        loaderVersion = "0.18.2"
+        loaderVersion = "0.18.4"
         minecraftVersion = "1.21.1"
-        mixins.from(file("src/fabric/1.21.1/main/lithostitched.fabric.mixins.json"))
+        mixins.from(file("src/fabric/21.1/main/lithostitched.fabric.mixins.json"))
+
+        mappings {
+            official()
+            custom(minecraftVersion.map {
+                project.dependencies.create(files("mappings/$it.tiny"))
+            })
+        }
 
         dependencies {
             fabricApi("0.116.1")
@@ -77,15 +75,15 @@ cloche {
         }
     }
 
-    fabric("fabric:1.21.11") {
+    fabric("fabric:26.1") {
         dependsOn(sharedNew)
 
-        loaderVersion = "0.18.2"
-        minecraftVersion = "1.21.11"
-        mixins.from(file("src/fabric/1.21.11/main/lithostitched.fabric.mixins.json"))
+        loaderVersion = "0.18.4"
+        minecraftVersion = "26.1"
+        mixins.from(file("src/fabric/26.1/main/lithostitched.fabric.mixins.json"))
 
         dependencies {
-            fabricApi("0.139.4")
+            fabricApi("0.144.3")
         }
 
         includedClient()
@@ -104,12 +102,19 @@ cloche {
         }
     }
 
-    neoforge("neoforge:1.21.1") {
+    neoforge("neoforge:21.1") {
         dependsOn(sharedOld)
 
         loaderVersion = "21.1.217"
         minecraftVersion = "1.21.1"
-        mixins.from(file("src/neoforge/1.21.1/main/lithostitched.neoforge.mixins.json"))
+        mixins.from(file("src/neoforge/21.1/main/lithostitched.neoforge.mixins.json"))
+
+        mappings {
+            official()
+            custom(minecraftVersion.map {
+                project.dependencies.create(files("mappings/$it.tiny"))
+            })
+        }
 
         runs {
             client()
@@ -117,12 +122,12 @@ cloche {
         }
     }
 
-    neoforge("neoforge:1.21.11") {
+    neoforge("neoforge:26.1") {
         dependsOn(sharedNew)
 
-        loaderVersion = "21.11.12-beta"
-        minecraftVersion = "1.21.11"
-        mixins.from(file("src/neoforge/1.21.11/main/lithostitched.neoforge.mixins.json"))
+        loaderVersion = "26.1.0.5-beta"
+        minecraftVersion = "26.1"
+        mixins.from(file("src/neoforge/26.1/main/lithostitched.neoforge.mixins.json"))
 
         runs {
             client()

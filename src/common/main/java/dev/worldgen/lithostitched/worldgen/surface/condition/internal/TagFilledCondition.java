@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.surface.condition.internal;
 
-import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
+import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.util.KeyDispatchDataCodec;
@@ -8,7 +8,7 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 
 public record TagFilledCondition(HolderSet<SurfaceRules.RuleSource> rules) implements SurfaceRules.ConditionSource {
     public static final KeyDispatchDataCodec<TagFilledCondition> CODEC = KeyDispatchDataCodec.of(
-        RegistryCodecs.homogeneousList(LithostitchedRegistryKeys.SURFACE_RULE).fieldOf("tag").xmap(TagFilledCondition::new, TagFilledCondition::rules)
+        RegistryCodecs.homogeneousList(LithostitchedRegistries.SURFACE_RULE).fieldOf("tag").xmap(TagFilledCondition::new, TagFilledCondition::rules)
     );
 
     @Override
