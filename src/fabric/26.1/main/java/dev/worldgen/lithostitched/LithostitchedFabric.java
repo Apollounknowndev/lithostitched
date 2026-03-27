@@ -22,12 +22,12 @@ public final class LithostitchedFabric implements ModInitializer {
 		LithostitchedBuiltInRegistries.init();
 		ResourceConditions.register(BreaksSeedParityCondition.TYPE);
 		
-		PayloadTypeRegistry.playS2C().register(
+		PayloadTypeRegistry.clientboundPlay().register(
 			ApplyStructureAttributesPacket.TYPE,
 			ApplyStructureAttributesPacket.CODEC
 		);
 		
-		ServerTickEvents.START_WORLD_TICK.register(StructureAttributeHandler::tick);
-		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> StructureAttributeHandler.disconnect(handler.getPlayer()));
+		ServerTickEvents.START_LEVEL_TICK.register(StructureAttributeHandler::tick);
+		ServerPlayConnectionEvents.DISCONNECT.register((handler, _) -> StructureAttributeHandler.disconnect(handler.getPlayer()));
 	}
 }

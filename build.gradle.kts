@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "2.1.0"
-    id("earth.terrarium.cloche") version "0.18.3"
+    id("earth.terrarium.cloche") version "0.18.8+beta-2"
 }
 
 repositories {
@@ -15,7 +15,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.6.1"
+version = "1.6.2"
 
 cloche {
     metadata {
@@ -39,13 +39,6 @@ cloche {
 
     val sharedOld = common("shared:21.1") {
         mixins.from(file("src/shared/21.1/main/lithostitched.21.1.mixins.json"))
-
-        mappings {
-            official()
-            custom(minecraftVersion.map {
-                project.dependencies.create(files("mappings/$it.tiny"))
-            })
-        }
     }
     val sharedNew = common("shared:26.1") {
         mixins.from(file("src/shared/26.1/main/lithostitched.26.1.mixins.json"))
@@ -57,6 +50,13 @@ cloche {
         loaderVersion = "0.18.4"
         minecraftVersion = "1.21.1"
         mixins.from(file("src/fabric/21.1/main/lithostitched.fabric.mixins.json"))
+
+        mappings {
+            official()
+            custom(minecraftVersion.map {
+                project.dependencies.create(files("mappings/$it.tiny"))
+            })
+        }
 
         dependencies {
             fabricApi("0.116.1")
@@ -79,11 +79,11 @@ cloche {
         dependsOn(sharedNew)
 
         loaderVersion = "0.18.4"
-        minecraftVersion = "26.1-pre-3"
+        minecraftVersion = "26.1"
         mixins.from(file("src/fabric/26.1/main/lithostitched.fabric.mixins.json"))
 
         dependencies {
-            //fabricApi("0.142.0", "26.1")
+            fabricApi("0.144.3")
         }
 
         includedClient()
@@ -109,6 +109,13 @@ cloche {
         minecraftVersion = "1.21.1"
         mixins.from(file("src/neoforge/21.1/main/lithostitched.neoforge.mixins.json"))
 
+        mappings {
+            official()
+            custom(minecraftVersion.map {
+                project.dependencies.create(files("mappings/$it.tiny"))
+            })
+        }
+
         runs {
             client()
             server()
@@ -118,8 +125,8 @@ cloche {
     neoforge("neoforge:26.1") {
         dependsOn(sharedNew)
 
-        loaderVersion = "26.1.0.0-alpha.15+pre-3"
-        minecraftVersion = "26.1-pre-3"
+        loaderVersion = "26.1.0.5-beta"
+        minecraftVersion = "26.1"
         mixins.from(file("src/neoforge/26.1/main/lithostitched.neoforge.mixins.json"))
 
         runs {

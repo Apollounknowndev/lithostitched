@@ -2,6 +2,7 @@ package dev.worldgen.lithostitched.worldgen.feature.config;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.ConstantInt;
@@ -19,7 +20,7 @@ public record WellConfig(BlockStateProvider groundProvider, BlockStateProvider s
         BlockStateProvider.CODEC.fieldOf("standard_provider").orElse(BlockStateProvider.simple(Blocks.SANDSTONE)).forGetter(WellConfig::standardProvider),
         BlockStateProvider.CODEC.fieldOf("slab_provider").orElse(BlockStateProvider.simple(Blocks.SANDSTONE_SLAB)).forGetter(WellConfig::slabProvider),
         BlockStateProvider.CODEC.fieldOf("fluid_provider").orElse(BlockStateProvider.simple(Blocks.WATER)).forGetter(WellConfig::fluidProvider),
-        IntProvider.codec(0, 4).fieldOf("suspicious_block_placements").orElse(ConstantInt.of(1)).forGetter(WellConfig::suspiciousPlacements),
+        LithostitchedVersion.intProviderCodec(0, 4).fieldOf("suspicious_block_placements").orElse(LithostitchedVersion.constantInt(1)).forGetter(WellConfig::suspiciousPlacements),
         ResourceKey.codec(Registries.LOOT_TABLE).fieldOf("suspicious_loot_table").orElse(BuiltInLootTables.DESERT_WELL_ARCHAEOLOGY).forGetter(WellConfig::suspiciousLootTable)
     ).apply(instance, WellConfig::new));
 }

@@ -95,7 +95,7 @@ public class DungeonFeature extends Feature<DungeonConfig> {
                     if (world.isEmptyBlock(chestPos)) {
                         int solidFaces = 0;
 
-                        for (Direction direction : Direction.Plane.HORIZONTAL) {
+                        for (Direction direction : Direction.Plane.HORIZONTAL.stream().toList()) {
                             if (world.getBlockState(chestPos.relative(direction)).isSolid()) {
                                 ++solidFaces;
                             }
