@@ -6,6 +6,7 @@ import dev.worldgen.lithostitched.api.event.AddBiomeInjectorsEvent;
 import dev.worldgen.lithostitched.api.event.AddRegionsEvent;
 import dev.worldgen.lithostitched.api.tag.LithostitchedBiomeSourceTags;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
+import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.mixin.common.BiomeSourceInvoker;
 import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.mixin.common.RandomStateAccessor;
@@ -36,7 +37,7 @@ public class BiomeInjectorManager {
 		if (injectorRegistry.entrySet().isEmpty()) return;
 		
 		Registry<LevelStem> dimensions = Lithostitched.registry(registries, Registries.LEVEL_STEM);
-		long seed = server.getWorldData().worldGenOptions().seed();
+		long seed = LithostitchedVersion.getSeed(server);
 		for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : dimensions.entrySet()) {
 			ResourceKey<LevelStem> dimension = entry.getKey();
 			

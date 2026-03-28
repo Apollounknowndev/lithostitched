@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.util.InjectionType;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -36,22 +37,5 @@ public record AddSurfaceRuleModifier(Optional<LoadPredicate> predicate, int prio
     @Override
     public MapCodec<? extends WorldgenModifier> codec() {
         return AddSurfaceRuleModifier.CODEC;
-    }
-    
-    public enum InjectionType implements StringRepresentable {
-        PREPEND("prepend"),
-        APPEND("append");
-        
-        public static final Codec<InjectionType> CODEC = StringRepresentable.fromEnum(InjectionType::values);
-        private final String name;
-        
-        InjectionType(String name) {
-            this.name = name;
-        }
-        
-        @Override
-        public String getSerializedName() {
-            return this.name;
-        }
     }
 }

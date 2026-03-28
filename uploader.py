@@ -5,15 +5,15 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.6.1"
+MOD_VERSION = "1.6.4"
 CHANGELOG = """
-Added a new biome injection type. View changes in the technical changelog [here](https://github.com/Apollounknowndev/lithostitched/wiki/Technical-Changelog).
+- Fixed a crash issue on Fabric 26.1.
 """
 UPLOAD_VERSIONS = [
-    ("fabric", "1.21.1"),
-    ("neoforge", "1.21.1"),
-    ("fabric", "1.21.11"),
-    ("neoforge", "1.21.11"),
+    #("fabric", "21.1"),
+    #("neoforge", "21.1"),
+    ("fabric", "26.1"),
+    #("neoforge", "26.1"),
 ]
 
 MODRINTH_ID = "XaDC71GB"
@@ -29,14 +29,18 @@ BASE_FOLDER = os.path.dirname(os.path.abspath(__file__))
 MODRINTH_TOKEN = os.getenv('TOKEN_MR')
 if not MODRINTH_TOKEN:
     raise EnvironmentError("MODRINTH_TOKEN is unset!")
+MODRINTH_GAME_VERSIONS = {
+    "21.1": ["1.21.1"],
+    "26.1": ["26.1"],
+}
 
 CURSEFORGE_TOKEN = os.getenv('TOKEN_CF')
 if not CURSEFORGE_TOKEN:
     raise EnvironmentError("CURSEFORGE_TOKEN is unset!")
 CURSEFORGE_URL = f"https://minecraft.curseforge.com/api/v1/projects/{CURSEFORGE_ID}/upload-file"
 CURSEFORGE_GAME_VERSIONS = {
-    "1.21.1": [11779],
-    "1.21.11": [14406],
+    "21.1": [11779],
+    "26.1": [15933],
 }
 CURSEFORGE_LOADERS = {
     "fabric": 7499,
@@ -48,11 +52,14 @@ CURSEFORGE_LOADERS = {
 # Code
 
 def upload_modrinth(loader: str, version: str, file_path: str):
+
+    game_versions = MODRINTH_GAME_VERSIONS.get(version)
+
     metadata = {
         "name": f"v{MOD_VERSION} ~ {loader.title()} {version}",
         "version_number": f"{MOD_VERSION}-{loader}-{version}",
         "project_id": MODRINTH_ID,
-        "game_versions": [version],
+        "game_versions": game_versions,
         "loaders": [loader],
         "featured": True,
         "changelog": CHANGELOG,

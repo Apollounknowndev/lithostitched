@@ -3,6 +3,7 @@ package dev.worldgen.lithostitched.worldgen.processor.condition;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
+import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import dev.worldgen.lithostitched.api.worldgen.processor.enums.BlockType;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
@@ -26,7 +27,7 @@ public record MatchingBlocks(HolderSet<Block> blocks, StatePropertiesPredicate p
     @Override
     public boolean test(WorldGenLevel level, Data data, StructurePlaceSettings settings, RandomSource random) {
         BlockState state = this.matchType.state(data);
-        return state.is(this.blocks) && this.properties.matches(state);
+        return LithostitchedVersion.stateIs(state, this.blocks) && this.properties.matches(state);
     }
 
     @Override

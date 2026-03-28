@@ -8,7 +8,7 @@ import net.minecraft.world.level.levelgen.SurfaceRules.ConditionSource;
 
 import java.util.Arrays;
 
-public interface LithostitchedConditionSources {
+public interface LithostitchedSurfaceConditions {
 	static ConditionSource allOf(ConditionSource... conditions) {
 		return new AllOfCondition(Arrays.asList(conditions));
 	}

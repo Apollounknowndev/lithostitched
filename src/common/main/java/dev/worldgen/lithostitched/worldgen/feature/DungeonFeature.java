@@ -1,6 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
 import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.worldgen.feature.config.DungeonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -32,9 +33,9 @@ public class DungeonFeature extends Feature<DungeonConfig> {
     public boolean place(FeaturePlaceContext<DungeonConfig> context) {
         BlockPos startPos = context.origin();
         RandomSource random = context.random();
-        WorldGenLevel world = context.level();
+        WorldGenLevel level = context.level();
         DungeonConfig config = context.config();
-        Predicate<BlockState> predicate = config.dungeonInvalidBlocks().<Predicate<BlockState>>map(set -> (state -> state.is(set))).orElse(state -> state.is(BlockTags.FEATURES_CANNOT_REPLACE));
+        Predicate<BlockState> predicate = config.dungeonInvalidBlocks().<Predicate<BlockState>>map(set -> (state -> LithostitchedVersion.stateIs(state, set))).orElse(state -> LithostitchedVersion.stateIs(state, BlockTags.FEATURES_CANNOT_REPLACE));
         int xRadius = config.radius().sample(random);
         int minX = -xRadius - 1;
         int maxX = xRadius + 1;
@@ -51,7 +52,7 @@ public class DungeonFeature extends Feature<DungeonConfig> {
             for(y = -1; y <= 4; ++y) {
                 for(z = minZ; z <= maxZ; ++z) {
                     currentPos = startPos.offset(x, y, z);
-                    boolean bl = world.getBlockState(currentPos).isSolid();
+                    boolean bl = level.getBlockState(currentPos).isSolid();
                     if (y == -1 && !bl) {
                         return false;
                     }
@@ -60,7 +61,7 @@ public class DungeonFeature extends Feature<DungeonConfig> {
                         return false;
                     }
 
-                    if ((x == minX || x == maxX || z == minZ || z == maxZ) && y == 0 && world.isEmptyBlock(currentPos) && world.isEmptyBlock(currentPos.above())) {
+                    if ((x == minX || x == maxX || z == minZ || z == maxZ) && y == 0 && level.isEmptyBlock(currentPos) && level.isEmptyBlock(currentPos.above())) {
                         ++openings;
                     }
                 }
@@ -72,15 +73,18 @@ public class DungeonFeature extends Feature<DungeonConfig> {
                 for(y = 3; y >= -1; --y) {
                     for(z = minZ; z <= maxZ; ++z) {
                         currentPos = startPos.offset(x, y, z);
-                        BlockState currentState = world.getBlockState(currentPos);
+                        BlockState currentState = level.getBlockState(currentPos);
                         if (x != minX && y != -1 && z != minZ && x != maxX && y != 4 && z != maxZ) {
-                            if (!currentState.is(Blocks.CHEST) && !currentState.is(Blocks.SPAWNER)) {
-                                this.safeSetBlock(world, currentPos, Blocks.CAVE_AIR.defaultBlockState(), predicate);
+                            if (!LithostitchedVersion.stateIs(currentState, Blocks.CHEST) && !LithostitchedVersion.stateIs(currentState, Blocks.SPAWNER)) {
+                                this.safeSetBlock(level, currentPos, Blocks.CAVE_AIR.defaultBlockState(), predicate);
                             }
-                        } else if (currentPos.getY() >= context.chunkGenerator().getMinY() && !world.getBlockState(currentPos.below()).isSolid()) {
-                            world.setBlock(currentPos, Blocks.CAVE_AIR.defaultBlockState(), 2);
-                        } else if (currentState.isSolid() && !currentState.is(Blocks.CHEST)) {
-                            this.safeSetBlock(world, currentPos, y == -1 ? config.floorProvider().getState(random, currentPos) : config.wallProvider().getState(random, currentPos), predicate);
+                        } else if (currentPos.getY() >= context.chunkGenerator().getMinY() && !level.getBlockState(currentPos.below()).isSolid()) {
+                            level.setBlock(currentPos, Blocks.CAVE_AIR.defaultBlockState(), 2);
+                        } else if (currentState.isSolid() && !LithostitchedVersion.stateIs(currentState, Blocks.CHEST)) {
+                            this.safeSetBlock(level, currentPos, y == -1 ?
+                                LithostitchedVersion.getState(config.floorProvider(), level, random, currentPos) :
+                                LithostitchedVersion.getState(config.wallProvider(), level, random, currentPos),
+                            predicate);
                         }
                     }
                 }
@@ -92,18 +96,18 @@ public class DungeonFeature extends Feature<DungeonConfig> {
                     int v = startPos.getY();
                     int w = startPos.getZ() + random.nextInt(zRadius * 2 + 1) - zRadius;
                     BlockPos chestPos = new BlockPos(z, v, w);
-                    if (world.isEmptyBlock(chestPos)) {
+                    if (level.isEmptyBlock(chestPos)) {
                         int solidFaces = 0;
 
                         for (Direction direction : Direction.Plane.HORIZONTAL.stream().toList()) {
-                            if (world.getBlockState(chestPos.relative(direction)).isSolid()) {
+                            if (level.getBlockState(chestPos.relative(direction)).isSolid()) {
                                 ++solidFaces;
                             }
                         }
 
                         if (solidFaces == 1) {
-                            this.safeSetBlock(world, chestPos, StructurePiece.reorient(world, chestPos, Blocks.CHEST.defaultBlockState()), predicate);
-                            Optional<ChestBlockEntity> chestEntity = world.getBlockEntity(chestPos, BlockEntityType.CHEST);
+                            this.safeSetBlock(level, chestPos, StructurePiece.reorient(level, chestPos, Blocks.CHEST.defaultBlockState()), predicate);
+                            Optional<ChestBlockEntity> chestEntity = level.getBlockEntity(chestPos, BlockEntityType.CHEST);
                             chestEntity.ifPresent(chestBlockEntity -> chestBlockEntity.setLootTable(config.lootTable(), random.nextLong()));
                             break;
                         }
@@ -111,12 +115,12 @@ public class DungeonFeature extends Feature<DungeonConfig> {
                 }
             }
 
-            this.safeSetBlock(world, startPos, Blocks.SPAWNER.defaultBlockState(), predicate);
-            BlockEntity blockEntity = world.getBlockEntity(startPos);
+            this.safeSetBlock(level, startPos, Blocks.SPAWNER.defaultBlockState(), predicate);
+            BlockEntity blockEntity = level.getBlockEntity(startPos);
             if (blockEntity instanceof SpawnerBlockEntity spawner) {
                 spawner.setEntityId(config.spawnerMobs().getRandom(random).orElse(EntityType.PIG), random);
             } else {
-                Lithostitched.LOGGER.error(String.format("Failed to get spawner block entity for dungeon at block position (%s)", startPos));
+                Lithostitched.LOGGER.error("Failed to get spawner block entity for dungeon at block position ({})", startPos);
             }
 
             return true;

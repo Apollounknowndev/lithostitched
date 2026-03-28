@@ -29,6 +29,7 @@ public interface LithostitchedFeatures {
 	Feature<DungeonConfig> DUNGEON = DungeonFeature.FEATURE;
 	Feature<LargeDripstoneConfig> LARGE_DRIPSTONE = LargeDripstoneFeature.FEATURE;
 	Feature<OreConfig> ORE = OreFeature.FEATURE;
+	Feature<SimplePlacedConfig> PLACED = SimplePlacedFeature.FEATURE;
 	Feature<SelectConfig> SELECT = SelectFeature.FEATURE;
 	Feature<StructureTemplateConfig> STRUCTURE_TEMPLATE = StructureTemplateFeature.FEATURE;
 	Feature<VinesConfig> VINES = VinesFeature.FEATURE;
@@ -56,6 +57,10 @@ public interface LithostitchedFeatures {
 	
 	static OreConfig ore(int size, List<Pair<BlockPredicate, BlockStateProvider>> targets) {
 		return OreConfig.create(size, targets);
+	}
+	
+	static SimplePlacedConfig placed(Holder<PlacedFeature> feature) {
+		return new SimplePlacedConfig(feature);
 	}
 	
 	static SelectConfig select(List<Pair<BlockPredicate, Holder<PlacedFeature>>> features) {

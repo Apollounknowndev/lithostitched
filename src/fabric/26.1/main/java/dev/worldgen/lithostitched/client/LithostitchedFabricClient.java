@@ -28,7 +28,7 @@ public class LithostitchedFabricClient implements ClientModInitializer {
 				StructureAttributesHolder.from(level).updateStructureAttributes(payload.getAttributes(ops));
 			}
 		);
-		ClientTickEvents.START_WORLD_TICK.register(level -> {
+		ClientTickEvents.START_LEVEL_TICK.register(level -> {
 			StructureAttributesHolder.from(level).incrementTicksSinceUpdated();
 		});
 		

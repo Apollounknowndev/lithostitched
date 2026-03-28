@@ -33,7 +33,7 @@ public record SetPoolAliasesModifier(Optional<LoadPredicate> predicate, int prio
     ).apply(instance, SetPoolAliasesModifier::new)).validate(SetPoolAliasesModifier::validate);
 
     private static DataResult<SetPoolAliasesModifier> validate(SetPoolAliasesModifier modifier) {
-        for (Holder<Structure> holder : modifier.structures) {
+        /*for (Holder<Structure> holder : modifier.structures) {
             Structure structure = holder.value();
             if (structure instanceof DelegatingStructure delegating) {
                 structure = delegating.delegate();
@@ -42,7 +42,7 @@ public record SetPoolAliasesModifier(Optional<LoadPredicate> predicate, int prio
             if (!(structure instanceof JigsawStructure || structure instanceof AlternateJigsawStructure)) {
                 return DataResult.error(() -> "Target structure for pool alias additions should be a jigsaw structure");
             }
-        }
+        }*/
         return DataResult.success(modifier);
     }
 

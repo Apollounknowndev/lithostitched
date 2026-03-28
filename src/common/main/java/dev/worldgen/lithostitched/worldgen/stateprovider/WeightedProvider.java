@@ -4,10 +4,12 @@ import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.api.util.WeightedList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType;
+import net.msrandom.multiplatform.annotations.Expect;
 import org.jetbrains.annotations.NotNull;
 
 public final class WeightedProvider extends BlockStateProvider {
@@ -29,10 +31,10 @@ public final class WeightedProvider extends BlockStateProvider {
     protected BlockStateProviderType<?> type() {
         return TYPE;
     }
-
-    @Override
-    @NotNull
-    public BlockState getState(@NotNull RandomSource random, @NotNull BlockPos pos) {
-        return this.providers.getRandom(random).map(provider -> provider.getState(random, pos)).orElse(Blocks.AIR.defaultBlockState());
-    }
+    
+    @Expect
+    public BlockState getState(WorldGenLevel level, RandomSource random, BlockPos pos);
+    
+    @Expect
+    public BlockState getState(RandomSource random, BlockPos pos);
 }

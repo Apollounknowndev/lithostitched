@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
+import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.util.MiscUtils;
 import dev.worldgen.lithostitched.worldgen.feature.config.OreConfig;
 import net.minecraft.core.BlockPos;
@@ -147,7 +148,7 @@ public class OreFeature extends Feature<OreConfig> {
 
                                                         for (OreConfig.Target target : config.targets()) {
                                                             if (target.predicate().test(level, pos)) {
-                                                                section.setBlockState(sectionX, sectionY, sectionZ, target.stateProvider().getState(random, pos), false);
+                                                                section.setBlockState(sectionX, sectionY, sectionZ, LithostitchedVersion.getState(target.stateProvider(), level, random, pos), false);
                                                                 blocksPlaced++;
                                                                 break;
                                                             }

@@ -6,10 +6,7 @@ import dev.worldgen.lithostitched.api.event.AddBiomeInjectorsEvent;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
-import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.AddPoints;
-import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.ForcePlacement;
-import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.ReplaceFully;
-import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.ReplacePartially;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
@@ -103,6 +100,10 @@ public interface BiomeInjector {
 		
 		public BiomeInjector addPoints(Climate.ParameterList<Holder<Biome>> points) {
 			return new AddPoints(predicate, level, priority.orElse(DEFAULT_PRIORITY), points);
+		}
+		
+		public BiomeInjector dispatchAlternateLayout(ParameterBuilder parameterBuilder, Climate.ParameterList<Holder<Biome>> points) {
+			return new DispatchAlternateLayout(predicate, level, priority.orElse(DEFAULT_PRIORITY), parameterBuilder.build(), points);
 		}
 		
 		public BiomeInjector replaceFully(Holder<Biome> biome, ParameterBuilder parameterBuilder) {

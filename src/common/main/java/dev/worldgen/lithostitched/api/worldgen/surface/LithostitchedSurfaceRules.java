@@ -6,7 +6,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.levelgen.SurfaceRules.RuleSource;
 
-public interface LithostitchedRuleSources {
+public interface LithostitchedSurfaceRules {
 	static RuleSource bandlands(Holder<Bandlands> bandlands) {
 		return new BandlandsRule(bandlands);
 	}

@@ -6,11 +6,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType;
+import net.msrandom.multiplatform.annotations.Actual;
 import org.jetbrains.annotations.NotNull;
 
 public final class RandomBlockProvider extends BlockStateProvider {
@@ -33,9 +35,11 @@ public final class RandomBlockProvider extends BlockStateProvider {
         return TYPE;
     }
 
-    @Override
-    @NotNull
-    public BlockState getState(@NotNull RandomSource random, @NotNull BlockPos pos) {
+    public BlockState getState(RandomSource random, BlockPos pos) {
+        return this.blocks.getRandomElement(random).map(Holder::value).orElse(Blocks.AIR).defaultBlockState();
+    }
+    
+    public BlockState getState(WorldGenLevel level, RandomSource random, BlockPos pos) {
         return this.blocks.getRandomElement(random).map(Holder::value).orElse(Blocks.AIR).defaultBlockState();
     }
 }

@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.feature.util;
 
+import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.util.MiscUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
@@ -51,18 +52,18 @@ public class DripstoneUtils {
     }
 
     public static boolean isReplaceableOrLava(BlockState state, HolderSet<Block> replaceable) {
-        return isReplaceable(state, replaceable) || state.is(Blocks.LAVA);
+        return isReplaceable(state, replaceable) || LithostitchedVersion.stateIs(state, Blocks.LAVA);
     }
 
     public static boolean isReplaceable(BlockState state, HolderSet<Block> replaceable) {
-        return state.is(replaceable);
+        return LithostitchedVersion.stateIs(state, replaceable);
     }
 
     public static boolean isEmptyOrWater(BlockState state) {
-        return state.isAir() || state.is(Blocks.WATER);
+        return state.isAir() || LithostitchedVersion.stateIs(state, Blocks.WATER);
     }
 
     public static boolean isEmptyOrWaterOrLava(BlockState state) {
-        return state.isAir() || state.is(Blocks.WATER) || state.is(Blocks.LAVA);
+        return state.isAir() || LithostitchedVersion.stateIs(state, Blocks.WATER) || LithostitchedVersion.stateIs(state, Blocks.LAVA);
     }
 }

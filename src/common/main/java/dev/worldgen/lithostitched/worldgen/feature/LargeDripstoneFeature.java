@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
+import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.util.MiscUtils;
 import dev.worldgen.lithostitched.worldgen.feature.config.LargeDripstoneConfig;
 import dev.worldgen.lithostitched.worldgen.feature.util.DripstoneUtils;
@@ -41,10 +42,13 @@ public class LargeDripstoneFeature extends Feature<LargeDripstoneConfig> {
                 if (range.height() < 4) {
                     return false;
                 } else {
+                    int minInclusive = LithostitchedVersion.minInclusive(config.columnRadius());
+                    int maxInclusive = LithostitchedVersion.maxInclusive(config.columnRadius());
+                    
                     int unclampedRadius = (int) (range.height() * config.maxColumnRadiusToCaveHeightRatio());
-                    int maxRadius = Mth.clamp(unclampedRadius, config.columnRadius().getMinValue(), config.columnRadius().getMaxValue());
+                    int maxRadius = Mth.clamp(unclampedRadius, minInclusive, maxInclusive);
 
-                    int radius = Mth.randomBetweenInclusive(random, config.columnRadius().getMinValue(), maxRadius);
+                    int radius = Mth.randomBetweenInclusive(random, minInclusive, maxRadius);
 
                     LargeDripstone ceilingDripstone = makeDripstone(
                         config.stateProvider(), random, origin.atY(range.ceiling() - 1), false, radius, config.stalactiteBluntness(), config.heightScale()
@@ -110,7 +114,7 @@ public class LargeDripstoneFeature extends Feature<LargeDripstoneConfig> {
                 int $$3 = Math.min(10, this.getHeight());
 
                 for (int $$4 = 0; $$4 < $$3; $$4++) {
-                    if ($$0.getBlockState($$2).is(Blocks.LAVA)) {
+                    if (LithostitchedVersion.stateIs($$0.getBlockState($$2), Blocks.LAVA)) {
                         return false;
                     }
 
@@ -153,8 +157,8 @@ public class LargeDripstoneFeature extends Feature<LargeDripstoneConfig> {
                                 BlockPos dripstonePos = windOffsetter.offset(pos);
                                 if (DripstoneUtils.isEmptyOrWaterOrLava(level, dripstonePos)) {
                                     placedBlock = true;
-                                    level.setBlock(dripstonePos, this.stateProvider.getState(random, dripstonePos), 2);
-                                } else if (placedBlock && level.getBlockState(dripstonePos).is(BlockTags.BASE_STONE_OVERWORLD)) {
+                                    level.setBlock(dripstonePos, LithostitchedVersion.getState(this.stateProvider, level, random, dripstonePos), 2);
+                                } else if (placedBlock && LithostitchedVersion.stateIs(level.getBlockState(dripstonePos), BlockTags.BASE_STONE_OVERWORLD)) {
                                     break;
                                 }
 

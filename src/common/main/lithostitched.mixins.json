@@ -10,8 +10,6 @@
     "common.mnbs.MNBSPLAccessor",
     "common.mnbs.MNBSPLMixin",
 
-    "common.predicate.RegistryDataLoaderMixin",
-
     "common.processor.EndCityPieceMixin",
     "common.processor.IglooPieceMixin",
     "common.processor.NetherFossilPieceMixin",

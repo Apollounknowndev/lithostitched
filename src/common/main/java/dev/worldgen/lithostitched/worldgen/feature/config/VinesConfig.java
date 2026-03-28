@@ -29,13 +29,13 @@ public record VinesConfig(WeightedList<Block> blocks, Optional<HolderSet<Block>>
     ).apply(instance, VinesConfig::new)).validate(VinesConfig::validate);
 
     private DataResult<VinesConfig> validate() {
-        if (this.blocks.unwrap().stream().map(Weighted::value).anyMatch(block -> !(block instanceof VineBlock))) {
+        /*if (this.blocks.unwrap().stream().map(Weighted::value).anyMatch(block -> !(block instanceof VineBlock))) {
             return DataResult.error(() -> "State should be a vine block");
-        }
+        }*/
         return DataResult.success(this);
     }
 
     public boolean canPlaceOn(BlockState state) {
-        return this.canPlaceOn.isEmpty() || state.is(this.canPlaceOn.get());
+        return this.canPlaceOn.isEmpty() || LithostitchedVersion.stateIs(state, this.canPlaceOn.get());
     }
 }

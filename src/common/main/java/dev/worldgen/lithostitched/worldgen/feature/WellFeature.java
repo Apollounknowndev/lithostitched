@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
+import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.worldgen.feature.config.WellConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,7 +23,7 @@ public class WellFeature extends Feature<WellConfig> {
 
     @Override
     public boolean place(FeaturePlaceContext<WellConfig> context) {
-        WorldGenLevel world = context.level();
+        WorldGenLevel level = context.level();
         BlockPos origin = context.origin();
         WellConfig config = context.config();
         RandomSource random = context.random();
@@ -33,7 +34,7 @@ public class WellFeature extends Feature<WellConfig> {
         int z;
         for(x = -2; x <= 2; ++x) {
             for(z = -2; z <= 2; ++z) {
-                if (world.isEmptyBlock(origin.offset(x, -1, z)) && world.isEmptyBlock(origin.offset(x, -2, z))) {
+                if (level.isEmptyBlock(origin.offset(x, -1, z)) && level.isEmptyBlock(origin.offset(x, -2, z))) {
                     return false;
                 }
             }
@@ -65,15 +66,15 @@ public class WellFeature extends Feature<WellConfig> {
                     } else {
                         blockProvider = BlockStateProvider.simple(Blocks.AIR);
                     }
-                    world.setBlock(pos, blockProvider.getState(random, pos), 2);
+                    level.setBlock(pos, LithostitchedVersion.getState(blockProvider, level, random, pos), 2);
                 }
             }
         }
         for (int i = 0; i < config.suspiciousPlacements().sample(random); i++) {
             for (int offset = 0; offset < 2; offset++) {
                 pos = origin.below(offset+2).relative(Direction.Plane.HORIZONTAL.getRandomDirection(random));
-                world.setBlock(pos, config.suspiciousProvider().getState(random, pos), 2);
-                Optional<BrushableBlockEntity> susBlock = world.getBlockEntity(pos, BlockEntityType.BRUSHABLE_BLOCK);
+                level.setBlock(pos, LithostitchedVersion.getState(config.suspiciousProvider(), level, random, pos), 2);
+                Optional<BrushableBlockEntity> susBlock = level.getBlockEntity(pos, BlockEntityType.BRUSHABLE_BLOCK);
                 if (susBlock.isPresent()) {
                     susBlock.get().setLootTable(config.suspiciousLootTable(), pos.asLong());
                 }

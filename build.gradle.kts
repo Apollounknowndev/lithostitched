@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "2.1.0"
-    id("earth.terrarium.cloche") version "0.18.8+beta-2"
+    id("earth.terrarium.cloche") version "0.18.8"
 }
 
 repositories {
@@ -15,7 +15,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.6.2"
+version = "1.6.4"
 
 cloche {
     metadata {
@@ -30,7 +30,6 @@ cloche {
 
     common {
         mixins.from(file("src/common/main/lithostitched.mixins.json"))
-        accessWideners.from(file("src/common/main/lithostitched.accesswidener"))
 
         dependencies {
             compileOnly("org.spongepowered:mixin:0.8.3")
@@ -39,9 +38,11 @@ cloche {
 
     val sharedOld = common("shared:21.1") {
         mixins.from(file("src/shared/21.1/main/lithostitched.21.1.mixins.json"))
+        accessWideners.from(file("src/shared/21.1/main/lithostitched.21.1.accesswidener"))
     }
     val sharedNew = common("shared:26.1") {
         mixins.from(file("src/shared/26.1/main/lithostitched.26.1.mixins.json"))
+        accessWideners.from(file("src/shared/26.1/main/lithostitched.26.1.accesswidener"))
     }
 
     fabric("fabric:21.1") {
@@ -105,7 +106,7 @@ cloche {
     neoforge("neoforge:21.1") {
         dependsOn(sharedOld)
 
-        loaderVersion = "21.1.217"
+        loaderVersion = "21.1.222"
         minecraftVersion = "1.21.1"
         mixins.from(file("src/neoforge/21.1/main/lithostitched.neoforge.mixins.json"))
 

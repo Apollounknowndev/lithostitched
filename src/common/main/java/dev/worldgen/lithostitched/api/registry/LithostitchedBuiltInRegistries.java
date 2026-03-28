@@ -60,7 +60,6 @@ import dev.worldgen.lithostitched.worldgen.surface.condition.internal.TagFilledC
 import dev.worldgen.lithostitched.worldgen.surface.rule.BandlandsRule;
 import dev.worldgen.lithostitched.worldgen.surface.rule.ReferenceRule;
 import dev.worldgen.lithostitched.worldgen.surface.rule.TransientMergedRule;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -154,6 +153,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("dungeon", DungeonFeature.FEATURE),
 			Map.entry("large_dripstone", LargeDripstoneFeature.FEATURE),
 			Map.entry("ore", OreFeature.FEATURE),
+			Map.entry("placed", SimplePlacedFeature.FEATURE),
 			Map.entry("select", SelectFeature.FEATURE),
 			Map.entry("structure_template", StructureTemplateFeature.FEATURE),
 			Map.entry("weighted_selector", WeightedSelectorFeature.FEATURE),

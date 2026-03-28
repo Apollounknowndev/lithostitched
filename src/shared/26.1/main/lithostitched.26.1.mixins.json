@@ -3,6 +3,8 @@
   "package": "dev.worldgen.lithostitched.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "common.predicate.ResourceManagerRegistryLoadTaskMixin",
+
     "common.BiomeAccessor2",
     "common.BiomeGenerationSettingsAccessor",
     "common.DimensionTypeAccessor",

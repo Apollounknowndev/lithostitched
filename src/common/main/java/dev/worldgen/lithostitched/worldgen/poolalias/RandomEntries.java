@@ -26,7 +26,7 @@ public record RandomEntries(List<ResourceKey<StructureTemplatePool>> aliases, Li
 
 
     private static DataResult<RandomEntries> validate(RandomEntries entry) {
-        if (entry.pools.size() == entry.aliases.size()) {
+        /*if (entry.pools.size() == entry.aliases.size()) {
             Integer size = null;
 
             for (HolderSet<StructureTemplatePool> pool : entry.pools) {
@@ -38,7 +38,8 @@ public record RandomEntries(List<ResourceKey<StructureTemplatePool>> aliases, Li
 
             return DataResult.success(entry);
         }
-        return DataResult.error(() -> "List of aliases and list of pools should be the same length");
+        return DataResult.error(() -> "List of aliases and list of pools should be the same length");*/
+        return DataResult.success(entry);
     }
 
 
