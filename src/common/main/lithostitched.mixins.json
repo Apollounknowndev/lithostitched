@@ -33,6 +33,7 @@
 
     "common.BiomeAccessor",
     "common.BiomeSourceInvoker",
+    "common.BuildStateMixin",
     "common.ChunkGeneratorAccessor",
     "common.ChunkMapMixin",
     "common.DripstoneUtilsAccessor",
