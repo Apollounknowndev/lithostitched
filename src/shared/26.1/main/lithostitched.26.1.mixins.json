@@ -5,6 +5,8 @@
   "mixins": [
     "common.predicate.ResourceManagerRegistryLoadTaskMixin",
 
+    "common.villager.VillagerTypeMixin",
+
     "common.BiomeAccessor2",
     "common.BiomeGenerationSettingsAccessor",
     "common.DimensionTypeAccessor",

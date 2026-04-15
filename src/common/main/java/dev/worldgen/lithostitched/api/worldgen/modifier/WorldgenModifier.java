@@ -39,6 +39,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import static net.minecraft.core.HolderSet.direct;
 
@@ -209,12 +210,12 @@ public interface WorldgenModifier {
 			return new ReplaceClimateModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, climate);
 		}
 		
-		public WorldgenModifier replaceEffects(Holder<Biome> biome, BiomeEffects effects) {
-			return new ReplaceEffectsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), effects);
+		public WorldgenModifier replaceEffects(Holder<Biome> biome, UnaryOperator<BiomeEffectsBuilder> operator) {
+			return new ReplaceEffectsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), operator.apply(BiomeEffectsBuilder.create()).build());
 		}
 		
-		public WorldgenModifier replaceEffects(HolderSet<Biome> biomes, BiomeEffects effects) {
-			return new ReplaceEffectsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, effects);
+		public WorldgenModifier replaceEffects(HolderSet<Biome> biomes, UnaryOperator<BiomeEffectsBuilder> operator) {
+			return new ReplaceEffectsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, operator.apply(BiomeEffectsBuilder.create()).build());
 		}
 		
 		public WorldgenModifier setPoolAliases(Holder<Structure> structure, boolean append, PoolAliasBinding... aliases) {

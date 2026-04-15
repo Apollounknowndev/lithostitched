@@ -1,9 +1,12 @@
 package dev.worldgen.lithostitched.impl;
 
 import com.mojang.serialization.Codec;
+import dev.worldgen.lithostitched.impl.registry.LithostitchedRegistrar;
+import dev.worldgen.lithostitched.worldgen.poolelement.LithostitchedFeaturePoolElement;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.tags.TagKey;
@@ -17,7 +20,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.msrandom.multiplatform.annotations.Actual;
-import net.msrandom.multiplatform.annotations.Expect;
+
+import java.util.Map;
 
 public class LithostitchedVersionActual {
 	@Actual
@@ -27,7 +31,9 @@ public class LithostitchedVersionActual {
 	
 	@Actual
 	public static void initVersionRegistrations() {
-	
+		LithostitchedRegistrar.register(Registries.STRUCTURE_POOL_ELEMENT, Map.ofEntries(
+			Map.entry("feature", LithostitchedFeaturePoolElement.TYPE)
+		));
 	}
 	
 	@Actual

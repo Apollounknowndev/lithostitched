@@ -7,6 +7,7 @@ import dev.worldgen.lithostitched.worldgen.attribute.LithostitchedEnvironmentAtt
 import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetBiomeAttributesModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetDimensionAttributesModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetTimelineTracksModifier;
+import dev.worldgen.lithostitched.worldgen.poolelement.LithostitchedFeaturePoolElement;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.msrandom.multiplatform.annotations.Actual;
-import net.msrandom.multiplatform.annotations.Expect;
 
 import java.util.Map;
 
@@ -40,6 +40,9 @@ public class LithostitchedVersionActual {
 		));
 		LithostitchedRegistrar.register(Registries.ENVIRONMENT_ATTRIBUTE, Map.ofEntries(
 			Map.entry("structure/reset_music", LithostitchedEnvironmentAttributes.RESET_MUSIC)
+		));
+		LithostitchedRegistrar.register(Registries.STRUCTURE_POOL_ELEMENT, Map.ofEntries(
+			Map.entry("feature", LithostitchedFeaturePoolElement.TYPE)
 		));
 	}
 	

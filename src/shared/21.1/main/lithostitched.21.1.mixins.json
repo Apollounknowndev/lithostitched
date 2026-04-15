@@ -5,6 +5,8 @@
   "mixins": [
     "common.predicate.RegistryDataLoaderMixin",
 
+    "common.villager.VillagerTypeMixin",
+
     "common.BiomeGenerationSettingsAccessor",
     "common.JigsawStructureMixin",
     "common.MobSpawnSettingsAccessor"

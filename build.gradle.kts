@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "2.1.0"
-    id("earth.terrarium.cloche") version "0.18.8"
+    id("earth.terrarium.cloche") version "0.18.10"
 }
 
 repositories {
@@ -15,7 +15,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.6.4"
+version = "1.6.6"
 
 cloche {
     metadata {

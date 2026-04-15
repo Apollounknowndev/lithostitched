@@ -16,6 +16,8 @@ import net.msrandom.multiplatform.annotations.Expect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 /**
  * Class containing core fields and methods used commonly by Lithostitched across mod loaders.
  * <p>Undocumented methods can be considered not API.</p>
@@ -32,6 +34,13 @@ public final class Lithostitched {
 
 	public static Identifier id(String name) {
 		return Identifier.fromNamespaceAndPath(MOD_ID, name);
+	}
+	
+	public static Identifier vanillaToLithostitched(Identifier id) {
+		if (id.getNamespace().equals("minecraft")) {
+			return id(id.getPath());
+		}
+		return id;
 	}
 
 	@Expect

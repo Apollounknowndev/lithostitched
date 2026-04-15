@@ -5,14 +5,17 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.6.4"
+MOD_VERSION = "1.6.6"
 CHANGELOG = """
-- Fixed a crash issue on Fabric 26.1.
+- Added `lithostitched:feature` pool element type. It is similar to vanilla's equivalent, but has optional `jigsaw_name` and `target_name` fields.
+- Added biome tags for villager types.
+  - Vanilla types can be configured in `#lithostitched:has_villager_type/<type>` tags
+  - Modded types can be configured in `#<mod_id>:has_villager_type/<type>` tags
 """
 UPLOAD_VERSIONS = [
     #("fabric", "21.1"),
-    #("neoforge", "21.1"),
-    ("fabric", "26.1"),
+    ("neoforge", "21.1"),
+    #("fabric", "26.1"),
     #("neoforge", "26.1"),
 ]
 

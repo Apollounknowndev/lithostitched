@@ -15,7 +15,7 @@ public interface LithostitchedPoolElements {
 		return new DelegatingPoolElement(delegate, Optional.empty(), Optional.empty(), Optional.of(maxCount));
 	}
 	
-	static StructurePoolElement delegating(StructurePoolElement delegate, UnaryOperator<DelegatingElementBuilder> consumer) {
-		return new DelegatingPoolElement(consumer.apply(DelegatingElementBuilder.create(delegate)).build());
+	static StructurePoolElement delegating(StructurePoolElement delegate, UnaryOperator<DelegatingElementBuilder> operator) {
+		return new DelegatingPoolElement(operator.apply(DelegatingElementBuilder.create(delegate)).build());
 	}
 }
