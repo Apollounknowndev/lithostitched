@@ -23,8 +23,6 @@ public interface LithostitchedBiomeTags {
 	}
 	
 	static TagKey<Biome> createVillagerTypeTag(ResourceKey<?> holder) {
-		var tag = TagKey.create(Registries.BIOME, Lithostitched.vanillaToLithostitched(holder.identifier().withPrefix("has_villager_type/")));
-		Lithostitched.LOGGER.error(tag.toString());
-		return tag;
+		return TagKey.create(Registries.BIOME, Lithostitched.vanillaToLithostitched(holder.identifier().withPrefix("has_villager_type/")));
 	}
 }

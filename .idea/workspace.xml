@@ -4,31 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="aaaaaa">
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/tag/LithostitchedBiomeTags.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/modifier/BiomeEffectsBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/BiomeEffectsBuilderImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/poolelement/LithostitchedFeatureConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/tags/worldgen/biome/has_villager_type/desert.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/tags/worldgen/biome/has_villager_type/jungle.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/tags/worldgen/biome/has_villager_type/plains.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/tags/worldgen/biome/has_villager_type/savanna.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/tags/worldgen/biome/has_villager_type/snow.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/tags/worldgen/biome/has_villager_type/swamp.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/resources/data/lithostitched/tags/worldgen/biome/has_villager_type/taiga.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/21.1/main/java/dev/worldgen/lithostitched/mixin/common/villager/VillagerTypeMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/21.1/main/java/dev/worldgen/lithostitched/worldgen/poolelement/LithostitchedFeaturePoolElement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/26.1/main/java/dev/worldgen/lithostitched/mixin/common/villager/VillagerTypeMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shared/26.1/main/java/dev/worldgen/lithostitched/worldgen/poolelement/LithostitchedFeaturePoolElement.java" afterDir="false" />
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="1.6.6">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/Lithostitched.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/Lithostitched.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/modifier/WorldgenModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/modifier/WorldgenModifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/poolelement/LithostitchedPoolElements.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/poolelement/LithostitchedPoolElements.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/21.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedVersionActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/21.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedVersionActual.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/21.1/main/lithostitched.21.1.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/21.1/main/lithostitched.21.1.mixins.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/26.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedVersionActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/26.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedVersionActual.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/26.1/main/lithostitched.26.1.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/26.1/main/lithostitched.26.1.mixins.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/tag/LithostitchedBiomeTags.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/tag/LithostitchedBiomeTags.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,19 +36,7 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="lithostitched" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="lithostitched" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="minecraft-resolution" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="lithostitched" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="minecraft-transforms" type="c8890929:TasksNode$1" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
               </path>
             </expand>
             <select />
@@ -113,64 +80,64 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.1.20.1 [:cpw.mods.bootstraplauncher.BootstrapLauncher.main()].executor": "Run",
-    "Gradle.1.20.1 [:net.fabricmc.loader.impl.launch.knot.KnotClient.main()].executor": "Run",
-    "Gradle.1.20.1 [:net.neoforged.fml.startup.Client.main()].executor": "Run",
-    "Gradle.1.20.1 [build].executor": "Run",
-    "Gradle.1.20.1 [clean].executor": "Run",
-    "Gradle.1.20.1 [prepareFabric1211ClientRun].executor": "Run",
-    "Gradle.1.20.1 [prepareFabric1218ClientRun].executor": "Run",
-    "Gradle.1.20.1 [prepareFabric1219ClientRun].executor": "Run",
-    "Gradle.1.20.1 [prepareNeoforge1211ClientRun].executor": "Run",
-    "Gradle.1.20.1 [prepareNeoforge1219ClientRun].executor": "Run",
-    "Gradle.Build lithostitched.executor": "Run",
-    "Gradle.Download Sources.executor": "Run",
-    "Gradle.lithostitched [:cpw.mods.bootstraplauncher.BootstrapLauncher.main()].executor": "Run",
-    "Gradle.lithostitched [:net.fabricmc.loader.impl.launch.knot.KnotClient.main()].executor": "Run",
-    "Gradle.lithostitched [:net.neoforged.fml.startup.Client.main()].executor": "Run",
-    "Gradle.lithostitched [:net.neoforged.fml.startup.Server.main()].executor": "Run",
-    "Gradle.lithostitched [accessWidenNeoforge211Minecraft].executor": "Run",
-    "Gradle.lithostitched [generateFabric1211MappingsArtifact].executor": "Run",
-    "Gradle.lithostitched [generateNeoforge211ClientExtra].executor": "Run",
-    "Gradle.lithostitched [prepareFabric12111ClientRun].executor": "Run",
-    "Gradle.lithostitched [prepareFabric1211ClientRun].executor": "Run",
-    "Gradle.lithostitched [prepareFabric1219ClientRun].executor": "Run",
-    "Gradle.lithostitched [prepareFabric211ClientRun].executor": "Run",
-    "Gradle.lithostitched [prepareFabric261ClientRun].executor": "Run",
-    "Gradle.lithostitched [prepareNeoforge12111ClientRun].executor": "Run",
-    "Gradle.lithostitched [prepareNeoforge12111ServerRun].executor": "Run",
-    "Gradle.lithostitched [prepareNeoforge1211ClientRun].executor": "Run",
-    "Gradle.lithostitched [prepareNeoforge211ClientRun].executor": "Run",
-    "Gradle.lithostitched [prepareNeoforge261ClientRun].executor": "Run",
-    "Gradle.lithostitched [remapFabric12111CommonMinecraftIntermediary].executor": "Run",
-    "Gradle.lithostitched [remapFabric1211ClientMinecraftIntermediary].executor": "Run",
-    "Gradle.lithostitched [remapFabric1219ClientMinecraftIntermediary].executor": "Run",
-    "Gradle.lithostitched [remapNeoforge211MinecraftNamed].executor": "Run",
-    "Gradle.lithostitched [remapNeoforge261MinecraftNamed].executor": "Run",
-    "Gradle.lithostitched [resolveNeoforge12111PatchedMinecraft].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "create.test.in.the.same.root": "true",
-    "git-widget-placeholder": "cloche",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ldglo/Documents/Github/lithostitched/src/common/main/resources/data/lithostitched/tags/worldgen/biome/has_villager_type",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "two.files.diff.last.used.file": "C:/Users/ldglo/Documents/Github/lithostitched/1.20.1/src/shared/1.21.8/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.1.20.1 [:cpw.mods.bootstraplauncher.BootstrapLauncher.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [:net.fabricmc.loader.impl.launch.knot.KnotClient.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [:net.neoforged.fml.startup.Client.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [prepareFabric1211ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [prepareFabric1218ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [prepareFabric1219ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [prepareNeoforge1211ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.1.20.1 [prepareNeoforge1219ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build lithostitched.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [:cpw.mods.bootstraplauncher.BootstrapLauncher.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [:net.fabricmc.loader.impl.launch.knot.KnotClient.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [:net.neoforged.fml.startup.Client.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [:net.neoforged.fml.startup.Server.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [accessWidenNeoforge211Minecraft].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [generateFabric1211MappingsArtifact].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [generateNeoforge211ClientExtra].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareFabric12111ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareFabric1211ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareFabric1219ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareFabric211ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareFabric261ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareNeoforge12111ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareNeoforge12111ServerRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareNeoforge1211ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareNeoforge211ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareNeoforge261ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [remapFabric12111CommonMinecraftIntermediary].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [remapFabric1211ClientMinecraftIntermediary].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [remapFabric1219ClientMinecraftIntermediary].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [remapNeoforge211MinecraftNamed].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [remapNeoforge261MinecraftNamed].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [resolveNeoforge12111PatchedMinecraft].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;cloche&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/src/common/main/resources/data/lithostitched/tags/worldgen/biome/has_villager_type&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/1.20.1/src/shared/1.21.8/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java&quot;
   },
-  "keyToStringList": {
-    "dev.kikugie.stonecutter.projects": []
+  &quot;keyToStringList&quot;: {
+    &quot;dev.kikugie.stonecutter.projects&quot;: []
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\tags\worldgen\biome\has_villager_type" />
@@ -768,11 +735,18 @@
       <option name="project" value="LOCAL" />
       <updated>1774681493232</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="1.6.6">
+      <option name="closed" value="true" />
+      <created>1776216207708</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1776216207708</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="1.5.0+beta4" />
     <MESSAGE value="1.5.0+beta5" />
     <MESSAGE value="MNBS migration, sketchy but should work?" />
     <MESSAGE value="Structure environment attributes" />
@@ -797,7 +771,8 @@
     <MESSAGE value="Remove '1.' prefix from version folders" />
     <MESSAGE value="Less failed 26.1 port" />
     <MESSAGE value="aaaaaa" />
-    <option name="LAST_COMMIT_MESSAGE" value="aaaaaa" />
+    <MESSAGE value="1.6.6" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.6.6" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
