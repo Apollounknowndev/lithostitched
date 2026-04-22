@@ -31,7 +31,7 @@ public interface LithostitchedCodecs {
     Codec<InclusiveRange<Double>> DOUBLE_RANGE = Codec.withAlternative(
         InclusiveRange.codec(Codec.DOUBLE),
         RecordCodecBuilder.create(instance -> instance.group(
-            Codec.DOUBLE.fieldOf("min_inclusive").orElse(Double.MIN_VALUE).forGetter(InclusiveRange::minInclusive),
+            Codec.DOUBLE.fieldOf("min_inclusive").orElse(-Double.MAX_VALUE).forGetter(InclusiveRange::minInclusive),
             Codec.DOUBLE.fieldOf("max_inclusive").orElse(Double.MAX_VALUE).forGetter(InclusiveRange::maxInclusive)
         ).apply(instance, InclusiveRange::new))
     );

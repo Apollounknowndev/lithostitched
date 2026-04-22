@@ -37,12 +37,6 @@ public class InjectorBiomeSource extends BiomeSource {
 		BiomeSource.CODEC.fieldOf("delegate").forGetter(InjectorBiomeSource::getRootSource)
 	).apply(i, Function.identity()));
 	
-	private static final Supplier<Boolean> OTHER_BIOME_INJECTION_MOD_INSTALLED = Suppliers.memoize(() ->
-		LithostitchedPlatform.isModLoaded("terrablender") ||
-		LithostitchedPlatform.isModLoaded("biolith") ||
-		LithostitchedPlatform.isModLoaded("blueprint")
-	);
-	
 	private final BiomeSource directDelegate;
 	private final BiomeSource rootDelegate;
 	
@@ -50,7 +44,6 @@ public class InjectorBiomeSource extends BiomeSource {
 	private List<Holder<Biome>> possibleBiomes = new ArrayList<>();
 	private List<Holder<Biome>> replacedBiomes = new ArrayList<>();
 	private RegionManager regionManager;
-	private boolean applyFullReplacementsLate = false;
 	
 	public InjectorBiomeSource(BiomeSource directDelegate) {
 		this.directDelegate = directDelegate;
@@ -59,7 +52,7 @@ public class InjectorBiomeSource extends BiomeSource {
 	
 	public void applyInjectors(Map<Identifier, BiomeInjector> injectors, Optional<DensityFunction> regionFunction, Map<ResourceKey<Region>, Region> regions, DensityFunctionWrapper noiseHelper) {
 		this.possibleBiomes = new ArrayList<>();
-		this.regionManager = new RegionManager(regionFunction, regions, noiseHelper);
+		this.regionManager = new RegionManager(regionFunction, regions, noiseHelper, this.directDelegate.possibleBiomes());
 		
 		injectors.values().forEach(injector -> {
 			injector.mapAll(noiseHelper);
@@ -80,7 +73,6 @@ public class InjectorBiomeSource extends BiomeSource {
 		
 		if (!(this.rootDelegate instanceof MultiNoiseBiomeSource multiNoise)) {
 			Lithostitched.debug("Biome source is not a MultiNoiseBiomeSource instance, got {}. add_points injectors will not run.", this.rootDelegate.getClass().getSimpleName());
-			this.applyFullReplacementsLate = true;
 			return;
 		}
 		var accessor = (MultiNoiseBiomeSourceAccessor) multiNoise;
@@ -89,11 +81,7 @@ public class InjectorBiomeSource extends BiomeSource {
 		
 		var modifiedParameters = new ArrayList<>(left.orElseGet(() -> right.get().value().parameters()).values());
 		AddPoints.apply(modifiedParameters, this.injectorsByType.getOrDefault(AddPoints.CODEC, new ArrayList<>()));
-		if (OTHER_BIOME_INJECTION_MOD_INSTALLED.get()) {
-			this.applyFullReplacementsLate = true;
-		} else {
-			ReplaceFully.apply(modifiedParameters, this.injectorsByType.getOrDefault(ReplaceFully.CODEC, new ArrayList<>()));
-		}
+		
 		if (left.isPresent()) {
 			accessor.setParameters(Either.left(new Climate.ParameterList<>(modifiedParameters)));
 		} else {
@@ -125,60 +113,54 @@ public class InjectorBiomeSource extends BiomeSource {
 		SimpleContext context = SimpleContext.of(blockX, blockY, blockZ);
 		TargetPoint point = sampler.sample(quartX, quartY, quartZ);
 		HashMap<DensityFunction, Double> densities = new HashMap<>();
-		ResourceKey<Region> currentRegion = this.regionManager.getRegion(context);
+		
+		Holder<Biome> biome = this.directDelegate instanceof MultiNoiseBiomeSource multiNoise ? multiNoise.getNoiseBiome(point) : this.directDelegate.getNoiseBiome(quartX, quartY, quartZ, sampler);
+		ResourceKey<Region> currentRegion = this.regionManager.getRegion(context, biome);
 		
 		if (this.injectorsByType.containsKey(ForcePlacement.CODEC)) {
 			for (BiomeInjector injector : this.injectorsByType.getOrDefault(ForcePlacement.CODEC, List.of())) {
 				ForcePlacement forcePlacement = (ForcePlacement) injector;
-				if (forcePlacement.matches(context, point, densities, currentRegion)) return forcePlacement.biome();
+				if (forcePlacement.matches(context, point, densities, currentRegion)) {
+					return forcePlacement.biome();
+				}
 			}
 		}
-		
-		Holder<Biome> baseBiome = null;
 		
 		if (this.injectorsByType.containsKey(DispatchAlternateLayout.CODEC)) {
 			for (BiomeInjector injector : this.injectorsByType.getOrDefault(DispatchAlternateLayout.CODEC, List.of())) {
 				DispatchAlternateLayout alternateLayout = (DispatchAlternateLayout) injector;
 				if (alternateLayout.matches(context, point, densities, currentRegion)) {
-					baseBiome = alternateLayout.points().findValue(point);
+					biome = alternateLayout.points().findValue(point);
 					break;
-				}
-			}
-		}
-		
-		if (baseBiome == null) {
-			baseBiome = this.directDelegate instanceof MultiNoiseBiomeSource multiNoise ?
-				multiNoise.getNoiseBiome(point) :
-				this.directDelegate.getNoiseBiome(quartX, quartY, quartZ, sampler);
-		}
-		
-		return applyReplacements(context, point, densities, baseBiome, currentRegion);
-	}
-	
-	public String getRegionLine(BlockPos pos) {
-		SimpleContext context = SimpleContext.of(pos);
-		Identifier region = this.regionManager.getRegion(context).identifier();
-		int rawValue = this.regionManager.getRegionValue(context);
-		return String.format("Region: %s (Raw value: %s)", region, rawValue);
-	}
-	
-	public Holder<Biome> applyReplacements(FunctionContext context, TargetPoint point, HashMap<DensityFunction, Double> densities, Holder<Biome> biome, ResourceKey<Region> currentRegion) {
-		if (this.applyFullReplacementsLate) {
-			if (this.replacedBiomes.contains(biome)) {
-				for (BiomeInjector injector : this.injectorsByType.getOrDefault(ReplaceFully.CODEC, List.of())) {
-					ReplaceFully replaceFully = (ReplaceFully) injector;
-					if (replaceFully.targets().contains(biome)) {
-						return replaceFully.replacement();
-					}
 				}
 			}
 		}
 		
 		for (BiomeInjector injector : this.injectorsByType.getOrDefault(ReplacePartially.CODEC, List.of())) {
 			ReplacePartially replacePartially = (ReplacePartially) injector;
-			if (replacePartially.matches(context, point, densities, biome, currentRegion)) return replacePartially.replacement();
+			if (replacePartially.matches(context, point, densities, biome, currentRegion)) {
+				biome = replacePartially.replacement();
+				break;
+			}
 		}
+		
+		if (this.replacedBiomes.contains(biome)) {
+			for (BiomeInjector injector : this.injectorsByType.getOrDefault(ReplaceFully.CODEC, List.of())) {
+				ReplaceFully replaceFully = (ReplaceFully) injector;
+				if (replaceFully.targets().contains(biome)) {
+					return replaceFully.replacement();
+				}
+			}
+		}
+		
 		return biome;
+	}
+	
+	public String getRegionLine(Holder<Biome> biome, BlockPos pos) {
+		SimpleContext context = SimpleContext.of(pos);
+		Identifier region = this.regionManager.getRegion(context, biome).identifier();
+		int rawValue = this.regionManager.getRegionValue(context, biome);
+		return String.format("Region: %s (Raw value: %s)", region, rawValue);
 	}
 	
 	private static BiomeSource getRootSource(BiomeSource currentSource) {

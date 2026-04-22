@@ -1,4 +1,5 @@
 {
   "dimension": "minecraft:overworld",
+  "biomes": "#minecraft:is_overworld",
   "weight": 100
 }

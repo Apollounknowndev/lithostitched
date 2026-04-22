@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.api.worldgen.densityfunction;
 
+import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.*;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.fastnoise.FastNoiseDensityFunction;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise.FastNoiseConfig;
@@ -7,8 +8,11 @@ import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.OriginalM
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.WrappedMarkerDensityFunction;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.DensityFunctions;
+
+import java.util.List;
 
 public interface LithostitchedDensityFunctions {
 	static DensityFunction axis(Direction.Axis axis) {
@@ -44,6 +48,9 @@ public interface LithostitchedDensityFunctions {
 		return new SqrtDensityFunction(input);
 	}
 	
+	static DensityFunction select(DensityFunction input, DensityFunction fallback, List<Pair<InclusiveRange<Double>, DensityFunction>> selections) {
+		return SelectDensityFunction.create(input, fallback, selections.stream().map(SelectDensityFunction.Selection::create).toList());
+	}
 	
 	static DensityFunction fastNoise(Holder<FastNoiseConfig> config, double xzScale, double yScale) {
 		return new FastNoiseDensityFunction(config, xzScale, yScale, DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero());

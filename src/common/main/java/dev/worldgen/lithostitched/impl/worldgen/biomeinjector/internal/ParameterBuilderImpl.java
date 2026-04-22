@@ -32,7 +32,7 @@ public class ParameterBuilderImpl implements ParameterBuilder {
 	
 	@Override
 	public ParameterBuilder densityFunctionMax(Holder<DensityFunction> densityFunction, double max) {
-		this.parameters.put(Either.right(new DensityFunctions.HolderHolder(densityFunction)), new InclusiveRange<>(Double.MAX_VALUE, max));
+		this.parameters.put(Either.right(new DensityFunctions.HolderHolder(densityFunction)), new InclusiveRange<>(-Double.MAX_VALUE, max));
 		return this;
 	}
 	
@@ -56,7 +56,7 @@ public class ParameterBuilderImpl implements ParameterBuilder {
 	
 	@Override
 	public ParameterBuilder climateMax(BiomeInjector.ClimateParameter climate, double max) {
-		this.parameters.put(Either.left(climate), new InclusiveRange<>(Double.MAX_VALUE, max));
+		this.parameters.put(Either.left(climate), new InclusiveRange<>(-Double.MAX_VALUE, max));
 		return this;
 	}
 	

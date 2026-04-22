@@ -1,4 +1,5 @@
 {
   "dimension": "minecraft:the_nether",
+  "biomes": "#minecraft:is_nether",
   "weight": 100
 }

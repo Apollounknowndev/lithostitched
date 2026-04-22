@@ -1,4 +1,5 @@
 {
   "dimension": "minecraft:the_end",
+  "biomes": "#minecraft:is_end",
   "weight": 100
 }

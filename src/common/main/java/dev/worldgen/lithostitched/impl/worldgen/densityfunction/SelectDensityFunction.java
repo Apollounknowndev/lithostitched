@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.impl.worldgen.densityfunction;
 
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -74,6 +75,10 @@ public record SelectDensityFunction(DensityFunction input, DensityFunction fallb
 		
 		public Selection mapAll(Visitor visitor) {
 			return new Selection(range, function.mapAll(visitor));
+		}
+		
+		public static Selection create(Pair<InclusiveRange<Double>, DensityFunction> pair) {
+			return new Selection(pair.getFirst(), pair.getSecond());
 		}
 	}
 }

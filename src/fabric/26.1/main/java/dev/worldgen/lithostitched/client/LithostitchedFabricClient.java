@@ -40,7 +40,7 @@ public class LithostitchedFabricClient implements ClientModInitializer {
 			
 			if (serverOrClientLevel instanceof ServerLevel serverLevel) {
 				if (serverLevel.getChunkSource().getGenerator().getBiomeSource() instanceof InjectorBiomeSource injector) {
-					displayer.addLine(injector.getRegionLine(pos));
+					displayer.addLine(injector.getRegionLine(serverLevel.getBiomeManager().getNoiseBiomeAtPosition(pos), pos));
 				}
 			}
 		});

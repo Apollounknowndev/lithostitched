@@ -72,8 +72,8 @@ public class BiomeInjectorManager {
 				.listElements()
 				.filter(holder -> holder.value().dimension().equals(dimension))
 				.forEach(reference -> regions.put(reference.key(), reference.value()));
-			AddRegionsEvent.EVENT.invoker().addRegions(registries, (key, level, weight) -> {
-				Region region = Region.create(key, level, weight);
+			AddRegionsEvent.EVENT.invoker().addRegions(registries, (key, level, biomes, weight) -> {
+				Region region = Region.create(key, level, biomes, weight);
 				if (!injectors.containsKey(key) && region.dimension().equals(dimension)) {
 					regions.put(key, region);
 				}

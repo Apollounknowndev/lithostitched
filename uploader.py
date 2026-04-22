@@ -5,10 +5,11 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.6.8"
+MOD_VERSION = "1.7.0"
 CHANGELOG = """
-- Removed a debug log message
-- Skipped the joke version
+- Made regions biome-based. See wiki for info.
+- Fixed a bug with the `replace_fully` biome injector not working consistently.
+- Fixed `fast_noise_config` objects all using the same seed.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "21.1"),
@@ -43,7 +44,7 @@ if not CURSEFORGE_TOKEN:
 CURSEFORGE_URL = f"https://minecraft.curseforge.com/api/v1/projects/{CURSEFORGE_ID}/upload-file"
 CURSEFORGE_GAME_VERSIONS = {
     "21.1": [11779],
-    "26.1": [15933],
+    "26.1": [15933, 16021, 16082],
 }
 CURSEFORGE_LOADERS = {
     "fabric": 7499,
