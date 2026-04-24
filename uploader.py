@@ -5,11 +5,10 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.7.0"
+MOD_VERSION = "1.7.1"
 CHANGELOG = """
-- Made regions biome-based. See wiki for info.
-- Fixed a bug with the `replace_fully` biome injector not working consistently.
-- Fixed `fast_noise_config` objects all using the same seed.
+- Fix runtime biome injectors not applying if no datapack-provided biome injectors exist.
+- Fixed a bug allowing incorrect values to be inputted in some places
 """
 UPLOAD_VERSIONS = [
     ("fabric", "21.1"),

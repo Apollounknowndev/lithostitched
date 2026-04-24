@@ -33,8 +33,6 @@ import java.util.*;
 public class BiomeInjectorManager {
 	public static void applyBiomeInjectors(MinecraftServer server) {
 		RegistryAccess registries = server.registryAccess();
-		Registry<BiomeInjector> injectorRegistry = Lithostitched.registry(registries, LithostitchedRegistries.BIOME_INJECTOR);
-		if (injectorRegistry.entrySet().isEmpty()) return;
 		
 		Registry<LevelStem> dimensions = Lithostitched.registry(registries, Registries.LEVEL_STEM);
 		long seed = LithostitchedVersion.getSeed(server);

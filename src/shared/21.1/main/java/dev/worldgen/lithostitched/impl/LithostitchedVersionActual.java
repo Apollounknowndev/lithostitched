@@ -38,12 +38,12 @@ public class LithostitchedVersionActual {
 	
 	@Actual
 	public static Codec<FloatProvider> floatProviderCodec(float min, float max) {
-		return FloatProvider.CODEC;
+		return FloatProvider.codec(min, max);
 	}
 	
 	@Actual
 	public static Codec<IntProvider> intProviderCodec(int min, int max) {
-		return IntProvider.CODEC;
+		return IntProvider.codec(min, max);
 	}
 	
 	@Actual
