@@ -30,6 +30,7 @@ public class DensityFunctionWrapper implements DensityFunction.Visitor {
         this.random = random;
     }
 
+    @SuppressWarnings("deprecation")
     public DensityFunction.NoiseHolder visitNoise(DensityFunction.NoiseHolder noiseHolder) {
         Holder<NormalNoise.NoiseParameters> noiseData = noiseHolder.noiseData();
         NormalNoise noise;

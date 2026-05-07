@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.JigsawBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
@@ -221,9 +222,9 @@ public class AlternateJigsawGenerator {
 
             if (ConfigHandler.getConfig().breaksSeedParity() || !this.vanilla) {
                 // If we've already iterated over this pool, don't iterate over it again to prevent infinite looping
-                if (checkedPools.getValue().contains(poolKey)) {
+                if (checkedPools.get().contains(poolKey)) {
                     StringBuilder stringBuilder = new StringBuilder();
-                    for (ResourceKey<StructureTemplatePool> checkedPoolKey : checkedPools.getValue()) {
+                    for (ResourceKey<StructureTemplatePool> checkedPoolKey : checkedPools.get()) {
                         stringBuilder.append(checkedPoolKey.identifier()).append(" -> ");
                     }
                     stringBuilder.append(poolKey.identifier());
@@ -232,7 +233,7 @@ public class AlternateJigsawGenerator {
                     return List.of();
                 }
 
-                checkedPools.getValue().add(poolKey);
+                checkedPools.get().add(poolKey);
 
                 // Get pool to get the elements, start with fallback pool if at max size
                 Holder<StructureTemplatePool> pool = this.registry.get(poolKey).orElseThrow();
@@ -303,6 +304,8 @@ public class AlternateJigsawGenerator {
                             if (!connectorBoundingBox.isInside(adjustJigsawPos(blockInfo))) {
                                 return 0;
                             } else {
+                                // This is technically bugged behavior, fallback chains need to be taken into account.
+                                // This should never matter though.
                                 ResourceKey<StructureTemplatePool> registryKey2 = aliasLookup.lookup(jigsawInfo.pool());
                                 Optional<? extends Holder<StructureTemplatePool>> optional1 = this.registry.get(registryKey2);
                                 Optional<Holder<StructureTemplatePool>> optional2 = optional1.map(entry -> entry.value().getFallback());
@@ -331,7 +334,7 @@ public class AlternateJigsawGenerator {
                                 p = parentMinY + o;
                             } else {
                                 if (k == -1) {
-                                    k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, world, context.randomState());
+                                    k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), config.terrainMatchingHeightmap(), world, context.randomState());
                                 }
 
                                 p = k - connectorY;
@@ -376,7 +379,7 @@ public class AlternateJigsawGenerator {
                                     t = p + connectorY;
                                 } else {
                                     if (k == -1) {
-                                        k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, world, context.randomState());
+                                        k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), config.terrainMatchingHeightmap(), world, context.randomState());
                                     }
 
                                     t = k + o / 2;

@@ -22,10 +22,7 @@ import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.InjectorB
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
-import dev.worldgen.lithostitched.worldgen.blockpredicate.BlockStatePredicate;
-import dev.worldgen.lithostitched.worldgen.blockpredicate.InStructurePredicate;
-import dev.worldgen.lithostitched.worldgen.blockpredicate.MultipleOfPredicate;
-import dev.worldgen.lithostitched.worldgen.blockpredicate.RandomChancePredicate;
+import dev.worldgen.lithostitched.worldgen.blockpredicate.*;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.fastnoise.FastNoiseDensityFunction;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.fastnoise.config.CellularNoiseType;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise.FastNoiseConfig;
@@ -135,8 +132,11 @@ public class LithostitchedBuiltInRegistries {
 		));
 		LithostitchedRegistrar.register(Registries.BLOCK_PREDICATE_TYPE, Map.ofEntries(
 			Map.entry("block_state", BlockStatePredicate.TYPE),
+			Map.entry("grid", GridPredicate.TYPE),
 			Map.entry("in_structure", InStructurePredicate.TYPE),
+			Map.entry("matching_biomes", MatchingBiomesPredicate.TYPE),
 			Map.entry("multiple_of", MultipleOfPredicate.TYPE),
+			Map.entry("offset", OffsetPredicate.TYPE),
 			Map.entry("random_chance", RandomChancePredicate.TYPE)
 		));
 		LithostitchedRegistrar.register(Registries.BLOCK_STATE_PROVIDER_TYPE, Map.ofEntries(

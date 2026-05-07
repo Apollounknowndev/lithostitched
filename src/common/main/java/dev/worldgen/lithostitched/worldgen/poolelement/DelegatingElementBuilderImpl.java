@@ -4,6 +4,7 @@ import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondi
 import dev.worldgen.lithostitched.api.worldgen.poolelement.DelegatingElementBuilder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.InclusiveRange;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 
@@ -18,6 +19,7 @@ public class DelegatingElementBuilderImpl implements DelegatingElementBuilder {
 	private Optional<Integer> maxCount = Optional.empty();
 	private boolean allowBoundingBoxCollisions = false;
 	private boolean otherPiecesCanIntersect = false;
+	private Heightmap.Types terrainMatchingHeightmap = Heightmap.Types.WORLD_SURFACE_WG;
 	private Optional<TerrainAdjustment> overrideTerrainAdaptation = Optional.empty();
 	
 	public DelegatingElementBuilderImpl(StructurePoolElement delegate) {
@@ -67,6 +69,12 @@ public class DelegatingElementBuilderImpl implements DelegatingElementBuilder {
 	}
 	
 	@Override
+	public DelegatingElementBuilder terrainMatchingHeightmap(Heightmap.Types heightmap) {
+		this.terrainMatchingHeightmap = heightmap;
+		return this;
+	}
+	
+	@Override
 	public DelegatingElementBuilder allowBoundingBoxCollisions() {
 		this.allowBoundingBoxCollisions = true;
 		return this;
@@ -80,6 +88,6 @@ public class DelegatingElementBuilderImpl implements DelegatingElementBuilder {
 	
 	@Override
 	public DelegatingConfig build() {
-		return new DelegatingConfig(delegate, name, placementCondition, allowedDepth, forcedCount, maxCount, allowBoundingBoxCollisions, otherPiecesCanIntersect, overrideTerrainAdaptation);
+		return new DelegatingConfig(delegate, name, placementCondition, allowedDepth, forcedCount, maxCount, allowBoundingBoxCollisions, otherPiecesCanIntersect, terrainMatchingHeightmap, overrideTerrainAdaptation);
 	}
 }

@@ -339,7 +339,7 @@ public class AlternateJigsawGenerator {
                                 p = parentMinY + o;
                             } else {
                                 if (k == -1) {
-                                    k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, world, context.randomState());
+                                    k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), config.terrainMatchingHeightmap(), world, context.randomState());
                                 }
 
                                 p = k - connectorY;
@@ -384,7 +384,7 @@ public class AlternateJigsawGenerator {
                                     t = p + connectorY;
                                 } else {
                                     if (k == -1) {
-                                        k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, world, context.randomState());
+                                        k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), config.terrainMatchingHeightmap(), world, context.randomState());
                                     }
 
                                     t = k + o / 2;

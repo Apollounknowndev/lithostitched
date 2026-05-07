@@ -106,7 +106,7 @@ public interface BiomeInjector {
 			return new DispatchAlternateLayout(predicate, level, priority.orElse(DEFAULT_PRIORITY), parameterBuilder.build(), points);
 		}
 		
-		public BiomeInjector replaceFully(Holder<Biome> biome, ParameterBuilder parameterBuilder) {
+		public BiomeInjector forcePlacement(Holder<Biome> biome, ParameterBuilder parameterBuilder) {
 			return new ForcePlacement(predicate, level, priority.orElse(DEFAULT_PRIORITY), biome, parameterBuilder.build());
 		}
 		

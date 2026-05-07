@@ -1,6 +1,5 @@
 package dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal;
 
-import com.google.common.base.Suppliers;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -8,7 +7,6 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.SimpleContext;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
-import dev.worldgen.lithostitched.impl.LithostitchedPlatform;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.*;
 import dev.worldgen.lithostitched.mixin.common.MultiNoiseBiomeSourceAccessor;
 import dev.worldgen.lithostitched.mixin.common.mnbs.MNBSPLAccessor;
@@ -22,12 +20,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.biome.Climate.TargetPoint;
 import net.minecraft.world.level.levelgen.DensityFunction;
-import net.minecraft.world.level.levelgen.DensityFunction.FunctionContext;
 
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class InjectorBiomeSource extends BiomeSource {
@@ -114,7 +110,7 @@ public class InjectorBiomeSource extends BiomeSource {
 		TargetPoint point = sampler.sample(quartX, quartY, quartZ);
 		HashMap<DensityFunction, Double> densities = new HashMap<>();
 		
-		Holder<Biome> biome = this.directDelegate instanceof MultiNoiseBiomeSource multiNoise ? multiNoise.getNoiseBiome(point) : this.directDelegate.getNoiseBiome(quartX, quartY, quartZ, sampler);
+		Holder<Biome> biome = this.directDelegate.getNoiseBiome(quartX, quartY, quartZ, sampler);
 		ResourceKey<Region> currentRegion = this.regionManager.getRegion(context, biome);
 		
 		if (this.injectorsByType.containsKey(ForcePlacement.CODEC)) {
@@ -156,8 +152,12 @@ public class InjectorBiomeSource extends BiomeSource {
 		return biome;
 	}
 	
-	public String getRegionLine(Holder<Biome> biome, BlockPos pos) {
+	public String getRegionLine(Climate.Sampler sampler, BlockPos pos) {
 		SimpleContext context = SimpleContext.of(pos);
+		int quartX = QuartPos.fromBlock(pos.getX());
+		int quartY = QuartPos.fromBlock(pos.getY());
+		int quartZ = QuartPos.fromBlock(pos.getZ());
+		Holder<Biome> biome = this.directDelegate.getNoiseBiome(quartX, quartY, quartZ, sampler);
 		Identifier region = this.regionManager.getRegion(context, biome).identifier();
 		int rawValue = this.regionManager.getRegionValue(context, biome);
 		return String.format("Region: %s (Raw value: %s)", region, rawValue);

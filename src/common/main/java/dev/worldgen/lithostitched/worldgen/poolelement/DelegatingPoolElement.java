@@ -9,6 +9,7 @@ import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
@@ -31,7 +32,7 @@ public class DelegatingPoolElement extends StructurePoolElement {
     }
 
     public DelegatingPoolElement(StructurePoolElement delegate, Optional<Integer> minDepth, Optional<Integer> forcedCount, Optional<Integer> maxCount) {
-        this(new DelegatingConfig(delegate, Optional.empty(), Optional.empty(), minDepth.map(min -> Optional.of(new InclusiveRange<>(min, Integer.MAX_VALUE))).orElse(Optional.empty()), forcedCount, maxCount, false, false, Optional.empty()));
+        this(new DelegatingConfig(delegate, Optional.empty(), Optional.empty(), minDepth.map(min -> new InclusiveRange<>(min, Integer.MAX_VALUE)), forcedCount, maxCount, false, false, Heightmap.Types.WORLD_SURFACE_WG, Optional.empty()));
     }
 
     public DelegatingConfig config() {

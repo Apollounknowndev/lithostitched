@@ -1,13 +1,12 @@
 package dev.worldgen.lithostitched.api.worldgen.blockpredicate;
 
-import dev.worldgen.lithostitched.worldgen.blockpredicate.BlockStatePredicate;
-import dev.worldgen.lithostitched.worldgen.blockpredicate.InStructurePredicate;
-import dev.worldgen.lithostitched.worldgen.blockpredicate.MultipleOfPredicate;
-import dev.worldgen.lithostitched.worldgen.blockpredicate.RandomChancePredicate;
+import dev.worldgen.lithostitched.worldgen.blockpredicate.*;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.InclusiveRange;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
@@ -21,6 +20,14 @@ public interface LithostitchedBlockPredicates {
 	
 	static BlockPredicate blockState(Vec3i offset, StatePropertiesPredicate predicate) {
 		return new BlockStatePredicate(offset, predicate);
+	}
+	
+	static BlockPredicate matchingBiome(Holder<Biome> biome) {
+		return new MatchingBiomesPredicate(HolderSet.direct(biome));
+	}
+	
+	static BlockPredicate matchingBiome(HolderSet<Biome> biomes) {
+		return new MatchingBiomesPredicate(biomes);
 	}
 	
 	static BlockPredicate inStructure(int searchRange) {
@@ -41,6 +48,10 @@ public interface LithostitchedBlockPredicates {
 	
 	static BlockPredicate multipleOf(InclusiveRange<Integer> allowedCount, BlockPredicate... predicates) {
 		return new MultipleOfPredicate(Arrays.asList(predicates), allowedCount);
+	}
+	
+	static BlockPredicate offset(BlockPredicate predicate, Vec3i offset) {
+		return new OffsetPredicate(predicate, offset);
 	}
 	
 	static BlockPredicate randomChance(float chance) {

@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "2.1.0"
-    id("earth.terrarium.cloche") version "0.18.10"
+    id("earth.terrarium.cloche") version "0.18.11"
 }
 
 repositories {
@@ -15,7 +15,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.7.1"
+version = "1.7.3"
 
 cloche {
     metadata {
@@ -79,12 +79,12 @@ cloche {
     fabric("fabric:26.1") {
         dependsOn(sharedNew)
 
-        loaderVersion = "0.18.4"
-        minecraftVersion = "26.1"
+        loaderVersion = "0.19.2"
+        minecraftVersion = "26.1.2"
         mixins.from(file("src/fabric/26.1/main/lithostitched.fabric.mixins.json"))
 
         dependencies {
-            fabricApi("0.144.3")
+            fabricApi("0.148.0")
         }
 
         includedClient()
@@ -126,8 +126,8 @@ cloche {
     neoforge("neoforge:26.1") {
         dependsOn(sharedNew)
 
-        loaderVersion = "26.1.0.5-beta"
-        minecraftVersion = "26.1"
+        loaderVersion = "26.1.2.42-beta"
+        minecraftVersion = "26.1.2"
         mixins.from(file("src/neoforge/26.1/main/lithostitched.neoforge.mixins.json"))
 
         runs {

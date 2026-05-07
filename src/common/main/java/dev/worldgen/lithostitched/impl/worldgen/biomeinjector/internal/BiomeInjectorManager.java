@@ -77,7 +77,7 @@ public class BiomeInjectorManager {
 				}
 			});
 			
-			ResourceKey<DensityFunction> regionKey = ResourceKey.create(Registries.DENSITY_FUNCTION, createRegionId(dimension).withPrefix("region/"));
+			ResourceKey<DensityFunction> regionKey = ResourceKey.create(Registries.DENSITY_FUNCTION, createRegionId(dimension));
 			Optional<DensityFunction> regionFunction = Lithostitched.registry(registries, Registries.DENSITY_FUNCTION).getOptional(regionKey);
 			
 			ChunkGeneratorAccessor accessor = (ChunkGeneratorAccessor) generator;
@@ -105,10 +105,6 @@ public class BiomeInjectorManager {
 	}
 	
 	private static Identifier createRegionId(ResourceKey<LevelStem> dimension) {
-		Identifier id = dimension.identifier();
-		if (id.getNamespace().equals("minecraft")) {
-			return Lithostitched.id(id.getPath());
-		}
-		return id;
+		return Lithostitched.vanillaToLithostitched(dimension.identifier()).withPrefix("region/");
 	}
 }

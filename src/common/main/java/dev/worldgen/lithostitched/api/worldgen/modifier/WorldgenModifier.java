@@ -16,6 +16,7 @@ import dev.worldgen.lithostitched.worldgen.feature.config.CompositeConfig;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.*;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
@@ -148,12 +149,12 @@ public interface WorldgenModifier {
 			return new AddTemplatePoolElementsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), pools, List.of(elements));
 		}
 		
-		public WorldgenModifier addSurfaceRule(ResourceKey<LevelStem> dimension, InjectionType injectionType, SurfaceRules.RuleSource ruleSource) {
-			return new AddSurfaceRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), List.of(dimension), injectionType, ruleSource);
+		public WorldgenModifier addSurfaceRule(ResourceKey<Level> dimension, InjectionType injectionType, SurfaceRules.RuleSource ruleSource) {
+			return new AddSurfaceRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), List.of(Registries.levelToLevelStem(dimension)), injectionType, ruleSource);
 		}
 		
-		public WorldgenModifier addSurfaceRule(List<ResourceKey<LevelStem>> dimensions, InjectionType injectionType, SurfaceRules.RuleSource ruleSource) {
-			return new AddSurfaceRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), dimensions, injectionType, ruleSource);
+		public WorldgenModifier addSurfaceRule(List<ResourceKey<Level>> dimensions, InjectionType injectionType, SurfaceRules.RuleSource ruleSource) {
+			return new AddSurfaceRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), dimensions.stream().map(Registries::levelToLevelStem).toList(), injectionType, ruleSource);
 		}
 		
 		public WorldgenModifier noop() {

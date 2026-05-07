@@ -5,6 +5,7 @@ import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingConfig;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingElementBuilderImpl;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.InclusiveRange;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 
@@ -19,6 +20,7 @@ public interface DelegatingElementBuilder {
 	DelegatingElementBuilder terrainAdaptation(TerrainAdjustment adaptation);
 	DelegatingElementBuilder condition(PlacementCondition condition);
 	DelegatingElementBuilder named(Identifier name);
+	DelegatingElementBuilder terrainMatchingHeightmap(Heightmap.Types heightmap);
 	DelegatingElementBuilder allowBoundingBoxCollisions();
 	DelegatingElementBuilder otherPiecesCanIntersect();
 	

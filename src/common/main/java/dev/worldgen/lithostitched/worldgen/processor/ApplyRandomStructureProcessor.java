@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.util.Weighted;
+import dev.worldgen.lithostitched.api.util.WeightedHolderSet;
 import dev.worldgen.lithostitched.api.util.WeightedList;
 import dev.worldgen.lithostitched.api.worldgen.processor.RandomSettings;
 import net.minecraft.core.BlockPos;
@@ -21,34 +22,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ApplyRandomStructureProcessor extends StructureProcessor {
-    private static final Codec<WeightedList<Holder<StructureProcessorList>>> WEIGHTED_LIST_CODEC = WeightedList.codec(StructureProcessorType.LIST_CODEC);
     private static final Codec<HolderSet<StructureProcessorList>> SET_CODEC = RegistryCodecs.homogeneousList(Registries.PROCESSOR_LIST, StructureProcessorType.DIRECT_CODEC);
 
     public static final MapCodec<ApplyRandomStructureProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        Codec.withAlternative(SET_CODEC, WEIGHTED_LIST_CODEC, ApplyRandomStructureProcessor::convertToSet).fieldOf("processor_lists").forGetter(ApplyRandomStructureProcessor::processorLists),
+        WeightedHolderSet.codec(StructureProcessorType.LIST_CODEC, SET_CODEC).fieldOf("processor_lists").forGetter(ApplyRandomStructureProcessor::processorLists),
         RandomSettings.CODEC.fieldOf("mode").forGetter(ApplyRandomStructureProcessor::randomSettings)
     ).apply(instance, ApplyRandomStructureProcessor::new));
 
-    public static HolderSet<StructureProcessorList> convertToSet(WeightedList<Holder<StructureProcessorList>> weightedList) {
-        List<Holder<StructureProcessorList>> holders = new ArrayList<>();
-        for (Weighted<Holder<StructureProcessorList>> processor : weightedList.unwrap()) {
-            for (int i = 0; i < processor.weight(); i++) {
-                holders.add(processor.value());
-            }
-        }
-        return HolderSet.direct(holders);
-    }
-
     public static final StructureProcessorType<ApplyRandomStructureProcessor> TYPE = () -> CODEC;
-    private final HolderSet<StructureProcessorList> processorLists;
+    private final WeightedHolderSet<StructureProcessorList> processorLists;
     private final RandomSettings randomSettings;
 
-    public ApplyRandomStructureProcessor(HolderSet<StructureProcessorList> processorLists, RandomSettings randomSettings) {
+    public ApplyRandomStructureProcessor(WeightedHolderSet<StructureProcessorList> processorLists, RandomSettings randomSettings) {
         this.processorLists = processorLists;
         this.randomSettings = randomSettings;
     }
 
-    public HolderSet<StructureProcessorList> processorLists() {
+    public WeightedHolderSet<StructureProcessorList> processorLists() {
         return this.processorLists;
     }
 
@@ -61,7 +51,7 @@ public class ApplyRandomStructureProcessor extends StructureProcessor {
         if (levelReader instanceof WorldGenLevel level) {
             RandomSource random = this.randomSettings.create(level, pos, absolute);
 
-            var processorList = this.processorLists.getRandomElement(random);
+            var processorList = this.processorLists.getRandom(random);
             if (processorList.isPresent()) {
                 StructureTemplate.StructureBlockInfo processedBlock = absolute;
 

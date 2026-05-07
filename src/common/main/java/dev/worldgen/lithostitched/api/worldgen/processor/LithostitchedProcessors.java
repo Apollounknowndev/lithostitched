@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.api.worldgen.processor;
 
+import dev.worldgen.lithostitched.api.util.WeightedHolderSet;
 import dev.worldgen.lithostitched.api.util.WeightedList;
 import dev.worldgen.lithostitched.api.worldgen.processor.enums.RandomMode;
 import dev.worldgen.lithostitched.worldgen.processor.*;
@@ -16,15 +17,13 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockent
 import java.util.List;
 import java.util.Map;
 
-import static dev.worldgen.lithostitched.worldgen.processor.ApplyRandomStructureProcessor.convertToSet;
-
 public interface LithostitchedProcessors {
 	static StructureProcessor applyRandom(HolderSet<StructureProcessorList> lists, RandomSettings settings) {
-		return new ApplyRandomStructureProcessor(lists, settings);
+		return new ApplyRandomStructureProcessor(WeightedHolderSet.create(lists), settings);
 	}
 	
 	static StructureProcessor applyRandom(WeightedList<Holder<StructureProcessorList>> lists, RandomSettings settings) {
-		return new ApplyRandomStructureProcessor(convertToSet(lists), settings);
+		return new ApplyRandomStructureProcessor(WeightedHolderSet.create(lists), settings);
 	}
 	
 	static StructureProcessor blockSwap(Map<ResourceKey<Block>, ResourceKey<Block>> blocks) {

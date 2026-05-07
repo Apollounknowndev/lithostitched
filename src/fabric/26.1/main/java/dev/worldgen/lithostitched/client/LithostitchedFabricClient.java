@@ -12,10 +12,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.debug.DebugScreenEntries;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.ChunkSource;
 
 public class LithostitchedFabricClient implements ClientModInitializer {
 	@Override
@@ -39,8 +43,9 @@ public class LithostitchedFabricClient implements ClientModInitializer {
 			BlockPos pos = entity.blockPosition();
 			
 			if (serverOrClientLevel instanceof ServerLevel serverLevel) {
-				if (serverLevel.getChunkSource().getGenerator().getBiomeSource() instanceof InjectorBiomeSource injector) {
-					displayer.addLine(injector.getRegionLine(serverLevel.getBiomeManager().getNoiseBiomeAtPosition(pos), pos));
+				ServerChunkCache source = serverLevel.getChunkSource();
+				if (source.getGenerator().getBiomeSource() instanceof InjectorBiomeSource injector) {
+					displayer.addLine(injector.getRegionLine(source.randomState().sampler(), pos));
 				}
 			}
 		});

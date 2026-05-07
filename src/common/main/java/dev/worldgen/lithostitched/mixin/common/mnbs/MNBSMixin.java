@@ -61,7 +61,7 @@ public abstract class MNBSMixin implements MNBSDuck {
 						var rawEntries = biomeEntries.left().get().values();
 
 						var overworldPreset = lookup.get(MultiNoiseBiomeSourceParameterLists.OVERWORLD);
-						if (overworldPreset.isEmpty()) return mnbs;
+						if (overworldPreset.isEmpty() || !overworldPreset.get().isBound()) return mnbs;
 
 						var migrationBiome = ((MNBSPLDuck)overworldPreset.get().value()).lithostitched$getMigrationBiome();
 						if (migrationBiome.isPresent() && rawEntries.getLast().getSecond().is(migrationBiome.get())) {

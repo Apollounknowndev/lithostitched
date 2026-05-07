@@ -4,11 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="1.7.0">
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="1.7.1">
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/util/WeightedHolderSet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/blockpredicate/GridPredicate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/blockpredicate/MatchingBiomesPredicate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/blockpredicate/OffsetPredicate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/util/Weighted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/util/Weighted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/util/WeightedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/util/WeightedList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/biomeinjector/BiomeInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/biomeinjector/BiomeInjector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/blockpredicate/LithostitchedBlockPredicates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/blockpredicate/LithostitchedBlockPredicates.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/modifier/WorldgenModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/modifier/WorldgenModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/poolelement/DelegatingElementBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/poolelement/DelegatingElementBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/processor/LithostitchedProcessors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/processor/LithostitchedProcessors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/util/DensityFunctionWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/util/DensityFunctionWrapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/BiomeInjectorManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/BiomeInjectorManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/21.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedVersionActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/21.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedVersionActual.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/InjectorBiomeSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/InjectorBiomeSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/mnbs/MNBSMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/mnbs/MNBSMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/poolelement/DelegatingConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/poolelement/DelegatingConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/poolelement/DelegatingElementBuilderImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/poolelement/DelegatingElementBuilderImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/poolelement/DelegatingPoolElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/poolelement/DelegatingPoolElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/processor/ApplyRandomStructureProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/processor/ApplyRandomStructureProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fabric/26.1/main/java/dev/worldgen/lithostitched/client/LithostitchedFabricClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/26.1/main/java/dev/worldgen/lithostitched/client/LithostitchedFabricClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/21.1/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/21.1/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/26.1/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/26.1/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +59,7 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="lithostitched" type="f1a62948:ProjectNode" />
-                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
             </expand>
             <select />
@@ -72,7 +94,7 @@
     &quot;accountId&quot;: &quot;7891143c-883a-4944-b9fb-b68c3c023df8&quot;
   }
 }</component>
-  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="C:\Users\ldglo\.gradle\wrapper\dists\gradle-9.2.0-bin\11i5gvueggl8a5cioxuftxrik\gradle-9.2.0" javaHome="C:\Users\ldglo\.jdks\openjdk-25.0.1" gradleVersion="9.2.0" />
+  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="C:\Users\ldglo\.gradle\wrapper\dists\gradle-9.5.0-bin\bvnork1r7n8i6kp5cnkibsc9q\gradle-9.5.0" javaHome="C:\Users\ldglo\.jdks\openjdk-25.0.1" gradleVersion="9.5.0" />
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 8
@@ -161,11 +183,11 @@
       <recent name="dev.worldgen.lithostitched.worldgen.bandlands" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.worldgen.lithostitched.worldgen.blockpredicate" />
       <recent name="dev.worldgen.lithostitched.api.tag" />
       <recent name="dev.worldgen.lithostitched.worldgen.poolelement" />
       <recent name="dev.worldgen.lithostitched.impl.predicate" />
       <recent name="dev.worldgen.lithostitched.impl.worldgen.biomeinjector" />
-      <recent name="dev.worldgen.lithostitched.impl.worldgen.densityfunction" />
     </key>
   </component>
   <component name="RunManager" selected="Gradle.1.20.1 [build]">
@@ -217,7 +239,7 @@
       <option name="MAIN_CLASS_NAME" value="net.fabricmc.loader.impl.launch.knot.KnotClient" />
       <module name="lithostitched.fabric261" />
       <option name="PROGRAM_PARAMETERS" value="--assetsDir=C:\Users\ldglo\.gradle\caches\minecraft-codev\assets --assetIndex=30" />
-      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric261;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric261;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric261 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-26.1\common\minecraft-26.1.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric261ClientGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric261RemapClasspath\classpath.txt -Djava.library.path=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric261Natives -Dorg.lwjgl.librarypath=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric261Natives -Dfabric.gameJarPath.client=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-26.1\main\minecraft-26.1-client.jar" />
+      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric261;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric261;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric261 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-26.1\common\minecraft-26.1.2.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric261ClientGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric261RemapClasspath\classpath.txt -Djava.library.path=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric261Natives -Dorg.lwjgl.librarypath=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\extractFabric261Natives -Dfabric.gameJarPath.client=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-26.1\main\minecraft-26.1.2-client.jar" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -228,7 +250,7 @@
       <option name="MAIN_CLASS_NAME" value="net.fabricmc.loader.impl.launch.knot.KnotServer" />
       <module name="lithostitched.fabric261" />
       <option name="PROGRAM_PARAMETERS" value="nogui" />
-      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric261;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric261;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric261 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-26.1\common\minecraft-26.1.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric261CommonGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric261RemapClasspath\classpath.txt" />
+      <option name="VM_PARAMETERS" value="-Dfabric.development=true -Dmixin.env.remapRefMap=true -Dfabric.classPathGroups=C:\Users\ldglo\Documents\Github\lithostitched\build\classes\java\fabric261;C:\Users\ldglo\Documents\Github\lithostitched\build\classes\kotlin\fabric261;C:\Users\ldglo\Documents\Github\lithostitched\build\resources\fabric261 -Dfabric.gameJarPath=C:\Users\ldglo\Documents\Github\lithostitched\build\minecraft\fabric-26.1\common\minecraft-26.1.2.jar -Dfabric.gameLibraries=@C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric261CommonGameLibraries\classpath.txt -Dfabric.remapClasspathFile=C:\Users\ldglo\Documents\Github\lithostitched\build\tmp\writeFabric261RemapClasspath\classpath.txt" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -297,7 +319,7 @@
       </envs>
       <option name="MAIN_CLASS_NAME" value="net.neoforged.fml.startup.Client" />
       <module name="lithostitched.neoforge261" />
-      <option name="PROGRAM_PARAMETERS" value="--version 26.1.0.5-beta --assetIndex 30 --assetsDir C:\Users\ldglo\.gradle\caches\minecraft-codev\assets" />
+      <option name="PROGRAM_PARAMETERS" value="--version 26.1.2.42-beta --assetIndex 30 --assetsDir C:\Users\ldglo\.gradle\caches\minecraft-codev\assets" />
       <option name="VM_PARAMETERS" value="--sun-misc-unsafe-memory-access=allow --enable-native-access=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED --add-exports jdk.naming.dns/com.sun.jndi.dns=java.naming -Djava.net.preferIPv6Addresses=system -Dneoforge.enableGameTest=true" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">

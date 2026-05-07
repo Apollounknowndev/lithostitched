@@ -5,14 +5,13 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.7.1"
+MOD_VERSION = "1.7.3"
 CHANGELOG = """
-- Fix runtime biome injectors not applying if no datapack-provided biome injectors exist.
-- Fixed a bug allowing incorrect values to be inputted in some places
+- Fix compatibility with particular biome mods such as WWEE and Dreamwoods
 """
 UPLOAD_VERSIONS = [
-    ("fabric", "21.1"),
-    ("neoforge", "21.1"),
+    #("fabric", "21.1"),
+    #("neoforge", "21.1"),
     ("fabric", "26.1"),
     ("neoforge", "26.1"),
 ]

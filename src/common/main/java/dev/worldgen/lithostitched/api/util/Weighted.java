@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.api.util;
 
-import com.mojang.datafixers.util.Pair;
+import com.mojang.datafixers.util.Either;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -13,6 +13,10 @@ import org.slf4j.Logger;
 public record Weighted<T>(T value, int weight) {
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    public Weighted(T value) {
+        this(value, 1);
+    }
+    
     public Weighted(T value, int weight) {
         if (weight < 0) {
             throw new IllegalArgumentException("Weight should be >= 0");
@@ -31,10 +35,17 @@ public record Weighted<T>(T value, int weight) {
     }
 
     public static <E> Codec<Weighted<E>> codec(MapCodec<E> mapCodec) {
-        return RecordCodecBuilder.create(instance -> instance.group(
+        Codec<Weighted<E>> simple = mapCodec.codec().xmap(Weighted::new, Weighted::value);
+        
+        Codec<Weighted<E>> full = RecordCodecBuilder.create(instance -> instance.group(
             mapCodec.forGetter(Weighted::value),
             ExtraCodecs.NON_NEGATIVE_INT.fieldOf("weight").forGetter(Weighted::weight)
-        ).apply(instance, (Weighted::new)));
+        ).apply(instance, Weighted::new));
+        
+        return Codec.either(simple, full).xmap(
+            Either::unwrap,
+            weighted -> weighted.weight == 1 ? Either.left(weighted) : Either.right(weighted)
+        );
     }
 
     public <U> Weighted<U> map(Function<T, U> function) {
