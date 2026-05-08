@@ -40,6 +40,7 @@
     "common.MappedRegistryAccessor",
     "common.MultiNoiseBiomeSourceAccessor",
     "common.NoiseBasedChunkGeneratorAccessor",
+    "common.NoiseBasedChunkGeneratorMixin",
     "common.NoiseGeneratorSettingsAccessor",
     "common.PlacedFeatureAccessor",
     "common.PoolAliasLookupMixin",

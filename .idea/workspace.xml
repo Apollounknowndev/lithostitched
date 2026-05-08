@@ -4,33 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="1.7.1">
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/util/WeightedHolderSet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/blockpredicate/GridPredicate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/blockpredicate/MatchingBiomesPredicate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/blockpredicate/OffsetPredicate.java" afterDir="false" />
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="1.7.3 (now works, wahoo)">
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/NoiseBasedChunkGeneratorMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/util/Weighted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/util/Weighted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/util/WeightedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/util/WeightedList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/biomeinjector/BiomeInjector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/biomeinjector/BiomeInjector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/blockpredicate/LithostitchedBlockPredicates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/blockpredicate/LithostitchedBlockPredicates.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/modifier/WorldgenModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/modifier/WorldgenModifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/poolelement/DelegatingElementBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/poolelement/DelegatingElementBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/processor/LithostitchedProcessors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/processor/LithostitchedProcessors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/util/DensityFunctionWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/api/worldgen/util/DensityFunctionWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/BiomeInjectorManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/BiomeInjectorManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/InjectorBiomeSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/InjectorBiomeSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/mnbs/MNBSMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/mnbs/MNBSMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/poolelement/DelegatingConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/poolelement/DelegatingConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/poolelement/DelegatingElementBuilderImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/poolelement/DelegatingElementBuilderImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/poolelement/DelegatingPoolElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/poolelement/DelegatingPoolElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/processor/ApplyRandomStructureProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/processor/ApplyRandomStructureProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fabric/26.1/main/java/dev/worldgen/lithostitched/client/LithostitchedFabricClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/26.1/main/java/dev/worldgen/lithostitched/client/LithostitchedFabricClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/21.1/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/21.1/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/26.1/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/26.1/main/java/dev/worldgen/lithostitched/worldgen/structure/AlternateJigsawGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/lithostitched.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/lithostitched.mixins.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -183,11 +160,11 @@
       <recent name="dev.worldgen.lithostitched.worldgen.bandlands" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.worldgen.lithostitched.mixin.common" />
       <recent name="dev.worldgen.lithostitched.worldgen.blockpredicate" />
       <recent name="dev.worldgen.lithostitched.api.tag" />
       <recent name="dev.worldgen.lithostitched.worldgen.poolelement" />
       <recent name="dev.worldgen.lithostitched.impl.predicate" />
-      <recent name="dev.worldgen.lithostitched.impl.worldgen.biomeinjector" />
     </key>
   </component>
   <component name="RunManager" selected="Gradle.1.20.1 [build]">
@@ -782,11 +759,18 @@
       <option name="project" value="LOCAL" />
       <updated>1776820966899</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="1.7.3 (now works, wahoo)">
+      <option name="closed" value="true" />
+      <created>1778218155840</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1778218155840</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Structure environment attributes" />
     <MESSAGE value="Implement basic biome injectors" />
     <MESSAGE value="Cleaned up parameters" />
     <MESSAGE value="Cleaned up reserved names" />
@@ -811,7 +795,8 @@
     <MESSAGE value="1.6.6" />
     <MESSAGE value="1.6.8" />
     <MESSAGE value="1.7.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.7.0" />
+    <MESSAGE value="1.7.3 (now works, wahoo)" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.7.3 (now works, wahoo)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -20,7 +20,7 @@ public abstract class BeardifierMixin {
         method = "forStructuresInChunk(Lnet/minecraft/world/level/StructureManager;Lnet/minecraft/world/level/ChunkPos;)Lnet/minecraft/world/level/levelgen/Beardifier;",
         at = @At(
             value = "INVOKE",
-            target = "add",
+            target = "Ljava/util/List;add(Ljava/lang/Object;)Z",
             ordinal = 0
         )
     )
