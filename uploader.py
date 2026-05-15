@@ -5,13 +5,9 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.7.3"
+MOD_VERSION = "1.7.5"
 CHANGELOG = """
-- Added `matching_biome`, `offset`, and `grid` block predicates. See the wiki for more info.
-- Added a debug line for the current Lithostitched region. If only the default region is loaded, this line doesn't appear.
-- Added `terrain_matching_heightmap` field to `delegating` pool element types, allowing terrain matching to apply to other heightmaps such as `ocean_floor`.
-- Fixed a vanilla bug where surface mobs check the top y-level for the spawn pool. This fixes issues in mods that add sky biomes, shipped in Lithostitched for convenience.
-- Fix compatibility with particular biome mods such as WWEE and Dreamwoods
+- Fix a crash involving biome injectors with multiple custom density function parameters.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "21.1"),

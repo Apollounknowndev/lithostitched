@@ -46,7 +46,7 @@ public final class LithostitchedNeoforge {
 	}
 	
 	private void registerPayloadHandlers(RegisterPayloadHandlersEvent event) {
-		PayloadRegistrar registrar = event.registrar("1");
+		PayloadRegistrar registrar = event.registrar("1").optional();
 		registrar.playToClient(ApplyStructureAttributesPacket.TYPE, ApplyStructureAttributesPacket.CODEC);
 	}
 	

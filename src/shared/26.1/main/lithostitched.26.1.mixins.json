@@ -11,6 +11,7 @@
     "common.BiomeGenerationSettingsAccessor",
     "common.DimensionTypeAccessor",
     "common.JigsawStructureMixin",
+    "common.LevelStorageSourceMixin",
     "common.MobSpawnSettingsAccessor",
     "common.TimelineAccessor"
   ],

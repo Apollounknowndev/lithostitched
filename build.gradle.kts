@@ -15,7 +15,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.7.3"
+version = "1.7.5"
 
 cloche {
     metadata {

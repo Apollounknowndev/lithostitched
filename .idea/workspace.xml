@@ -5,9 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="1.7.3 (now works, wahoo)">
-      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/NoiseBasedChunkGeneratorMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/26.1/main/java/dev/worldgen/lithostitched/mixin/common/LevelStorageSourceMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/main/lithostitched.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/lithostitched.mixins.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/neoforge/26.1/main/java/dev/worldgen/lithostitched/LithostitchedNeoforge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/26.1/main/java/dev/worldgen/lithostitched/LithostitchedNeoforge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/26.1/main/lithostitched.26.1.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/26.1/main/lithostitched.26.1.mixins.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +73,7 @@
     &quot;accountId&quot;: &quot;7891143c-883a-4944-b9fb-b68c3c023df8&quot;
   }
 }</component>
-  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="C:\Users\ldglo\.gradle\wrapper\dists\gradle-9.5.0-bin\bvnork1r7n8i6kp5cnkibsc9q\gradle-9.5.0" javaHome="C:\Users\ldglo\.jdks\openjdk-25.0.1" gradleVersion="9.5.0" />
+  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="C:\Users\ldglo\.gradle\wrapper\dists\gradle-9.5.0-bin\bvnork1r7n8i6kp5cnkibsc9q\gradle-9.5.0" javaHome="C:\Users\ldglo\.jdks\ms-25.0.1" gradleVersion="9.5.0" />
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 8
@@ -111,6 +113,7 @@
     &quot;Gradle.lithostitched [prepareNeoforge1211ClientRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [prepareNeoforge211ClientRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [prepareNeoforge261ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.lithostitched [prepareNeoforge261ServerRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [remapFabric12111CommonMinecraftIntermediary].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [remapFabric1211ClientMinecraftIntermediary].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [remapFabric1219ClientMinecraftIntermediary].executor&quot;: &quot;Run&quot;,
@@ -150,11 +153,11 @@
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\run\saves" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\shared\21.1\main" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\worldgen\noise\region" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\lithostitched\fast_noise_config\region" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\mappings" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="dev.worldgen.lithostitched.worldgen.bandlands" />
@@ -767,7 +770,15 @@
       <option name="project" value="LOCAL" />
       <updated>1778218155840</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="1.7.3 (now works, wahoo)">
+      <option name="closed" value="true" />
+      <created>1778219110321</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1778219110321</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

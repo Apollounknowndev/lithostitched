@@ -35,10 +35,13 @@ public final class ParameterMap {
 	}
 	
 	public void mapAll(DensityFunctionWrapper noiseHelper) {
+		Map<Either<ClimateParameter, DensityFunction>, InclusiveRange<Double>> mappedParameters = new HashMap<>();
 		for (var entry : this.parameters.entrySet()) {
-			var right = entry.getKey().right();
-			right.ifPresent(densityFunction -> this.parameters.put(Either.right(densityFunction.mapAll(noiseHelper)), entry.getValue()));
+			var either = entry.getKey();
+			mappedParameters.put(either.mapRight(df -> df.mapAll(noiseHelper)), entry.getValue());
 		}
+		this.parameters.clear();
+		this.parameters.putAll(mappedParameters);
 	}
 	
 	public boolean matches(DensityFunction.FunctionContext context, TargetPoint point, HashMap<DensityFunction, Double> densities, ResourceKey<Region> currentRegion) {
