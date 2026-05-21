@@ -35,9 +35,9 @@ public record TransientMergedRule(List<RuleSource> rules, RuleSource original) i
             for (RuleSource ruleSource : this.rules) {
                 builder.add(ruleSource.apply(context));
             }
-            builder.add(this.original.apply(context));
+            ImmutableList<SurfaceRules.SurfaceRule> list = builder.add(this.original.apply(context)).build();
             return (x, y, z) -> {
-                for (SurfaceRules.SurfaceRule surfaceRule : builder.build()) {
+                for (SurfaceRules.SurfaceRule surfaceRule : list) {
                     BlockState blockstate = surfaceRule.tryApply(x, y, z);
                     if (blockstate != null) {
                         return blockstate;
