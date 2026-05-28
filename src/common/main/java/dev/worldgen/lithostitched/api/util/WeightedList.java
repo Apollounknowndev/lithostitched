@@ -112,15 +112,7 @@ public class WeightedList<E> {
         return compactList(Weighted.codec(codec)).xmap(WeightedList::of, WeightedList::unwrap);
     }
 
-    public static <E> Codec<WeightedList<E>> codec(MapCodec<E> codec) {
-        return compactList(Weighted.codec(codec)).xmap(WeightedList::of, WeightedList::unwrap);
-    }
-
     public static <E> Codec<WeightedList<E>> nonEmptyCodec(Codec<E> codec) {
-        return ExtraCodecs.nonEmptyList(compactList(Weighted.codec(codec))).xmap(WeightedList::of, WeightedList::unwrap);
-    }
-
-    public static <E> Codec<WeightedList<E>> nonEmptyCodec(MapCodec<E> codec) {
         return ExtraCodecs.nonEmptyList(compactList(Weighted.codec(codec))).xmap(WeightedList::of, WeightedList::unwrap);
     }
 

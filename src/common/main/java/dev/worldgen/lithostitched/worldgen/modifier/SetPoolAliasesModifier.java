@@ -58,12 +58,12 @@ public record SetPoolAliasesModifier(Optional<LoadPredicate> predicate, int prio
 
         if (structure instanceof AlternateJigsawStructure alternateJigsaw) {
             alternateJigsaw.setPoolAliases(this.poolAliases, this.append);
-        } else {
+        } else if (structure instanceof JigsawStructure jigsaw) {
             List<PoolAliasBinding> mergedAliases = new ArrayList<>();
-            if (this.append) mergedAliases.addAll(((JigsawStructureAccessor)structure).getPoolAliases());
+            if (this.append) mergedAliases.addAll(((JigsawStructureAccessor)(Object)jigsaw).getPoolAliases());
 
             mergedAliases.addAll(this.poolAliases);
-            ((JigsawStructureAccessor)structure).setPoolAliases(mergedAliases);
+            ((JigsawStructureAccessor)(Object)jigsaw).setPoolAliases(mergedAliases);
         }
     }
 

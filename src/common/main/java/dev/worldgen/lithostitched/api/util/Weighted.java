@@ -31,14 +31,10 @@ public record Weighted<T>(T value, int weight) {
     }
 
     public static <E> Codec<Weighted<E>> codec(Codec<E> codec) {
-        return codec(codec.fieldOf("data"));
-    }
-
-    public static <E> Codec<Weighted<E>> codec(MapCodec<E> mapCodec) {
-        Codec<Weighted<E>> simple = mapCodec.codec().xmap(Weighted::new, Weighted::value);
+        Codec<Weighted<E>> simple = codec.xmap(Weighted::new, Weighted::value);
         
         Codec<Weighted<E>> full = RecordCodecBuilder.create(instance -> instance.group(
-            mapCodec.forGetter(Weighted::value),
+            codec.fieldOf("data").forGetter(Weighted::value),
             ExtraCodecs.NON_NEGATIVE_INT.fieldOf("weight").forGetter(Weighted::weight)
         ).apply(instance, Weighted::new));
         

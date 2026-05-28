@@ -12,10 +12,12 @@ repositories {
         mavenNeoforged()
         mavenFabric()
     }
+    maven("https://maven.minecraftforge.net/")
+    maven("https://api.modrinth.com/maven")
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.7.5"
+version = "1.7.8"
 
 cloche {
     metadata {
@@ -61,6 +63,7 @@ cloche {
 
         dependencies {
             fabricApi("0.116.1")
+            // w modImplementation("com.github.glitchfiend:TerraBlender-fabric:1.21.1-4.1.0.8")
         }
 
         includedClient()

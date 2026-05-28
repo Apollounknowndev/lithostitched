@@ -5,9 +5,10 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.7.5"
+MOD_VERSION = "1.7.8"
 CHANGELOG = """
-- Fix a crash involving biome injectors with multiple custom density function parameters.
+- Fixed Terrablender-based biome placements not running if biome injectors were applied.
+- Fixed biome injectors targeting the End dimension.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "21.1"),
