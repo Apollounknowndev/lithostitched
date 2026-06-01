@@ -33,3 +33,5 @@ accessible class net/minecraft/world/level/levelgen/SurfaceRules$SurfaceRule
 # Chunk
 accessible field net/minecraft/world/level/ChunkPos x I
 accessible field net/minecraft/world/level/ChunkPos z I
+
+accessible class net/minecraft/world/level/biome/Climate$RTree

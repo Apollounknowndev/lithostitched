@@ -86,14 +86,20 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		AddPoints.apply(modifiedParameters, this.injectorsByType.getOrDefault(AddPoints.CODEC, new ArrayList<>()));
 		
 		if (left.isPresent()) {
-			((ParameterListAccessor<Holder<Biome>>)left.get()).lithostitched$setValues(modifiedParameters);
+			updateParameters(left.get(), modifiedParameters);
 		} else {
-			((ParameterListAccessor<Holder<Biome>>)right.get().value().parameters()).lithostitched$setValues(modifiedParameters);
+			updateParameters(right.get().value().parameters(), modifiedParameters);
 		}
 		
 		// Calling `directDelegate.possibleBiomes()` will trigger Biolith's point injection,
 		// at which point Lithostitched's point injections won't work.
 		this.regionManager = new RegionManager(regionFunction, regions, noiseHelper, this.directDelegate.possibleBiomes());
+	}
+	
+	private static void updateParameters(Climate.ParameterList<Holder<Biome>> original, List<Pair<Climate.ParameterPoint, Holder<Biome>>> modified) {
+		var accessor = (ParameterListAccessor<Holder<Biome>>) original;
+		accessor.lithostitched$setValues(modified);
+		accessor.lithostitched$index(Climate.RTree.create(modified));
 	}
 	
 	@Override

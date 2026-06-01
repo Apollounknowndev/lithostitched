@@ -17,7 +17,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.7.8"
+version = "1.7.9"
 
 cloche {
     metadata {
@@ -45,6 +45,10 @@ cloche {
     val sharedNew = common("shared:26.1") {
         mixins.from(file("src/shared/26.1/main/lithostitched.26.1.mixins.json"))
         accessWideners.from(file("src/shared/26.1/main/lithostitched.26.1.accesswidener"))
+    }
+    val sharedBleedingEdge = common("shared:26.2") {
+        mixins.from(file("src/shared/26.2/main/lithostitched.26.2.mixins.json"))
+        accessWideners.from(file("src/shared/26.2/main/lithostitched.26.2.accesswidener"))
     }
 
     fabric("fabric:21.1") {
@@ -88,6 +92,33 @@ cloche {
 
         dependencies {
             fabricApi("0.148.0")
+        }
+
+        includedClient()
+        runs {
+            client()
+            server()
+        }
+
+        metadata {
+            entrypoint("client") {
+                value = "dev.worldgen.lithostitched.client.LithostitchedFabricClient"
+            }
+            entrypoint("main") {
+                value = "dev.worldgen.lithostitched.LithostitchedFabric"
+            }
+        }
+    }
+
+    fabric("fabric:26.2") {
+        dependsOn(sharedBleedingEdge)
+
+        loaderVersion = "0.19.2"
+        minecraftVersion = "26.2-pre-2"
+        mixins.from(file("src/fabric/26.2/main/lithostitched.fabric.mixins.json"))
+
+        dependencies {
+            fabricApi("0.150.1", "26.2")
         }
 
         includedClient()

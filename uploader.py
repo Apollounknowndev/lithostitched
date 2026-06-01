@@ -5,10 +5,12 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.7.8"
+MOD_VERSION = "1.7.9"
 CHANGELOG = """
-- Fixed Terrablender-based biome placements not running if biome injectors were applied.
-- Fixed biome injectors targeting the End dimension.
+- Fixed a crash with Not Enough Trials.
+- Fixed `add_points` injectors not applying.
+
+im trying my best i promise 🙏
 """
 UPLOAD_VERSIONS = [
     ("fabric", "21.1"),

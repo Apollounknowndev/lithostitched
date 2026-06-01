@@ -15,4 +15,9 @@ public interface ParameterListAccessor<T> {
 	@Mutable
 	@Final
 	void lithostitched$setValues(List<Pair<Climate.ParameterPoint, T>> values);
+	
+	@Accessor("index")
+	@Mutable
+	@Final
+	void lithostitched$index(Climate.RTree<T> values);
 }
