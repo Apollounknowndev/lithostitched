@@ -4,6 +4,7 @@ import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.worldgen.feature.config.WellConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
@@ -74,7 +75,7 @@ public class WellFeature extends Feature<WellConfig> {
             for (int offset = 0; offset < 2; offset++) {
                 pos = origin.below(offset+2).relative(Direction.Plane.HORIZONTAL.getRandomDirection(random));
                 level.setBlock(pos, LithostitchedVersion.getState(config.suspiciousProvider(), level, random, pos), 2);
-                Optional<BrushableBlockEntity> susBlock = level.getBlockEntity(pos, BlockEntityType.BRUSHABLE_BLOCK);
+                Optional<BrushableBlockEntity> susBlock = level.getBlockEntity(pos, LithostitchedVersion.getStatic(BuiltInRegistries.BLOCK_ENTITY_TYPE, "brushable_block"));
                 if (susBlock.isPresent()) {
                     susBlock.get().setLootTable(config.suspiciousLootTable(), pos.asLong());
                 }

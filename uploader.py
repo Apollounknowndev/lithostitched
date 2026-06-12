@@ -5,18 +5,28 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.7.9"
+MOD_VERSION = "1.7.10+beta3"
 CHANGELOG = """
-- Fixed a crash with Not Enough Trials.
-- Fixed `add_points` injectors not applying.
+Additions
+- Added `matching_biomes` processor condition.
+- Added processors to most remaining structures without them. This includes:
+  - Desert Temples
+  - Jungle Temples
+  - Mineshafts
+  - Nether Fortresses
+  - Ocean Monuments
+  - Strongholds
+  - Swamp Huts
 
-im trying my best i promise 🙏
+Fixes
+- Blueprint-based biomes will once again generate if Blueprint, Terrablender, and Lithostitched are all installed.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "21.1"),
     ("neoforge", "21.1"),
     ("fabric", "26.1"),
     ("neoforge", "26.1"),
+    ("fabric", "26.2")
 ]
 
 DEPENDENCIES = []
@@ -37,6 +47,7 @@ if not MODRINTH_TOKEN:
 MODRINTH_GAME_VERSIONS = {
     "21.1": ["1.21.1"],
     "26.1": ["26.1", "26.1.1", "26.1.2"],
+    "26.2": ["26.2-pre-2"]
 }
 
 CURSEFORGE_TOKEN = os.getenv('TOKEN_CF')

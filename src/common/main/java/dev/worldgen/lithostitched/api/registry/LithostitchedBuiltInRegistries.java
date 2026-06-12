@@ -11,7 +11,6 @@ import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.impl.predicate.*;
 import dev.worldgen.lithostitched.impl.registry.LithostitchedRegistrar;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.*;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.*;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
 import dev.worldgen.lithostitched.impl.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.api.worldgen.bandlands.Band;
@@ -23,14 +22,10 @@ import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.*;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.fastnoise.FastNoiseDensityFunction;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.fastnoise.config.CellularNoiseType;
+import dev.worldgen.lithostitched.impl.worldgen.fastnoise.CellularNoiseType;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise.FastNoiseConfig;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.fastnoise.config.PerlinNoiseType;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.fastnoise.config.SimplexNoiseType;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.MergedDensityFunction;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.OriginalMarkerDensityFunction;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.WrappedMarkerDensityFunction;
+import dev.worldgen.lithostitched.impl.worldgen.fastnoise.PerlinNoiseType;
+import dev.worldgen.lithostitched.impl.worldgen.fastnoise.SimplexNoiseType;
 import dev.worldgen.lithostitched.worldgen.feature.*;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.internal.CompileRawTemplatesModifier;
@@ -43,20 +38,11 @@ import dev.worldgen.lithostitched.worldgen.poolalias.RandomEntries;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.legacy.GuaranteedPoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.legacy.LimitedPoolElement;
-import dev.worldgen.lithostitched.worldgen.processor.*;
 import dev.worldgen.lithostitched.worldgen.processor.condition.*;
 import dev.worldgen.lithostitched.worldgen.stateprovider.RandomBlockProvider;
 import dev.worldgen.lithostitched.worldgen.stateprovider.WeightedProvider;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
-import dev.worldgen.lithostitched.worldgen.surface.condition.AllOfCondition;
-import dev.worldgen.lithostitched.worldgen.surface.condition.AnyOfCondition;
-import dev.worldgen.lithostitched.worldgen.surface.condition.BiomeCondition;
-import dev.worldgen.lithostitched.worldgen.surface.condition.SlopeCondition;
-import dev.worldgen.lithostitched.worldgen.surface.condition.internal.TagFilledCondition;
-import dev.worldgen.lithostitched.worldgen.surface.rule.BandlandsRule;
-import dev.worldgen.lithostitched.worldgen.surface.rule.ReferenceRule;
-import dev.worldgen.lithostitched.worldgen.surface.rule.TransientMergedRule;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -85,6 +71,8 @@ public class LithostitchedBuiltInRegistries {
 	 * Purely for use in Lithostitched, don't call this.
 	 */
 	public static void init() {
+		//MixinEnvironment.getCurrentEnvironment().audit();
+		
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.WORLDGEN_MODIFIER, WorldgenModifier.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.SURFACE_RULE, SurfaceRules.RuleSource.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.BANDLANDS, Bandlands.CODEC);
@@ -165,22 +153,6 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("guaranteed", GuaranteedPoolElement.TYPE),
 			Map.entry("limited", LimitedPoolElement.TYPE)
 		));
-		LithostitchedRegistrar.register(Registries.DENSITY_FUNCTION_TYPE, Map.ofEntries(
-			Map.entry("internal/merged", MergedDensityFunction.CODEC.codec()),
-			Map.entry("wrapped_marker", WrappedMarkerDensityFunction.CODEC.codec()),
-			Map.entry("original_marker", OriginalMarkerDensityFunction.CODEC.codec()),
-			Map.entry("fast_noise", FastNoiseDensityFunction.CODEC.codec()),
-			
-			Map.entry("axis", AxisDensityFunction.DATA_CODEC),
-			Map.entry("ceil", CeilDensityFunction.DATA_CODEC),
-			Map.entry("cos", CosDensityFunction.DATA_CODEC),
-			Map.entry("floor", FloorDensityFunction.DATA_CODEC),
-			Map.entry("mix", MixDensityFunction.DATA_CODEC),
-			Map.entry("select", SelectDensityFunction.DATA_CODEC),
-			Map.entry("shift", ShiftDensityFunction.DATA_CODEC),
-			Map.entry("sin", SinDensityFunction.DATA_CODEC),
-			Map.entry("sqrt", SqrtDensityFunction.DATA_CODEC)
-		));
 		LithostitchedRegistrar.register(Registries.POOL_ALIAS_BINDING, Map.ofEntries(
 			Map.entry("internal/random_entries", RandomEntries.CODEC)
 		));
@@ -201,21 +173,10 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("sample_noise_router", SampleNoiseRouterPlacementCondition.CODEC),
 			Map.entry("true", TruePlacementCondition.CODEC)
 		));
-		LithostitchedRegistrar.register(Registries.STRUCTURE_PROCESSOR, Map.ofEntries(
-			Map.entry("internal/unbound_reference", UnboundReferenceProcessor.TYPE),
-			Map.entry("apply_random", ApplyRandomStructureProcessor.TYPE),
-			Map.entry("block_swap", BlockSwapStructureProcessor.TYPE),
-			Map.entry("reference", ReferenceStructureProcessor.TYPE),
-			
-			Map.entry("condition", ConditionProcessor.TYPE),
-			Map.entry("discard_input", DiscardInputProcessor.TYPE),
-			Map.entry("schedule_tick", ScheduleTickProcessor.TYPE),
-			Map.entry("set_block", SetBlockProcessor.TYPE)
-		));
-			
 		LithostitchedRegistrar.register(LithostitchedRegistries.PROCESSOR_CONDITION_TYPE, Map.ofEntries(
 			Map.entry("all_of", AllOf.CODEC),
 			Map.entry("any_of", AnyOf.CODEC),
+			Map.entry("matching_biomes", MatchingBiomes.CODEC),
 			Map.entry("matching_blocks", MatchingBlocks.CODEC),
 			Map.entry("not", Not.CODEC),
 			Map.entry("position", Position.CODEC),
@@ -225,19 +186,6 @@ public class LithostitchedBuiltInRegistries {
 		LithostitchedRegistrar.register(Registries.RULE_BLOCK_ENTITY_MODIFIER, Map.ofEntries(
 			Map.entry("apply_all", ApplyAll.TYPE),
 			Map.entry("apply_random", ApplyRandom.TYPE)
-		));
-		LithostitchedRegistrar.register(Registries.MATERIAL_RULE, Map.ofEntries(
-			Map.entry("transient_merged", TransientMergedRule.CODEC.codec()),
-			Map.entry("bandlands", BandlandsRule.CODEC.codec()),
-			Map.entry("reference", ReferenceRule.CODEC.codec())
-		));
-		LithostitchedRegistrar.register(Registries.MATERIAL_CONDITION, Map.ofEntries(
-			Map.entry("internal/tag_filled", TagFilledCondition.CODEC.codec()),
-			
-			Map.entry("all_of", AllOfCondition.CODEC.codec()),
-			Map.entry("any_of", AnyOfCondition.CODEC.codec()),
-			Map.entry("biome", BiomeCondition.CODEC.codec()),
-			Map.entry("slope", SlopeCondition.CODEC.codec())
 		));
 		LithostitchedRegistrar.register(LithostitchedRegistries.BANDLANDS_BAND_TYPE, Map.ofEntries(
 			Map.entry("base", BaseBand.CODEC),

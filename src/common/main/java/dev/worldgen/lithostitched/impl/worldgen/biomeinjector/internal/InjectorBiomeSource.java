@@ -52,6 +52,10 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		return this.rootDelegate;
 	}
 	
+	public BiomeSource directDelegate() {
+		return this.directDelegate;
+	}
+	
 	public void applyInjectors(Map<Identifier, BiomeInjector> injectors, Optional<DensityFunction> regionFunction, Map<ResourceKey<Region>, Region> regions, DensityFunctionWrapper noiseHelper) {
 		this.possibleBiomes = new ArrayList<>();
 		

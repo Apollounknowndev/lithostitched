@@ -5,7 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
-import dev.worldgen.lithostitched.worldgen.modifier.util.DensityFunctionInjectorHelper;
+import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.util.DensityFunctionInjectorHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -23,7 +24,7 @@ public record WrapNoiseRouterModifier(Optional<LoadPredicate> predicate, int pri
         PRIORITY_DEFAULT_CODEC.forGetter(WrapNoiseRouterModifier::priority),
         ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension").forGetter(WrapNoiseRouterModifier::dimension),
         NoiseRouterTarget.CODEC.fieldOf("target").forGetter(WrapNoiseRouterModifier::target),
-        DensityFunction.CODEC.fieldOf("wrapper_function").forGetter(WrapNoiseRouterModifier::wrapperFunction)
+        LithostitchedCodecs.DF_REFERENCE.fieldOf("wrapper_function").forGetter(WrapNoiseRouterModifier::wrapperFunction)
     ).apply(instance, WrapNoiseRouterModifier::new));
 
     @Override

@@ -5,11 +5,14 @@
   "mixins": [
     "common.predicate.RegistryDataLoaderMixin",
 
+    "common.processor.RuinedPortalPieceMixin",
+
     "common.villager.VillagerTypeMixin",
 
     "common.BiomeGenerationSettingsAccessor",
     "common.JigsawStructureMixin",
-    "common.MobSpawnSettingsAccessor"
+    "common.MobSpawnSettingsAccessor",
+    "common.SurfaceRulesContextMixin2"
   ],
   "injectors": {
     "defaultRequire": 1

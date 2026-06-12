@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Arrays;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -21,7 +22,6 @@ import java.util.function.Supplier;
 public class SurfaceRulesContextMixin implements ContextAccessor {
     @Shadow @Final SurfaceSystem system;
     @Shadow @Final ChunkAccess chunk;
-    @Shadow Supplier<Holder<Biome>> biome;
     @Shadow int blockX;
     @Shadow int blockY;
     @Shadow int blockZ;
@@ -35,11 +35,6 @@ public class SurfaceRulesContextMixin implements ContextAccessor {
     @Override
     public ChunkAccess getChunk() {
         return this.chunk;
-    }
-
-    @Override
-    public Holder<Biome> getBiome() {
-        return this.biome.get();
     }
 
     @Override
@@ -60,10 +55,5 @@ public class SurfaceRulesContextMixin implements ContextAccessor {
     @Override
     public int getZ() {
         return this.blockZ;
-    }
-
-    @Inject(method = "<init>", at = @At("RETURN"))
-    public void instantiateConditions(SurfaceSystem system, RandomState randomState, ChunkAccess chunk, NoiseChunk noiseChunk, Function<BlockPos, Holder<Biome>> biomeGetter, Registry<Biome> biomeRegistry, WorldGenerationContext context, CallbackInfo ci) {
-        SurfaceRules.Context $this = (SurfaceRules.Context) (Object) this;
     }
 }

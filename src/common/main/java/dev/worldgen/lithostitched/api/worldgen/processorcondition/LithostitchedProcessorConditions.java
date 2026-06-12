@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.api.worldgen.processorcondition;
 
 import dev.worldgen.lithostitched.api.worldgen.processor.enums.BlockType;
 import dev.worldgen.lithostitched.worldgen.processor.condition.*;
-import net.minecraft.advancements.criterion.StatePropertiesPredicate;
+import dev.worldgen.lithostitched.api.util.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.block.Block;

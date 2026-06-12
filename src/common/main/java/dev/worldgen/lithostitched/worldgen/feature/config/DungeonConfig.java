@@ -24,7 +24,11 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import java.util.Optional;
 
 public record DungeonConfig(int minOpenings, int maxOpenings, IntProvider radius, int maxChests, WeightedList<EntityType<?>> spawnerMobs, BlockStateProvider floorProvider, BlockStateProvider wallProvider, Optional<HolderSet<Block>> dungeonInvalidBlocks, ResourceKey<LootTable> lootTable) implements FeatureConfiguration {
-    private static final WeightedList<EntityType<?>> DEFAULT_MOBS = WeightedList.<EntityType<?>>builder().add(EntityType.ZOMBIE, 2).add(EntityType.SKELETON, 1).add(EntityType.SPIDER, 1).build();
+    private static final WeightedList<EntityType<?>> DEFAULT_MOBS = WeightedList.<EntityType<?>>builder()
+        .add(LithostitchedVersion.getStatic(BuiltInRegistries.ENTITY_TYPE, "zombie"), 2)
+        .add(LithostitchedVersion.getStatic(BuiltInRegistries.ENTITY_TYPE, "skeleton"), 1)
+        .add(LithostitchedVersion.getStatic(BuiltInRegistries.ENTITY_TYPE, "spider"), 1)
+        .build();
     private static final WeightedList<BlockStateProvider> DEFAULT_FLOOR = WeightedList.<BlockStateProvider>builder().add(SimpleStateProvider.simple(Blocks.MOSSY_COBBLESTONE), 3).add(SimpleStateProvider.simple(Blocks.COBBLESTONE), 1).build();
 
     public static final Codec<DungeonConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(

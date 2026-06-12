@@ -5,6 +5,7 @@ import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.worldgen.feature.config.DungeonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
@@ -107,7 +108,7 @@ public class DungeonFeature extends Feature<DungeonConfig> {
 
                         if (solidFaces == 1) {
                             this.safeSetBlock(level, chestPos, StructurePiece.reorient(level, chestPos, Blocks.CHEST.defaultBlockState()), predicate);
-                            Optional<ChestBlockEntity> chestEntity = level.getBlockEntity(chestPos, BlockEntityType.CHEST);
+                            Optional<ChestBlockEntity> chestEntity = level.getBlockEntity(chestPos, LithostitchedVersion.getStatic(BuiltInRegistries.BLOCK_ENTITY_TYPE, "chest"));
                             chestEntity.ifPresent(chestBlockEntity -> chestBlockEntity.setLootTable(config.lootTable(), random.nextLong()));
                             break;
                         }
@@ -118,7 +119,7 @@ public class DungeonFeature extends Feature<DungeonConfig> {
             this.safeSetBlock(level, startPos, Blocks.SPAWNER.defaultBlockState(), predicate);
             BlockEntity blockEntity = level.getBlockEntity(startPos);
             if (blockEntity instanceof SpawnerBlockEntity spawner) {
-                spawner.setEntityId(config.spawnerMobs().getRandom(random).orElse(EntityType.PIG), random);
+                spawner.setEntityId(config.spawnerMobs().getRandom(random).orElse(LithostitchedVersion.getStatic(BuiltInRegistries.ENTITY_TYPE, "pig")), random);
             } else {
                 Lithostitched.LOGGER.error("Failed to get spawner block entity for dungeon at block position ({})", startPos);
             }

@@ -6,7 +6,7 @@ import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondi
 import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import dev.worldgen.lithostitched.api.worldgen.processor.enums.BlockType;
-import net.minecraft.advancements.criterion.StatePropertiesPredicate;
+import dev.worldgen.lithostitched.api.util.StatePropertiesPredicate;
 import net.minecraft.core.HolderSet;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;

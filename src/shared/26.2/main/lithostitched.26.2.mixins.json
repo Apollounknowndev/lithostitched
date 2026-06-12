@@ -5,14 +5,16 @@
   "mixins": [
     "common.predicate.ResourceManagerRegistryLoadTaskMixin",
 
+    "common.processor.RuinedPortalPieceMixin",
+
     "common.villager.VillagerTypeMixin",
 
     "common.BiomeAccessor2",
     "common.BiomeGenerationSettingsAccessor",
     "common.DimensionTypeAccessor",
     "common.JigsawStructureMixin",
-    "common.LevelStorageSourceMixin",
     "common.MobSpawnSettingsAccessor",
+    "common.SurfaceRulesContextMixin2",
     "common.TimelineAccessor"
   ],
   "client": [

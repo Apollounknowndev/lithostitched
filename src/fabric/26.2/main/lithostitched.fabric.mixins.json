@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "dev.worldgen.lithostitched.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "common.predicate.RegistryLoadTaskMixin",
+
+    "common.BeardifierMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

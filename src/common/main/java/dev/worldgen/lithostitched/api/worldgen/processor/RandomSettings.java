@@ -26,7 +26,7 @@ public record RandomSettings(RandomMode mode, Identifier name) {
         RandomSettings::new
     );
 
-    public RandomSource create(WorldGenLevel level, BlockPos piecePos, StructureTemplate.StructureBlockInfo blockPos) {
-        return RandomSource.create(level.getSeed() + this.name.hashCode()).forkPositional().at(this.mode.select(piecePos, blockPos));
+    public RandomSource create(WorldGenLevel level, BlockPos piecePos, BlockPos pivotPos, StructureTemplate.StructureBlockInfo processedBlockInfo) {
+        return RandomSource.create(level.getSeed() + this.name.hashCode()).forkPositional().at(this.mode.select(piecePos, pivotPos, processedBlockInfo));
     }
 }

@@ -1,8 +1,8 @@
 package dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise;
 
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.fastnoise.config.CellularNoiseType;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.fastnoise.config.PerlinNoiseType;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.fastnoise.config.SimplexNoiseType;
+import dev.worldgen.lithostitched.impl.worldgen.fastnoise.CellularNoiseType;
+import dev.worldgen.lithostitched.impl.worldgen.fastnoise.PerlinNoiseType;
+import dev.worldgen.lithostitched.impl.worldgen.fastnoise.SimplexNoiseType;
 
 import java.util.Optional;
 

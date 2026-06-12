@@ -4,13 +4,17 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.util.WeightedList;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.DensityFunctions;
 
 import java.util.List;
 
@@ -35,6 +39,7 @@ public interface LithostitchedCodecs {
             Codec.DOUBLE.fieldOf("max_inclusive").orElse(Double.MAX_VALUE).forGetter(InclusiveRange::maxInclusive)
         ).apply(instance, InclusiveRange::new))
     );
+    Codec<Holder<DensityFunction>> DF_REFERENCE = RegistryFileCodec.create(Registries.DENSITY_FUNCTION, DensityFunctions.DIRECT_CODEC, false);
 
     static <T> MapCodec<HolderSet<T>> registrySet(ResourceKey<Registry<T>> key, String name) {
         return RegistryCodecs.homogeneousList(key).fieldOf(name);

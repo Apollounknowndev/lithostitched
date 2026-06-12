@@ -3,9 +3,6 @@ package dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
-import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 
 import java.util.function.Function;
 

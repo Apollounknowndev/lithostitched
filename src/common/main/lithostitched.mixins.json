@@ -12,11 +12,13 @@
     "common.mnbs.MNBSPLMixin",
     "common.mnbs.ParameterListAccessor",
 
+    "common.processor.StructurePieceMixin",
+    "common.processor.StructureStartMixin",
+
     "common.processor.EndCityPieceMixin",
     "common.processor.IglooPieceMixin",
     "common.processor.NetherFossilPieceMixin",
     "common.processor.OceanRuinPieceMixin",
-    "common.processor.RuinedPortalPieceMixin",
     "common.processor.ShipwreckPieceMixin",
     "common.processor.WoodlandMansionPieceMixin",
 
@@ -35,7 +37,6 @@
     "common.BiomeSourceInvoker",
     "common.ChunkGeneratorAccessor",
     "common.ChunkMapMixin",
-    "common.DripstoneUtilsAccessor",
     "common.GameTestServerMixin",
     "common.HolderReferenceAccessor",
     "common.JigsawStructureAccessor",

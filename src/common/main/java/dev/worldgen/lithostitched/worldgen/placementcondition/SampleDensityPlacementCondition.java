@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.SimpleContext;
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
+import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.util.InclusiveRange;
@@ -14,7 +15,7 @@ import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 
 public record SampleDensityPlacementCondition(Holder<DensityFunction> densityFunction, InclusiveRange<Double> range) implements PlacementCondition {
     public static final MapCodec<SampleDensityPlacementCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        DensityFunction.CODEC.fieldOf("density_function").forGetter(SampleDensityPlacementCondition::densityFunction),
+        LithostitchedCodecs.DF_REFERENCE.fieldOf("density_function").forGetter(SampleDensityPlacementCondition::densityFunction),
         Codec.DOUBLE.optionalFieldOf("min_inclusive", Double.MIN_VALUE).forGetter(condition -> condition.range.minInclusive()),
         Codec.DOUBLE.optionalFieldOf("max_inclusive", Double.MAX_VALUE).forGetter(condition -> condition.range.maxInclusive())
     ).apply(instance, SampleDensityPlacementCondition::new));

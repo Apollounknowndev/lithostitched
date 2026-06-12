@@ -17,7 +17,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.7.9"
+version = "1.7.10+beta3"
 
 cloche {
     metadata {
@@ -67,7 +67,7 @@ cloche {
 
         dependencies {
             fabricApi("0.116.1")
-            // w modImplementation("com.github.glitchfiend:TerraBlender-fabric:1.21.1-4.1.0.8")
+            // modImplementation("com.github.glitchfiend:TerraBlender-fabric:1.21.1-4.1.0.8")
         }
 
         includedClient()
@@ -114,11 +114,11 @@ cloche {
         dependsOn(sharedBleedingEdge)
 
         loaderVersion = "0.19.2"
-        minecraftVersion = "26.2-pre-2"
+        minecraftVersion = "26.2-pre-4"
         mixins.from(file("src/fabric/26.2/main/lithostitched.fabric.mixins.json"))
 
         dependencies {
-            fabricApi("0.150.1", "26.2")
+            fabricApi("0.150.3", "26.2")
         }
 
         includedClient()

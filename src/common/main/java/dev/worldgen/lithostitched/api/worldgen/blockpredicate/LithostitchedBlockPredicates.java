@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.api.worldgen.blockpredicate;
 
 import dev.worldgen.lithostitched.worldgen.blockpredicate.*;
-import net.minecraft.advancements.criterion.StatePropertiesPredicate;
+import dev.worldgen.lithostitched.api.util.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Vec3i;

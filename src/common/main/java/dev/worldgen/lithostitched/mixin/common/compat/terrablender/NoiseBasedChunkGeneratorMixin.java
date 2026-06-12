@@ -26,7 +26,7 @@ public class NoiseBasedChunkGeneratorMixin {
 		BiomeResolver resolver = operator.call(unfinishedResolver, protoChunk);
 		if (resolver instanceof InjectorBiomeSource injector && LithostitchedPlatform.isModLoaded("terrablender")) {
 			ref.set(injector);
-			return injector.rootDelegate();
+			return injector.directDelegate();
 		}
 		return resolver;
 	}
