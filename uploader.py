@@ -5,21 +5,11 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.7.10+beta3"
+MOD_VERSION = "1.7.10+beta4"
 CHANGELOG = """
-Additions
-- Added `matching_biomes` processor condition.
-- Added processors to most remaining structures without them. This includes:
-  - Desert Temples
-  - Jungle Temples
-  - Mineshafts
-  - Nether Fortresses
-  - Ocean Monuments
-  - Strongholds
-  - Swamp Huts
-
-Fixes
-- Blueprint-based biomes will once again generate if Blueprint, Terrablender, and Lithostitched are all installed.
+- Fixed a compat issue with Hybrid Aquatic.
+- Fixed a compat issue with TaCZ Runtime Compat.
+- Fixed `add_points` injectors not working with Terrablender, hopefully for real this time.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "21.1"),

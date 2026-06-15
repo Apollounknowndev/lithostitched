@@ -108,6 +108,7 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		parameterListAccessor.lithostitched$index(rtree);
 		
 		if (LithostitchedPlatform.isModLoaded("terrablender")) {
+			// AI Disclosure: I used AI to write the code in this try/catch block. The rest of the code in this class (and the mod at large) was human-written.
 			try {
 				Field field1 = original.getClass().getDeclaredField("uniqueTrees");
 				field1.setAccessible(true);
