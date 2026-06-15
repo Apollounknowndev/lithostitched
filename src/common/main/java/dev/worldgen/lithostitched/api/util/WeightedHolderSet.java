@@ -11,22 +11,22 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public class WeightedHolderSet<E> {
-	private final Either<WeightedList<Holder<E>>, HolderSet<E>> set;
+	private final Either<HolderSet<E>, WeightedList<Holder<E>>> set;
 	private final Supplier<WeightedList<Holder<E>>> weightedList;
 	
 	public static <E> WeightedHolderSet<E> create(WeightedList<Holder<E>> set) {
-		return new WeightedHolderSet<>(Either.left(set));
-	}
-	
-	public static <E> WeightedHolderSet<E> create(HolderSet<E> set) {
 		return new WeightedHolderSet<>(Either.right(set));
 	}
 	
-	private WeightedHolderSet(Either<WeightedList<Holder<E>>, HolderSet<E>> set) {
+	public static <E> WeightedHolderSet<E> create(HolderSet<E> set) {
+		return new WeightedHolderSet<>(Either.left(set));
+	}
+	
+	private WeightedHolderSet(Either<HolderSet<E>, WeightedList<Holder<E>>> set) {
 		this.set = set;
 		this.weightedList = Suppliers.memoize(() -> set.map(
-			t -> t,
-			holders -> WeightedList.of(holders.stream().map(Weighted::new).toList())
+			holders -> WeightedList.of(holders.stream().map(Weighted::new).toList()),
+			t -> t
 		));
 	}
 	
@@ -34,10 +34,10 @@ public class WeightedHolderSet<E> {
 		return this.weightedList.get().getRandom(random);
 	}
 	
-	public static <E> Codec<WeightedHolderSet<E>> codec(Codec<Holder<E>> singleCodec, Codec<HolderSet<E>> setCodec) {
+	public static <E> Codec<WeightedHolderSet<E>> codec(Codec<HolderSet<E>> setCodec, Codec<Holder<E>> singleCodec) {
 		return Codec.either(
-			WeightedList.codec(singleCodec),
-			setCodec
+			setCodec,
+			WeightedList.codec(singleCodec)
 		).xmap(WeightedHolderSet::new, set -> set.set);
 	}
 }

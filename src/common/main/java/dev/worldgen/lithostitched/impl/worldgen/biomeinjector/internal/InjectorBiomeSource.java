@@ -7,6 +7,7 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.SimpleContext;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
+import dev.worldgen.lithostitched.impl.LithostitchedPlatform;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.*;
 import dev.worldgen.lithostitched.mixin.common.MultiNoiseBiomeSourceAccessor;
 import dev.worldgen.lithostitched.mixin.common.mnbs.ParameterListAccessor;
@@ -21,7 +22,7 @@ import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.biome.Climate.TargetPoint;
 import net.minecraft.world.level.levelgen.DensityFunction;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -83,8 +84,8 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		}
 		
 		var accessor = (MultiNoiseBiomeSourceAccessor) multiNoise;
-		var left = accessor.getParameters().left();
-		var right = accessor.getParameters().right();
+		Optional<Climate.ParameterList<Holder<Biome>>> left = accessor.getParameters().left();
+		Optional<Holder<MultiNoiseBiomeSourceParameterList>> right = accessor.getParameters().right();
 		
 		ArrayList<Pair<Climate.ParameterPoint, Holder<Biome>>> modifiedParameters = new ArrayList<>(left.orElseGet(() -> right.get().value().parameters()).values());
 		AddPoints.apply(modifiedParameters, this.injectorsByType.getOrDefault(AddPoints.CODEC, new ArrayList<>()));
@@ -100,10 +101,39 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		this.regionManager = new RegionManager(regionFunction, regions, noiseHelper, this.directDelegate.possibleBiomes());
 	}
 	
-	private static void updateParameters(Climate.ParameterList<Holder<Biome>> original, List<Pair<Climate.ParameterPoint, Holder<Biome>>> modified) {
-		var accessor = (ParameterListAccessor<Holder<Biome>>) original;
-		accessor.lithostitched$setValues(modified);
-		accessor.lithostitched$index(Climate.RTree.create(modified));
+	private static void updateParameters(Climate.ParameterList<Holder<Biome>> original, List<Pair<Climate.ParameterPoint, Holder<Biome>>> modifiedParameters) {
+		var parameterListAccessor = (ParameterListAccessor<Holder<Biome>>) original;
+		parameterListAccessor.lithostitched$setValues(modifiedParameters);
+		var rtree = Climate.RTree.create(modifiedParameters);
+		parameterListAccessor.lithostitched$index(rtree);
+		
+		if (LithostitchedPlatform.isModLoaded("terrablender")) {
+			try {
+				Field field1 = original.getClass().getDeclaredField("uniqueTrees");
+				field1.setAccessible(true);
+				Object[] uniqueTrees = (Object[]) field1.get(original);
+				
+				Object originalTree = uniqueTrees[0];
+				
+				Class<?>[] entryComponents = Arrays.stream(originalTree.getClass().getRecordComponents()).map(RecordComponent::getType).toArray(Class<?>[]::new);
+				
+				Constructor<?> entryConstructor = originalTree.getClass().getDeclaredConstructor(entryComponents);
+				entryConstructor.setAccessible(true);
+
+				Object[] entryArguments = Arrays.stream(originalTree.getClass().getRecordComponents()).map(rc -> {
+					try {
+						Method accessor = rc.getAccessor();
+						return rc.getName().equals("tree") ? rtree : accessor.invoke(originalTree);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				}).toArray();
+				
+				uniqueTrees[0] = entryConstructor.newInstance(entryArguments);
+				
+			} catch (Exception ignored) {
+			}
+		}
 	}
 	
 	@Override

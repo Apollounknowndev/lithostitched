@@ -19,7 +19,7 @@ public record ApplyRandomStructureProcessor(WeightedHolderSet<StructureProcessor
     private static final Codec<HolderSet<StructureProcessorList>> SET_CODEC = RegistryCodecs.homogeneousList(Registries.PROCESSOR_LIST, StructureProcessorType.DIRECT_CODEC);
     
     public static final MapCodec<ApplyRandomStructureProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        WeightedHolderSet.codec(StructureProcessorType.LIST_CODEC, SET_CODEC).fieldOf("processor_lists").forGetter(ApplyRandomStructureProcessor::processorLists),
+        WeightedHolderSet.codec(SET_CODEC, StructureProcessorType.LIST_CODEC).fieldOf("processor_lists").forGetter(ApplyRandomStructureProcessor::processorLists),
         RandomSettings.CODEC.fieldOf("mode").forGetter(ApplyRandomStructureProcessor::randomSettings)
     ).apply(instance, ApplyRandomStructureProcessor::new));
     

@@ -17,7 +17,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.7.10+beta3"
+version = "1.7.10+beta4"
 
 cloche {
     metadata {
@@ -149,6 +149,10 @@ cloche {
             custom(minecraftVersion.map {
                 project.dependencies.create(files("mappings/$it.tiny"))
             })
+        }
+
+        dependencies {
+            modImplementation("com.github.glitchfiend:TerraBlender-neoforge:1.21.1-4.1.0.8")
         }
 
         runs {

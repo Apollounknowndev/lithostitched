@@ -34,7 +34,7 @@ DEPENDENCIES = []
 MODRINTH_ID = "XaDC71GB"
 CURSEFORGE_ID = "936015"
 
-RELEASE_TYPE = "release"
+RELEASE_TYPE = "beta"
 
 # Global: Should usually not be touched!
 
