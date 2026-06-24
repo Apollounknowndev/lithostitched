@@ -17,7 +17,7 @@ repositories {
 }
 
 group = "dev.worldgen.lithostitched"
-version = "1.7.10+beta4"
+version = "1.7.11"
 
 cloche {
     metadata {
@@ -114,11 +114,11 @@ cloche {
         dependsOn(sharedBleedingEdge)
 
         loaderVersion = "0.19.2"
-        minecraftVersion = "26.2-pre-4"
+        minecraftVersion = "26.2"
         mixins.from(file("src/fabric/26.2/main/lithostitched.fabric.mixins.json"))
 
         dependencies {
-            fabricApi("0.150.3", "26.2")
+            fabricApi("0.152.1")
         }
 
         includedClient()
@@ -164,9 +164,22 @@ cloche {
     neoforge("neoforge:26.1") {
         dependsOn(sharedNew)
 
-        loaderVersion = "26.1.2.42-beta"
+        loaderVersion = "26.1.2.76"
         minecraftVersion = "26.1.2"
         mixins.from(file("src/neoforge/26.1/main/lithostitched.neoforge.mixins.json"))
+
+        runs {
+            client()
+            server()
+        }
+    }
+
+    neoforge("neoforge:26.2") {
+        dependsOn(sharedBleedingEdge)
+
+        loaderVersion = "26.2.0.0-beta"
+        minecraftVersion = "26.2"
+        mixins.from(file("src/neoforge/26.2/main/lithostitched.neoforge.mixins.json"))
 
         runs {
             client()

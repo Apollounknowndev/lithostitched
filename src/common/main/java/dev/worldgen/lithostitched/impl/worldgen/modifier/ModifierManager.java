@@ -20,9 +20,8 @@ import java.util.*;
 
 public class ModifierManager {
     
-    public static void applyModifiers(MinecraftServer server) {
+    public static void applyModifiers(RegistryAccess registries) {
         boolean recompileSortedFeatures = false;
-        RegistryAccess registries = server.registryAccess();
         
         Map<Identifier, WorldgenModifier> modifiers = getAllModifiers(registries);
         for (Map.Entry<Identifier, WorldgenModifier> entry : sortByPriority(modifiers)) {

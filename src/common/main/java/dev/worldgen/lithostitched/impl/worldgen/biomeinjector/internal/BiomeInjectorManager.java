@@ -31,11 +31,9 @@ import net.minecraft.world.level.levelgen.RandomState;
 import java.util.*;
 
 public class BiomeInjectorManager {
-	public static void applyBiomeInjectors(MinecraftServer server) {
-		RegistryAccess registries = server.registryAccess();
+	public static void applyBiomeInjectors(RegistryAccess registries, long seed) {
 		
 		Registry<LevelStem> dimensions = Lithostitched.registry(registries, Registries.LEVEL_STEM);
-		long seed = LithostitchedVersion.getSeed(server);
 		for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : dimensions.entrySet()) {
 			ResourceKey<LevelStem> dimension = entry.getKey();
 			

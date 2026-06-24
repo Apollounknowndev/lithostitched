@@ -28,8 +28,7 @@ import java.util.*;
 */
 public class SurfaceRuleManager {
     @SuppressWarnings("deprecation")
-    public static void applySurfaceRules(MinecraftServer server) {
-        RegistryAccess registries = server.registryAccess();
+    public static void applySurfaceRules(RegistryAccess registries) {
 	    List<Map.Entry<Identifier, AddSurfaceRuleModifier>> surfaceRules = ModifierManager.getModifiersOfType(registries, AddSurfaceRuleModifier.CODEC);
         if (surfaceRules.isEmpty()) return;
 
