@@ -5,8 +5,14 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.7.11"
+MOD_VERSION = "1.7.12"
 CHANGELOG = """
+## 1.7.12
+
+**Fixes**
+
+- Fixed `wrap_noise_router` modifiers applying to every dimension instead of only their declared `dimension`.
+
 ## 1.7.11
 
 - Made code changes to prepare for full World Preview compatibility.

@@ -9,8 +9,10 @@ import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
 import dev.worldgen.lithostitched.worldgen.modifier.WrapNoiseRouterModifier;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ChunkMap;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.NoiseRouter;
 import net.minecraft.world.level.levelgen.RandomState;
@@ -36,7 +38,18 @@ public class ChunkMapMixin {
         NoiseGeneratorSettingsAccessor accessor = ((NoiseGeneratorSettingsAccessor)(Object)noiseSettings);
         NoiseRouter router = noiseSettings.noiseRouter();
 
-        List<WrapNoiseRouterModifier> modifiers = ModifierManager.getModifiersOfType(registries, WrapNoiseRouterModifier.CODEC).stream().map(Map.Entry::getValue).toList();
+        ResourceKey<Level> dimension = level.dimension();
+        List<WrapNoiseRouterModifier> modifiers = ModifierManager.getModifiersOfType(registries, WrapNoiseRouterModifier.CODEC).stream()
+            .filter(entry -> {
+                ResourceKey<Level> declared = entry.getValue().dimension();
+                if (declared == null) {
+                    Lithostitched.LOGGER.warn("Wrap noise router modifier {} has no dimension; applying to all dimensions", entry.getKey());
+                    return true;
+                }
+                return declared.equals(dimension);
+            })
+            .map(Map.Entry::getValue)
+            .toList();
 
         if (!modifiers.isEmpty()) {
             accessor.setNoiseRouter(new NoiseRouter(
