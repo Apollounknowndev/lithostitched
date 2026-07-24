@@ -78,7 +78,8 @@ public class LithostitchedVersionActual {
 			Map.entry("all_of", AllOfCondition.CODEC),
 			Map.entry("any_of", AnyOfCondition.CODEC),
 			Map.entry("biome", BiomeCondition.CODEC),
-			Map.entry("slope", SlopeCondition.CODEC)
+			Map.entry("slope", SlopeCondition.CODEC),
+			Map.entry("sample_density", SampleDensityCondition.CODEC)
 		));
 		LithostitchedRegistrar.register(Registries.STRUCTURE_PROCESSOR, Map.ofEntries(
 			Map.entry("internal/unbound_reference", UnboundReferenceProcessor.CODEC),

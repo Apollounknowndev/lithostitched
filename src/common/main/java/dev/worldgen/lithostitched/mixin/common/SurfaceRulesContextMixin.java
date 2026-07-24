@@ -26,7 +26,10 @@ public class SurfaceRulesContextMixin implements ContextAccessor {
     @Shadow int blockY;
     @Shadow int blockZ;
     @Shadow int stoneDepthBelow;
-
+    @Shadow NoiseChunk noiseChunk;
+    
+    @Shadow private RandomState randomState;
+    
     @Override
     public SurfaceSystem getSystem() {
         return this.system;
@@ -36,7 +39,17 @@ public class SurfaceRulesContextMixin implements ContextAccessor {
     public ChunkAccess getChunk() {
         return this.chunk;
     }
-
+    
+    @Override
+    public NoiseChunk getNoiseChunk() {
+        return this.noiseChunk;
+    }
+    
+    @Override
+    public RandomState getRandomState() {
+        return this.randomState;
+    }
+    
     @Override
     public int getStoneDepthBelow() {
         return this.stoneDepthBelow;

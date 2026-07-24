@@ -36,7 +36,12 @@ public class ChunkMapMixin {
         NoiseGeneratorSettingsAccessor accessor = ((NoiseGeneratorSettingsAccessor)(Object)noiseSettings);
         NoiseRouter router = noiseSettings.noiseRouter();
 
-        List<WrapNoiseRouterModifier> modifiers = ModifierManager.getModifiersOfType(registries, WrapNoiseRouterModifier.CODEC).stream().map(Map.Entry::getValue).toList();
+        List<WrapNoiseRouterModifier> modifiers = ModifierManager
+            .getModifiersOfType(registries, WrapNoiseRouterModifier.CODEC)
+            .stream()
+            .map(Map.Entry::getValue)
+            .filter(modifier -> level.dimension().equals(modifier.dimension()))
+            .toList();
 
         if (!modifiers.isEmpty()) {
             accessor.setNoiseRouter(new NoiseRouter(

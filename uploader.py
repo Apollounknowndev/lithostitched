@@ -5,32 +5,9 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.7.11"
+MOD_VERSION = "1.7.13"
 CHANGELOG = """
-## 1.7.11
-
-- Made code changes to prepare for full World Preview compatibility.
-
-## 1.7.10
-
-**Additions**
-
-- Added `matching_biomes` processor condition.
-- Added processors to most remaining structures without them. This includes:
-  - Desert Temples
-  - Jungle Temples
-  - Mineshafts
-  - Nether Fortresses
-  - Ocean Monuments
-  - Strongholds
-  - Swamp Huts
-
-**Fixes**
-
-- Fixed crashing with TaCZ Runtime Compat.
-- Fixed add_points injectors not working with Terrablender, hopefully for real this time.
-- Blueprint-based biomes will once again generate if Blueprint, Terrablender, and Lithostitched are all installed.
-
+- Fixed the `wrap_noise_router` modifier applying to all dimensions.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "21.1"),
@@ -69,6 +46,7 @@ CURSEFORGE_URL = f"https://minecraft.curseforge.com/api/v1/projects/{CURSEFORGE_
 CURSEFORGE_GAME_VERSIONS = {
     "21.1": [11779],
     "26.1": [15933, 16021, 16082],
+    "26.2": [16498],
 }
 CURSEFORGE_LOADERS = {
     "fabric": 7499,
@@ -192,6 +170,6 @@ for modloader, game_version in UPLOAD_VERSIONS:
         continue
 
     upload_modrinth(modloader, game_version, mod_path, dependencies)
-    #upload_curseforge(modloader, game_version, mod_path, dependencies)
+    upload_curseforge(modloader, game_version, mod_path, dependencies)
 
 input("Press any key to close")

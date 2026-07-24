@@ -1,17 +1,17 @@
 package dev.worldgen.lithostitched.impl;
 
+import com.google.common.base.Suppliers;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.mixin.common.BiomeGenerationSettingsAccessor;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.msrandom.multiplatform.annotations.Actual;
-import net.msrandom.multiplatform.annotations.Expect;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class LithostitchedPlatformActual {
 	@Actual
@@ -45,5 +45,10 @@ public class LithostitchedPlatformActual {
 	@Actual
 	public static void initPlatformRegistrations() {
 	
+	}
+	
+	@Actual
+	public static <T> Supplier<T> memoize(Supplier<T> delegate) {
+		return Suppliers.memoize(delegate::get);
 	}
 }

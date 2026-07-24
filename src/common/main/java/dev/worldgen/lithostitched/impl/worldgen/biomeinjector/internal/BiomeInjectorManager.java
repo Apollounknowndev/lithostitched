@@ -1,12 +1,11 @@
 package dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal;
 
-import com.google.common.base.Suppliers;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.event.AddBiomeInjectorsEvent;
 import dev.worldgen.lithostitched.api.event.AddRegionsEvent;
 import dev.worldgen.lithostitched.api.tag.LithostitchedBiomeSourceTags;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
-import dev.worldgen.lithostitched.impl.LithostitchedVersion;
+import dev.worldgen.lithostitched.impl.LithostitchedPlatform;
 import dev.worldgen.lithostitched.mixin.common.BiomeSourceInvoker;
 import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.mixin.common.RandomStateAccessor;
@@ -19,7 +18,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.FeatureSorter;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -31,9 +29,7 @@ import net.minecraft.world.level.levelgen.RandomState;
 import java.util.*;
 
 public class BiomeInjectorManager {
-	public static void applyBiomeInjectors(RegistryAccess registries, long seed) {
-		
-		Registry<LevelStem> dimensions = Lithostitched.registry(registries, Registries.LEVEL_STEM);
+	public static void applyBiomeInjectors(RegistryAccess registries, Registry<LevelStem> dimensions, long seed) {
 		for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : dimensions.entrySet()) {
 			ResourceKey<LevelStem> dimension = entry.getKey();
 			
@@ -95,7 +91,7 @@ public class BiomeInjectorManager {
 			InjectorBiomeSource injectorSource = currentSource instanceof InjectorBiomeSource injector ? injector : new InjectorBiomeSource(accessor.getBiomeSource());
 			injectorSource.applyInjectors(injectors, regionFunction, regions, noiseHelper);
 			accessor.setBiomeSource(injectorSource);
-			accessor.setFeaturesPerStep(Suppliers.memoize(() ->
+			accessor.setFeaturesPerStep(LithostitchedPlatform.memoize(() ->
 				FeatureSorter.buildFeaturesPerStep(List.copyOf(injectorSource.possibleBiomes()), biome -> accessor.getGetter().apply(biome).features(), true)
 			));
 			Lithostitched.debug("Applying {} biome injections for dimension {}", injectors.size(), dimension.identifier());

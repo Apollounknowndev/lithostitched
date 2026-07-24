@@ -5,17 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Added AI disclosure">
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/duck/SeedAccessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/NoiseChunkAccessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/RandomStateMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/21.1/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/MapAllCache.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/21.1/main/java/dev/worldgen/lithostitched/mixin/common/density/DensityFunctionsMapAllMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/26.1/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/MapAllCache.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/26.1/main/java/dev/worldgen/lithostitched/mixin/common/density/DensityFunctionsMapAllMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/26.2/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/MapAllCache.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/26.2/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/condition/SampleDensityCondition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shared/26.2/main/java/dev/worldgen/lithostitched/mixin/common/density/DensityFunctionsMapAllMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/duck/ContextAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/duck/ContextAccessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/LithostitchedInternalHooks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/LithostitchedInternalHooks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatform.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatform.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/BiomeInjectorManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/biomeinjector/internal/BiomeInjectorManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/ModifierManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/ModifierManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/ChunkMapMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/ChunkMapMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/SurfaceRulesContextMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/mixin/common/SurfaceRulesContextMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/surface/SurfaceRuleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/java/dev/worldgen/lithostitched/worldgen/surface/SurfaceRuleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/main/lithostitched.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/main/lithostitched.mixins.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fabric/21.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatformActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/21.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatformActual.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fabric/26.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatformActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/26.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatformActual.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fabric/26.2/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatformActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/fabric/26.2/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatformActual.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/neoforge/21.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatformActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/21.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatformActual.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/neoforge/26.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatformActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/26.1/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatformActual.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/neoforge/26.2/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatformActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/neoforge/26.2/main/java/dev/worldgen/lithostitched/impl/LithostitchedPlatformActual.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/21.1/main/lithostitched.21.1.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/21.1/main/lithostitched.21.1.mixins.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/26.1/main/lithostitched.26.1.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/26.1/main/lithostitched.26.1.mixins.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/26.2/main/java/dev/worldgen/lithostitched/api/worldgen/surface/LithostitchedSurfaceConditions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/26.2/main/java/dev/worldgen/lithostitched/api/worldgen/surface/LithostitchedSurfaceConditions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/26.2/main/java/dev/worldgen/lithostitched/impl/LithostitchedVersionActual.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/26.2/main/java/dev/worldgen/lithostitched/impl/LithostitchedVersionActual.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/26.2/main/lithostitched.26.2.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/26.2/main/lithostitched.26.2.mixins.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,7 +57,12 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="lithostitched" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -131,7 +157,8 @@
     &quot;git-widget-placeholder&quot;: &quot;cloche&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/src/common/main/resources/data/lithostitched/worldgen/processor_list&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/src/shared/26.2/main/java/dev/worldgen/lithostitched/mixin/common&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -144,10 +171,10 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\shared\26.2\main\java\dev\worldgen\lithostitched\mixin\common" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\shared\26.1\main\java\dev\worldgen\lithostitched\mixin\common" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\resources\data\lithostitched\worldgen\processor_list" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\common\main\java\dev\worldgen\lithostitched\mixin\common\processor" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\shared\26.1\main\java\dev\worldgen\lithostitched\mixin\common" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\shared\26.2\main\java\dev\worldgen\lithostitched\mixin\common" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\shared\26.2\main\java\dev\worldgen\lithostitched\impl\worldgen\modifier" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
@@ -164,11 +191,11 @@
       <recent name="dev.worldgen.lithostitched.worldgen.bandlands" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="dev.worldgen.lithostitched.mixin.common.compat.terrablender" />
-      <recent name="dev.worldgen.lithostitched.api.worldgen.processor.enums" />
-      <recent name="dev.worldgen.lithostitched.worldgen.processor.condition" />
+      <recent name="dev.worldgen.lithostitched.impl.worldgen.densityfunction" />
       <recent name="dev.worldgen.lithostitched.mixin.common" />
       <recent name="dev.worldgen.lithostitched.impl.worldgen.surface.condition" />
+      <recent name="dev.worldgen.lithostitched.mixin.common.compat.terrablender" />
+      <recent name="dev.worldgen.lithostitched.api.worldgen.processor.enums" />
     </key>
   </component>
   <component name="RunManager" selected="Gradle.1.20.1 [build]">

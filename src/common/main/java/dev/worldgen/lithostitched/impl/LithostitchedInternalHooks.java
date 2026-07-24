@@ -1,23 +1,28 @@
 package dev.worldgen.lithostitched.impl;
 
+import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise.FastNoiseConfig;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.BiomeInjectorManager;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
 import dev.worldgen.lithostitched.worldgen.surface.SurfaceRuleManager;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.level.dimension.LevelStem;
 
 public class LithostitchedInternalHooks {
 	public static void onServerAboutToStart(MinecraftServer server) {
-		applyModifiersAndInjections(server.registryAccess(), LithostitchedVersion.getSeed(server));
+		RegistryAccess registries = server.registryAccess();
+		applyModifiersAndInjections(registries, Lithostitched.registry(registries, Registries.LEVEL_STEM), LithostitchedVersion.getSeed(server));
 	}
 	
-	public static void applyModifiersAndInjections(RegistryAccess registries, long seed) {
-		ModifierManager.applyModifiers(registries);
-		SurfaceRuleManager.applySurfaceRules(registries);
-		BiomeInjectorManager.applyBiomeInjectors(registries, seed);
+	public static void applyModifiersAndInjections(RegistryAccess registries, Registry<LevelStem> dimensions, long seed) {
+		ModifierManager.applyModifiers(registries, dimensions);
+		SurfaceRuleManager.applySurfaceRules(registries, dimensions);
+		BiomeInjectorManager.applyBiomeInjectors(registries, dimensions, seed);
 		
 		for (Holder<FastNoiseConfig> config : registries.lookupOrThrow(LithostitchedRegistries.FAST_NOISE_CONFIG).listElements().toList()) {
 			config.value().bind(seed);

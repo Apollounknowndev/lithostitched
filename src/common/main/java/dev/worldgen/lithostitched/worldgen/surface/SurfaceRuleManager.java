@@ -10,10 +10,8 @@ import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
@@ -28,7 +26,7 @@ import java.util.*;
 */
 public class SurfaceRuleManager {
     @SuppressWarnings("deprecation")
-    public static void applySurfaceRules(RegistryAccess registries) {
+    public static void applySurfaceRules(RegistryAccess registries, Registry<LevelStem> dimensions) {
 	    List<Map.Entry<Identifier, AddSurfaceRuleModifier>> surfaceRules = ModifierManager.getModifiersOfType(registries, AddSurfaceRuleModifier.CODEC);
         if (surfaceRules.isEmpty()) return;
 
@@ -39,7 +37,6 @@ public class SurfaceRuleManager {
             );
         }
 
-        Registry<LevelStem> dimensions = Lithostitched.registry(registries, Registries.LEVEL_STEM);
         for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : dimensions.entrySet()) {
             Identifier location = entry.getKey().identifier();
             var surfaceRulesForKey = assignedSurfaceRules.get(location);

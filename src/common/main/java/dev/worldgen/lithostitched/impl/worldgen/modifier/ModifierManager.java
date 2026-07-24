@@ -1,17 +1,16 @@
 package dev.worldgen.lithostitched.impl.worldgen.modifier;
 
-import com.google.common.base.Suppliers;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.event.AddWorldgenModifiersEvent;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.impl.LithostitchedPlatform;
-import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
+import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.FeatureSorter;
 import net.minecraft.world.level.dimension.LevelStem;
@@ -20,7 +19,7 @@ import java.util.*;
 
 public class ModifierManager {
     
-    public static void applyModifiers(RegistryAccess registries) {
+    public static void applyModifiers(RegistryAccess registries, Registry<LevelStem> dimensions) {
         boolean recompileSortedFeatures = false;
         
         Map<Identifier, WorldgenModifier> modifiers = getAllModifiers(registries);
@@ -34,10 +33,10 @@ public class ModifierManager {
         }
 
         if (recompileSortedFeatures) {
-            for (LevelStem dimension : Lithostitched.registry(registries, Registries.LEVEL_STEM).stream().toList()) {
+            for (LevelStem dimension : dimensions.stream().toList()) {
                 var accessor = ((ChunkGeneratorAccessor)dimension.generator());
                 BiomeSource source = accessor.getBiomeSource();
-                accessor.setFeaturesPerStep(Suppliers.memoize(() ->
+                accessor.setFeaturesPerStep(LithostitchedPlatform.memoize(() ->
                     FeatureSorter.buildFeaturesPerStep(List.copyOf(source.possibleBiomes()), biome -> accessor.getGetter().apply(biome).features(), true)
                 ));
             }
