@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched;
 
 import com.mojang.serialization.Codec;
 import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
-import dev.worldgen.lithostitched.config.ConfigHandler;
+import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistrations;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;

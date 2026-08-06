@@ -4,11 +4,29 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT">
+            <builds>
+              <build path="$PROJECT_DIR$/buildSrc" name="buildSrc">
+                <projects>
+                  <project path="$PROJECT_DIR$/buildSrc" />
+                </projects>
+              </build>
+            </builds>
+          </compositeBuild>
+        </compositeConfiguration>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleJvm" value="ms-25" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/versions/21.1-fabric" />
+            <option value="$PROJECT_DIR$/versions/21.1-neoforge" />
+            <option value="$PROJECT_DIR$/versions/26.1-fabric" />
+            <option value="$PROJECT_DIR$/versions/26.1-neoforge" />
+            <option value="$PROJECT_DIR$/versions/26.2-fabric" />
+            <option value="$PROJECT_DIR$/versions/26.2-neoforge" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="true" />

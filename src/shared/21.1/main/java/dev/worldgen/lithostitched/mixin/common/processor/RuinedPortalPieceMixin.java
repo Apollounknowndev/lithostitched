@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.mixin.common.processor;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.worldgen.lithostitched.config.ConfigHandler;
+import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.impl.LithostitchedVersion;
 import net.minecraft.world.level.levelgen.structure.structures.RuinedPortalPiece;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
@@ -15,6 +15,6 @@ public class RuinedPortalPieceMixin {
         at = @At("RETURN")
     )
     private static StructurePlaceSettings addRuinedPortalProcessor(StructurePlaceSettings settings) {
-        return ConfigHandler.getConfig().breaksSeedParity() ? settings.addProcessor(LithostitchedVersion.getUnboundReferenceProcessor("ruined_portal")) : settings;
+        return Lithostitched.breaksSeedParity() ? settings.addProcessor(UnboundReferenceProcessor.of("ruined_portal")) : settings;
     }
 }

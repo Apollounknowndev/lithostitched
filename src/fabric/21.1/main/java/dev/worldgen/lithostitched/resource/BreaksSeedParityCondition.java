@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.resource;
 
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.config.ConfigHandler;
+import dev.worldgen.lithostitched.Lithostitched;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditionType;
 import net.minecraft.core.HolderLookup;
@@ -21,6 +21,6 @@ public class BreaksSeedParityCondition implements ResourceCondition {
 
     @Override
     public boolean test(@Nullable HolderLookup.Provider registryLookup) {
-        return ConfigHandler.getConfig().breaksSeedParity();
+        return Lithostitched.breaksSeedParity();
     }
 }

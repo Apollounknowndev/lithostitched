@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "${name}",
+  "description": "${description}",
+  "authors": [
+    "Apollo"
+  ],
+  "contact": {
+    "homepage": "${url}",
+    "sources": "${sources}"
+  },
+  "license": "MIT",
+  "icon": "pack.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.worldgen.lithostitched.platform.fabric.LithostitchedFabric"
+    ],
+    "client": [
+      "dev.worldgen.lithostitched.platform.fabric.LithostitchedFabricClient"
+    ]
+  },
+  "mixins": [
+    "lithostitched.mixins.json"
+  ],
+  "accessWidener": "lithostitched.ct",
+  "depends": {
+    "fabricloader": ">=0.17",
+    "minecraft": "${minecraft}"
+  }
+}

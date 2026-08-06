@@ -1,0 +1,19 @@
+{
+  "type": "lithostitched:add_template_pool_elements",
+  "template_pools": "minecraft:village/plains/houses",
+  "elements": [
+    {
+      "weight": 32,
+      "element": {
+        "element_type": "lithostitched:delegating",
+        "delegate": {
+          "element_type": "minecraft:legacy_single_pool_element",
+          "projection": "rigid",
+          "location": "minecraft:village/plains/houses/plains_big_house_1",
+          "processors": []
+        },
+        "override_terrain_adaptation": "encapsulate"
+      }
+    }
+  ]
+}

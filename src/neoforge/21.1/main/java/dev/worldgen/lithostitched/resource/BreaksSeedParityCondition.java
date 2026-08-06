@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.resource;
 
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.config.ConfigHandler;
+import dev.worldgen.lithostitched.Lithostitched;
 import net.neoforged.neoforge.common.conditions.ICondition;
 
 public record BreaksSeedParityCondition() implements ICondition {
@@ -9,7 +9,7 @@ public record BreaksSeedParityCondition() implements ICondition {
     public static MapCodec<BreaksSeedParityCondition> CODEC = MapCodec.unit(INSTANCE);
 
     public boolean test(IContext context) {
-        return ConfigHandler.getConfig().breaksSeedParity();
+        return Lithostitched.breaksSeedParity();
     }
 
     public MapCodec<? extends ICondition> codec() {

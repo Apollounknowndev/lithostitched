@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched;
 
 import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
-import dev.worldgen.lithostitched.config.ConfigHandler;
+import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.network.ApplyStructureAttributesPacket;
 import dev.worldgen.lithostitched.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.worldgen.structure.StructureAttributeHandler;

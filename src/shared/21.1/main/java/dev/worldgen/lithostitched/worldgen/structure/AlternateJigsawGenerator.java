@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.worldgen.structure;
 import com.google.common.collect.Lists;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.worldgen.structure.MaxDistanceFromCenter;
-import dev.worldgen.lithostitched.config.ConfigHandler;
+import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.duck.StructurePoolAccess;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingConfig;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
@@ -230,7 +230,7 @@ public class AlternateJigsawGenerator {
             // No point grabbing the pool if it's the empty pool
             if (poolKey == Pools.EMPTY) return List.of();
 
-            if (ConfigHandler.getConfig().breaksSeedParity() || !this.vanilla) {
+            if (Lithostitched.breaksSeedParity() || !this.vanilla) {
                 // If we've already iterated over this pool, don't iterate over it again to prevent infinite looping
                 if (checkedPools.getValue().contains(poolKey)) {
                     StringBuilder stringBuilder = new StringBuilder();
