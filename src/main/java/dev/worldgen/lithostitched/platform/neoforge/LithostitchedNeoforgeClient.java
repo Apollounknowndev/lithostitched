@@ -1,5 +1,5 @@
 //? if neoforge {
-package dev.worldgen.lithostitched.platform.neoforge;
+/*package dev.worldgen.lithostitched.platform.neoforge;
 
 import com.mojang.serialization.DynamicOps;
 import dev.worldgen.lithostitched.Lithostitched;
@@ -23,9 +23,9 @@ import net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlers
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
-/**
+/^*
  * Mod class for Lithostitched on Forge.
- */
+ ^/
 @Mod(value = Lithostitched.MOD_ID, dist = Dist.CLIENT)
 public final class LithostitchedNeoforgeClient {
 	public LithostitchedNeoforgeClient(IEventBus bus) {
@@ -67,4 +67,4 @@ public final class LithostitchedNeoforgeClient {
 		}
 	}
 }
-//? }
+*///? }

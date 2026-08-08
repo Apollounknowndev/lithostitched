@@ -39,6 +39,7 @@ public interface LithostitchedCodecs {
             Codec.DOUBLE.fieldOf("max_inclusive").orElse(Double.MAX_VALUE).forGetter(InclusiveRange::maxInclusive)
         ).apply(instance, InclusiveRange::new))
     );
+    Codec<DensityFunction> DF_BASE = DensityFunction.CODEC;
     Codec<Holder<DensityFunction>> DF_REFERENCE = RegistryFileCodec.create(Registries.DENSITY_FUNCTION, DensityFunctions.DIRECT_CODEC);
 
     static <T> MapCodec<HolderSet<T>> registrySet(ResourceKey<Registry<T>> key, String name) {

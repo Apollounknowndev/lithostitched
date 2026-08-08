@@ -3,10 +3,10 @@ package dev.worldgen.lithostitched.worldgen.structure;
 import com.mojang.serialization.DynamicOps;
 import dev.worldgen.lithostitched.network.ApplyStructureAttributesPacket;
 //? if fabric {
-/*import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
- *///? } else {
-import net.neoforged.neoforge.network.PacketDistributor;
-//? }
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+ //? } else {
+/*import net.neoforged.neoforge.network.PacketDistributor;
+*///? }
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.NbtOps;
@@ -74,11 +74,11 @@ public class StructureAttributeHandler {
 	
 	private static void sendPacket(ServerPlayer player, ApplyStructureAttributesPacket packet) {
 		//? if fabric {
-		/*if (ServerPlayNetworking.canSend(player, packet.type())) {
+		if (ServerPlayNetworking.canSend(player, packet.type())) {
 			ServerPlayNetworking.send(player, packet);
-		}*///? } else {
-		PacketDistributor.sendToPlayer(player, packet);
-		//? }
+		}//? } else {
+		/*PacketDistributor.sendToPlayer(player, packet);
+		*///? }
 		
 	}
 }

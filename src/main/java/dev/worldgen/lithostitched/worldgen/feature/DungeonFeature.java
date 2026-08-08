@@ -1,16 +1,18 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
 import dev.worldgen.lithostitched.Lithostitched;
-import dev.worldgen.lithostitched.platform.LithostitchedVersion;
+import net.minecraft.util.valueproviders.IntProviders;
 import dev.worldgen.lithostitched.worldgen.feature.config.DungeonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -81,8 +83,8 @@ public class DungeonFeature extends Feature<DungeonConfig> {
                             level.setBlock(currentPos, Blocks.CAVE_AIR.defaultBlockState(), 2);
                         } else if (currentState.isSolid() && !currentState.is(Blocks.CHEST)) {
                             this.safeSetBlock(level, currentPos, y == -1 ?
-                                LithostitchedVersion.getState(config.floorProvider(), level, random, currentPos) :
-                                LithostitchedVersion.getState(config.wallProvider(), level, random, currentPos),
+                                config.floorProvider().getState(level, random, currentPos) :
+                                config.wallProvider().getState(level, random, currentPos),
                             predicate);
                         }
                     }
@@ -106,7 +108,7 @@ public class DungeonFeature extends Feature<DungeonConfig> {
 
                         if (solidFaces == 1) {
                             this.safeSetBlock(level, chestPos, StructurePiece.reorient(level, chestPos, Blocks.CHEST.defaultBlockState()), predicate);
-                            Optional<ChestBlockEntity> chestEntity = level.getBlockEntity(chestPos, LithostitchedVersion.getStatic(BuiltInRegistries.BLOCK_ENTITY_TYPE, "chest"));
+                            Optional<ChestBlockEntity> chestEntity = level.getBlockEntity(chestPos, BlockEntityTypes.CHEST);
                             chestEntity.ifPresent(chestBlockEntity -> chestBlockEntity.setLootTable(config.lootTable(), random.nextLong()));
                             break;
                         }
@@ -117,7 +119,7 @@ public class DungeonFeature extends Feature<DungeonConfig> {
             this.safeSetBlock(level, startPos, Blocks.SPAWNER.defaultBlockState(), predicate);
             BlockEntity blockEntity = level.getBlockEntity(startPos);
             if (blockEntity instanceof SpawnerBlockEntity spawner) {
-                spawner.setEntityId(config.spawnerMobs().getRandom(random).orElse(LithostitchedVersion.getStatic(BuiltInRegistries.ENTITY_TYPE, "pig")), random);
+                spawner.setEntityId(config.spawnerMobs().getRandom(random).orElse(EntityTypes.PIG), random);
             } else {
                 Lithostitched.LOGGER.error("Failed to get spawner block entity for dungeon at block position ({})", startPos);
             }

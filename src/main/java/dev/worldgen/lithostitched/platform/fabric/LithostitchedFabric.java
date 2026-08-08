@@ -1,5 +1,5 @@
 //? if fabric {
-/*package dev.worldgen.lithostitched.platform.fabric;
+package dev.worldgen.lithostitched.platform.fabric;
 
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.network.ApplyStructureAttributesPacket;
@@ -26,4 +26,4 @@ public final class LithostitchedFabric implements ModInitializer {
 		ServerPlayConnectionEvents.DISCONNECT.register((handler, _) -> StructureAttributeHandler.disconnect(handler.getPlayer()));
 	}
 }
-*///? }
+//? }

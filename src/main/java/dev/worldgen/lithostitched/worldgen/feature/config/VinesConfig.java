@@ -4,10 +4,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.util.WeightedList;
-import dev.worldgen.lithostitched.platform.LithostitchedVersion;
+import net.minecraft.util.valueproviders.IntProviders;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -22,7 +23,7 @@ public record VinesConfig(WeightedList<Block> blocks, Optional<HolderSet<Block>>
     public static final Codec<VinesConfig> CODEC = RecordCodecBuilder.<VinesConfig>create(instance -> instance.group(
         LithostitchedCodecs.compactWeightedList(BuiltInRegistries.BLOCK.byNameCodec(), false).fieldOf("block").orElse(DEFAULT_BLOCK).forGetter(VinesConfig::blocks),
         LithostitchedCodecs.BLOCK_SET.optionalFieldOf("can_place_on").forGetter(VinesConfig::canPlaceOn),
-        LithostitchedVersion.intProviderCodec(1, 256).fieldOf("max_length").orElse(LithostitchedVersion.constantInt(1)).forGetter(VinesConfig::maxLength)
+        IntProviders.codec(1, 256).fieldOf("max_length").orElse(ConstantInt.of(1)).forGetter(VinesConfig::maxLength)
     ).apply(instance, VinesConfig::new)).validate(VinesConfig::validate);
 
     private DataResult<VinesConfig> validate() {

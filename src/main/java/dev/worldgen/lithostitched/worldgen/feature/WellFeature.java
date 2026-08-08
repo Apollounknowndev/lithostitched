@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
-import dev.worldgen.lithostitched.platform.LithostitchedVersion;
+import net.minecraft.util.valueproviders.IntProviders;
 import dev.worldgen.lithostitched.worldgen.feature.config.WellConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -8,6 +8,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.minecraft.world.level.block.entity.BrushableBlockEntity;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -66,15 +67,15 @@ public class WellFeature extends Feature<WellConfig> {
                     } else {
                         blockProvider = BlockStateProvider.simple(Blocks.AIR);
                     }
-                    level.setBlock(pos, LithostitchedVersion.getState(blockProvider, level, random, pos), 2);
+                    level.setBlock(pos, blockProvider.getState(level, random, pos), 2);
                 }
             }
         }
         for (int i = 0; i < config.suspiciousPlacements().sample(random); i++) {
             for (int offset = 0; offset < 2; offset++) {
                 pos = origin.below(offset+2).relative(Direction.Plane.HORIZONTAL.getRandomDirection(random));
-                level.setBlock(pos, LithostitchedVersion.getState(config.suspiciousProvider(), level, random, pos), 2);
-                Optional<BrushableBlockEntity> susBlock = level.getBlockEntity(pos, LithostitchedVersion.getStatic(BuiltInRegistries.BLOCK_ENTITY_TYPE, "brushable_block"));
+                level.setBlock(pos, config.suspiciousProvider().getState(level, random, pos), 2);
+                Optional<BrushableBlockEntity> susBlock = level.getBlockEntity(pos, BlockEntityTypes.BRUSHABLE_BLOCK);
                 if (susBlock.isPresent()) {
                     susBlock.get().setLootTable(config.suspiciousLootTable(), pos.asLong());
                 }

@@ -6,7 +6,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.worldgen.processor.LithostitchedProcessorLists;
 import dev.worldgen.lithostitched.duck.ReferencePosDuck;
-import dev.worldgen.lithostitched.platform.LithostitchedVersion;
+import net.minecraft.util.valueproviders.IntProviders;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.WorldGenLevel;
@@ -52,7 +52,7 @@ public class StructurePieceMixin implements ReferencePosDuck {
 		
 		for (StructureProcessor processor : processorList.get().list()) {
 			BlockPos referencePos = this.lithostitched$referencePos == null ? piecePos : this.lithostitched$referencePos;
-			processedInfo = LithostitchedVersion.applyProcessor(processor, level, piecePos, referencePos, new BlockPos(x, y, z), processedInfo, new StructurePlaceSettings());
+			processedInfo = processor.processBlock(level, piecePos, referencePos, new BlockPos(x, y, z), processedInfo, new StructurePlaceSettings());
 			if (processedInfo == null) {
 				return false;
 			}

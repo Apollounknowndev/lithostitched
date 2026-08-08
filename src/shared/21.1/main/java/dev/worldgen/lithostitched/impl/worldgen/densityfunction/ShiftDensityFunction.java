@@ -10,10 +10,10 @@ import org.jetbrains.annotations.NotNull;
 
 public record ShiftDensityFunction(DensityFunction input, DensityFunction shiftX, DensityFunction shiftY, DensityFunction shiftZ) implements DensityFunction {
 	public static final MapCodec<ShiftDensityFunction> DATA_CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-		LithostitchedVersion.DF_CODEC.fieldOf("input").forGetter(ShiftDensityFunction::input),
-		LithostitchedVersion.DF_CODEC.fieldOf("shift_x").forGetter(ShiftDensityFunction::shiftX),
-		LithostitchedVersion.DF_CODEC.fieldOf("shift_y").forGetter(ShiftDensityFunction::shiftY),
-		LithostitchedVersion.DF_CODEC.fieldOf("shift_z").forGetter(ShiftDensityFunction::shiftZ)
+		LithostitchedCodecs.DF_BASE.fieldOf("input").forGetter(ShiftDensityFunction::input),
+		LithostitchedCodecs.DF_BASE.fieldOf("shift_x").forGetter(ShiftDensityFunction::shiftX),
+		LithostitchedCodecs.DF_BASE.fieldOf("shift_y").forGetter(ShiftDensityFunction::shiftY),
+		LithostitchedCodecs.DF_BASE.fieldOf("shift_z").forGetter(ShiftDensityFunction::shiftZ)
 	).apply(i, ShiftDensityFunction::new));
 	public static final KeyDispatchDataCodec<ShiftDensityFunction> CODEC = KeyDispatchDataCodec.of(DATA_CODEC);
 	

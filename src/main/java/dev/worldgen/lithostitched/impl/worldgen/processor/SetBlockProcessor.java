@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.processor.enums.RandomMode;
-import dev.worldgen.lithostitched.platform.LithostitchedVersion;
+import net.minecraft.util.valueproviders.IntProviders;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
@@ -59,7 +59,7 @@ public class SetBlockProcessor implements StructureProcessor {
             BlockPos samplePos = this.randomMode.select(targetPosition, referencePos, processedBlockInfo);
 
             RandomSource random = RandomSource.create(worldGenLevel.getSeed()).forkPositional().at(samplePos);
-            BlockState state = LithostitchedVersion.getState(this.blockState(), worldGenLevel, random, samplePos);
+            BlockState state = this.blockState().getState(worldGenLevel, random, samplePos);
 
             if (this.preserveState) {
                 return withState(random, processedBlockInfo, state.getBlock().withPropertiesOf(processedBlockInfo.state()));

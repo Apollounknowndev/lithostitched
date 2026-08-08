@@ -1,5 +1,5 @@
 //? if fabric {
-/*package dev.worldgen.lithostitched.platform.fabric;
+package dev.worldgen.lithostitched.platform.fabric;
 
 import com.mojang.serialization.DynamicOps;
 import dev.worldgen.lithostitched.Lithostitched;
@@ -48,4 +48,4 @@ public class LithostitchedFabricClient implements ClientModInitializer {
 			}
 		});
 	}
-}*///? }
+}//? }

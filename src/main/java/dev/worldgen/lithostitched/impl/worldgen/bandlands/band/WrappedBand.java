@@ -4,15 +4,15 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.bandlands.Band;
-import dev.worldgen.lithostitched.platform.LithostitchedVersion;
+import net.minecraft.util.valueproviders.IntProviders;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.block.state.BlockState;
 
 public record WrappedBand(IntProvider interval, IntProvider maxCount, float wrapperChance, BlockState wrapperState, BlockState wrappedState) implements Band {
     public static final MapCodec<WrappedBand> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        LithostitchedVersion.intProviderCodec(1, 256).fieldOf("interval").forGetter(WrappedBand::interval),
-        LithostitchedVersion.intProviderCodec(1, 256).fieldOf("max_count").forGetter(WrappedBand::maxCount),
+        IntProviders.codec(1, 256).fieldOf("interval").forGetter(WrappedBand::interval),
+        IntProviders.codec(1, 256).fieldOf("max_count").forGetter(WrappedBand::maxCount),
         Codec.floatRange(0, 1).fieldOf("wrapper_chance").forGetter(WrappedBand::wrapperChance),
         BlockState.CODEC.fieldOf("wrapper_state").forGetter(WrappedBand::wrapperState),
         BlockState.CODEC.fieldOf("wrapped_state").forGetter(WrappedBand::wrappedState)

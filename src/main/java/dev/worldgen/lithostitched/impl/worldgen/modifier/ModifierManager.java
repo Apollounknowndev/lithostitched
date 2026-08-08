@@ -32,7 +32,7 @@ public class ModifierManager {
         }
         
         //? if neoforge
-        if (true) return;
+        //if (true) return;
         
         if (recompileSortedFeatures) {
             for (LevelStem dimension : dimensions.stream().toList()) {

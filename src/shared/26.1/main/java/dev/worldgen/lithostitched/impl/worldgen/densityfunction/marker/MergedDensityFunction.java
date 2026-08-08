@@ -11,7 +11,7 @@ import net.minecraft.world.level.levelgen.DensityFunctions;
  */
 public record MergedDensityFunction(DensityFunction original, DensityFunction wrapped, DensityFunction full) implements DensityFunction {
     public static final KeyDispatchDataCodec<DensityFunction> CODEC = KeyDispatchDataCodec.of(
-        LithostitchedVersion.DF_CODEC.xmap(
+        LithostitchedCodecs.DF_BASE.xmap(
             df -> df instanceof DensityFunctions.HolderHolder hh ? hh.function().value() : df,
             MergedDensityFunction::unwrappedOriginal
         ).fieldOf("original")

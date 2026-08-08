@@ -17,9 +17,9 @@ public record FastNoiseDensityFunction(Holder<FastNoiseConfig> config, double xz
         RegistryFileCodec.create(LithostitchedRegistries.FAST_NOISE_CONFIG, FastNoiseConfig.CODEC, false).fieldOf("config").forGetter(FastNoiseDensityFunction::config),
         Codec.DOUBLE.optionalFieldOf("xz_scale", 1.0).forGetter(FastNoiseDensityFunction::xzScale),
         Codec.DOUBLE.optionalFieldOf("y_scale", 1.0).forGetter(FastNoiseDensityFunction::yScale),
-        LithostitchedVersion.DF_CODEC.optionalFieldOf("shift_x", DensityFunctions.zero()).forGetter(FastNoiseDensityFunction::shiftX),
-        LithostitchedVersion.DF_CODEC.optionalFieldOf("shift_y", DensityFunctions.zero()).forGetter(FastNoiseDensityFunction::shiftY),
-        LithostitchedVersion.DF_CODEC.optionalFieldOf("shift_z", DensityFunctions.zero()).forGetter(FastNoiseDensityFunction::shiftZ)
+        LithostitchedCodecs.DF_BASE.optionalFieldOf("shift_x", DensityFunctions.zero()).forGetter(FastNoiseDensityFunction::shiftX),
+        LithostitchedCodecs.DF_BASE.optionalFieldOf("shift_y", DensityFunctions.zero()).forGetter(FastNoiseDensityFunction::shiftY),
+        LithostitchedCodecs.DF_BASE.optionalFieldOf("shift_z", DensityFunctions.zero()).forGetter(FastNoiseDensityFunction::shiftZ)
     ).apply(instance, FastNoiseDensityFunction::new));
     public static final KeyDispatchDataCodec<FastNoiseDensityFunction> CODEC = KeyDispatchDataCodec.of(DATA_CODEC);
 

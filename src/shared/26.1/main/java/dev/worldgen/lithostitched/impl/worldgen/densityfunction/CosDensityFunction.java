@@ -6,7 +6,7 @@ import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
 
 public class CosDensityFunction extends TransformerDensityFunction {
-    public static final MapCodec<CosDensityFunction> DATA_CODEC = LithostitchedVersion.DF_CODEC.fieldOf("argument").xmap(CosDensityFunction::new, CosDensityFunction::argument);
+    public static final MapCodec<CosDensityFunction> DATA_CODEC = LithostitchedCodecs.DF_BASE.fieldOf("argument").xmap(CosDensityFunction::new, CosDensityFunction::argument);
     public static KeyDispatchDataCodec<CosDensityFunction> CODEC_HOLDER = KeyDispatchDataCodec.of(DATA_CODEC);
     
     public CosDensityFunction(DensityFunction argument) {

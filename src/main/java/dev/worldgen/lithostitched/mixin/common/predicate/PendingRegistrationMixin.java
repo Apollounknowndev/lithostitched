@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(RegistryLoadTask.PendingRegistration.class)
 public class PendingRegistrationMixin {
 	//? if neoforge {
-	@Inject(
+	/*@Inject(
 		method = "loadFromResource",
 		at = @At(
 			value = "INVOKE",
@@ -36,5 +36,5 @@ public class PendingRegistrationMixin {
 		if (LoadPredicate.CODEC.parse(ops, object.get("predicate")).result().orElse(LoadPredicate.alwaysTrue()).test()) return;
 		cir.setReturnValue(Either.right(new StubException()));
 	}
-	//? }
+	*///? }
 }

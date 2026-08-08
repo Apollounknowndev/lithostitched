@@ -1,12 +1,12 @@
 package dev.worldgen.lithostitched.impl.worldgen.densityfunction;
 
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.platform.LithostitchedVersion;
+import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
 
 public class CeilDensityFunction extends TransformerDensityFunction {
-    public static final MapCodec<CeilDensityFunction> DATA_CODEC = LithostitchedVersion.DF_CODEC.fieldOf("argument").xmap(CeilDensityFunction::new, CeilDensityFunction::argument);
+    public static final MapCodec<CeilDensityFunction> DATA_CODEC = LithostitchedCodecs.DF_BASE.fieldOf("argument").xmap(CeilDensityFunction::new, CeilDensityFunction::argument);
     public static KeyDispatchDataCodec<CeilDensityFunction> CODEC_HOLDER = KeyDispatchDataCodec.of(DATA_CODEC);
     
     public CeilDensityFunction(DensityFunction argument) {

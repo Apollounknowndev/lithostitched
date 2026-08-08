@@ -44,7 +44,7 @@ public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int prio
     @Override
     public void apply(RegistryAccess registries) {
         //? if neoforge
-        if (true) return;
+        //if (true) return;
         
         for (Holder<Biome> entry : this.biomes()) {
             this.applyModifier(entry.value());

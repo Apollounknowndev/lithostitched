@@ -2,16 +2,16 @@ package dev.worldgen.lithostitched.impl.worldgen.densityfunction;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.platform.LithostitchedVersion;
+import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import org.jetbrains.annotations.NotNull;
 
 public record MixDensityFunction(DensityFunction input, DensityFunction argument1, DensityFunction argument2) implements DensityFunction {
 	public static final MapCodec<MixDensityFunction> DATA_CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-		LithostitchedVersion.DF_CODEC.fieldOf("input").forGetter(MixDensityFunction::input),
-		LithostitchedVersion.DF_CODEC.fieldOf("argument1").forGetter(MixDensityFunction::argument1),
-		LithostitchedVersion.DF_CODEC.fieldOf("argument2").forGetter(MixDensityFunction::argument2)
+		LithostitchedCodecs.DF_BASE.fieldOf("input").forGetter(MixDensityFunction::input),
+		LithostitchedCodecs.DF_BASE.fieldOf("argument1").forGetter(MixDensityFunction::argument1),
+		LithostitchedCodecs.DF_BASE.fieldOf("argument2").forGetter(MixDensityFunction::argument2)
 	).apply(i, MixDensityFunction::new));
 	public static final KeyDispatchDataCodec<MixDensityFunction> CODEC = KeyDispatchDataCodec.of(DATA_CODEC);
 	

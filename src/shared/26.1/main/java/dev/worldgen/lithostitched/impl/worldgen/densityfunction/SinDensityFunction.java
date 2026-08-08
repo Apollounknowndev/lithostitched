@@ -6,7 +6,7 @@ import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
 
 public class SinDensityFunction extends TransformerDensityFunction {
-    public static final MapCodec<SinDensityFunction> DATA_CODEC = LithostitchedVersion.DF_CODEC.fieldOf("argument").xmap(SinDensityFunction::new, SinDensityFunction::argument);
+    public static final MapCodec<SinDensityFunction> DATA_CODEC = LithostitchedCodecs.DF_BASE.fieldOf("argument").xmap(SinDensityFunction::new, SinDensityFunction::argument);
     public static KeyDispatchDataCodec<SinDensityFunction> CODEC_HOLDER = KeyDispatchDataCodec.of(DATA_CODEC);
     
     public SinDensityFunction(DensityFunction argument) {

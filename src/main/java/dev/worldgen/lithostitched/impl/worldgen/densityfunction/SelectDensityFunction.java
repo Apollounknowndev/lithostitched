@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.platform.LithostitchedVersion;
+import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.util.KeyDispatchDataCodec;
@@ -15,8 +15,8 @@ import java.util.List;
 
 public record SelectDensityFunction(DensityFunction input, DensityFunction fallback, List<Selection> selections, double min, double max) implements DensityFunction {
 	public static final MapCodec<SelectDensityFunction> DATA_CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-		LithostitchedVersion.DF_CODEC.fieldOf("input").forGetter(SelectDensityFunction::input),
-		LithostitchedVersion.DF_CODEC.fieldOf("fallback").forGetter(SelectDensityFunction::fallback),
+		LithostitchedCodecs.DF_BASE.fieldOf("input").forGetter(SelectDensityFunction::input),
+		LithostitchedCodecs.DF_BASE.fieldOf("fallback").forGetter(SelectDensityFunction::fallback),
 		Selection.CODEC.listOf(1, Integer.MAX_VALUE).fieldOf("selections").forGetter(SelectDensityFunction::selections)
 	).apply(i, SelectDensityFunction::create));
 	public static final KeyDispatchDataCodec<SelectDensityFunction> CODEC = KeyDispatchDataCodec.of(DATA_CODEC);
@@ -71,7 +71,7 @@ public record SelectDensityFunction(DensityFunction input, DensityFunction fallb
 	public record Selection(InclusiveRange<Double> range, DensityFunction function) {
 		public static final Codec<Selection> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
 			LithostitchedCodecs.DOUBLE_RANGE.fieldOf("range").forGetter(Selection::range),
-			LithostitchedVersion.DF_CODEC.fieldOf("function").forGetter(Selection::function)
+			LithostitchedCodecs.DF_BASE.fieldOf("function").forGetter(Selection::function)
 		).apply(instance, Selection::new));
 		
 		public Selection mapChildren(Visitor visitor) {

@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.util.InjectionType;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.TransientMergedRule;
-import dev.worldgen.lithostitched.platform.LithostitchedVersion;
+import net.minecraft.util.valueproviders.IntProviders;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
 import dev.worldgen.lithostitched.mixin.common.NoiseBasedChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;

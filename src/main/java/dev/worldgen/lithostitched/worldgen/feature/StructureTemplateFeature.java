@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
 import dev.worldgen.lithostitched.Lithostitched;
-import dev.worldgen.lithostitched.platform.LithostitchedVersion;
+import net.minecraft.util.valueproviders.IntProviders;
 import dev.worldgen.lithostitched.worldgen.feature.config.StructureTemplateConfig;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
@@ -47,7 +47,7 @@ public class StructureTemplateFeature extends Feature<StructureTemplateConfig> {
             Identifier startName = config.startJigsawName().get();
             ObjectArrayList<StructureTemplate.StructureBlockInfo> jigsawBlocks = template.filterBlocks(origin, new StructurePlaceSettings().setRotation(rotation.getRotated(Rotation.CLOCKWISE_180)), Blocks.JIGSAW, true);
             for (StructureTemplate.StructureBlockInfo jigsaw : jigsawBlocks) {
-                Identifier jigsawName = Identifier.tryParse(LithostitchedVersion.getString(Objects.requireNonNull(jigsaw.nbt(), () -> jigsaw + " nbt was null"), "name"));
+                Identifier jigsawName = Identifier.tryParse(jigsaw.nbt().getStringOr("name", ""));
                 if (jigsawName == null || !jigsawName.equals(startName)) continue;
                 jigsawPos = jigsaw.pos();
                 break;

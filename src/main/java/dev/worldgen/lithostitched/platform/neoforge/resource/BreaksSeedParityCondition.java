@@ -1,5 +1,5 @@
 //? if neoforge {
-package dev.worldgen.lithostitched.platform.neoforge.resource;
+/*package dev.worldgen.lithostitched.platform.neoforge.resource;
 
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.Lithostitched;
@@ -17,4 +17,4 @@ public record BreaksSeedParityCondition() implements ICondition {
         return CODEC;
     }
 }
-//? }
+*///? }

@@ -1,5 +1,5 @@
 //? if neoforge {
-package dev.worldgen.lithostitched.platform.neoforge.worldgen;
+/*package dev.worldgen.lithostitched.platform.neoforge.worldgen;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -96,4 +96,4 @@ public class LithostitchedNeoforgeBiomeModifiers {
         }
     }
 }
-//? }
+*///? }

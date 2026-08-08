@@ -3,10 +3,11 @@ package dev.worldgen.lithostitched.api.worldgen.util;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.platform.LithostitchedVersion;
+import net.minecraft.util.valueproviders.IntProviders;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.MobCategory;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +25,7 @@ public record WeightedSpawnerData(EntityType<?> type, int weight, int minCount, 
 	});
 	
 	public WeightedSpawnerData {
-		type = type.getCategory() == MobCategory.MISC ? LithostitchedVersion.getStatic(BuiltInRegistries.ENTITY_TYPE, "pig") : type;
+		type = type.getCategory() == MobCategory.MISC ? EntityTypes.PIG : type;
 	}
 	
 	@NotNull

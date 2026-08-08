@@ -65,14 +65,14 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 import java.util.Map;
 
 //? if fabric {
-/*import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
-*///? } else {
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+//? } else {
+/*import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import dev.worldgen.lithostitched.platform.neoforge.LithostitchedRegistrations;
 import dev.worldgen.lithostitched.platform.neoforge.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
-//? }
+*///? }
 
 /**
  * All of Lithostitched's static registries.
@@ -89,11 +89,11 @@ public class LithostitchedBuiltInRegistries {
 	
 	private static <T> Registry<T> create(ResourceKey<Registry<T>> key) {
 		//? if fabric {
-		/*return FabricRegistryBuilder.create(key).buildAndRegister();
-		*///? } else {
-		DeferredRegister<T> register = LithostitchedRegistrations.createDeferredRegister(key);
+		return FabricRegistryBuilder.create(key).buildAndRegister();
+		//? } else {
+		/*DeferredRegister<T> register = LithostitchedRegistrations.createDeferredRegister(key);
 		return register.makeRegistry(b -> {});
-		//? }
+		*///? }
 	}
 	
 	/**
@@ -285,13 +285,13 @@ public class LithostitchedBuiltInRegistries {
 		));
 		
 		//? if neoforge {
-		LithostitchedRegistrar.register(NeoForgeRegistries.CONDITION_SERIALIZERS, Map.ofEntries(
+		/*LithostitchedRegistrar.register(NeoForgeRegistries.CONDITION_SERIALIZERS, Map.ofEntries(
 			Map.entry("breaks_seed_parity", BreaksSeedParityCondition.CODEC)
 		));
 		LithostitchedRegistrar.register(NeoForgeRegistries.BIOME_MODIFIER_SERIALIZERS, Map.ofEntries(
 			Map.entry("replace_climate", LithostitchedNeoforgeBiomeModifiers.ReplaceClimateBiomeModifier.CODEC),
 			Map.entry("replace_effects", LithostitchedNeoforgeBiomeModifiers.ReplaceEffectsBiomeModifier.CODEC)
 		));
-		//? }
+		*///? }
 	}
 }

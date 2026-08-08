@@ -24,7 +24,7 @@ public record ReplaceClimateModifier(Optional<LoadPredicate> predicate, int prio
     @Override
     public void apply(RegistryAccess registries) {
         //? if neoforge
-        if (true) return;
+        //if (true) return;
         
         Registry<Biome> registry = Lithostitched.registry(registries, Registries.BIOME);
         for (Holder<Biome> entry : this.biomes()) {

@@ -22,9 +22,9 @@ public abstract class BeardifierMixin {
             value = "INVOKE",
             target = "Ljava/util/List;add(Ljava/lang/Object;)Z",
             //? if fabric
-            //ordinal = 0
+            ordinal = 0
             //? if neoforge
-            ordinal = 1
+            //ordinal = 1
         )
     )
     private static boolean overrideTerrainAdaptation(List<Beardifier.Rigid> list, Object rigid, Operation<Boolean> operation, @Local(ordinal = 0) StructurePiece structurePiece) {
