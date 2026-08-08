@@ -23,5 +23,5 @@ deps.apollib = "1.1.4-fabric-26.2"
 
 [neoforge."26.2"]
 mod.mc_compat = "[26.2, 26.3)"
-deps.neo_loader = "26.2.0.6-beta"
+deps.neo_loader = "26.2.0.52-beta"
 deps.apollib = "1.1.4-neoforge-26.2"

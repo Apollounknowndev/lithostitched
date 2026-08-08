@@ -1,9 +1,9 @@
 plugins {
-    id("net.neoforged.moddev") version "2.0.140"
+    id("net.neoforged.moddev") version "2.0.143"
     id("neoforge-mutex")
 }
 
-version = "${property("mod.version")}-neoforge-${sc.current.project.substringBefore("-")}"
+version = "${property("mod.version")}-neoforge-26.2"
 base.archivesName = property("mod.id") as String
 
 val requiredJava = when {
