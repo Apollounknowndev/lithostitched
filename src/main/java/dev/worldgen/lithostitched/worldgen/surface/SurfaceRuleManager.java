@@ -4,11 +4,9 @@ import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.util.InjectionType;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.TransientMergedRule;
-import net.minecraft.util.valueproviders.IntProviders;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
-import dev.worldgen.lithostitched.mixin.common.NoiseBasedChunkGeneratorAccessor;
+import dev.worldgen.lithostitched.mixin.common.NoiseGeneratorSettingsAccessor;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
-import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
@@ -26,7 +24,6 @@ import java.util.*;
  * @author Apollo
 */
 public class SurfaceRuleManager {
-    @SuppressWarnings("deprecation")
     public static void applySurfaceRules(RegistryAccess registries, Registry<LevelStem> dimensions) {
 	    List<Map.Entry<Identifier, AddSurfaceRuleModifier>> surfaceRules = ModifierManager.getModifiersOfType(registries, AddSurfaceRuleModifier.CODEC);
         if (surfaceRules.isEmpty()) return;
@@ -44,21 +41,7 @@ public class SurfaceRuleManager {
             if (surfaceRulesForKey != null) {
                 if (!(entry.getValue().generator() instanceof NoiseBasedChunkGenerator generator)) continue;
                 NoiseGeneratorSettings settings = generator.generatorSettings().value();
-                SurfaceRules.RuleSource oldRules = settings.surfaceRule();
-                // Noise generator settings must be rebuilt due to Forge not allowing surface rules to be directly modified.
-                ((NoiseBasedChunkGeneratorAccessor)(Object)generator).setSettings(Holder.direct(new NoiseGeneratorSettings(
-                    settings.noiseSettings(),
-                    settings.defaultBlock(),
-                    settings.defaultFluid(),
-                    settings.noiseRouter(),
-                    buildModdedSurfaceRules(surfaceRulesForKey, oldRules),
-                    settings.spawnTarget(),
-                    settings.seaLevel(),
-                    settings.disableMobGeneration(),
-                    settings.isAquifersEnabled(),
-                    settings.oreVeinsEnabled(),
-                    settings.useLegacyRandomSource()
-                )));
+                ((NoiseGeneratorSettingsAccessor)(Object)settings).setSurfaceRule(buildModdedSurfaceRules(surfaceRulesForKey, settings.surfaceRule()));
 
                 Lithostitched.debug("Applied {} surface rule additions for '{}' dimension", surfaceRulesForKey.size(), location);
             }

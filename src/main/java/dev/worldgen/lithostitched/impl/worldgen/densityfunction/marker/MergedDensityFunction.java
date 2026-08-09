@@ -1,6 +1,7 @@
 package dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker;
 
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
+import net.minecraft.core.Holder;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.DensityFunctions;
@@ -12,7 +13,7 @@ import net.minecraft.world.level.levelgen.DensityFunctions;
 public record MergedDensityFunction(DensityFunction original, DensityFunction wrapped, DensityFunction full) implements DensityFunction {
     public static final KeyDispatchDataCodec<DensityFunction> CODEC = KeyDispatchDataCodec.of(
         LithostitchedCodecs.DF_BASE.xmap(
-            df -> df instanceof DensityFunctions.HolderHolder hh ? hh.function().value() : df,
+            df -> df instanceof DensityFunctions.HolderHolder(Holder<DensityFunction> holder) ? holder.value() : df,
             MergedDensityFunction::unwrappedOriginal
         ).fieldOf("original")
     );

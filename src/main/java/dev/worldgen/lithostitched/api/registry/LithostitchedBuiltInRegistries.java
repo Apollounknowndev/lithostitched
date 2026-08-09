@@ -41,6 +41,7 @@ import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetBiomeAttributes
 import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetDimensionAttributesModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetTimelineTracksModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.internal.CompileRawTemplatesModifier;
+import dev.worldgen.lithostitched.worldgen.modifier.internal.RereferenceNoiseSettingsModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
 import dev.worldgen.lithostitched.worldgen.placementcondition.*;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.ConditionPlacement;
@@ -124,6 +125,7 @@ public class LithostitchedBuiltInRegistries {
 		));
 		LithostitchedRegistrar.register(LithostitchedBuiltInRegistries.MODIFIER_TYPE, Map.ofEntries(
 			Map.entry("internal/compile_raw_templates", CompileRawTemplatesModifier.CODEC),
+			Map.entry("internal/rereference_noise_settings", RereferenceNoiseSettingsModifier.CODEC),
 			Map.entry("add_biome_spawns", AddBiomeSpawnsModifier.CODEC),
 			Map.entry("add_features", AddFeaturesModifier.CODEC),
 			Map.entry("add_processor_list_processors", AddProcessorListProcessorsModifier.CODEC),
