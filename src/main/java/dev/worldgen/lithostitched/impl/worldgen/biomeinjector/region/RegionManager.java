@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region;
 
-import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
 import net.minecraft.core.Holder;

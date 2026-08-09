@@ -1,10 +1,9 @@
 package dev.worldgen.lithostitched.mixin.common.bandlands;
 
-import dev.worldgen.lithostitched.duck.SurfaceSystemAccessor;
+import dev.worldgen.lithostitched.impl.duck.SurfaceSystemAccessor;
 import net.minecraft.world.level.levelgen.PositionalRandomFactory;
 import net.minecraft.world.level.levelgen.SurfaceSystem;
 import net.minecraft.world.level.levelgen.synth.Noise;
-import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

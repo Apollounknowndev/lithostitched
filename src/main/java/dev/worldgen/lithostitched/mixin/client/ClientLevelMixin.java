@@ -1,11 +1,11 @@
 package dev.worldgen.lithostitched.mixin.client;
 
-import dev.worldgen.lithostitched.duck.StructureAttributesHolder;
+import dev.worldgen.lithostitched.impl.duck.StructureAttributesHolder;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.attribute.EnvironmentAttributeMap;
 import org.spongepowered.asm.mixin.Mixin;
 
-import static dev.worldgen.lithostitched.worldgen.structure.StructureAttributeHandler.STRUCTURE_ATTRIBUTE_LERP;
+import static dev.worldgen.lithostitched.impl.worldgen.structure.StructureAttributeHandler.STRUCTURE_ATTRIBUTE_LERP;
 
 @Mixin(ClientLevel.class)
 public class ClientLevelMixin implements StructureAttributesHolder {

@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.mixin.common.bandlands;
 
-import dev.worldgen.lithostitched.duck.SurfaceSystemAccessor;
+import dev.worldgen.lithostitched.impl.duck.SurfaceSystemAccessor;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.impl.worldgen.bandlands.Bandlands;
 import net.minecraft.core.HolderLookup;

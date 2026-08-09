@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.api.worldgen.placementcondition;
 
 import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
-import dev.worldgen.lithostitched.worldgen.placementcondition.*;
+import dev.worldgen.lithostitched.impl.worldgen.placementcondition.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;

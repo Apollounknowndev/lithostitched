@@ -5,18 +5,13 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.8.0+beta1"
+MOD_VERSION = "2.0.0+beta1"
 CHANGELOG = """
-- Introduced an optimization to density function caching. This will be most noticeable when playing with heavy worldgen packs like Tectonic or Lithosphere.
-    - A special thank you to Unnecessarymb and Evanbones for finding and implementing this optimization, respectively.
-- Fixed the fields on the `offset` placement modifier being non-optional.
-- Fixed the `dungeon` feature type not working.
 
-This update also restructures the mod's backend, hence the minor version bump. While this *shouldn't* result in any breakages, this version is marked as a beta just in case.
 """
 UPLOAD_VERSIONS = [
-    ("fabric", "26.2"),
-    ("neoforge", "26.2"),
+    ("fabric", "26.3"),
+    #("neoforge", "26.3"),
 ]
 
 DEPENDENCIES = []
@@ -37,7 +32,8 @@ if not MODRINTH_TOKEN:
 MODRINTH_GAME_VERSIONS = {
     "21.1": ["1.21.1"],
     "26.1": ["26.1", "26.1.1", "26.1.2"],
-    "26.2": ["26.2"]
+    "26.2": ["26.2"],
+    "26.3": ["26.3-snapshot-7"],
 }
 
 CURSEFORGE_TOKEN = os.getenv('TOKEN_CF')
@@ -174,6 +170,6 @@ for modloader, game_version in UPLOAD_VERSIONS:
         continue
 
     upload_modrinth(modloader, game_version, mod_path, dependencies)
-    upload_curseforge(modloader, game_version, mod_path, dependencies)
+    #upload_curseforge(modloader, game_version, mod_path, dependencies)
 
 input("Press any key to close")

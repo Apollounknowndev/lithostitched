@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.mixin.common.processor;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.impl.worldgen.processor.UnboundReferenceProcessor;
 import net.minecraft.world.level.levelgen.structure.structures.IglooPieces;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;

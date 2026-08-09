@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.mixin.client;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.worldgen.lithostitched.duck.StructureAttributesHolder;
+import dev.worldgen.lithostitched.impl.duck.StructureAttributesHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.MusicManager;
 import org.spongepowered.asm.mixin.Mixin;

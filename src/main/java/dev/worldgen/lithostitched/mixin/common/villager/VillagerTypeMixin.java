@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.mixin.common.villager;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.api.tag.LithostitchedBiomeTags;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;

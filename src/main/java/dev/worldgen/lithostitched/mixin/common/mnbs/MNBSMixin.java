@@ -2,10 +2,9 @@ package dev.worldgen.lithostitched.mixin.common.mnbs;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.Lithostitched;
-import dev.worldgen.lithostitched.duck.mnbs.MNBSDuck;
-import dev.worldgen.lithostitched.duck.mnbs.MNBSPLDuck;
-import dev.worldgen.lithostitched.util.CodecExtender;
+import dev.worldgen.lithostitched.impl.duck.mnbs.MNBSDuck;
+import dev.worldgen.lithostitched.impl.duck.mnbs.MNBSPLDuck;
+import dev.worldgen.lithostitched.impl.util.CodecExtender;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.RegistryOps;

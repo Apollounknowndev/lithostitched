@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.api.worldgen.poolelement;
 
-import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
+import dev.worldgen.lithostitched.impl.worldgen.poolelement.DelegatingPoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 
 import java.util.Optional;

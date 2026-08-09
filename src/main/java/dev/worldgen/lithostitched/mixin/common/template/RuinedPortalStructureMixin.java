@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.mixin.common.template;
 
-import dev.worldgen.lithostitched.Lithostitched;
-import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateLists;
+import dev.worldgen.lithostitched.impl.Lithostitched;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.template.TemplateLists;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.structures.RuinedPortalStructure;

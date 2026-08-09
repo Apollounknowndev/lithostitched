@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.impl.worldgen.surface.rule;
 
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
-import dev.worldgen.lithostitched.duck.ContextAccessor;
+import dev.worldgen.lithostitched.impl.duck.ContextAccessor;
 import dev.worldgen.lithostitched.impl.worldgen.bandlands.Bandlands;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.codec.RegistryCodecs;

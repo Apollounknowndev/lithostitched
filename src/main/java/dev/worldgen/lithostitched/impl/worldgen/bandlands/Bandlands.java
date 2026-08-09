@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.impl.worldgen.bandlands;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.duck.SurfaceSystemAccessor;
+import dev.worldgen.lithostitched.impl.duck.SurfaceSystemAccessor;
 import dev.worldgen.lithostitched.api.worldgen.bandlands.Band;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;

@@ -1,12 +1,10 @@
 package dev.worldgen.lithostitched.api.worldgen.blockpredicate;
 
-import dev.worldgen.lithostitched.worldgen.blockpredicate.*;
+import dev.worldgen.lithostitched.impl.worldgen.blockpredicate.*;
 import dev.worldgen.lithostitched.api.util.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.InclusiveRange;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.structure.Structure;
 

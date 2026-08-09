@@ -2,8 +2,8 @@ package dev.worldgen.lithostitched.impl.worldgen.surface.condition;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.duck.ContextAccessor;
-import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
+import dev.worldgen.lithostitched.impl.duck.ContextAccessor;
+import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;

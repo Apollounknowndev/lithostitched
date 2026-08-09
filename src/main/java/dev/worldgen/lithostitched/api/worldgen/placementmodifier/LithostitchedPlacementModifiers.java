@@ -1,8 +1,8 @@
 package dev.worldgen.lithostitched.api.worldgen.placementmodifier;
 
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
-import dev.worldgen.lithostitched.worldgen.placementmodifier.ConditionPlacement;
-import dev.worldgen.lithostitched.worldgen.placementmodifier.NoiseSlopePlacement;
+import dev.worldgen.lithostitched.impl.worldgen.placementmodifier.ConditionPlacement;
+import dev.worldgen.lithostitched.impl.worldgen.placementmodifier.NoiseSlopePlacement;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;

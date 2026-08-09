@@ -2,8 +2,8 @@ package dev.worldgen.lithostitched.mixin.common;
 
 import com.mojang.datafixers.util.Either;
 import dev.worldgen.lithostitched.api.worldgen.structure.MaxDistanceFromCenter;
-import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawConfig;
-import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
+import dev.worldgen.lithostitched.impl.worldgen.structure.AlternateJigsawConfig;
+import dev.worldgen.lithostitched.impl.worldgen.structure.AlternateJigsawStructure;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;

@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.api.worldgen.processor;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.api.worldgen.processor.enums.RandomMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;

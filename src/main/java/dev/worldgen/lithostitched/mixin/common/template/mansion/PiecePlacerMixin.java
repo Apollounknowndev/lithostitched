@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.mixin.common.template.mansion;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.worldgen.lithostitched.duck.RegistryHolder;
+import dev.worldgen.lithostitched.impl.duck.RegistryHolder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces;
 import org.spongepowered.asm.mixin.Mixin;

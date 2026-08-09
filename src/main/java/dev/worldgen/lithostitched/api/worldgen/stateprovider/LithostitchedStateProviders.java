@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.api.worldgen.stateprovider;
 
 import net.minecraft.util.random.WeightedList;
-import dev.worldgen.lithostitched.worldgen.stateprovider.WeightedProvider;
+import dev.worldgen.lithostitched.impl.worldgen.stateprovider.WeightedProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 public interface LithostitchedStateProviders {

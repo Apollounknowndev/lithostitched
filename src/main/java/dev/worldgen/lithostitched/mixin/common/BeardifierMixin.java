@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.mixin.common;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
+import dev.worldgen.lithostitched.impl.worldgen.poolelement.DelegatingPoolElement;
 import net.minecraft.world.level.levelgen.Beardifier;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;

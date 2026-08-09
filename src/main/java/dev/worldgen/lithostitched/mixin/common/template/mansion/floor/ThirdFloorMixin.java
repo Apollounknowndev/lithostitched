@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.mixin.common.template.mansion.floor;
 
-import dev.worldgen.lithostitched.duck.MansionRoomDuck;
+import dev.worldgen.lithostitched.impl.duck.MansionRoomDuck;
 import net.minecraft.world.level.levelgen.structure.structures.WoodlandMansionPieces;
 import org.spongepowered.asm.mixin.Mixin;
 

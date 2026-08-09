@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.mixin.client;
 
-import dev.worldgen.lithostitched.duck.StructureAttributesHolder;
+import dev.worldgen.lithostitched.impl.duck.StructureAttributesHolder;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static dev.worldgen.lithostitched.worldgen.structure.StructureAttributeHandler.STRUCTURE_ATTRIBUTE_LERP;
+import static dev.worldgen.lithostitched.impl.worldgen.structure.StructureAttributeHandler.STRUCTURE_ATTRIBUTE_LERP;
 
 @Mixin(EnvironmentAttributeSystem.class)
 public class EnvironmentAttributeSystemMixin {

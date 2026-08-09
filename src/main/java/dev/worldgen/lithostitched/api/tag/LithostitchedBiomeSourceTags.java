@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.api.tag;
 
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.impl.Lithostitched;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.BiomeSource;

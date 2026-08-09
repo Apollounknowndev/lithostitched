@@ -1,11 +1,11 @@
 package dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal;
 
-import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.api.event.AddBiomeInjectorsEvent;
 import dev.worldgen.lithostitched.api.event.AddRegionsEvent;
 import dev.worldgen.lithostitched.api.tag.LithostitchedBiomeSourceTags;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
-import dev.worldgen.lithostitched.platform.LithostitchedPlatform;
+import dev.worldgen.lithostitched.impl.platform.LithostitchedPlatform;
 import dev.worldgen.lithostitched.mixin.common.BiomeSourceInvoker;
 import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
 import dev.worldgen.lithostitched.mixin.common.RandomStateAccessor;

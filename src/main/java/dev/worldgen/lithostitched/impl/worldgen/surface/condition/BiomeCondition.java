@@ -2,9 +2,8 @@ package dev.worldgen.lithostitched.impl.worldgen.surface.condition;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.duck.ContextAccessor;
-import dev.worldgen.lithostitched.duck.ContextBiomeAccessor;
-import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
+import dev.worldgen.lithostitched.impl.duck.ContextBiomeAccessor;
+import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.biome.Biome;

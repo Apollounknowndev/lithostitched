@@ -1,8 +1,8 @@
 package dev.worldgen.lithostitched.mixin.common.template.mansion;
 
 import com.google.common.collect.Lists;
-import dev.worldgen.lithostitched.Lithostitched;
-import dev.worldgen.lithostitched.duck.RegistryHolder;
+import dev.worldgen.lithostitched.impl.Lithostitched;
+import dev.worldgen.lithostitched.impl.duck.RegistryHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.structure.Structure;

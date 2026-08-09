@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.mixin.common.processor;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.worldgen.lithostitched.duck.ReferencePosDuck;
+import dev.worldgen.lithostitched.impl.duck.ReferencePosDuck;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;

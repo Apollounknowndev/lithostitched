@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.api.worldgen.processor;
 
-import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.impl.Lithostitched;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;

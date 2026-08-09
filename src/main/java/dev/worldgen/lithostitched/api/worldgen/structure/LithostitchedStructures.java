@@ -2,10 +2,10 @@ package dev.worldgen.lithostitched.api.worldgen.structure;
 
 import com.mojang.datafixers.util.Either;
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
-import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawConfig;
-import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
-import dev.worldgen.lithostitched.worldgen.structure.DelegatingConfig;
-import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
+import dev.worldgen.lithostitched.impl.worldgen.structure.AlternateJigsawConfig;
+import dev.worldgen.lithostitched.impl.worldgen.structure.AlternateJigsawStructure;
+import dev.worldgen.lithostitched.impl.worldgen.structure.DelegatingConfig;
+import dev.worldgen.lithostitched.impl.worldgen.structure.DelegatingStructure;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.valueproviders.IntProvider;

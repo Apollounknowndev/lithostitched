@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.api.registry;
 
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.impl.worldgen.bandlands.Bandlands;
@@ -9,7 +9,7 @@ import dev.worldgen.lithostitched.api.worldgen.bandlands.Band;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise.FastNoiseConfig;
-import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.template.TemplateList;
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
 import net.minecraft.core.Registry;

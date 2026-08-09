@@ -1,8 +1,8 @@
 package dev.worldgen.lithostitched.api.worldgen.poolelement;
 
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
-import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingConfig;
-import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingElementBuilderImpl;
+import dev.worldgen.lithostitched.impl.worldgen.poolelement.DelegatingConfig;
+import dev.worldgen.lithostitched.impl.worldgen.poolelement.DelegatingElementBuilderImpl;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.levelgen.Heightmap;

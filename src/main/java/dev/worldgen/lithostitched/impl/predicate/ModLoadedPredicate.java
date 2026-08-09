@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
-import dev.worldgen.lithostitched.platform.LithostitchedPlatform;
+import dev.worldgen.lithostitched.impl.platform.LithostitchedPlatform;
 
 public record ModLoadedPredicate(String modId) implements LoadPredicate {
 	public static final MapCodec<ModLoadedPredicate> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(

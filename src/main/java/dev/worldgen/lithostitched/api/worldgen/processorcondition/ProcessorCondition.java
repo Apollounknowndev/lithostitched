@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.api.worldgen.processorcondition;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
-import dev.worldgen.lithostitched.worldgen.processor.condition.AllOf;
+import dev.worldgen.lithostitched.impl.worldgen.processor.condition.AllOf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;

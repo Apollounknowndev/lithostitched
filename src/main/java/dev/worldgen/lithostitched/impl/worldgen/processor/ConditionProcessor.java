@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.processor.RandomSettings;
 import dev.worldgen.lithostitched.api.worldgen.processor.enums.RandomMode;
 import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
-import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
+import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;

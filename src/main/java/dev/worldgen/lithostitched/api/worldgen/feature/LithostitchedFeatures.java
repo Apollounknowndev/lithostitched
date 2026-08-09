@@ -1,9 +1,9 @@
 package dev.worldgen.lithostitched.api.worldgen.feature;
 
 import com.mojang.datafixers.util.Pair;
+import dev.worldgen.lithostitched.impl.worldgen.feature.*;
 import net.minecraft.util.random.WeightedList;
-import dev.worldgen.lithostitched.worldgen.feature.*;
-import dev.worldgen.lithostitched.worldgen.feature.CompositeFeature.Type;
+import dev.worldgen.lithostitched.impl.worldgen.feature.CompositeFeature.Type;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.resources.Identifier;

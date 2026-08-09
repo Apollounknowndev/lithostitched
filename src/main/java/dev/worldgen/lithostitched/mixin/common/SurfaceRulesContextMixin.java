@@ -1,22 +1,11 @@
 package dev.worldgen.lithostitched.mixin.common;
 
-import dev.worldgen.lithostitched.duck.ContextAccessor;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.world.level.biome.Biome;
+import dev.worldgen.lithostitched.impl.duck.ContextAccessor;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.*;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.Arrays;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 @Mixin(SurfaceRules.Context.class)
 public class SurfaceRulesContextMixin implements ContextAccessor {

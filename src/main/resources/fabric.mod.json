@@ -16,10 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "dev.worldgen.lithostitched.platform.fabric.LithostitchedFabric"
+      "dev.worldgen.lithostitched.impl.platform.fabric.LithostitchedFabric"
     ],
     "client": [
-      "dev.worldgen.lithostitched.platform.fabric.LithostitchedFabricClient"
+      "dev.worldgen.lithostitched.impl.platform.fabric.LithostitchedFabricClient"
     ]
   },
   "mixins": [

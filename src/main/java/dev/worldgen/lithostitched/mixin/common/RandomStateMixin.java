@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.mixin.common;
 
-import dev.worldgen.lithostitched.duck.SeedAccessor;
+import dev.worldgen.lithostitched.impl.duck.SeedAccessor;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.*;

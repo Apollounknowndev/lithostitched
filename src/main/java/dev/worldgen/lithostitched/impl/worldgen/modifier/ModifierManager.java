@@ -1,10 +1,10 @@
 package dev.worldgen.lithostitched.impl.worldgen.modifier;
 
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.api.event.AddWorldgenModifiersEvent;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
-import dev.worldgen.lithostitched.platform.LithostitchedPlatform;
+import dev.worldgen.lithostitched.impl.platform.LithostitchedPlatform;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.mixin.common.ChunkGeneratorAccessor;
 import net.minecraft.core.Registry;

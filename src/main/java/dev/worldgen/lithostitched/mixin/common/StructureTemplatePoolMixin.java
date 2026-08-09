@@ -1,8 +1,8 @@
 package dev.worldgen.lithostitched.mixin.common;
 
 import com.mojang.datafixers.util.Pair;
-import dev.worldgen.lithostitched.duck.StructurePoolAccess;
-import dev.worldgen.lithostitched.worldgen.structure.LithostitchedTemplates;
+import dev.worldgen.lithostitched.impl.duck.StructurePoolAccess;
+import dev.worldgen.lithostitched.impl.worldgen.structure.LithostitchedTemplates;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import org.spongepowered.asm.mixin.Final;
