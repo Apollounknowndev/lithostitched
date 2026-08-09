@@ -34,7 +34,7 @@ public record DispatchAlternateLayout(Optional<LoadPredicate> predicate, Resourc
 		this.parameters.mapAll(noiseHelper);
 	}
 	
-	public boolean matches(DensityFunction.FunctionContext context, Climate.TargetPoint point, HashMap<DensityFunction, Double> densities, ResourceKey<Region> currentRegion) {
+	public boolean matches(DensityFunction.FunctionContext context, Climate.TargetPoint point, HashMap<DensityFunction, Float> densities, ResourceKey<Region> currentRegion) {
 		return this.parameters.matches(context, point, densities, currentRegion);
 	}
 	

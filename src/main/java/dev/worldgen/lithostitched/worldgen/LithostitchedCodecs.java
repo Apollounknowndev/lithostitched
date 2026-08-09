@@ -3,18 +3,16 @@ package dev.worldgen.lithostitched.worldgen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.api.util.WeightedList;
+import net.minecraft.core.registries.codec.RegistryCodecs;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.DensityFunction;
-import net.minecraft.world.level.levelgen.DensityFunctions;
 
 import java.util.List;
 
@@ -23,7 +21,7 @@ import java.util.List;
  * @author Apollo
  */
 public interface LithostitchedCodecs {
-    Codec<HolderSet<Block>> BLOCK_SET = RegistryCodecs.homogeneousList(Registries.BLOCK);
+    Codec<HolderSet<Block>> BLOCK_SET = RegistryCodecs.holderSet(Registries.BLOCK);
     MapCodec<Float> CHANCE = Codec.floatRange(0.0F, 1.0F).fieldOf("chance");
     Codec<InclusiveRange<Integer>> INT_RANGE = Codec.withAlternative(
         InclusiveRange.INT,
@@ -39,11 +37,18 @@ public interface LithostitchedCodecs {
             Codec.DOUBLE.fieldOf("max_inclusive").orElse(Double.MAX_VALUE).forGetter(InclusiveRange::maxInclusive)
         ).apply(instance, InclusiveRange::new))
     );
+    Codec<InclusiveRange<Float>> FLOAT_RANGE = Codec.withAlternative(
+        InclusiveRange.codec(Codec.FLOAT),
+        RecordCodecBuilder.create(instance -> instance.group(
+            Codec.FLOAT.fieldOf("min_inclusive").orElse(-Float.MAX_VALUE).forGetter(InclusiveRange::minInclusive),
+            Codec.FLOAT.fieldOf("max_inclusive").orElse(Float.MAX_VALUE).forGetter(InclusiveRange::maxInclusive)
+        ).apply(instance, InclusiveRange::new))
+    );
     Codec<DensityFunction> DF_BASE = DensityFunction.CODEC;
-    Codec<Holder<DensityFunction>> DF_REFERENCE = RegistryFileCodec.create(Registries.DENSITY_FUNCTION, DensityFunctions.DIRECT_CODEC);
+    Codec<Holder<DensityFunction>> DF_REFERENCE = RegistryCodecs.holder(Registries.DENSITY_FUNCTION);
 
     static <T> MapCodec<HolderSet<T>> registrySet(ResourceKey<Registry<T>> key, String name) {
-        return RegistryCodecs.homogeneousList(key).fieldOf(name);
+        return RegistryCodecs.holderSet(key).fieldOf(name);
     }
 
     static <T> Codec<List<T>> compactList(Codec<T> codec) {

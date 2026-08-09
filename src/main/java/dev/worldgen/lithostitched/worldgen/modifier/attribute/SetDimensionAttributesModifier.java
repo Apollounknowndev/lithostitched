@@ -10,7 +10,7 @@ import dev.worldgen.lithostitched.mixin.common.DimensionTypeAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.attribute.EnvironmentAttributeMap;
 import net.minecraft.world.level.dimension.DimensionType;
@@ -21,7 +21,7 @@ public record SetDimensionAttributesModifier(Optional<LoadPredicate> predicate, 
     public static final MapCodec<SetDimensionAttributesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetDimensionAttributesModifier::priority),
-        RegistryCodecs.homogeneousList(Registries.DIMENSION_TYPE).fieldOf("dimension_types").forGetter(SetDimensionAttributesModifier::dimensionTypes),
+        RegistryCodecs.holderSet(Registries.DIMENSION_TYPE).fieldOf("dimension_types").forGetter(SetDimensionAttributesModifier::dimensionTypes),
         EnvironmentAttributeMap.CODEC.fieldOf("attributes").forGetter(SetDimensionAttributesModifier::attributes),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetDimensionAttributesModifier::append)
     ).apply(instance, SetDimensionAttributesModifier::new));

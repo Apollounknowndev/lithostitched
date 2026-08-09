@@ -50,7 +50,7 @@ public class BiomeInjectorManager {
 			ChunkGenerator generator = entry.getValue().generator();
 			if (!(generator instanceof NoiseBasedChunkGenerator noiseGenerator)) continue;
 			
-			RandomState randomState = RandomState.create(noiseGenerator.generatorSettings().value(), registries.lookupOrThrow(Registries.NOISE), seed);
+			RandomState randomState = RandomState.create(registries.lookupOrThrow(Registries.NOISE), seed, noiseGenerator.generatorSettings().value());
 			DensityFunctionWrapper noiseHelper = new DensityFunctionWrapper(
 				seed,
 				noiseGenerator.generatorSettings().value().useLegacyRandomSource(),

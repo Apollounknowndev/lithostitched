@@ -50,9 +50,11 @@ public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int prio
             this.applyModifier(entry.value());
         }
     }
-
+    
+    // TODO: Rewrite this
     public void applyModifier(Biome biome) {
-        MobSpawnSettings biomeMobSettings = biome.getMobSettings();
+        throw new IllegalStateException("Biome spawning modifiers have not been reimplemented yet. Please return later.");
+        /*MobSpawnSettings biomeMobSettings = biome.getMobSettings();
         HashMap<MobCategory, WeightedList<MobSpawnSettings.SpawnerData>> spawners = new HashMap<>(((MobSpawnSettingsAccessor)biomeMobSettings).getSpawners());
         for (WeightedSpawnerData spawner : this.biomeSpawns()) {
             MobCategory category = spawner.type().getCategory();
@@ -61,7 +63,7 @@ public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int prio
             spawners.put(category, WeightedList.of(categorySpawnList));
         }
         ((MobSpawnSettingsAccessor)biomeMobSettings).setSpawners(spawners);
-        ((BiomeAccessor)(Object)biome).setMobSettings(biomeMobSettings);
+        ((BiomeAccessor)(Object)biome).setMobSettings(biomeMobSettings);*/
     }
 
     @Override

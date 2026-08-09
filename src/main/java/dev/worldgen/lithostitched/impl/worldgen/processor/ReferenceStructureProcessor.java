@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.levelgen.structure.templatesystem.*;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public record ReferenceStructureProcessor(HolderSet<StructureProcessorList> processorLists) implements StructureProcessor {
     public static final MapCodec<ReferenceStructureProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        RegistryCodecs.homogeneousList(Registries.PROCESSOR_LIST, StructureProcessorType.DIRECT_CODEC).fieldOf("processor_lists").forGetter(ReferenceStructureProcessor::processorLists)
+        RegistryCodecs.holderSet(Registries.PROCESSOR_LIST, StructureProcessorType.DIRECT_CODEC).fieldOf("processor_lists").forGetter(ReferenceStructureProcessor::processorLists)
     ).apply(instance, ReferenceStructureProcessor::new));
     
     @Override

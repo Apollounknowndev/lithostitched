@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.mixin.common;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.NoiseRouter;
 import net.minecraft.world.level.levelgen.SurfaceRules;
@@ -13,7 +14,7 @@ public interface NoiseGeneratorSettingsAccessor {
     @Mutable
     void setNoiseRouter(NoiseRouter noiseRouter);
     
-    @Accessor("surfaceRule")
+    @Accessor("materialRule")
     @Mutable
-    void setSurfaceRule(SurfaceRules.RuleSource surfaceRule);
+    void setSurfaceRule(Holder<SurfaceRules.RuleSource> materialRule);
 }

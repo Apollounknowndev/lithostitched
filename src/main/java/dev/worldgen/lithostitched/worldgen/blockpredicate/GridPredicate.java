@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.InclusiveRange;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicateType;
@@ -24,7 +25,7 @@ public record GridPredicate(int radius, int distBetweenPoints, BlockPredicate pr
     public static final BlockPredicateType<GridPredicate> TYPE = () -> CODEC;
 
     @Override
-    public boolean test(WorldGenLevel level, BlockPos origin) {
+    public boolean test(LevelAccessor level, BlockPos origin) {
         int count = 0;
         
         BlockPos.MutableBlockPos pos = origin.mutable();

@@ -1,14 +1,15 @@
 package dev.worldgen.lithostitched.api.util;
 
+import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.random.WeightedList;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public class WeightedHolderSet<E> {
 	private final Either<HolderSet<E>, WeightedList<Holder<E>>> set;
@@ -25,7 +26,7 @@ public class WeightedHolderSet<E> {
 	private WeightedHolderSet(Either<HolderSet<E>, WeightedList<Holder<E>>> set) {
 		this.set = set;
 		this.weightedList = Suppliers.memoize(() -> set.map(
-			holders -> WeightedList.of(holders.stream().map(Weighted::new).toList()),
+			holders -> WeightedList.of(holders.stream().<Holder<E>>toArray(Holder[]::new)),
 			t -> t
 		));
 	}

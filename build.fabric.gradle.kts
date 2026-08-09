@@ -4,7 +4,7 @@ plugins {
 }
 
 // DO NOT set group = ...!
-version = "${property("mod.version")}-fabric-26.2"
+version = "${property("mod.version")}-fabric-26.3"
 base.archivesName = property("mod.id") as String
 
 val requiredJava: JavaVersion = when {

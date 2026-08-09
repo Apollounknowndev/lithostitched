@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.worldgen.blockentitymodifier;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.api.util.WeightedList;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockentity.RuleBlockEntityModifier;

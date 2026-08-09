@@ -34,7 +34,7 @@ public record ReplacePartially(Optional<LoadPredicate> predicate, ResourceKey<Le
 		this.parameters.mapAll(noiseHelper);
 	}
 	
-	public boolean matches(DensityFunction.FunctionContext context, Climate.TargetPoint point, HashMap<DensityFunction, Double> densities, Holder<Biome> biome, ResourceKey<Region> currentRegion) {
+	public boolean matches(DensityFunction.FunctionContext context, Climate.TargetPoint point, HashMap<DensityFunction, Float> densities, Holder<Biome> biome, ResourceKey<Region> currentRegion) {
 		if (!this.targets().contains(biome)) return false;
 		return this.parameters.matches(context, point, densities, currentRegion);
 	}

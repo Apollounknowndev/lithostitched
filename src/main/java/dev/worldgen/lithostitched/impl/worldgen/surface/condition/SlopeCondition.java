@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.duck.ContextAccessor;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.util.InclusiveRange;
-import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.SurfaceRules;

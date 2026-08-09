@@ -22,14 +22,6 @@ public interface LithostitchedBlockPredicates {
 		return new BlockStatePredicate(offset, predicate);
 	}
 	
-	static BlockPredicate matchingBiome(Holder<Biome> biome) {
-		return new MatchingBiomesPredicate(HolderSet.direct(biome));
-	}
-	
-	static BlockPredicate matchingBiome(HolderSet<Biome> biomes) {
-		return new MatchingBiomesPredicate(biomes);
-	}
-	
 	static BlockPredicate inStructure(int searchRange) {
 		return new InStructurePredicate(Optional.empty(), new InStructurePredicate.SearchRange(searchRange));
 	}

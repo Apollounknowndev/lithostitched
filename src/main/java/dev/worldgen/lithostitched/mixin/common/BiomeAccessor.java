@@ -30,13 +30,7 @@ public interface BiomeAccessor {
     @Mutable
     void setGenerationSettings(BiomeGenerationSettings generationSettings);
 
-    @Accessor("mobSettings")
-    @Mutable
-    void setMobSettings(MobSpawnSettings mobSettings);
-    
-    //? if >= 26.1 {
     @Accessor("attributes")
     @Mutable
     void setAttributes(EnvironmentAttributeMap map);
-    //? }
 }

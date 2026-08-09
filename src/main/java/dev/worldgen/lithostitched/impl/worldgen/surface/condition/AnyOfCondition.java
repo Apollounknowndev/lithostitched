@@ -2,7 +2,6 @@ package dev.worldgen.lithostitched.impl.worldgen.surface.condition;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
 import java.util.List;

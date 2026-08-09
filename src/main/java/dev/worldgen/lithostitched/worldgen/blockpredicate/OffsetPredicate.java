@@ -6,6 +6,7 @@ import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicateType;
@@ -18,7 +19,7 @@ public record OffsetPredicate(BlockPredicate predicate, Vec3i offset) implements
     public static final BlockPredicateType<OffsetPredicate> TYPE = () -> CODEC;
 
     @Override
-    public boolean test(WorldGenLevel level, BlockPos pos) {
+    public boolean test(LevelAccessor level, BlockPos pos) {
         return this.predicate.test(level, pos.offset(this.offset));
     }
 

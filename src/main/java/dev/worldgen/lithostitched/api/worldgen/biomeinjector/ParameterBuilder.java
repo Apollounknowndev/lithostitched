@@ -16,15 +16,15 @@ public interface ParameterBuilder {
 		return new ParameterBuilderImpl();
 	}
 	
-	ParameterBuilder densityFunctionExactly(Holder<DensityFunction> densityFunction, double value);
-	ParameterBuilder densityFunctionMin(Holder<DensityFunction> densityFunction, double min);
-	ParameterBuilder densityFunctionMax(Holder<DensityFunction> densityFunction, double max);
-	ParameterBuilder densityFunctionRange(Holder<DensityFunction> densityFunction, double min, double max);
+	ParameterBuilder densityFunctionExactly(Holder<DensityFunction> densityFunction, float value);
+	ParameterBuilder densityFunctionMin(Holder<DensityFunction> densityFunction, float min);
+	ParameterBuilder densityFunctionMax(Holder<DensityFunction> densityFunction, float max);
+	ParameterBuilder densityFunctionRange(Holder<DensityFunction> densityFunction, float min, float max);
 	
-	ParameterBuilder climateExactly(BiomeInjector.ClimateParameter climate, double value);
-	ParameterBuilder climateMin(BiomeInjector.ClimateParameter climate, double min);
-	ParameterBuilder climateMax(BiomeInjector.ClimateParameter climate, double max);
-	ParameterBuilder climateRange(BiomeInjector.ClimateParameter climate, double min, double max);
+	ParameterBuilder climateExactly(BiomeInjector.ClimateParameter climate, float value);
+	ParameterBuilder climateMin(BiomeInjector.ClimateParameter climate, float min);
+	ParameterBuilder climateMax(BiomeInjector.ClimateParameter climate, float max);
+	ParameterBuilder climateRange(BiomeInjector.ClimateParameter climate, float min, float max);
 	
 	ParameterBuilder region(ResourceKey<Region> region);
 	

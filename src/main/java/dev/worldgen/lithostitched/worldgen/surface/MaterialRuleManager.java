@@ -7,6 +7,7 @@ import dev.worldgen.lithostitched.impl.worldgen.surface.rule.TransientMergedRule
 import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
 import dev.worldgen.lithostitched.mixin.common.NoiseGeneratorSettingsAccessor;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
@@ -19,17 +20,17 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 import java.util.*;
 
 /**
- * The manager class for surface rule injection.
+ * The manager class for material rule injection.
  *
  * @author Apollo
 */
-public class SurfaceRuleManager {
+public class MaterialRuleManager {
     public static void applySurfaceRules(RegistryAccess registries, Registry<LevelStem> dimensions) {
-	    List<Map.Entry<Identifier, AddSurfaceRuleModifier>> surfaceRules = ModifierManager.getModifiersOfType(registries, AddSurfaceRuleModifier.CODEC);
-        if (surfaceRules.isEmpty()) return;
+	    List<Map.Entry<Identifier, AddSurfaceRuleModifier>> materialRules = ModifierManager.getModifiersOfType(registries, AddSurfaceRuleModifier.CODEC);
+        if (materialRules.isEmpty()) return;
 
         HashMap<Identifier, ArrayList<Pair<Identifier, AddSurfaceRuleModifier>>> assignedSurfaceRules = new HashMap<>();
-        for (Map.Entry<Identifier, AddSurfaceRuleModifier> entry : surfaceRules) {
+        for (Map.Entry<Identifier, AddSurfaceRuleModifier> entry : materialRules) {
             entry.getValue().levels().forEach(level ->
                 assignedSurfaceRules.computeIfAbsent(level.identifier(), __ -> new ArrayList<>()).add(Pair.of(entry.getKey(), entry.getValue()))
             );
@@ -41,7 +42,9 @@ public class SurfaceRuleManager {
             if (surfaceRulesForKey != null) {
                 if (!(entry.getValue().generator() instanceof NoiseBasedChunkGenerator generator)) continue;
                 NoiseGeneratorSettings settings = generator.generatorSettings().value();
-                ((NoiseGeneratorSettingsAccessor)(Object)settings).setSurfaceRule(buildModdedSurfaceRules(surfaceRulesForKey, settings.surfaceRule()));
+                ((NoiseGeneratorSettingsAccessor)(Object)settings).setSurfaceRule(Holder.direct(
+                    buildModdedSurfaceRules(surfaceRulesForKey, settings.materialRule().value())
+                ));
 
                 Lithostitched.debug("Applied {} surface rule additions for '{}' dimension", surfaceRulesForKey.size(), location);
             }

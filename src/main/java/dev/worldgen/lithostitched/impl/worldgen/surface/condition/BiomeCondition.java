@@ -7,7 +7,6 @@ import dev.worldgen.lithostitched.duck.ContextBiomeAccessor;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 

@@ -5,7 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.HolderSetCodec;
+import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 public record RandomEntries(List<ResourceKey<StructureTemplatePool>> aliases, List<HolderSet<StructureTemplatePool>> pools) implements PoolAliasBinding {
     public static final MapCodec<RandomEntries> CODEC = RecordCodecBuilder.<RandomEntries>mapCodec(instance -> instance.group(
         ResourceKey.codec(Registries.TEMPLATE_POOL).listOf().fieldOf("aliases").forGetter(RandomEntries::aliases),
-        HolderSetCodec.create(Registries.TEMPLATE_POOL, StructureTemplatePool.CODEC, false).listOf().fieldOf("pools").forGetter(RandomEntries::pools)
+        RegistryCodecs.holderSet(Registries.TEMPLATE_POOL).listOf().fieldOf("pools").forGetter(RandomEntries::pools)
     ).apply(instance, RandomEntries::new)).validate(RandomEntries::validate);
 
 

@@ -5,7 +5,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
-import net.minecraft.util.valueproviders.IntProviders;
 import dev.worldgen.lithostitched.worldgen.modifier.WrapNoiseRouterModifier;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.RegistryAccess;
@@ -29,15 +28,15 @@ public class ChunkMapMixin {
         method = "<init>",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/level/levelgen/RandomState;create(Lnet/minecraft/world/level/levelgen/NoiseGeneratorSettings;Lnet/minecraft/core/HolderGetter;J)Lnet/minecraft/world/level/levelgen/RandomState;"
+            target = "Lnet/minecraft/world/level/levelgen/RandomState;create(Lnet/minecraft/core/HolderGetter;JLnet/minecraft/world/level/levelgen/NoiseGeneratorSettings;)Lnet/minecraft/world/level/levelgen/RandomState;"
         )
     )
-    private RandomState wrapNoiseRouter(NoiseGeneratorSettings noiseSettings, HolderGetter<NormalNoise.NoiseParameters> noiseGetter, long seed, Operation<RandomState> init, ServerLevel level, @Local(ordinal = 0) RegistryAccess registries) {
-        NoiseGeneratorSettingsAccessor accessor = ((NoiseGeneratorSettingsAccessor)(Object)noiseSettings);
-        NoiseRouter router = noiseSettings.noiseRouter();
+    private RandomState wrapNoiseRouter(HolderGetter<NormalNoise> noises, long seed, NoiseGeneratorSettings settings, Operation<RandomState> init, ServerLevel level, @Local(name = "registryAccess") RegistryAccess registryAccess) {
+        NoiseGeneratorSettingsAccessor accessor = ((NoiseGeneratorSettingsAccessor)(Object) settings);
+        NoiseRouter router = settings.noiseRouter();
 
         List<WrapNoiseRouterModifier> modifiers = ModifierManager
-            .getModifiersOfType(registries, WrapNoiseRouterModifier.CODEC)
+            .getModifiersOfType(registryAccess, WrapNoiseRouterModifier.CODEC)
             .stream()
             .map(Map.Entry::getValue)
             .filter(modifier -> level.dimension().equals(modifier.dimension()))
@@ -45,10 +44,6 @@ public class ChunkMapMixin {
 
         if (!modifiers.isEmpty()) {
             accessor.setNoiseRouter(new NoiseRouter(
-                modifyDensityFunction(NoiseRouterTarget.BARRIER, router.barrierNoise(), modifiers),
-                modifyDensityFunction(NoiseRouterTarget.FLUID_LEVEL_FLOODEDNESS, router.fluidLevelFloodednessNoise(), modifiers),
-                modifyDensityFunction(NoiseRouterTarget.FLUID_LEVEL_SPREAD, router.fluidLevelSpreadNoise(), modifiers),
-                modifyDensityFunction(NoiseRouterTarget.LAVA, router.lavaNoise(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.TEMPERATURE, router.temperature(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.VEGETATION, router.vegetation(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.CONTINENTS, router.continents(), modifiers),
@@ -56,13 +51,10 @@ public class ChunkMapMixin {
                 modifyDensityFunction(NoiseRouterTarget.DEPTH, router.depth(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.RIDGES, router.ridges(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.PRELIMINARY_SURFACE_LEVEL, router.preliminarySurfaceLevel(), modifiers),
-                modifyDensityFunction(NoiseRouterTarget.FINAL_DENSITY, router.finalDensity(), modifiers),
-                modifyDensityFunction(NoiseRouterTarget.VEIN_TOGGLE, router.veinToggle(), modifiers),
-                modifyDensityFunction(NoiseRouterTarget.VEIN_RIDGED, router.veinRidged(), modifiers),
-                modifyDensityFunction(NoiseRouterTarget.VEIN_GAP, router.veinGap(), modifiers)
+                modifyDensityFunction(NoiseRouterTarget.FINAL_DENSITY, router.finalDensity(), modifiers)
             ));
         }
 
-        return init.call(noiseSettings, noiseGetter, seed);
+        return init.call(noises, seed, settings);
     }
 }

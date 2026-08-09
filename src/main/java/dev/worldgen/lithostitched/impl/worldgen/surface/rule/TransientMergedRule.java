@@ -2,7 +2,6 @@ package dev.worldgen.lithostitched.impl.worldgen.surface.rule;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.SurfaceRules.RuleSource;

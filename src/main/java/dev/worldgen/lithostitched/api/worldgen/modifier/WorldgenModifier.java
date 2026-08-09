@@ -7,12 +7,11 @@ import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.util.InjectionType;
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeClimate;
-import dev.worldgen.lithostitched.api.worldgen.util.BiomeEffects;
 import dev.worldgen.lithostitched.api.worldgen.util.WeightedSpawnerData;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
 import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
-import dev.worldgen.lithostitched.worldgen.feature.config.CompositeConfig;
+import dev.worldgen.lithostitched.worldgen.feature.CompositeFeature;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.*;
@@ -22,11 +21,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.SurfaceRules;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
@@ -251,11 +249,11 @@ public interface WorldgenModifier {
 			return new SetStructureSpawnConditionModifier(predicate, priority.orElse(DEFAULT_PRIORITY), structures, spawnCondition, append);
 		}
 		
-		public WorldgenModifier stackFeatures(Holder<ConfiguredFeature<?, ?>> baseFeatures, Holder<PlacedFeature> stackedFeature, CompositeConfig.Type placementType) {
+		public WorldgenModifier stackFeatures(Holder<Feature> baseFeatures, Holder<PlacedFeature> stackedFeature, CompositeFeature.Type placementType) {
 			return new StackFeatureModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(baseFeatures), stackedFeature, placementType);
 		}
 		
-		public WorldgenModifier stackFeatures(HolderSet<ConfiguredFeature<?, ?>> baseFeatures, Holder<PlacedFeature> stackedFeature, CompositeConfig.Type placementType) {
+		public WorldgenModifier stackFeatures(HolderSet<Feature> baseFeatures, Holder<PlacedFeature> stackedFeature, CompositeFeature.Type placementType) {
 			return new StackFeatureModifier(predicate, priority.orElse(DEFAULT_PRIORITY), baseFeatures, stackedFeature, placementType);
 		}
 		

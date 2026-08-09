@@ -7,7 +7,7 @@ import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.Biome;
@@ -29,7 +29,7 @@ public record RemoveBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int p
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_REMOVE_CODEC.forGetter(RemoveBiomeSpawnsModifier::priority),
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(RemoveBiomeSpawnsModifier::biomes),
-        RegistryCodecs.homogeneousList(Registries.ENTITY_TYPE).fieldOf("mobs").forGetter(RemoveBiomeSpawnsModifier::mobs)
+        RegistryCodecs.holderSet(Registries.ENTITY_TYPE).fieldOf("mobs").forGetter(RemoveBiomeSpawnsModifier::mobs)
     ).apply(instance, RemoveBiomeSpawnsModifier::new));
     
     @Override
@@ -42,8 +42,10 @@ public record RemoveBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int p
         }
     }
     
+    // TODO: Rewrite this
     public void applyModifier(Biome biome) {
-        MobSpawnSettings biomeMobSettings = biome.getMobSettings();
+        throw new IllegalStateException("Biome spawning modifiers have not been reimplemented yet. Please return later.");
+        /*MobSpawnSettings biomeMobSettings = biome.getMobSettings();
         HashMap<MobCategory, WeightedList<MobSpawnSettings.SpawnerData>> spawners = new HashMap<>(((MobSpawnSettingsAccessor)biomeMobSettings).getSpawners());
         for (MobCategory category : MobCategory.values()) {
             List<Weighted<MobSpawnSettings.SpawnerData>> categorySpawnList = new ArrayList<>(spawners.get(category).unwrap());
@@ -51,7 +53,7 @@ public record RemoveBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int p
             spawners.put(category, WeightedList.of(categorySpawnList));
         }
         ((MobSpawnSettingsAccessor)biomeMobSettings).setSpawners(spawners);
-        ((BiomeAccessor)(Object)biome).setMobSettings(biomeMobSettings);
+        ((BiomeAccessor)(Object)biome).setMobSettings(biomeMobSettings);*/
     }
 
     @Override

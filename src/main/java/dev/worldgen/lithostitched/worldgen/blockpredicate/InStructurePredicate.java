@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
@@ -40,10 +41,12 @@ public record InStructurePredicate(Optional<Holder<Structure>> structure, Search
     }
 
     @Override
-    public boolean test(WorldGenLevel worldGenLevel, BlockPos pos) {
-        BoundingBox adjustedBox = this.searchRange.box().moved(pos.getX(), pos.getY(), pos.getZ());
+    public boolean test(LevelAccessor levelAccessor, BlockPos pos) {
+        if (!(levelAccessor instanceof WorldGenLevel worldGenLevel)) return false;
+        
         ServerLevel level = worldGenLevel.getLevel();
         StructureManager manager = level.structureManager();
+        BoundingBox adjustedBox = this.searchRange.box().moved(pos.getX(), pos.getY(), pos.getZ());
 
         Map<Structure, LongSet> references = new HashMap<>();
         adjustedBox.intersectingChunks().forEach(chunk ->

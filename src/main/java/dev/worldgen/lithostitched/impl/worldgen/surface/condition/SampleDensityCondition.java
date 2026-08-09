@@ -19,14 +19,14 @@ import net.minecraft.world.level.levelgen.*;
 
 import java.util.function.BiFunction;
 
-public record SampleDensityCondition(DensityFunction densityFunction, InclusiveRange<Double> range) implements SurfaceRules.ConditionSource {
+public record SampleDensityCondition(DensityFunction densityFunction, InclusiveRange<Float> range) implements SurfaceRules.ConditionSource {
     public static final MapCodec<SampleDensityCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         DensityFunction.CODEC.fieldOf("density_function").forGetter(SampleDensityCondition::densityFunction),
-        Codec.DOUBLE.optionalFieldOf("min_inclusive", Double.MIN_VALUE).forGetter(condition -> condition.range.minInclusive()),
-        Codec.DOUBLE.optionalFieldOf("max_inclusive", Double.MAX_VALUE).forGetter(condition -> condition.range.maxInclusive())
+        Codec.FLOAT.optionalFieldOf("min_inclusive", -Float.MAX_VALUE).forGetter(condition -> condition.range.minInclusive()),
+        Codec.FLOAT.optionalFieldOf("max_inclusive", Float.MAX_VALUE).forGetter(condition -> condition.range.maxInclusive())
     ).apply(instance, SampleDensityCondition::new));
     
-    public SampleDensityCondition(DensityFunction densityFunction, double minInclusive, double maxInclusive) {
+    public SampleDensityCondition(DensityFunction densityFunction, float minInclusive, float maxInclusive) {
         this(densityFunction, new InclusiveRange<>(minInclusive, maxInclusive));
     }
     

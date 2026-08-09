@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.api.worldgen.processor;
 
 import dev.worldgen.lithostitched.api.util.WeightedHolderSet;
-import dev.worldgen.lithostitched.api.util.WeightedList;
+import net.minecraft.util.random.WeightedList;
 import dev.worldgen.lithostitched.api.worldgen.processor.enums.RandomMode;
 import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
 import dev.worldgen.lithostitched.impl.worldgen.processor.*;

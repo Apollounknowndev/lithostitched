@@ -3,23 +3,21 @@ package dev.worldgen.lithostitched.impl.worldgen.densityfunction;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.SimpleContext;
-import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
-import net.minecraft.util.KeyDispatchDataCodec;
+import net.minecraft.util.Interval;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import org.jetbrains.annotations.NotNull;
 
 public record ShiftDensityFunction(DensityFunction input, DensityFunction shiftX, DensityFunction shiftY, DensityFunction shiftZ) implements DensityFunction {
-	public static final MapCodec<ShiftDensityFunction> DATA_CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-		LithostitchedCodecs.DF_BASE.fieldOf("input").forGetter(ShiftDensityFunction::input),
-		LithostitchedCodecs.DF_BASE.fieldOf("shift_x").forGetter(ShiftDensityFunction::shiftX),
-		LithostitchedCodecs.DF_BASE.fieldOf("shift_y").forGetter(ShiftDensityFunction::shiftY),
-		LithostitchedCodecs.DF_BASE.fieldOf("shift_z").forGetter(ShiftDensityFunction::shiftZ)
+	public static final MapCodec<ShiftDensityFunction> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+		DensityFunction.CODEC.fieldOf("input").forGetter(ShiftDensityFunction::input),
+		DensityFunction.CODEC.fieldOf("shift_x").forGetter(ShiftDensityFunction::shiftX),
+		DensityFunction.CODEC.fieldOf("shift_y").forGetter(ShiftDensityFunction::shiftY),
+		DensityFunction.CODEC.fieldOf("shift_z").forGetter(ShiftDensityFunction::shiftZ)
 	).apply(i, ShiftDensityFunction::new));
-	public static final KeyDispatchDataCodec<ShiftDensityFunction> CODEC = KeyDispatchDataCodec.of(DATA_CODEC);
 	
 	@Override
-	public double compute(FunctionContext context) {
-		return input.compute(SimpleContext.of(
+	public float compute(FunctionContext context) {
+		return this.input.compute(SimpleContext.of(
 			context.blockX() + shiftX.compute(context),
 			context.blockY() + shiftY.compute(context),
 			context.blockZ() + shiftZ.compute(context)
@@ -27,8 +25,8 @@ public record ShiftDensityFunction(DensityFunction input, DensityFunction shiftX
 	}
 	
 	@Override
-	public void fillArray(double[] densities, ContextProvider applier) {
-		applier.fillAllDirectly(densities, this);
+	public void fillArray(float[] output, ContextProvider contextProvider) {
+		contextProvider.fillAllDirectly(output, this);
 	}
 	
 	@Override
@@ -37,17 +35,17 @@ public record ShiftDensityFunction(DensityFunction input, DensityFunction shiftX
 	}
 	
 	@Override
-	public double minValue() {
-		return input.minValue();
+	public Interval range() {
+		return this.input.range();
 	}
 	
 	@Override
-	public double maxValue() {
-		return input.maxValue();
+	public @Axes int domainAxes() {
+		return this.input.domainAxes();
 	}
 	
 	@Override
-	public @NotNull KeyDispatchDataCodec<? extends DensityFunction> codec() {
+	public MapCodec<? extends DensityFunction> codec() {
 		return CODEC;
 	}
 }

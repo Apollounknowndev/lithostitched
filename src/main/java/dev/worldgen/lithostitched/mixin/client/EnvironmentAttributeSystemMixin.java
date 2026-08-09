@@ -18,7 +18,7 @@ import static dev.worldgen.lithostitched.worldgen.structure.StructureAttributeHa
 @Mixin(EnvironmentAttributeSystem.class)
 public class EnvironmentAttributeSystemMixin {
 	@Inject(
-		method = "addDefaultLayers",
+		method = "addDynamicLayers",
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/world/level/dimension/DimensionType;timelines()Lnet/minecraft/core/HolderSet;"

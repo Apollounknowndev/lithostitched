@@ -2,10 +2,9 @@ package dev.worldgen.lithostitched.mixin.common;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.server.level.WorldGenRegion;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,12 +16,10 @@ public class NoiseBasedChunkGeneratorMixin {
 		method = "spawnOriginalMobs",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/server/level/WorldGenRegion;getBiome(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/core/Holder;"
+			target = "Lnet/minecraft/core/BlockPos;atY(I)Lnet/minecraft/core/BlockPos;"
 		)
 	)
-	private Holder<Biome> fixSampledBiomeY(WorldGenRegion region, BlockPos pos, Operation<Holder<Biome>> operation) {
-		return operation.call(region, pos.atY(
-			region.getChunk(pos).getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos.getX(), pos.getZ())
-		));
+	private BlockPos fixSampledBiomeY(BlockPos pos, int y, Operation<BlockPos> original, @Local(argsOnly = true, ordinal = 0) WorldGenRegion worldGenRegion) {
+		return pos.atY(worldGenRegion.getChunk(pos).getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos.getX(), pos.getZ()));
 	}
 }

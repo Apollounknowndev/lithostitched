@@ -41,19 +41,15 @@ import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetBiomeAttributes
 import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetDimensionAttributesModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetTimelineTracksModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.internal.CompileRawTemplatesModifier;
-import dev.worldgen.lithostitched.worldgen.modifier.internal.RereferenceNoiseSettingsModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
 import dev.worldgen.lithostitched.worldgen.placementcondition.*;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.ConditionPlacement;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.NoiseSlopePlacement;
-import dev.worldgen.lithostitched.worldgen.placementmodifier.OffsetPlacement;
 import dev.worldgen.lithostitched.worldgen.poolalias.RandomEntries;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
-import dev.worldgen.lithostitched.worldgen.poolelement.LithostitchedFeaturePoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.legacy.GuaranteedPoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.legacy.LimitedPoolElement;
 import dev.worldgen.lithostitched.worldgen.processor.condition.*;
-import dev.worldgen.lithostitched.worldgen.stateprovider.RandomBlockProvider;
 import dev.worldgen.lithostitched.worldgen.stateprovider.WeightedProvider;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
@@ -125,7 +121,6 @@ public class LithostitchedBuiltInRegistries {
 		));
 		LithostitchedRegistrar.register(LithostitchedBuiltInRegistries.MODIFIER_TYPE, Map.ofEntries(
 			Map.entry("internal/compile_raw_templates", CompileRawTemplatesModifier.CODEC),
-			Map.entry("internal/rereference_noise_settings", RereferenceNoiseSettingsModifier.CODEC),
 			Map.entry("add_biome_spawns", AddBiomeSpawnsModifier.CODEC),
 			Map.entry("add_features", AddFeaturesModifier.CODEC),
 			Map.entry("add_processor_list_processors", AddProcessorListProcessorsModifier.CODEC),
@@ -196,52 +191,43 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("block_state", BlockStatePredicate.TYPE),
 			Map.entry("grid", GridPredicate.TYPE),
 			Map.entry("in_structure", InStructurePredicate.TYPE),
-			Map.entry("matching_biomes", MatchingBiomesPredicate.TYPE),
 			Map.entry("multiple_of", MultipleOfPredicate.TYPE),
 			Map.entry("offset", OffsetPredicate.TYPE),
 			Map.entry("random_chance", RandomChancePredicate.TYPE)
 		));
-		LithostitchedRegistrar.register(BuiltInRegistries.BLOCKSTATE_PROVIDER_TYPE, Map.ofEntries(
-			Map.entry("weighted", WeightedProvider.TYPE),
-			Map.entry("random_block", RandomBlockProvider.TYPE)
+		LithostitchedRegistrar.register(BuiltInRegistries.BLOCK_STATE_PROVIDER_TYPE, Map.ofEntries(
+			Map.entry("weighted", WeightedProvider.CODEC)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.DENSITY_FUNCTION_TYPE, Map.ofEntries(
-			Map.entry("internal/merged", MergedDensityFunction.CODEC.codec()),
-			Map.entry("wrapped_marker", WrappedMarkerDensityFunction.CODEC.codec()),
-			Map.entry("original_marker", OriginalMarkerDensityFunction.CODEC.codec()),
-			Map.entry("fast_noise", FastNoiseDensityFunction.CODEC.codec()),
+			Map.entry("internal/merged", MergedDensityFunction.CODEC),
+			Map.entry("wrapped_marker", WrappedMarkerDensityFunction.CODEC),
+			Map.entry("original_marker", OriginalMarkerDensityFunction.CODEC),
+			Map.entry("fast_noise", FastNoiseDensityFunction.CODEC),
 			
-			Map.entry("axis", AxisDensityFunction.DATA_CODEC),
-			Map.entry("ceil", CeilDensityFunction.DATA_CODEC),
-			Map.entry("cos", CosDensityFunction.DATA_CODEC),
-			Map.entry("floor", FloorDensityFunction.DATA_CODEC),
-			Map.entry("mix", MixDensityFunction.DATA_CODEC),
-			Map.entry("select", SelectDensityFunction.DATA_CODEC),
-			Map.entry("shift", ShiftDensityFunction.DATA_CODEC),
-			Map.entry("sin", SinDensityFunction.DATA_CODEC),
-			Map.entry("sqrt", SqrtDensityFunction.DATA_CODEC)
+			Map.entry("cos", CosDensityFunction.CODEC),
+			Map.entry("shift", ShiftDensityFunction.CODEC),
+			Map.entry("sin", SinDensityFunction.CODEC)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.ENVIRONMENT_ATTRIBUTE, Map.ofEntries(
 			Map.entry("structure/reset_music", LithostitchedEnvironmentAttributes.RESET_MUSIC)
 		));
-		LithostitchedRegistrar.register(BuiltInRegistries.FEATURE, Map.ofEntries(
-			Map.entry("composite", CompositeFeature.FEATURE),
-			Map.entry("dungeon", DungeonFeature.FEATURE),
-			Map.entry("large_dripstone", LargeDripstoneFeature.FEATURE),
-			Map.entry("ore", OreFeature.FEATURE),
-			Map.entry("placed", SimplePlacedFeature.FEATURE),
-			Map.entry("select", SelectFeature.FEATURE),
-			Map.entry("structure_template", StructureTemplateFeature.FEATURE),
-			Map.entry("weighted_selector", WeightedSelectorFeature.FEATURE),
-			Map.entry("well", WellFeature.FEATURE),
-			Map.entry("vines", VinesFeature.FEATURE)
+		LithostitchedRegistrar.register(BuiltInRegistries.FEATURE_TYPE, Map.ofEntries(
+			Map.entry("composite", CompositeFeature.CODEC),
+			Map.entry("dungeon", DungeonFeature.CODEC),
+			Map.entry("large_dripstone", LargeDripstoneFeature.CODEC),
+			Map.entry("ore", OreFeature.CODEC),
+			Map.entry("placed", SimplePlacedFeature.CODEC),
+			Map.entry("select", SelectFeature.CODEC),
+			Map.entry("structure_template", StructureTemplateFeature.CODEC),
+			Map.entry("well", WellFeature.CODEC),
+			Map.entry("vines", VinesFeature.CODEC)
 		));
-		LithostitchedRegistrar.register(BuiltInRegistries.MATERIAL_RULE, Map.ofEntries(
+		LithostitchedRegistrar.register(BuiltInRegistries.MATERIAL_RULE_TYPE, Map.ofEntries(
 			Map.entry("transient_merged", TransientMergedRule.CODEC),
 			Map.entry("bandlands", BandlandsRule.CODEC),
 			Map.entry("reference", ReferenceRule.CODEC)
 		));
-		LithostitchedRegistrar.register(BuiltInRegistries.MATERIAL_CONDITION, Map.ofEntries(
+		LithostitchedRegistrar.register(BuiltInRegistries.MATERIAL_CONDITION_TYPE, Map.ofEntries(
 			Map.entry("internal/tag_filled", TagFilledCondition.CODEC),
 			
 			Map.entry("all_of", AllOfCondition.CODEC),
@@ -251,9 +237,8 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("sample_density", SampleDensityCondition.CODEC)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, Map.ofEntries(
-			Map.entry("condition", ConditionPlacement.TYPE),
-			Map.entry("noise_slope", NoiseSlopePlacement.TYPE),
-			Map.entry("offset", OffsetPlacement.TYPE)
+			Map.entry("condition", ConditionPlacement.CODEC),
+			Map.entry("noise_slope", NoiseSlopePlacement.CODEC)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, Map.ofEntries(
 			Map.entry("delegating", DelegatingPoolElement.TYPE),
@@ -266,9 +251,6 @@ public class LithostitchedBuiltInRegistries {
 		LithostitchedRegistrar.register(BuiltInRegistries.RULE_BLOCK_ENTITY_MODIFIER, Map.ofEntries(
 			Map.entry("apply_all", ApplyAll.TYPE),
 			Map.entry("apply_random", ApplyRandom.TYPE)
-		));
-		LithostitchedRegistrar.register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, Map.ofEntries(
-			Map.entry("feature", LithostitchedFeaturePoolElement.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.STRUCTURE_PROCESSOR, Map.ofEntries(
 			Map.entry("internal/unbound_reference", UnboundReferenceProcessor.CODEC),

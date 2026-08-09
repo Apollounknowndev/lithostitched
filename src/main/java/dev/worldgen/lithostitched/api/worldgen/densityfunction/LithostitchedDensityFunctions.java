@@ -1,36 +1,15 @@
 package dev.worldgen.lithostitched.api.worldgen.densityfunction;
 
-import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise.FastNoiseConfig;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.*;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.*;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.DensityFunctions;
 
-import java.util.List;
-
 public interface LithostitchedDensityFunctions {
-	static DensityFunction axis(Direction.Axis axis) {
-		return new AxisDensityFunction(axis);
-	}
-	
-	static DensityFunction ceil(DensityFunction input) {
-		return new CeilDensityFunction(input);
-	}
-	
 	static DensityFunction cos(DensityFunction input) {
 		return new CosDensityFunction(input);
-	}
-	
-	static DensityFunction floor(DensityFunction input) {
-		return new FloorDensityFunction(input);
-	}
-	
-	static DensityFunction mix(DensityFunction input, DensityFunction argument1, DensityFunction argument2) {
-		return new MixDensityFunction(input, argument1, argument2);
 	}
 	
 	static DensityFunction shift(DensityFunction input, DensityFunction shiftX, DensityFunction shiftY, DensityFunction shiftZ) {
@@ -39,15 +18,6 @@ public interface LithostitchedDensityFunctions {
 	
 	static DensityFunction sin(DensityFunction input) {
 		return new SinDensityFunction(input);
-	}
-	
-	
-	static DensityFunction sqrt(DensityFunction input) {
-		return new SqrtDensityFunction(input);
-	}
-	
-	static DensityFunction select(DensityFunction input, DensityFunction fallback, List<Pair<InclusiveRange<Double>, DensityFunction>> selections) {
-		return SelectDensityFunction.create(input, fallback, selections.stream().map(SelectDensityFunction.Selection::create).toList());
 	}
 	
 	static DensityFunction fastNoise(Holder<FastNoiseConfig> config, double xzScale, double yScale) {

@@ -1,14 +1,11 @@
 classTweaker v2 official
 
 # Block state providers
-accessible method net/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType <init> (Lcom/mojang/serialization/MapCodec;)V
+### accessible method net/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType <init> (Lcom/mojang/serialization/MapCodec;)V
 
 # Biomes
 accessible class net/minecraft/world/level/biome/Biome$ClimateSettings
 accessible method net/minecraft/world/level/biome/Biome$ClimateSettings <init> (ZFLnet/minecraft/world/level/biome/Biome$TemperatureModifier;F)V
-
-# Density functions
-accessible class net/minecraft/world/level/levelgen/DensityFunctions$EndIslandDensityFunction
 
 # Structures
 accessible class net/minecraft/world/level/levelgen/structure/structures/MineshaftPieces$MineShaftPiece
@@ -36,8 +33,8 @@ accessible class net/minecraft/world/level/levelgen/SurfaceRules$LazyXZCondition
 accessible class net/minecraft/world/level/levelgen/SurfaceRules$SurfaceRule
 
 # Chunk
-accessible field net/minecraft/world/level/ChunkPos x I
-accessible field net/minecraft/world/level/ChunkPos z I
+### accessible field net/minecraft/world/level/ChunkPos x I
+### accessible field net/minecraft/world/level/ChunkPos z I
 
 accessible class net/minecraft/world/level/biome/Climate$RTree
 

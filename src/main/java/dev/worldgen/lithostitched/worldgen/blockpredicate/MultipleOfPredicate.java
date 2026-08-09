@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.InclusiveRange;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicateType;
@@ -20,7 +21,7 @@ public record MultipleOfPredicate(List<BlockPredicate> predicates, InclusiveRang
     public static final BlockPredicateType<MultipleOfPredicate> TYPE = () -> CODEC;
 
     @Override
-    public boolean test(WorldGenLevel level, BlockPos pos) {
+    public boolean test(LevelAccessor level, BlockPos pos) {
         int count = 0;
         for (BlockPredicate predicate : predicates) {
             if (predicate.test(level, pos)) {

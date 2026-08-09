@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.api.worldgen.blockentitymodifier;
 
-import dev.worldgen.lithostitched.api.util.WeightedList;
+import net.minecraft.util.random.WeightedList;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
 import net.minecraft.world.level.levelgen.structure.templatesystem.rule.blockentity.RuleBlockEntityModifier;

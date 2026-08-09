@@ -1,17 +1,24 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
-import dev.worldgen.lithostitched.worldgen.feature.config.SimplePlacedConfig;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
-public class SimplePlacedFeature extends Feature<SimplePlacedConfig> {
-	public static SimplePlacedFeature FEATURE = new SimplePlacedFeature();
-	public SimplePlacedFeature() {
-		super(SimplePlacedConfig.CODEC);
+public record SimplePlacedFeature(Holder<PlacedFeature> feature) implements Feature {
+	public static final MapCodec<SimplePlacedFeature> CODEC = PlacedFeature.CODEC.fieldOf("feature").xmap(SimplePlacedFeature::new, SimplePlacedFeature::feature);
+	
+	@Override
+	public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
+		return this.feature.value().place(level, chunkGenerator, random, origin);
 	}
 	
 	@Override
-	public boolean place(FeaturePlaceContext<SimplePlacedConfig> context) {
-		return context.config().feature().value().place(context.level(), context.chunkGenerator(), context.random(), context.origin());
+	public MapCodec<? extends Feature> codec() {
+		return CODEC;
 	}
 }

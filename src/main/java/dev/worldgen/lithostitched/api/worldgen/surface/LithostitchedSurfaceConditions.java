@@ -26,7 +26,7 @@ public interface LithostitchedSurfaceConditions {
 		return new SlopeCondition(threshold);
 	}
 	
-	static ConditionSource sampleDensity(DensityFunction densityFunction, InclusiveRange<Double> range) {
+	static ConditionSource sampleDensity(DensityFunction densityFunction, InclusiveRange<Float> range) {
 		return new SampleDensityCondition(densityFunction, range);
 	}
 }

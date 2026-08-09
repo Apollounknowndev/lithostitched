@@ -1,37 +1,46 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
-import net.minecraft.util.valueproviders.IntProviders;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.util.MiscUtils;
-import dev.worldgen.lithostitched.worldgen.feature.config.OreConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.BulkSectionAccess;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 import java.util.BitSet;
+import java.util.List;
 
-public class OreFeature extends Feature<OreConfig> {
-    public static final OreFeature FEATURE = new OreFeature();
-    public OreFeature() {
-        super(OreConfig.CODEC);
+public record OreFeature(int size, List<Target> targets) implements Feature {
+    public static final MapCodec<OreFeature> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        Codec.intRange(0, 128).fieldOf("size").forGetter(OreFeature::size),
+        Target.CODEC.listOf().fieldOf("targets").forGetter(OreFeature::targets)
+    ).apply(instance, OreFeature::new));
+    
+    public static OreFeature create(int size, List<Pair<BlockPredicate, BlockStateProvider>> targets) {
+        return new OreFeature(size, targets.stream().map(pair -> new Target(pair.getFirst(), pair.getSecond())).toList());
     }
-
+    
     @Override
-    public boolean place(FeaturePlaceContext<OreConfig> context) {
-        RandomSource random = context.random();
-        BlockPos origin = context.origin();
-        WorldGenLevel level = context.level();
-        OreConfig config = context.config();
-
+    public MapCodec<? extends Feature> codec() {
+        return CODEC;
+    }
+    
+    @Override
+    public boolean place(WorldGenLevel level, ChunkGenerator generator, RandomSource random, BlockPos origin) {
         float $$5 = random.nextFloat() * (float) Math.PI;
-        float $$6 = config.size() / 8.0F;
-        int $$7 = Mth.ceil((config.size() / 16.0F * 2.0F + 1.0F) / 2.0F);
+        float $$6 = this.size() / 8.0F;
+        int $$7 = Mth.ceil((this.size() / 16.0F * 2.0F + 1.0F) / 2.0F);
         double $$8 = (double)origin.getX() + Math.sin($$5) * (double)$$6;
         double $$9 = (double)origin.getX() - Math.sin($$5) * (double)$$6;
         double $$10 = (double)origin.getZ() + Math.cos($$5) * (double)$$6;
@@ -49,7 +58,7 @@ public class OreFeature extends Feature<OreConfig> {
         for (int x = minX; x <= minX + maxXZ; x++) {
             for (int y = minZ; y <= minZ + maxXZ; y++) {
                 if (minY <= level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, x, y)) {
-                    return this.doPlace(level, random, config, $$8, $$9, $$10, $$11, $$13, $$14, minX, minY, minZ, maxXZ, maxY);
+                    return this.doPlace(level, random, $$8, $$9, $$10, $$11, $$13, $$14, minX, minY, minZ, maxXZ, maxY);
                 }
             }
         }
@@ -57,26 +66,25 @@ public class OreFeature extends Feature<OreConfig> {
         return false;
     }
 
-    protected boolean doPlace(
-            WorldGenLevel level,
-            RandomSource random,
-            OreConfig config,
-            double $$3,
-            double $$4,
-            double $$5,
-            double $$6,
-            double $$7,
-            double $$8,
-            int minX,
-            int minY,
-            int minZ,
-            int maxXZ,
-            int maxY
+    private boolean doPlace(
+	    WorldGenLevel level,
+	    RandomSource random,
+	    double $$3,
+	    double $$4,
+	    double $$5,
+	    double $$6,
+	    double $$7,
+	    double $$8,
+	    int minX,
+	    int minY,
+	    int minZ,
+	    int maxXZ,
+	    int maxY
     ) {
         int blocksPlaced = 0;
         BitSet $$15 = new BitSet(maxXZ * maxY * maxXZ);
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-        int $$17 = config.size();
+        int $$17 = this.size();
         double[] $$18 = new double[$$17 * 4];
 
         for (int $$19 = 0; $$19 < $$17; $$19++) {
@@ -146,7 +154,7 @@ public class OreFeature extends Feature<OreConfig> {
                                                         int sectionY = SectionPos.sectionRelative(y);
                                                         int sectionZ = SectionPos.sectionRelative(z);
 
-                                                        for (OreConfig.Target target : config.targets()) {
+                                                        for (Target target : this.targets()) {
                                                             if (target.predicate().test(level, pos)) {
                                                                 section.setBlockState(sectionX, sectionY, sectionZ, target.stateProvider().getState(level, random, pos), false);
                                                                 blocksPlaced++;
@@ -167,5 +175,12 @@ public class OreFeature extends Feature<OreConfig> {
         }
 
         return blocksPlaced > 0;
+    }
+    
+    public record Target(BlockPredicate predicate, BlockStateProvider stateProvider) {
+        public static final Codec<Target> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            BlockPredicate.CODEC.fieldOf("predicate").forGetter(Target::predicate),
+            BlockStateProvider.CODEC.fieldOf("state_provider").forGetter(Target::stateProvider)
+        ).apply(instance, Target::new));
     }
 }

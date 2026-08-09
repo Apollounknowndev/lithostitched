@@ -28,6 +28,7 @@ import net.minecraft.world.level.levelgen.structure.pools.*;
 import net.minecraft.world.level.levelgen.structure.pools.alias.PoolAliasLookup;
 import net.minecraft.world.level.levelgen.structure.templatesystem.LiquidSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.JigsawBlockInfo;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraft.world.phys.AABB;
 import org.apache.commons.lang3.mutable.MutableObject;
@@ -127,11 +128,11 @@ public class AlternateJigsawGenerator {
     }
 
     private static Optional<BlockPos> findNamedJigsaw(StructurePoolElement pool, Identifier name, BlockPos pos, Rotation rotation, StructureTemplateManager structureManager, WorldgenRandom random) {
-        List<StructureTemplate.JigsawBlockInfo> list = pool.getShuffledJigsawBlocks(structureManager, pos, rotation, random);
+        List<JigsawBlockInfo> list = pool.getShuffledJigsawBlocks(structureManager, pos, rotation, random);
 
-        for (StructureTemplate.JigsawBlockInfo jigsawBlock : list) {
+        for (JigsawBlockInfo jigsawBlock : list) {
             if (name.equals(jigsawBlock.name())) {
-                return Optional.of(jigsawBlock.info().pos());
+                return Optional.of(jigsawBlock.pos());
             }
         }
 
@@ -180,9 +181,8 @@ public class AlternateJigsawGenerator {
             BoundingBox parentBoundingBox = parentPiece.getBoundingBox();
             BoxOctree directParentOctree = null;
 
-            for (StructureTemplate.JigsawBlockInfo anchorJigsaw : anchorElement.getShuffledJigsawBlocks(this.structureTemplateManager, parentPiece.getPosition(), parentPiece.getRotation(), this.random)) {
-                StructureTemplate.StructureBlockInfo anchorInfo = anchorJigsaw.info();
-                BlockPos candidateConnectorPos = adjustJigsawPos(anchorInfo);
+            for (JigsawBlockInfo anchorJigsaw : anchorElement.getShuffledJigsawBlocks(this.structureTemplateManager, parentPiece.getPosition(), parentPiece.getRotation(), this.random)) {
+                BlockPos candidateConnectorPos = adjustJigsawPos(anchorJigsaw);
                 Holder<StructureTemplatePool> poolEntry = getTemplatePoolHolder(aliasLookup.lookup(anchorJigsaw.pool()), candidateConnectorPos);
                 if (poolEntry == null) continue;
                 boolean connectorInParentBoundingBox = parentBoundingBox.isInside(candidateConnectorPos);
@@ -206,7 +206,7 @@ public class AlternateJigsawGenerator {
          * Find a valid child from a pool of child candidates.
          * If none are found, go to the template pool's fallback and try again.
          */
-        private void findAndTestChildCandidates(Holder<StructureTemplatePool> entry, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, PoolElementStructurePiece parentPiece, StructureTemplate.JigsawBlockInfo anchorJigsawInfo, BoxOctree octree, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, boolean firstIteration, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+        private void findAndTestChildCandidates(Holder<StructureTemplatePool> entry, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, PoolElementStructurePiece parentPiece, JigsawBlockInfo anchorJigsawInfo, BoxOctree octree, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, boolean firstIteration, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
             List<StructurePoolElement> childCandidates = this.getPoolElements(entry.unwrapKey().orElse(Pools.EMPTY), checkedPools, depth, firstIteration);
 
             if (childCandidates.isEmpty()) return;
@@ -267,11 +267,9 @@ public class AlternateJigsawGenerator {
          * Iterate through list of child candidate pieces to find a valid one to use.
          */
         @SuppressWarnings("deprecation")
-        private boolean findValidChildPiece(List<StructurePoolElement> elements, PoolElementStructurePiece parentPiece, StructureTemplate.JigsawBlockInfo anchorJigsaw, BoxOctree octree, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
-            StructureTemplate.StructureBlockInfo anchorInfo = anchorJigsaw.info();
-
-            BlockPos anchorPos = anchorInfo.pos();
-            BlockPos candidateConnectorPos = adjustJigsawPos(anchorInfo);
+        private boolean findValidChildPiece(List<StructurePoolElement> elements, PoolElementStructurePiece parentPiece, JigsawBlockInfo anchorJigsaw, BoxOctree octree, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+            BlockPos anchorPos = anchorJigsaw.pos();
+            BlockPos candidateConnectorPos = adjustJigsawPos(anchorJigsaw);
             int parentMinY = parentPiece.getBoundingBox().minY();
             int anchorDistanceToFloor = anchorPos.getY() - parentMinY;
             StructureTemplatePool.Projection parentProjection = parentPiece.getElement().getProjection();
@@ -293,15 +291,14 @@ public class AlternateJigsawGenerator {
                 }
 
                 for (Rotation rotation : Rotation.getShuffled(this.random)) {
-                    List<StructureTemplate.JigsawBlockInfo> connectorJigsaws = element.getShuffledJigsawBlocks(this.structureTemplateManager, BlockPos.ZERO, rotation, this.random);
+                    List<JigsawBlockInfo> connectorJigsaws = element.getShuffledJigsawBlocks(this.structureTemplateManager, BlockPos.ZERO, rotation, this.random);
                     BoundingBox connectorBoundingBox = element.getBoundingBox(this.structureTemplateManager, BlockPos.ZERO, rotation);
 
                     // Expansion hack
                     int l;
                     if (useExpansionHack && connectorBoundingBox.getYSpan() <= 16) {
                         l = connectorJigsaws.stream().mapToInt((jigsawInfo) -> {
-                            StructureTemplate.StructureBlockInfo blockInfo = jigsawInfo.info();
-                            if (!connectorBoundingBox.isInside(adjustJigsawPos(blockInfo))) {
+                            if (!connectorBoundingBox.isInside(adjustJigsawPos(jigsawInfo))) {
                                 return 0;
                             } else {
                                 // This is technically bugged behavior, fallback chains need to be taken into account.
@@ -319,16 +316,16 @@ public class AlternateJigsawGenerator {
                     }
 
                     // Find valid jigsaw block to attach
-                    for (StructureTemplate.JigsawBlockInfo connectorJigsawInfo: connectorJigsaws) {
+                    for (JigsawBlockInfo connectorJigsawInfo: connectorJigsaws) {
                         if (JigsawBlock.canAttach(anchorJigsaw, connectorJigsawInfo)) {
-                            BlockPos connectorPos = connectorJigsawInfo.info().pos();
+                            BlockPos connectorPos = connectorJigsawInfo.pos();
                             BlockPos blockPos5 = candidateConnectorPos.subtract(connectorPos);
                             BoundingBox blockBox3 = element.getBoundingBox(this.structureTemplateManager, blockPos5, rotation);
                             int m = blockBox3.minY();
                             StructureTemplatePool.Projection connectorProjection = element.getProjection();
                             boolean connectorProjectionRigid = connectorProjection == StructureTemplatePool.Projection.RIGID;
                             int connectorY = connectorPos.getY();
-                            int o = anchorDistanceToFloor - connectorY + JigsawBlock.getFrontFacing(anchorInfo.state()).getStepY();
+                            int o = anchorDistanceToFloor - connectorY + JigsawBlock.getFrontFacing(anchorJigsaw.state()).getStepY();
                             int p;
                             if (parentRigid && connectorProjectionRigid) {
                                 p = parentMinY + o;
@@ -419,7 +416,7 @@ public class AlternateJigsawGenerator {
             return null;
         }
 
-        private static BlockPos adjustJigsawPos(StructureTemplate.StructureBlockInfo jigsawInfo) {
+        private static BlockPos adjustJigsawPos(JigsawBlockInfo jigsawInfo) {
             return jigsawInfo.pos().relative(JigsawBlock.getFrontFacing(jigsawInfo.state()));
         }
     }

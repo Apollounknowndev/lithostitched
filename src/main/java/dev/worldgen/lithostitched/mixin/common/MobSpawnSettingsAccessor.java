@@ -11,7 +11,8 @@ import java.util.Map;
 @Mixin(MobSpawnSettings.class)
 public interface MobSpawnSettingsAccessor {
     @Accessor
-    Map<MobCategory, WeightedList<MobSpawnSettings.SpawnerData>> getSpawners();
-    @Accessor("spawners")
-    void setSpawners(Map<MobCategory, WeightedList<MobSpawnSettings.SpawnerData>> spawners);
+    Map<MobCategory, WeightedList<MobSpawnSettings.SpawnerData>> getSpawnsByCategory();
+    
+    @Accessor("spawnsByCategory")
+    void setSpawnsByCategory(Map<MobCategory, WeightedList<MobSpawnSettings.SpawnerData>> spawnsByCategory);
 }

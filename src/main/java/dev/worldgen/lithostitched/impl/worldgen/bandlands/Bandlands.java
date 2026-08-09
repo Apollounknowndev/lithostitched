@@ -36,7 +36,7 @@ public final class Bandlands {
     public BlockState getBand(SurfaceSystem system, int x, int y, int z) {
         if (filledBandlands == null) return base;
 
-        int i = (int)Math.round(((SurfaceSystemAccessor)system).getBandOffsetNoise().getValue(x, 0.0F, z) * (double)4.0F);
+        int i = (int)Math.round(((SurfaceSystemAccessor)system).getBandOffsetNoise().get(x, 0.0F, z) * (double)4.0F);
         return this.filledBandlands[(y + i + this.filledBandlands.length) % this.filledBandlands.length];
     }
 

@@ -1,34 +1,41 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.IntProviders;
-import dev.worldgen.lithostitched.worldgen.feature.config.WellConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.minecraft.world.level.block.entity.BrushableBlockEntity;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 import java.util.Optional;
 
-public class WellFeature extends Feature<WellConfig> {
-    public static final WellFeature FEATURE = new WellFeature();
-    public WellFeature() {
-        super(WellConfig.CODEC);
-    }
-
+public record WellFeature(BlockStateProvider groundProvider, BlockStateProvider suspiciousProvider, BlockStateProvider standardProvider, BlockStateProvider slabProvider, BlockStateProvider fluidProvider, IntProvider suspiciousPlacements, ResourceKey<LootTable> suspiciousLootTable) implements Feature {
+    public static final MapCodec<WellFeature> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        BlockStateProvider.CODEC.fieldOf("ground_provider").orElse(BlockStateProvider.simple(Blocks.SAND)).forGetter(WellFeature::groundProvider),
+        BlockStateProvider.CODEC.fieldOf("suspicious_provider").orElse(BlockStateProvider.simple(Blocks.SUSPICIOUS_SAND)).forGetter(WellFeature::suspiciousProvider),
+        BlockStateProvider.CODEC.fieldOf("standard_provider").orElse(BlockStateProvider.simple(Blocks.SANDSTONE)).forGetter(WellFeature::standardProvider),
+        BlockStateProvider.CODEC.fieldOf("slab_provider").orElse(BlockStateProvider.simple(Blocks.SANDSTONE_SLAB)).forGetter(WellFeature::slabProvider),
+        BlockStateProvider.CODEC.fieldOf("fluid_provider").orElse(BlockStateProvider.simple(Blocks.WATER)).forGetter(WellFeature::fluidProvider),
+        IntProviders.codec(0, 4).fieldOf("suspicious_block_placements").orElse(ConstantInt.of(1)).forGetter(WellFeature::suspiciousPlacements),
+        ResourceKey.codec(Registries.LOOT_TABLE).fieldOf("suspicious_loot_table").orElse(BuiltInLootTables.DESERT_WELL_ARCHAEOLOGY).forGetter(WellFeature::suspiciousLootTable)
+    ).apply(instance, WellFeature::new));
+    
     @Override
-    public boolean place(FeaturePlaceContext<WellConfig> context) {
-        WorldGenLevel level = context.level();
-        BlockPos origin = context.origin();
-        WellConfig config = context.config();
-        RandomSource random = context.random();
-
+    public boolean place(WorldGenLevel level, ChunkGenerator generator, RandomSource random, BlockPos origin) {
         BlockPos pos;
         int x;
         int y;
@@ -51,19 +58,19 @@ public class WellFeature extends Feature<WellConfig> {
                     boolean axisAligned = x == 0 || z == 0;
                     BlockStateProvider blockProvider;
                     if (y == -3) {
-                        blockProvider = config.standardProvider();
+                        blockProvider = this.standardProvider();
                     } else if (y < 0) {
                         if (axisAligned && !outer) {
-                            blockProvider = y == -2 ? config.groundProvider() : config.fluidProvider();
+                            blockProvider = y == -2 ? this.groundProvider() : this.fluidProvider();
                         } else {
-                            blockProvider = config.standardProvider();
+                            blockProvider = this.standardProvider();
                         }
                     } else if (outer) {
-                        blockProvider = y > 0 ? BlockStateProvider.simple(Blocks.AIR) : axisAligned ? config.slabProvider() : config.standardProvider();
+                        blockProvider = y > 0 ? BlockStateProvider.simple(Blocks.AIR) : axisAligned ? this.slabProvider() : this.standardProvider();
                     } else if (middle && y != 3) {
-                        blockProvider = config.standardProvider();
+                        blockProvider = this.standardProvider();
                     } else if (y == 3) {
-                        blockProvider = inner ? config.standardProvider() : config.slabProvider();
+                        blockProvider = inner ? this.standardProvider() : this.slabProvider();
                     } else {
                         blockProvider = BlockStateProvider.simple(Blocks.AIR);
                     }
@@ -71,16 +78,21 @@ public class WellFeature extends Feature<WellConfig> {
                 }
             }
         }
-        for (int i = 0; i < config.suspiciousPlacements().sample(random); i++) {
+        for (int i = 0; i < this.suspiciousPlacements().sample(random); i++) {
             for (int offset = 0; offset < 2; offset++) {
                 pos = origin.below(offset+2).relative(Direction.Plane.HORIZONTAL.getRandomDirection(random));
-                level.setBlock(pos, config.suspiciousProvider().getState(level, random, pos), 2);
+                level.setBlock(pos, this.suspiciousProvider().getState(level, random, pos), 2);
                 Optional<BrushableBlockEntity> susBlock = level.getBlockEntity(pos, BlockEntityTypes.BRUSHABLE_BLOCK);
                 if (susBlock.isPresent()) {
-                    susBlock.get().setLootTable(config.suspiciousLootTable(), pos.asLong());
+                    susBlock.get().setLootTable(this.suspiciousLootTable(), pos.asLong());
                 }
             }
         }
         return true;
+    }
+    
+    @Override
+    public MapCodec<? extends Feature> codec() {
+        return CODEC;
     }
 }

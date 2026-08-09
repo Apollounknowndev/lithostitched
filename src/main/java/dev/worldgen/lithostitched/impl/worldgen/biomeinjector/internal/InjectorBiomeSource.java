@@ -160,7 +160,7 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		int blockZ = QuartPos.toBlock(quartZ);
 		SimpleContext context = SimpleContext.of(blockX, blockY, blockZ);
 		TargetPoint point = sampler.sample(quartX, quartY, quartZ);
-		HashMap<DensityFunction, Double> densities = new HashMap<>();
+		HashMap<DensityFunction, Float> densities = new HashMap<>();
 		
 		Holder<Biome> biome = this.baseResolver.getNoiseBiome(quartX, quartY, quartZ, sampler);
 		ResourceKey<Region> currentRegion = this.regionManager.getRegion(context, biome);

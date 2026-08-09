@@ -15,53 +15,53 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ParameterBuilderImpl implements ParameterBuilder {
-	private Map<Either<BiomeInjector.ClimateParameter, DensityFunction>, InclusiveRange<Double>> parameters = new HashMap<>();
+	private Map<Either<BiomeInjector.ClimateParameter, DensityFunction>, InclusiveRange<Float>> parameters = new HashMap<>();
 	private Optional<ResourceKey<Region>> region = Optional.empty();
 	
 	@Override
-	public ParameterBuilder densityFunctionExactly(Holder<DensityFunction> densityFunction, double value) {
+	public ParameterBuilder densityFunctionExactly(Holder<DensityFunction> densityFunction, float value) {
 		this.parameters.put(Either.right(new DensityFunctions.HolderHolder(densityFunction)), new InclusiveRange<>(value));
 		return this;
 	}
 	
 	@Override
-	public ParameterBuilder densityFunctionMin(Holder<DensityFunction> densityFunction, double min) {
-		this.parameters.put(Either.right(new DensityFunctions.HolderHolder(densityFunction)), new InclusiveRange<>(min, Double.MAX_VALUE));
+	public ParameterBuilder densityFunctionMin(Holder<DensityFunction> densityFunction, float min) {
+		this.parameters.put(Either.right(new DensityFunctions.HolderHolder(densityFunction)), new InclusiveRange<>(min, Float.MAX_VALUE));
 		return this;
 	}
 	
 	@Override
-	public ParameterBuilder densityFunctionMax(Holder<DensityFunction> densityFunction, double max) {
-		this.parameters.put(Either.right(new DensityFunctions.HolderHolder(densityFunction)), new InclusiveRange<>(-Double.MAX_VALUE, max));
+	public ParameterBuilder densityFunctionMax(Holder<DensityFunction> densityFunction, float max) {
+		this.parameters.put(Either.right(new DensityFunctions.HolderHolder(densityFunction)), new InclusiveRange<>(-Float.MAX_VALUE, max));
 		return this;
 	}
 	
 	@Override
-	public ParameterBuilder densityFunctionRange(Holder<DensityFunction> densityFunction, double min, double max) {
+	public ParameterBuilder densityFunctionRange(Holder<DensityFunction> densityFunction, float min, float max) {
 		this.parameters.put(Either.right(new DensityFunctions.HolderHolder(densityFunction)), new InclusiveRange<>(min, max));
 		return this;
 	}
 	
 	@Override
-	public ParameterBuilder climateExactly(BiomeInjector.ClimateParameter climate, double value) {
+	public ParameterBuilder climateExactly(BiomeInjector.ClimateParameter climate, float value) {
 		this.parameters.put(Either.left(climate), new InclusiveRange<>(value));
 		return this;
 	}
 	
 	@Override
-	public ParameterBuilder climateMin(BiomeInjector.ClimateParameter climate, double min) {
-		this.parameters.put(Either.left(climate), new InclusiveRange<>(min, Double.MAX_VALUE));
+	public ParameterBuilder climateMin(BiomeInjector.ClimateParameter climate, float min) {
+		this.parameters.put(Either.left(climate), new InclusiveRange<>(min, Float.MAX_VALUE));
 		return this;
 	}
 	
 	@Override
-	public ParameterBuilder climateMax(BiomeInjector.ClimateParameter climate, double max) {
-		this.parameters.put(Either.left(climate), new InclusiveRange<>(-Double.MAX_VALUE, max));
+	public ParameterBuilder climateMax(BiomeInjector.ClimateParameter climate, float max) {
+		this.parameters.put(Either.left(climate), new InclusiveRange<>(-Float.MAX_VALUE, max));
 		return this;
 	}
 	
 	@Override
-	public ParameterBuilder climateRange(BiomeInjector.ClimateParameter climate, double min, double max) {
+	public ParameterBuilder climateRange(BiomeInjector.ClimateParameter climate, float min, float max) {
 		this.parameters.put(Either.left(climate), new InclusiveRange<>(min, max));
 		return this;
 	}

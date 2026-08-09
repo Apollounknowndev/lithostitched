@@ -10,7 +10,7 @@ stonecutter parameters {
 
     // Makes version- and loader-specific properties apply from `stoncutter.properties.toml`
     properties {
-        tags("26.2", loader)
+        tags("26.3", loader)
     }
 
     // Adds constants to Stonecutter comments (i.e. for `//? if fabric {...`)

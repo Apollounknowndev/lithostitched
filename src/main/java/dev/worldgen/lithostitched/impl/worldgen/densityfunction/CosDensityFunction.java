@@ -1,40 +1,43 @@
 package dev.worldgen.lithostitched.impl.worldgen.densityfunction;
 
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
-import net.minecraft.util.KeyDispatchDataCodec;
+import net.minecraft.util.Interval;
 import net.minecraft.world.level.levelgen.DensityFunction;
 
-public class CosDensityFunction extends TransformerDensityFunction {
-    public static final MapCodec<CosDensityFunction> DATA_CODEC = LithostitchedCodecs.DF_BASE.fieldOf("argument").xmap(CosDensityFunction::new, CosDensityFunction::argument);
-    public static KeyDispatchDataCodec<CosDensityFunction> CODEC_HOLDER = KeyDispatchDataCodec.of(DATA_CODEC);
+public record CosDensityFunction(DensityFunction input) implements DensityFunction {
+    public static final MapCodec<CosDensityFunction> CODEC = DensityFunction.CODEC.fieldOf("input").xmap(CosDensityFunction::new, CosDensityFunction::input);
     
-    public CosDensityFunction(DensityFunction argument) {
-        super(argument);
+    @Override
+    public float compute(FunctionContext context) {
+        return (float) Math.cos(this.input.compute(context));
     }
     
     @Override
-    public double transform(double value) {
-        return Math.cos(value);
-    }
-    
-    @Override
-    public double minValue() {
-        return -1;
-    }
-    
-    @Override
-    public double maxValue() {
-        return 1;
+    public void fillArray(float[] output, ContextProvider contextProvider) {
+        this.input().fillArray(output, contextProvider);
+        
+        for(int i = 0; i < output.length; ++i) {
+            output[i] = (float) Math.cos(output[i]);
+        }
     }
     
     @Override
     public DensityFunction mapChildren(Visitor visitor) {
-        return new CosDensityFunction(visitor.apply(this.argument()));
+        return new CosDensityFunction(visitor.apply(this.input));
     }
     
     @Override
-    public KeyDispatchDataCodec<? extends DensityFunction> codec() {
-        return CODEC_HOLDER;
+    public Interval range() {
+        return Interval.of(-1, 1);
+    }
+    
+    @Override
+    public @Axes int domainAxes() {
+        return this.input.domainAxes();
+    }
+    
+    @Override
+    public MapCodec<? extends DensityFunction> codec() {
+        return CODEC;
     }
 }

@@ -5,8 +5,7 @@ import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise.FastNoiseConfig;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.BiomeInjectorManager;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
-import net.minecraft.util.valueproviders.IntProviders;
-import dev.worldgen.lithostitched.worldgen.surface.SurfaceRuleManager;
+import dev.worldgen.lithostitched.worldgen.surface.MaterialRuleManager;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -24,7 +23,7 @@ public class LithostitchedInternalHooks {
 	
 	public static void applyModifiersAndInjections(RegistryAccess registries, Registry<LevelStem> dimensions, long seed) {
 		ModifierManager.applyModifiers(registries, dimensions);
-		SurfaceRuleManager.applySurfaceRules(registries, dimensions);
+		MaterialRuleManager.applySurfaceRules(registries, dimensions);
 		BiomeInjectorManager.applyBiomeInjectors(registries, dimensions, seed);
 		
 		for (Holder<FastNoiseConfig> config : registries.lookupOrThrow(LithostitchedRegistries.FAST_NOISE_CONFIG).listElements().toList()) {

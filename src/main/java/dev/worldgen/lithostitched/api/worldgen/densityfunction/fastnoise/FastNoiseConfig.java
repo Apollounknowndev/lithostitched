@@ -36,7 +36,7 @@ public abstract class FastNoiseConfig {
         fnl.SetSeed((int) seed + salt);
     }
 
-    public double sample(double x, double y, double z) {
+    public float sample(double x, double y, double z) {
         return fnl.GetNoise(x, y, z);
     }
 }
