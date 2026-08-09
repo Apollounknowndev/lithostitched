@@ -1,6 +1,8 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
 import dev.worldgen.lithostitched.Lithostitched;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.valueproviders.IntProviders;
 import dev.worldgen.lithostitched.worldgen.feature.config.DungeonConfig;
 import net.minecraft.core.BlockPos;
@@ -10,6 +12,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTypes;
@@ -36,7 +39,10 @@ public class DungeonFeature extends Feature<DungeonConfig> {
         RandomSource random = context.random();
         WorldGenLevel level = context.level();
         DungeonConfig config = context.config();
-        Predicate<BlockState> predicate = config.dungeonInvalidBlocks().<Predicate<BlockState>>map(set -> (state -> state.is(set))).orElse(state -> state.is(BlockTags.FEATURES_CANNOT_REPLACE));
+        Predicate<BlockState> predicate = config.dungeonInvalidBlocks()
+            .<Predicate<BlockState>>map(set -> (state -> state.is(set)))
+            .orElse(state -> state.is(BlockTags.FEATURES_CANNOT_REPLACE))
+            .negate();
         int xRadius = config.radius().sample(random);
         int minX = -xRadius - 1;
         int maxX = xRadius + 1;
