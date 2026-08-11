@@ -20,12 +20,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Debug(export = true)
 @Mixin(RegistryLoadTask.PendingRegistration.class)
 public class PendingRegistrationMixin {
-	//? if neoforge {
-	/*@Inject(
+	@Inject(
 		method = "loadFromResource",
 		at = @At(
 			value = "INVOKE",
-			target = "Lcom/mojang/serialization/Codec;parse(Lcom/mojang/serialization/DynamicOps;Ljava/lang/Object;)Lcom/mojang/serialization/DataResult;"
+			//? if fabric
+			target = "Lcom/mojang/serialization/Decoder;parse(Lcom/mojang/serialization/DynamicOps;Ljava/lang/Object;)Lcom/mojang/serialization/DataResult;"
+			//? if neoforge
+			//target = "Lcom/mojang/serialization/Codec;parse(Lcom/mojang/serialization/DynamicOps;Ljava/lang/Object;)Lcom/mojang/serialization/DataResult;"
 		),
 		cancellable = true
 	)
@@ -36,5 +38,4 @@ public class PendingRegistrationMixin {
 		if (LoadPredicate.CODEC.parse(ops, object.get("predicate")).result().orElse(LoadPredicate.alwaysTrue()).test()) return;
 		cir.setReturnValue(Either.right(new StubException()));
 	}
-	*///? }
 }
