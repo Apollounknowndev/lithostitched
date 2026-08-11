@@ -54,6 +54,7 @@ public record RereferenceNoiseSettingsModifier() implements WorldgenModifier {
                         "Patched a possible memory leak in the world save from previous Lithostitched versions. " +
                         "If there are new issues in this world starting right now, please report them to Lithostitched."
                     );
+                    break;
                 }
             }
         }
