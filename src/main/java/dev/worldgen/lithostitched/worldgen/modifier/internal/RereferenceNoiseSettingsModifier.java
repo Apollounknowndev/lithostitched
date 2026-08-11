@@ -5,16 +5,15 @@ import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
-import dev.worldgen.lithostitched.duck.StructurePoolAccess;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.MergedDensityFunction;
 import dev.worldgen.lithostitched.mixin.common.NoiseBasedChunkGeneratorAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.*;
-import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 
 import java.util.Map;
 import java.util.Optional;
@@ -48,7 +47,7 @@ public record RereferenceNoiseSettingsModifier() implements WorldgenModifier {
             
             // Find match
             for (Holder<NoiseGeneratorSettings> registrySettings : noiseSettings.asHolderIdMap()) {
-                if (doSettingsMatchIgnoringSurfaceRules(savedSettings.value(), registrySettings.value())) {
+                if (doSettingsMatchIgnoringSurfaceRules(savedSettings.value(), registrySettings.value(), registrySettings)) {
                     ((NoiseBasedChunkGeneratorAccessor)(Object)generator).setSettings(registrySettings);
                     Lithostitched.LOGGER.warn(
                         "Patched a possible memory leak in the world save from previous Lithostitched versions. " +
@@ -60,11 +59,11 @@ public record RereferenceNoiseSettingsModifier() implements WorldgenModifier {
         }
     }
     
-    private static boolean doSettingsMatchIgnoringSurfaceRules(NoiseGeneratorSettings saved, NoiseGeneratorSettings registry) {
+    private static boolean doSettingsMatchIgnoringSurfaceRules(NoiseGeneratorSettings saved, NoiseGeneratorSettings registry, Holder<NoiseGeneratorSettings> holder) {
         if (!saved.noiseSettings().equals(registry.noiseSettings())) return false;
         if (!saved.defaultBlock().equals(registry.defaultBlock())) return false;
         if (!saved.defaultFluid().equals(registry.defaultFluid())) return false;
-        if (!doNoiseRoutersMatch(saved.noiseRouter(), registry.noiseRouter())) return false;
+        if (!doDepthNoiseRouterValuesMatch(saved.noiseRouter(), registry.noiseRouter())) return false;
         if (!saved.spawnTarget().equals(registry.spawnTarget())) return false;
         if (saved.seaLevel() != registry.seaLevel()) return false;
         if (saved.disableMobGeneration() != registry.disableMobGeneration()) return false;
@@ -74,22 +73,27 @@ public record RereferenceNoiseSettingsModifier() implements WorldgenModifier {
         return true;
     }
     
-    private static boolean doNoiseRoutersMatch(NoiseRouter saved, NoiseRouter registry) {
-        for (NoiseRouterTarget target : NoiseRouterTarget.values()) {
-            if (!filterMergedRule(target.getDensityFunction(saved)).equals(target.getDensityFunction(registry))) {
-                return false;
-            }
+    private static boolean doDepthNoiseRouterValuesMatch(NoiseRouter saved, NoiseRouter registry) {
+        Identifier savedId = getDensityFunctionId(NoiseRouterTarget.DEPTH.getDensityFunction(saved));
+        Identifier registryId = getDensityFunctionId(NoiseRouterTarget.DEPTH.getDensityFunction(registry));
+        
+        if (savedId == null || !savedId.equals(registryId)) {
+            return false;
         }
+        
         return true;
     }
     
-    private static DensityFunction filterMergedRule(DensityFunction function) {
+    private static Identifier getDensityFunctionId(DensityFunction function) {
         if (function instanceof MergedDensityFunction merged) {
-            return merged.original();
-        } else if (function instanceof DensityFunctions.HolderHolder(Holder<DensityFunction> holder)) {
-            return holder.value();
+            function = merged.original();
         }
-        return function;
+        if (function instanceof DensityFunctions.HolderHolder(Holder<DensityFunction> holder)) {
+            if (holder.unwrapKey().isPresent()) {
+                return holder.unwrapKey().get().identifier();
+            }
+        }
+        return null;
     }
     
     @Override
