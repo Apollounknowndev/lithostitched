@@ -10,7 +10,7 @@ version = "${version}"
 authors = "Apollo"
 description = "${description}"
 
-logoFile = "pack.png"
+iconFile = "pack.png"
 #displayURL = "..."
 #issueTrackerUrl = "..."
 
