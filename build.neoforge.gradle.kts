@@ -3,7 +3,7 @@ plugins {
     id("neoforge-mutex")
 }
 
-version = "${property("mod.version")}-neoforge-26.2"
+version = "${property("mod.version")}-neoforge-26.1"
 base.archivesName = property("mod.id") as String
 
 val requiredJava = when {

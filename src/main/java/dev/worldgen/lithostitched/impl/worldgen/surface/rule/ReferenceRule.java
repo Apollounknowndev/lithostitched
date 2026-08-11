@@ -11,10 +11,11 @@ import net.minecraft.world.level.levelgen.SurfaceRules.RuleSource;
 
 public record ReferenceRule(HolderSet<RuleSource> rules) implements RuleSource {
     public static final MapCodec<ReferenceRule> CODEC = RegistryCodecs.homogeneousList(LithostitchedRegistries.SURFACE_RULE).fieldOf("rules").xmap(ReferenceRule::new, ReferenceRule::rules);
+    public static final KeyDispatchDataCodec<ReferenceRule> DATA_CODEC = KeyDispatchDataCodec.of(CODEC);
     
     @Override
-    public MapCodec<? extends RuleSource> codec() {
-        return CODEC;
+    public KeyDispatchDataCodec<? extends SurfaceRules.RuleSource> codec() {
+        return DATA_CODEC;
     }
 
     @Override

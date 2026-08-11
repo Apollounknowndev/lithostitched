@@ -52,7 +52,7 @@ public class StructurePieceMixin implements ReferencePosDuck {
 		
 		for (StructureProcessor processor : processorList.get().list()) {
 			BlockPos referencePos = this.lithostitched$referencePos == null ? piecePos : this.lithostitched$referencePos;
-			processedInfo = processor.processBlock(level, piecePos, referencePos, new BlockPos(x, y, z), processedInfo, new StructurePlaceSettings());
+			processedInfo = processor.processBlock(level, piecePos, referencePos, new StructureBlockInfo(new BlockPos(x, y, z), processedInfo.state(), processedInfo.nbt()), processedInfo, new StructurePlaceSettings());
 			if (processedInfo == null) {
 				return false;
 			}

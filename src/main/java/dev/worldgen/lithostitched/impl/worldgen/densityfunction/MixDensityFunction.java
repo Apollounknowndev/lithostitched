@@ -35,8 +35,8 @@ public record MixDensityFunction(DensityFunction input, DensityFunction argument
 	}
 	
 	@Override
-	public @NotNull DensityFunction mapChildren(Visitor visitor) {
-		return new MixDensityFunction(visitor.apply(input), visitor.apply(argument1), visitor.apply(argument2));
+	public @NotNull DensityFunction mapAll(Visitor visitor) {
+		return new MixDensityFunction(input.mapAll(visitor), argument1.mapAll(visitor), argument2.mapAll(visitor));
 	}
 	
 	@Override

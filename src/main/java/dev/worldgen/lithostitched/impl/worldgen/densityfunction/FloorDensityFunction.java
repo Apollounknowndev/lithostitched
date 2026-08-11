@@ -19,8 +19,8 @@ public class FloorDensityFunction extends TransformerDensityFunction {
     }
     
     @Override
-    public DensityFunction mapChildren(Visitor visitor) {
-        return new FloorDensityFunction(visitor.apply(this.argument()));
+    public DensityFunction mapAll(Visitor visitor) {
+        return new FloorDensityFunction(this.argument().mapAll(visitor));
     }
     
     @Override

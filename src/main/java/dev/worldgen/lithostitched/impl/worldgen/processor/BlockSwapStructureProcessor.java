@@ -17,30 +17,42 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
-public record BlockSwapStructureProcessor(Map<ResourceKey<Block>, ResourceKey<Block>> blockSwapMap) implements StructureProcessor {
-    public static final MapCodec<BlockSwapStructureProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        Codec.unboundedMap(ResourceKey.codec(Registries.BLOCK), ResourceKey.codec(Registries.BLOCK)).fieldOf("blocks").forGetter(BlockSwapStructureProcessor::blockSwapMap)
-    ).apply(instance, BlockSwapStructureProcessor::new));
+public final class BlockSwapStructureProcessor extends StructureProcessor {
+	public static final MapCodec<BlockSwapStructureProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+		Codec.unboundedMap(ResourceKey.codec(Registries.BLOCK), ResourceKey.codec(Registries.BLOCK)).fieldOf("blocks").forGetter(BlockSwapStructureProcessor::blockSwapMap)
+	).apply(instance, BlockSwapStructureProcessor::new));
+	public static final StructureProcessorType<BlockSwapStructureProcessor> TYPE = () -> CODEC;
+ 
+	private final Map<ResourceKey<Block>, ResourceKey<Block>> blockSwapMap;
+	
+	public BlockSwapStructureProcessor(Map<ResourceKey<Block>, ResourceKey<Block>> blockSwapMap) {
+		this.blockSwapMap = blockSwapMap;
+	}
     
-    @Override
-    public StructureTemplate.StructureBlockInfo processBlock(LevelReader levelReader, BlockPos blockPos, BlockPos blockPos2, BlockPos structureBlockInfo, StructureTemplate.StructureBlockInfo currentBlockInfo, StructurePlaceSettings structurePlaceSettings) {
-        HolderLookup.RegistryLookup<Block> registry = levelReader.registryAccess().lookupOrThrow(Registries.BLOCK);
-        ResourceKey<Block> key = currentBlockInfo.state().getBlock().builtInRegistryHolder().key();
-        if (blockSwapMap.containsKey(key)) {
-            Optional<Holder.Reference<Block>> newBlock;
-            newBlock = registry.get(blockSwapMap.get(key));
-            if (newBlock.isPresent()) {
-                return new StructureTemplate.StructureBlockInfo(currentBlockInfo.pos(), newBlock.get().value().withPropertiesOf(currentBlockInfo.state()), currentBlockInfo.nbt());
-            }
-        }
-        return currentBlockInfo;
+    public Map<ResourceKey<Block>, ResourceKey<Block>> blockSwapMap() {
+        return blockSwapMap;
     }
+	
+	@Override
+	public StructureTemplate.StructureBlockInfo processBlock(LevelReader level, BlockPos pos, BlockPos pivot, StructureTemplate.StructureBlockInfo relative, StructureTemplate.StructureBlockInfo absolute, StructurePlaceSettings settings) {
+		HolderLookup.RegistryLookup<Block> registry = level.registryAccess().lookupOrThrow(Registries.BLOCK);
+		ResourceKey<Block> key = absolute.state().getBlock().builtInRegistryHolder().key();
+		if (blockSwapMap.containsKey(key)) {
+			Optional<Holder.Reference<Block>> newBlock;
+			newBlock = registry.get(blockSwapMap.get(key));
+			if (newBlock.isPresent()) {
+				return new StructureTemplate.StructureBlockInfo(absolute.pos(), newBlock.get().value().withPropertiesOf(absolute.state()), absolute.nbt());
+			}
+		}
+		return absolute;
+	}
     
     @Override
-    public MapCodec<? extends StructureProcessor> codec() {
-        return CODEC;
+    protected StructureProcessorType<?> getType() {
+        return TYPE;
     }
 }
 

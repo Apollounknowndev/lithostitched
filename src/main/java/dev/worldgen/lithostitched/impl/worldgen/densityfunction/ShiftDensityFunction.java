@@ -32,8 +32,8 @@ public record ShiftDensityFunction(DensityFunction input, DensityFunction shiftX
 	}
 	
 	@Override
-	public @NotNull DensityFunction mapChildren(Visitor visitor) {
-		return new ShiftDensityFunction(visitor.apply(input), visitor.apply(shiftX),visitor.apply(shiftY), visitor.apply(shiftZ));
+	public @NotNull DensityFunction mapAll(Visitor visitor) {
+		return new ShiftDensityFunction(input.mapAll(visitor), shiftX.mapAll(visitor), shiftY.mapAll(visitor), shiftZ.mapAll(visitor));
 	}
 	
 	@Override

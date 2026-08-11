@@ -15,10 +15,11 @@ public record BiomeCondition(HolderSet<Biome> biomes) implements SurfaceRules.Co
     public static final MapCodec<BiomeCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LithostitchedCodecs.registrySet(Registries.BIOME, "biomes").forGetter(BiomeCondition::biomes)
     ).apply(instance, BiomeCondition::new));
+    public static final KeyDispatchDataCodec<BiomeCondition> DATA_CODEC = KeyDispatchDataCodec.of(CODEC);
     
     @Override
-    public MapCodec<? extends SurfaceRules.ConditionSource> codec() {
-        return CODEC;
+    public KeyDispatchDataCodec<? extends SurfaceRules.ConditionSource> codec() {
+        return DATA_CODEC;
     }
     
     @Override

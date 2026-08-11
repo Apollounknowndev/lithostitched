@@ -19,10 +19,11 @@ public record TransientMergedRule(List<RuleSource> rules, RuleSource original) i
         source -> source,
         source -> source instanceof TransientMergedRule transientMerged ? transientMerged.original : source
     ).fieldOf("original_source");
+    public static final KeyDispatchDataCodec<RuleSource> DATA_CODEC = KeyDispatchDataCodec.of(CODEC);
     
     @Override
-    public MapCodec<? extends RuleSource> codec() {
-        return CODEC;
+    public KeyDispatchDataCodec<? extends RuleSource> codec() {
+        return DATA_CODEC;
     }
 
     @Override

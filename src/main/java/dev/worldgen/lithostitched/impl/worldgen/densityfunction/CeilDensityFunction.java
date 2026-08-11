@@ -19,8 +19,8 @@ public class CeilDensityFunction extends TransformerDensityFunction {
     }
     
     @Override
-    public DensityFunction mapChildren(Visitor visitor) {
-        return new CeilDensityFunction(visitor.apply(this.argument()));
+    public DensityFunction mapAll(Visitor visitor) {
+        return new CeilDensityFunction(this.argument().mapAll(visitor));
     }
     
     @Override

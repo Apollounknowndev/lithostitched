@@ -1,14 +1,12 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
-import net.minecraft.util.valueproviders.IntProviders;
 import dev.worldgen.lithostitched.worldgen.feature.config.WellConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntityTypes;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.BrushableBlockEntity;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
@@ -75,7 +73,7 @@ public class WellFeature extends Feature<WellConfig> {
             for (int offset = 0; offset < 2; offset++) {
                 pos = origin.below(offset+2).relative(Direction.Plane.HORIZONTAL.getRandomDirection(random));
                 level.setBlock(pos, config.suspiciousProvider().getState(level, random, pos), 2);
-                Optional<BrushableBlockEntity> susBlock = level.getBlockEntity(pos, BlockEntityTypes.BRUSHABLE_BLOCK);
+                Optional<BrushableBlockEntity> susBlock = level.getBlockEntity(pos, BlockEntityType.BRUSHABLE_BLOCK);
                 if (susBlock.isPresent()) {
                     susBlock.get().setLootTable(config.suspiciousLootTable(), pos.asLong());
                 }

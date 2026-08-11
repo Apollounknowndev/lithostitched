@@ -33,8 +33,8 @@ public record MergedDensityFunction(DensityFunction original, DensityFunction wr
     }
 
     @Override
-    public DensityFunction mapChildren(Visitor visitor) {
-        return visitor.apply(this.full);
+    public DensityFunction mapAll(Visitor visitor) {
+        return this.full.mapAll(visitor);
     }
 
     @Override

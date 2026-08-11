@@ -13,11 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
     "net.minecraft.world.level.levelgen.DensityFunctions$Spline"
 })
 public class DensityFunctionsMapAllMixin {
-    //? if >= 26.2 {
-    @WrapMethod(method = "mapChildren")
-    //? } else {
-    /*@WrapMethod(method = "mapAll")
-     *///? }
+    @WrapMethod(method = "mapAll")
     private DensityFunction modulation$cacheMapAllSafely(DensityFunction.Visitor visitor, Operation<DensityFunction> original) {
         DensityFunction self = (DensityFunction) this;
 

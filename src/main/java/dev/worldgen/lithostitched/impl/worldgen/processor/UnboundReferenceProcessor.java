@@ -9,6 +9,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.levelgen.structure.templatesystem.*;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -17,10 +18,11 @@ import java.util.Optional;
  * Hack to allow references in structure processors without initially having registry access.
  * Meant for non-jigsaw structure template based structures like shipwrecks.
  */
-public class UnboundReferenceProcessor implements StructureProcessor {
+public class UnboundReferenceProcessor extends StructureProcessor {
     public static final MapCodec<UnboundReferenceProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         ResourceKey.codec(Registries.PROCESSOR_LIST).fieldOf("name").forGetter(UnboundReferenceProcessor::name)
     ).apply(instance, UnboundReferenceProcessor::new));
+    public static final StructureProcessorType<UnboundReferenceProcessor> TYPE = () -> CODEC;
 
     private final ResourceKey<StructureProcessorList> name;
 
@@ -41,8 +43,8 @@ public class UnboundReferenceProcessor implements StructureProcessor {
     }
 
     @Override
-    public StructureTemplate.StructureBlockInfo processBlock(LevelReader levelReader, BlockPos pos, BlockPos pivot, BlockPos relative, StructureTemplate.StructureBlockInfo absolute, StructurePlaceSettings settings) {
-        StructureTemplate.StructureBlockInfo processedBlock = absolute;
+    public StructureBlockInfo processBlock(LevelReader levelReader, BlockPos pos, BlockPos pivot, StructureBlockInfo relative, StructureBlockInfo absolute, StructurePlaceSettings settings) {
+        StructureBlockInfo processedBlock = absolute;
 
         var registry = Lithostitched.registry(levelReader.registryAccess(), Registries.PROCESSOR_LIST);
         Optional<StructureProcessorList> list = registry.getOptional(this.name);
@@ -59,7 +61,7 @@ public class UnboundReferenceProcessor implements StructureProcessor {
     }
     
     @Override
-    public MapCodec<? extends StructureProcessor> codec() {
-        return CODEC;
+    protected StructureProcessorType<?> getType() {
+        return TYPE;
     }
 }

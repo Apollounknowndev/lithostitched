@@ -11,11 +11,11 @@ public record AllOfCondition(List<SurfaceRules.ConditionSource> conditions) impl
     public static final MapCodec<AllOfCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         SurfaceRules.ConditionSource.CODEC.listOf().fieldOf("conditions").forGetter(AllOfCondition::conditions)
     ).apply(instance, AllOfCondition::new));
-
-
+    public static final KeyDispatchDataCodec<AllOfCondition> DATA_CODEC = KeyDispatchDataCodec.of(CODEC);
+    
     @Override
-    public MapCodec<? extends SurfaceRules.ConditionSource> codec() {
-        return CODEC;
+    public KeyDispatchDataCodec<? extends SurfaceRules.ConditionSource> codec() {
+        return DATA_CODEC;
     }
 
     @Override

@@ -12,10 +12,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.valueproviders.IntProvider;
-import net.minecraft.util.valueproviders.IntProviders;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
@@ -28,9 +26,9 @@ import java.util.Optional;
 
 public record DungeonConfig(int minOpenings, int maxOpenings, IntProvider radius, int maxChests, WeightedList<EntityType<?>> spawnerMobs, BlockStateProvider floorProvider, BlockStateProvider wallProvider, Optional<HolderSet<Block>> dungeonInvalidBlocks, ResourceKey<LootTable> lootTable) implements FeatureConfiguration {
     private static final WeightedList<EntityType<?>> DEFAULT_MOBS = WeightedList.<EntityType<?>>builder()
-        .add(EntityTypes.ZOMBIE, 2)
-        .add(EntityTypes.SKELETON, 1)
-        .add(EntityTypes.SPIDER, 1)
+        .add(EntityType.ZOMBIE, 2)
+        .add(EntityType.SKELETON, 1)
+        .add(EntityType.SPIDER, 1)
         .build();
     private static final WeightedList<BlockStateProvider> DEFAULT_FLOOR = WeightedList.<BlockStateProvider>builder()
         .add(SimpleStateProvider.simple(Blocks.MOSSY_COBBLESTONE), 3)

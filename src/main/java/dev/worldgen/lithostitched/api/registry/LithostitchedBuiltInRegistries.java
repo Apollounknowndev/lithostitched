@@ -27,7 +27,6 @@ import dev.worldgen.lithostitched.impl.worldgen.fastnoise.SimplexNoiseType;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
 import dev.worldgen.lithostitched.impl.worldgen.processor.*;
 import dev.worldgen.lithostitched.impl.worldgen.surface.condition.*;
-import dev.worldgen.lithostitched.impl.worldgen.surface.condition.internal.TagFilledCondition;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.BandlandsRule;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.ReferenceRule;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.TransientMergedRule;
@@ -242,8 +241,6 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("reference", ReferenceRule.CODEC)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.MATERIAL_CONDITION, Map.ofEntries(
-			Map.entry("internal/tag_filled", TagFilledCondition.CODEC),
-			
 			Map.entry("all_of", AllOfCondition.CODEC),
 			Map.entry("any_of", AnyOfCondition.CODEC),
 			Map.entry("biome", BiomeCondition.CODEC),
@@ -271,15 +268,15 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("feature", LithostitchedFeaturePoolElement.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.STRUCTURE_PROCESSOR, Map.ofEntries(
-			Map.entry("internal/unbound_reference", UnboundReferenceProcessor.CODEC),
-			Map.entry("apply_random", ApplyRandomStructureProcessor.CODEC),
-			Map.entry("block_swap", BlockSwapStructureProcessor.CODEC),
-			Map.entry("reference", ReferenceStructureProcessor.CODEC),
+			Map.entry("internal/unbound_reference", UnboundReferenceProcessor.TYPE),
+			Map.entry("apply_random", ApplyRandomStructureProcessor.TYPE),
+			Map.entry("block_swap", BlockSwapStructureProcessor.TYPE),
+			Map.entry("reference", ReferenceStructureProcessor.TYPE),
 			
-			Map.entry("condition", ConditionProcessor.CODEC),
-			Map.entry("discard_input", DiscardInputProcessor.CODEC),
-			Map.entry("schedule_tick", ScheduleTickProcessor.CODEC),
-			Map.entry("set_block", SetBlockProcessor.CODEC)
+			Map.entry("condition", ConditionProcessor.TYPE),
+			Map.entry("discard_input", DiscardInputProcessor.TYPE),
+			Map.entry("schedule_tick", ScheduleTickProcessor.TYPE),
+			Map.entry("set_block", SetBlockProcessor.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.STRUCTURE_TYPE, Map.ofEntries(
 			Map.entry("delegating", DelegatingStructure.TYPE),

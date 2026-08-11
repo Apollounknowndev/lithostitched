@@ -49,8 +49,8 @@ public record SelectDensityFunction(DensityFunction input, DensityFunction fallb
 	}
 	
 	@Override
-	public @NotNull DensityFunction mapChildren(Visitor visitor) {
-		return new SelectDensityFunction(visitor.apply(input), visitor.apply(fallback), selections.stream().map(selection -> selection.mapChildren(visitor)).toList(), min, max);
+	public @NotNull DensityFunction mapAll(Visitor visitor) {
+		return new SelectDensityFunction(input.mapAll(visitor), fallback.mapAll(visitor), selections.stream().map(selection -> selection.mapAll(visitor)).toList(), min, max);
 	}
 	
 	@Override
@@ -74,8 +74,8 @@ public record SelectDensityFunction(DensityFunction input, DensityFunction fallb
 			LithostitchedCodecs.DF_BASE.fieldOf("function").forGetter(Selection::function)
 		).apply(instance, Selection::new));
 		
-		public Selection mapChildren(Visitor visitor) {
-			return new Selection(range, visitor.apply(function));
+		public Selection mapAll(Visitor visitor) {
+			return new Selection(range, function.mapAll(visitor));
 		}
 		
 		public static Selection create(Pair<InclusiveRange<Double>, DensityFunction> pair) {

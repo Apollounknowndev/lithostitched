@@ -17,11 +17,11 @@ public record SlopeCondition(InclusiveRange<Integer> threshold) implements Surfa
     public static final MapCodec<SlopeCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LithostitchedCodecs.INT_RANGE.fieldOf("height_difference").orElse(BASE_DIFFERENCE).forGetter(SlopeCondition::threshold)
     ).apply(instance, SlopeCondition::new));
-
-
+    public static final KeyDispatchDataCodec<SlopeCondition> DATA_CODEC = KeyDispatchDataCodec.of(CODEC);
+    
     @Override
-    public MapCodec<? extends SurfaceRules.ConditionSource> codec() {
-        return CODEC;
+    public KeyDispatchDataCodec<? extends SurfaceRules.ConditionSource> codec() {
+        return DATA_CODEC;
     }
 
     @Override

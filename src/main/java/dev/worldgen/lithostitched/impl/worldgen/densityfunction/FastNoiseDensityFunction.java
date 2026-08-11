@@ -38,8 +38,8 @@ public record FastNoiseDensityFunction(Holder<FastNoiseConfig> config, double xz
     }
 
     @Override
-    public DensityFunction mapChildren(Visitor visitor) {
-        return new FastNoiseDensityFunction(this.config, this.xzScale, this.yScale, visitor.apply(this.shiftX), visitor.apply(this.shiftY), visitor.apply(this.shiftZ));
+    public DensityFunction mapAll(Visitor visitor) {
+        return new FastNoiseDensityFunction(this.config, this.xzScale, this.yScale, this.shiftX.mapAll(visitor), this.shiftY.mapAll(visitor), this.shiftZ.mapAll(visitor));
     }
 
     @Override

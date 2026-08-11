@@ -9,14 +9,16 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.level.material.FluidState;
 
-public class ScheduleTickProcessor implements StructureProcessor {
+public class ScheduleTickProcessor extends StructureProcessor {
     public static final ScheduleTickProcessor INSTANCE = new ScheduleTickProcessor();
     public static final MapCodec<ScheduleTickProcessor> CODEC = MapCodec.unit(() -> INSTANCE);
+    public static final StructureProcessorType<ScheduleTickProcessor> TYPE = () -> CODEC;
 
     @Override
-    public StructureTemplate.StructureBlockInfo processBlock(LevelReader levelReader, BlockPos pos, BlockPos pivot, BlockPos relative, StructureTemplate.StructureBlockInfo absolute, StructurePlaceSettings settings) {
+    public StructureBlockInfo processBlock(LevelReader levelReader, BlockPos pos, BlockPos pivot, StructureBlockInfo relative, StructureBlockInfo absolute, StructurePlaceSettings settings) {
         if (levelReader instanceof WorldGenLevel level) {
             level.getLevel().scheduleTick(absolute.pos(), absolute.state().getBlock(), 0);
 
@@ -29,7 +31,7 @@ public class ScheduleTickProcessor implements StructureProcessor {
     }
     
     @Override
-    public MapCodec<? extends StructureProcessor> codec() {
-        return CODEC;
+    protected StructureProcessorType<?> getType() {
+        return TYPE;
     }
 }

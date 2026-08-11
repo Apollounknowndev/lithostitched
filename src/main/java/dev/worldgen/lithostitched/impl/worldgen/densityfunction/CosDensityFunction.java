@@ -29,8 +29,8 @@ public class CosDensityFunction extends TransformerDensityFunction {
     }
     
     @Override
-    public DensityFunction mapChildren(Visitor visitor) {
-        return new CosDensityFunction(visitor.apply(this.argument()));
+    public DensityFunction mapAll(Visitor visitor) {
+        return new CosDensityFunction(this.argument().mapAll(visitor));
     }
     
     @Override

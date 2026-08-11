@@ -10,12 +10,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTypes;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -114,7 +113,7 @@ public class DungeonFeature extends Feature<DungeonConfig> {
 
                         if (solidFaces == 1) {
                             this.safeSetBlock(level, chestPos, StructurePiece.reorient(level, chestPos, Blocks.CHEST.defaultBlockState()), predicate);
-                            Optional<ChestBlockEntity> chestEntity = level.getBlockEntity(chestPos, BlockEntityTypes.CHEST);
+                            Optional<ChestBlockEntity> chestEntity = level.getBlockEntity(chestPos, BlockEntityType.CHEST);
                             chestEntity.ifPresent(chestBlockEntity -> chestBlockEntity.setLootTable(config.lootTable(), random.nextLong()));
                             break;
                         }
@@ -125,7 +124,7 @@ public class DungeonFeature extends Feature<DungeonConfig> {
             this.safeSetBlock(level, startPos, Blocks.SPAWNER.defaultBlockState(), predicate);
             BlockEntity blockEntity = level.getBlockEntity(startPos);
             if (blockEntity instanceof SpawnerBlockEntity spawner) {
-                spawner.setEntityId(config.spawnerMobs().getRandom(random).orElse(EntityTypes.PIG), random);
+                spawner.setEntityId(config.spawnerMobs().getRandom(random).orElse(EntityType.PIG), random);
             } else {
                 Lithostitched.LOGGER.error("Failed to get spawner block entity for dungeon at block position ({})", startPos);
             }

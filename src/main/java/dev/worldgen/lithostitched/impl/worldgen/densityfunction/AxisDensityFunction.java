@@ -24,7 +24,7 @@ public record AxisDensityFunction(Axis axis) implements DensityFunction {
 	}
 	
 	@Override
-	public DensityFunction mapChildren(Visitor visitor) {
+	public DensityFunction mapAll(Visitor visitor) {
 		return this;
 	}
 	

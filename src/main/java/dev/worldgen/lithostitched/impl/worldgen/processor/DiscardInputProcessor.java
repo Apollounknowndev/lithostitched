@@ -7,18 +7,20 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 
-public class DiscardInputProcessor implements StructureProcessor {
+public class DiscardInputProcessor extends StructureProcessor {
     public static final DiscardInputProcessor INSTANCE = new DiscardInputProcessor();
     public static final MapCodec<DiscardInputProcessor> CODEC = MapCodec.unit(() -> INSTANCE);
+    public static final StructureProcessorType<DiscardInputProcessor> TYPE = () -> CODEC;
 
     @Override
-    public StructureTemplate.StructureBlockInfo processBlock(LevelReader levelReader, BlockPos pos, BlockPos pivot, BlockPos relative, StructureTemplate.StructureBlockInfo absolute, StructurePlaceSettings settings) {
+    public StructureBlockInfo processBlock(LevelReader levelReader, BlockPos pos, BlockPos pivot, StructureBlockInfo relative, StructureBlockInfo absolute, StructurePlaceSettings settings) {
         return null;
     }
     
     @Override
-    public MapCodec<? extends StructureProcessor> codec() {
-        return CODEC;
+    protected StructureProcessorType<?> getType() {
+        return TYPE;
     }
 }

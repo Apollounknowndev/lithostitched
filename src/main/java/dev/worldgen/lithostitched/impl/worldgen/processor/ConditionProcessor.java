@@ -18,7 +18,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 
 import java.util.List;
 
-public class ConditionProcessor implements StructureProcessor {
+public class ConditionProcessor extends StructureProcessor {
     private static final Codec<List<StructureProcessor>> PROCESSOR_CODEC = LithostitchedCodecs.compactList(StructureProcessorType.SINGLE_CODEC);
     public static final MapCodec<ConditionProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         RandomSettings.CODEC.fieldOf("random_mode").orElse(new RandomSettings(RandomMode.PER_BLOCK)).forGetter(ConditionProcessor::randomSettings),
@@ -26,6 +26,7 @@ public class ConditionProcessor implements StructureProcessor {
         PROCESSOR_CODEC.fieldOf("then").forGetter(ConditionProcessor::thenRun),
         PROCESSOR_CODEC.fieldOf("else").orElse(List.of()).forGetter(ConditionProcessor::elseRun)
     ).apply(instance, ConditionProcessor::new));
+    public static final StructureProcessorType<ConditionProcessor> TYPE = () -> CODEC;
 
     private final RandomSettings randomSettings;
     private final ProcessorCondition condition;
@@ -56,10 +57,10 @@ public class ConditionProcessor implements StructureProcessor {
     }
 
     @Override
-    public StructureBlockInfo processBlock(LevelReader levelReader, BlockPos pos, BlockPos pivot, BlockPos relative, StructureBlockInfo absolute, StructurePlaceSettings settings) {
+    public StructureBlockInfo processBlock(LevelReader levelReader, BlockPos pos, BlockPos pivot, StructureBlockInfo relative, StructureBlockInfo absolute, StructurePlaceSettings settings) {
         if (levelReader instanceof WorldGenLevel level) {
             RandomSource random = this.randomSettings.create(level, pos, pivot, absolute);
-            StructureBlockInfo newInput = new StructureBlockInfo(relative, absolute.state(), absolute.nbt());
+            StructureBlockInfo newInput = new StructureBlockInfo(relative.pos(), absolute.state(), absolute.nbt());
             StructureBlockInfo newLocation = new StructureBlockInfo(absolute.pos(), level.getBlockState(absolute.pos()), absolute.nbt());
 
             boolean passed = this.condition.test(level, new ProcessorCondition.Data(pos, pivot, newInput, newLocation), settings, random);
@@ -78,7 +79,7 @@ public class ConditionProcessor implements StructureProcessor {
     }
     
     @Override
-    public MapCodec<? extends StructureProcessor> codec() {
-        return CODEC;
+    protected StructureProcessorType<?> getType() {
+        return TYPE;
     }
 }
