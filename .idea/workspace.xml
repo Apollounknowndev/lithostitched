@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Fix load predicates">
-      <change afterPath="$PROJECT_DIR$/src/file.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/internal/RereferenceNoiseSettingsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/internal/RereferenceNoiseSettingsModifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/neoforge.mods.toml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/neoforge.mods.toml" afterDir="false" />
-    </list>
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Fix noise settings rereferencing" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -295,14 +290,6 @@
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task id="LOCAL-00001" summary="Structure additions, misc. cleanup">
-      <option name="closed" value="true" />
-      <created>1754773894674</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1754773894674</updated>
-    </task>
     <task active="true" id="Default" summary="Default task">
       <changelist id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Structure additions, misc. cleanup" />
       <created>1754844028042</created>
@@ -686,15 +673,29 @@
       <option name="project" value="LOCAL" />
       <updated>1786244396341</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="Neoforge why are you like this">
+      <option name="closed" value="true" />
+      <created>1786448463550</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1786448463551</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Fix noise settings rereferencing">
+      <option name="closed" value="true" />
+      <created>1786448474729</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1786448474729</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Surface rule injection types" />
-    <MESSAGE value="DATAGENNNNN UTILSSSSSSSS RAAAAAAAAA" />
     <MESSAGE value="Density functions" />
     <MESSAGE value="Fix runtime df wrappers" />
     <MESSAGE value="Fix runtime modifier injection" />
@@ -718,7 +719,9 @@
     <MESSAGE value="Gradle tweaks" />
     <MESSAGE value="Remove other version code" />
     <MESSAGE value="Finish 26.2 version of 1.8.0+beta1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finish 26.2 version of 1.8.0+beta1" />
+    <MESSAGE value="Neoforge why are you like this" />
+    <MESSAGE value="Fix noise settings rereferencing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix noise settings rereferencing" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

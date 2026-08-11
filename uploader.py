@@ -5,14 +5,10 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.8.0+beta1"
+MOD_VERSION = "1.8.0+beta2"
 CHANGELOG = """
-- Introduced an optimization to density function caching. This will be most noticeable when playing with heavy worldgen packs like Tectonic or Lithosphere.
-    - A special thank you to Unnecessarymb and Evanbones for finding and implementing this optimization, respectively.
-- Fixed the fields on the `offset` placement modifier being non-optional.
-- Fixed the `dungeon` feature type not working.
-
-This update also restructures the mod's backend, hence the minor version bump. While this *shouldn't* result in any breakages, this version is marked as a beta just in case.
+- Fixed load predicates not applying correctly. This should fix some weirdness with Tectonic.
+- Fixed a critical issue that caused worlds with surface rule injections that could cause world corruption.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "26.2"),

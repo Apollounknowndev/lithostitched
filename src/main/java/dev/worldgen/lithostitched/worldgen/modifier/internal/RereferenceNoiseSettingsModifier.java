@@ -50,7 +50,7 @@ public record RereferenceNoiseSettingsModifier() implements WorldgenModifier {
                 if (doSettingsMatchIgnoringSurfaceRules(savedSettings.value(), registrySettings.value(), registrySettings)) {
                     ((NoiseBasedChunkGeneratorAccessor)(Object)generator).setSettings(registrySettings);
                     Lithostitched.LOGGER.warn(
-                        "Patched a possible memory leak in the world save from previous Lithostitched versions. " +
+                        "Patched a possible corruption issue in the world save from previous Lithostitched versions. " +
                         "If there are new issues in this world starting right now, please report them to Lithostitched."
                     );
                     break;
@@ -76,12 +76,8 @@ public record RereferenceNoiseSettingsModifier() implements WorldgenModifier {
     private static boolean doDepthNoiseRouterValuesMatch(NoiseRouter saved, NoiseRouter registry) {
         Identifier savedId = getDensityFunctionId(NoiseRouterTarget.DEPTH.getDensityFunction(saved));
         Identifier registryId = getDensityFunctionId(NoiseRouterTarget.DEPTH.getDensityFunction(registry));
-        
-        if (savedId == null || !savedId.equals(registryId)) {
-            return false;
-        }
-        
-        return true;
+	    
+	    return savedId != null && savedId.equals(registryId);
     }
     
     private static Identifier getDensityFunctionId(DensityFunction function) {
