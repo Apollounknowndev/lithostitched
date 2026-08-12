@@ -1,9 +1,7 @@
 package dev.worldgen.lithostitched.api.worldgen.surface;
 
 import dev.worldgen.lithostitched.impl.worldgen.surface.condition.*;
-import net.minecraft.core.HolderSet;
 import net.minecraft.util.InclusiveRange;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.SurfaceRules.ConditionSource;
 
@@ -16,10 +14,6 @@ public interface LithostitchedSurfaceConditions {
 	
 	static ConditionSource anyOf(ConditionSource... conditions) {
 		return new AnyOfCondition(Arrays.asList(conditions));
-	}
-	
-	static ConditionSource biome(HolderSet<Biome> biomes) {
-		return new BiomeCondition(biomes);
 	}
 	
 	static ConditionSource slope(InclusiveRange<Integer> threshold) {

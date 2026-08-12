@@ -31,9 +31,7 @@ import dev.worldgen.lithostitched.impl.worldgen.placementcondition.*;
 import dev.worldgen.lithostitched.impl.worldgen.processor.*;
 import dev.worldgen.lithostitched.impl.worldgen.processor.condition.*;
 import dev.worldgen.lithostitched.impl.worldgen.surface.condition.*;
-import dev.worldgen.lithostitched.impl.worldgen.surface.condition.internal.TagFilledCondition;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.BandlandsRule;
-import dev.worldgen.lithostitched.impl.worldgen.surface.rule.ReferenceRule;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.TransientMergedRule;
 import dev.worldgen.lithostitched.impl.worldgen.attribute.LithostitchedEnvironmentAttributes;
 import dev.worldgen.lithostitched.impl.worldgen.blockentitymodifier.ApplyAll;
@@ -47,8 +45,6 @@ import dev.worldgen.lithostitched.impl.worldgen.placementmodifier.ConditionPlace
 import dev.worldgen.lithostitched.impl.worldgen.placementmodifier.NoiseSlopePlacement;
 import dev.worldgen.lithostitched.impl.worldgen.poolalias.RandomEntries;
 import dev.worldgen.lithostitched.impl.worldgen.poolelement.DelegatingPoolElement;
-import dev.worldgen.lithostitched.impl.worldgen.poolelement.legacy.GuaranteedPoolElement;
-import dev.worldgen.lithostitched.impl.worldgen.poolelement.legacy.LimitedPoolElement;
 import dev.worldgen.lithostitched.impl.worldgen.stateprovider.WeightedProvider;
 import dev.worldgen.lithostitched.impl.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.impl.worldgen.structure.DelegatingStructure;
@@ -56,7 +52,6 @@ import dev.worldgen.lithostitched.impl.worldgen.structure.DelegatingStructure;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.levelgen.SurfaceRules;
 
 import java.util.Map;
 
@@ -102,7 +97,6 @@ public class LithostitchedBuiltInRegistries {
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.BIOME_INJECTOR, BiomeInjector.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.FAST_NOISE_CONFIG, FastNoiseConfig.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.REGION, Region.CODEC);
-		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.SURFACE_RULE, SurfaceRules.RuleSource.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.TEMPLATE_LIST, TemplateList.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.WORLDGEN_MODIFIER, WorldgenModifier.CODEC);
 		
@@ -223,15 +217,11 @@ public class LithostitchedBuiltInRegistries {
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.MATERIAL_RULE_TYPE, Map.ofEntries(
 			Map.entry("transient_merged", TransientMergedRule.CODEC),
-			Map.entry("bandlands", BandlandsRule.CODEC),
-			Map.entry("reference", ReferenceRule.CODEC)
+			Map.entry("bandlands", BandlandsRule.CODEC)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.MATERIAL_CONDITION_TYPE, Map.ofEntries(
-			Map.entry("internal/tag_filled", TagFilledCondition.CODEC),
-			
 			Map.entry("all_of", AllOfCondition.CODEC),
 			Map.entry("any_of", AnyOfCondition.CODEC),
-			Map.entry("biome", BiomeCondition.CODEC),
 			Map.entry("slope", SlopeCondition.CODEC),
 			Map.entry("sample_density", SampleDensityCondition.CODEC)
 		));
@@ -240,9 +230,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("noise_slope", NoiseSlopePlacement.CODEC)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, Map.ofEntries(
-			Map.entry("delegating", DelegatingPoolElement.TYPE),
-			Map.entry("guaranteed", GuaranteedPoolElement.TYPE),
-			Map.entry("limited", LimitedPoolElement.TYPE)
+			Map.entry("delegating", DelegatingPoolElement.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.POOL_ALIAS_BINDING_TYPE, Map.ofEntries(
 			Map.entry("internal/random_entries", RandomEntries.CODEC)
