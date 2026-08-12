@@ -40,3 +40,8 @@ accessible class net/minecraft/world/level/biome/Climate$RTree
 
 # 26.1 stuff
 accessible class net/minecraft/resources/RegistryLoadTask$PendingRegistration
+
+# Biome timelines
+extendable class net/minecraft/world/attribute/EnvironmentAttributeLayer
+accessible method net/minecraft/world/attribute/EnvironmentAttributeSystem$Builder addLayer (Lnet/minecraft/world/attribute/EnvironmentAttribute;Lnet/minecraft/world/attribute/EnvironmentAttributeLayer;)Lnet/minecraft/world/attribute/EnvironmentAttributeSystem$Builder;
+accessible class net/minecraft/world/attribute/EnvironmentAttributeSystem$ValueSampler
