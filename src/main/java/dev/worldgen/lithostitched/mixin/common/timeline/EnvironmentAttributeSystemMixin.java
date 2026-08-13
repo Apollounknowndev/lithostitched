@@ -1,12 +1,7 @@
 package dev.worldgen.lithostitched.mixin.common.timeline;
 
-import com.llamalad7.mixinextras.expression.Definition;
-import com.llamalad7.mixinextras.expression.Expression;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
-import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.impl.duck.AttributeLayerBuilderDuck;
 import dev.worldgen.lithostitched.impl.duck.BiomeTimelineDuck;
 import dev.worldgen.lithostitched.impl.duck.BiomeWeightingDuck;
@@ -19,6 +14,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.attribute.EnvironmentAttribute;
 import net.minecraft.world.attribute.EnvironmentAttributeLayer;
+import net.minecraft.world.attribute.EnvironmentAttributeLayer.TimeBased;
 import net.minecraft.world.attribute.EnvironmentAttributeSystem;
 import net.minecraft.world.attribute.LerpFunction;
 import net.minecraft.world.clock.ClockManager;
@@ -32,9 +28,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -59,13 +53,9 @@ public class EnvironmentAttributeSystemMixin {
 		Registry<Biome> biomes = level.registryAccess().lookupOrThrow(Registries.BIOME);
 		BiomeManager biomeManager = level.getBiomeManager();
 		
-		Stream<EnvironmentAttribute<?>> attributesProvidedByBiomeTimelines = biomes.listElements().flatMap(biome -> {
-			Holder<Timeline> timeline = BiomeTimelineDuck.cast(biome.value()).lithostitched$getTimeline();
-			if (timeline != null) {
-				return timeline.value().attributes().stream();
-			}
-			return Stream.of();
-		}).distinct();
+		Stream<EnvironmentAttribute<?>> attributesProvidedByBiomeTimelines = biomes.listElements().flatMap(biome ->
+			BiomeTimelineDuck.cast(biome.value()).lithostitched$getTimelines().stream().flatMap(timeline -> timeline.value().attributes().stream())
+		).distinct();
 		attributesProvidedByBiomeTimelines.forEach(attribute -> {
 			addBiomeTimelineLayerForAttribute(builder, attribute, biomes, biomeManager, level.clockManager());
 		});
@@ -73,11 +63,13 @@ public class EnvironmentAttributeSystemMixin {
 	
 	@Unique
 	private static <Value> void addBiomeTimelineLayerForAttribute(EnvironmentAttributeSystem.Builder builder, EnvironmentAttribute<Value> attribute, Registry<Biome> biomes, BiomeManager biomeManager, ClockManager clockManager) {
-		Map<Holder<Biome>, EnvironmentAttributeLayer.TimeBased<Value>> trackSamplersByBiome = new HashMap<>();
+		Map<Holder<Biome>, List<TimeBased<Value>>> trackSamplersByBiome = new HashMap<>();
 		for (Holder<Biome> biome : biomes.asHolderIdMap()) {
-			Holder<Timeline> timeline = BiomeTimelineDuck.cast(biome.value()).lithostitched$getTimeline();
-			if (timeline == null) continue;
-			trackSamplersByBiome.put(biome, timeline.value().createTrackSampler(attribute, clockManager));
+			List<TimeBased<Value>> trackSamplers = new ArrayList<>();
+			for (Holder<Timeline> timeline : BiomeTimelineDuck.cast(biome.value()).lithostitched$getTimelines()) {
+				trackSamplers.add(timeline.value().createTrackSampler(attribute, clockManager));
+			}
+			trackSamplersByBiome.put(biome, trackSamplers);
 		}
 		
 		((AttributeLayerBuilderDuck)builder).addPositionalTimeBasedLayer(
@@ -89,22 +81,19 @@ public class EnvironmentAttributeSystemMixin {
 						return baseValue;
 					} else if (weightsByBiome.size() == 1) {
 						Holder<Biome> biome = weightsByBiome.keySet().iterator().next();
-						EnvironmentAttributeLayer.TimeBased<Value> trackSampler = trackSamplersByBiome.get(biome);
-						if (trackSampler != null) {
-							return trackSampler.applyTimeBased(baseValue, cacheTickId);
+						Value value = baseValue;
+						for (TimeBased<Value> trackSampler : trackSamplersByBiome.getOrDefault(biome, List.of())) {
+							value = trackSampler.applyTimeBased(value, cacheTickId);
 						}
-						return baseValue;
+						return value;
 					} else {
 						LerpFunction<Value> lerp = attribute.type().spatialLerp();
 						Value resultValue = null;
 						double accumulatedWeight = 0.0;
 						for (Reference2DoubleMap.Entry<Holder<Biome>> entry : Reference2DoubleMaps.fastIterable(weightsByBiome)) {
-							EnvironmentAttributeLayer.TimeBased<Value> trackSampler = trackSamplersByBiome.get(entry.getKey());
-							Value sourceValue;
-							if (trackSampler != null) {
-								sourceValue = trackSampler.applyTimeBased(baseValue, cacheTickId);
-							} else {
-								sourceValue = baseValue;
+							Value sourceValue = baseValue;
+							for (TimeBased<Value> trackSampler : trackSamplersByBiome.getOrDefault(entry.getKey(), List.of())) {
+								sourceValue = trackSampler.applyTimeBased(sourceValue, cacheTickId);
 							}
 							
 							double sourceWeight = entry.getDoubleValue();
@@ -120,11 +109,11 @@ public class EnvironmentAttributeSystemMixin {
 					}
 				} else {
 					Holder<Biome> biome = biomeManager.getNoiseBiomeAtPosition(pos.x, pos.y, pos.z);
-					EnvironmentAttributeLayer.TimeBased<Value> trackSampler = trackSamplersByBiome.get(biome);
-					if (trackSampler != null) {
-						return trackSampler.applyTimeBased(baseValue, cacheTickId);
+					Value value = baseValue;
+					for (TimeBased<Value> trackSampler : trackSamplersByBiome.getOrDefault(biome, List.of())) {
+						value = trackSampler.applyTimeBased(value, cacheTickId);
 					}
-					return baseValue;
+					return value;
 				}
 			}
 		);

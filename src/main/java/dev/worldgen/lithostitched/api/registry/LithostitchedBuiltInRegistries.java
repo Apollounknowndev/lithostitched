@@ -27,6 +27,7 @@ import dev.worldgen.lithostitched.impl.worldgen.fastnoise.PerlinNoiseType;
 import dev.worldgen.lithostitched.impl.worldgen.fastnoise.SimplexNoiseType;
 import dev.worldgen.lithostitched.impl.worldgen.feature.*;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.attribute.*;
 import dev.worldgen.lithostitched.impl.worldgen.placementcondition.*;
 import dev.worldgen.lithostitched.impl.worldgen.processor.*;
 import dev.worldgen.lithostitched.impl.worldgen.processor.condition.*;
@@ -36,9 +37,6 @@ import dev.worldgen.lithostitched.impl.worldgen.surface.rule.TransientMergedRule
 import dev.worldgen.lithostitched.impl.worldgen.attribute.LithostitchedEnvironmentAttributes;
 import dev.worldgen.lithostitched.impl.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.impl.worldgen.blockentitymodifier.ApplyRandom;
-import dev.worldgen.lithostitched.impl.worldgen.modifier.attribute.SetBiomeAttributesModifier;
-import dev.worldgen.lithostitched.impl.worldgen.modifier.attribute.SetDimensionAttributesModifier;
-import dev.worldgen.lithostitched.impl.worldgen.modifier.attribute.SetTimelineTracksModifier;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.internal.CompileRawTemplatesModifier;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.template.TemplateList;
 import dev.worldgen.lithostitched.impl.worldgen.placementmodifier.ConditionPlacement;
@@ -128,9 +126,11 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("replace_climate", ReplaceClimateModifier.CODEC),
 			Map.entry("replace_effects", ReplaceEffectsModifier.CODEC),
 			Map.entry("set_biome_attributes", SetBiomeAttributesModifier.CODEC),
+			Map.entry("set_biome_timeline", SetBiomeTimelineModifier.CODEC),
 			Map.entry("set_dimension_attributes", SetDimensionAttributesModifier.CODEC),
 			Map.entry("set_pool_aliases", SetPoolAliasesModifier.CODEC),
 			Map.entry("set_pool_element_processors", SetPoolElementProcessorsModifier.CODEC),
+			Map.entry("set_structure_attributes", SetStructureAttributesModifier.CODEC),
 			Map.entry("set_structure_spawn_condition", SetStructureSpawnConditionModifier.CODEC),
 			Map.entry("set_timeline_tracks", SetTimelineTracksModifier.CODEC),
 			Map.entry("stack_feature", StackFeatureModifier.CODEC),

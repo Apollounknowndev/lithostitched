@@ -19,7 +19,6 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 public interface LithostitchedRegistries {
 	// Dynamic
 	ResourceKey<Registry<WorldgenModifier>> WORLDGEN_MODIFIER = create("worldgen_modifier");
-	ResourceKey<Registry<SurfaceRules.RuleSource>> SURFACE_RULE = create("surface_rule");
 	ResourceKey<Registry<Bandlands>> BANDLANDS = create("bandlands");
 	ResourceKey<Registry<TemplateList>> TEMPLATE_LIST = create("template_list");
 	ResourceKey<Registry<BiomeInjector>> BIOME_INJECTOR = create("biome_injector");

@@ -5,26 +5,37 @@ import com.mojang.serialization.Codec;
 import dev.worldgen.lithostitched.impl.duck.BiomeTimelineDuck;
 import dev.worldgen.lithostitched.impl.util.CodecExtender;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.timeline.Timeline;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Mixin(Biome.class)
-public abstract class BiomeMixin implements BiomeTimelineDuck {
-	@Unique private Holder<Timeline> timeline;
+public class BiomeMixin implements BiomeTimelineDuck {
+	@Unique private HolderSet<Timeline> timelines = HolderSet.direct();
 	
 	@Override
-	public void lithostitched$setTimeline(Holder<Timeline> timeline) {
-		this.timeline = timeline;
+	public void lithostitched$addTimeline(Holder<Timeline> timeline) {
+		List<Holder<Timeline>> mergedTimelines = new ArrayList<>(this.timelines.stream().toList());
+		mergedTimelines.add(timeline);
+		this.timelines = HolderSet.direct(mergedTimelines);
 	}
 	
 	@Override
-	public Holder<Timeline> lithostitched$getTimeline() {
-		return this.timeline;
+	public void lithostitched$setTimelines(HolderSet<Timeline> timeline) {
+		this.timelines = timeline;
+	}
+	
+	@Override
+	public HolderSet<Timeline> lithostitched$getTimelines() {
+		return this.timelines;
 	}
 	
 	@ModifyExpressionValue(
@@ -39,11 +50,11 @@ public abstract class BiomeMixin implements BiomeTimelineDuck {
 			codec,
 			(instance, wrapper) -> instance.group(
 				wrapper,
-				Timeline.CODEC.lenientOptionalFieldOf("lithostitched:timeline").forGetter(biome -> Optional.ofNullable(BiomeTimelineDuck.cast(biome).lithostitched$getTimeline()))
+				RegistryCodecs.holderSet(Registries.TIMELINE).lenientOptionalFieldOf("lithostitched:timelines", HolderSet.direct()).forGetter(biome -> BiomeTimelineDuck.cast(biome).lithostitched$getTimelines())
 			).apply(
 				instance,
-				(biome, timeline) -> {
-					BiomeTimelineDuck.cast(biome).lithostitched$setTimeline(timeline.orElse(null));
+				(biome, timelines) -> {
+					BiomeTimelineDuck.cast(biome).lithostitched$setTimelines(timelines);
 					return biome;
 				}
 			)

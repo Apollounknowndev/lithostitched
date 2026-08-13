@@ -46,7 +46,7 @@ public class StructureAttributeHandler {
 				continue;
 			}
 			if (structure instanceof DelegatingStructure delegating) {
-				EnvironmentAttributeMap attributes = (EnvironmentAttributeMap) delegating.config().getAttributes();
+				EnvironmentAttributeMap attributes = (EnvironmentAttributeMap) delegating.config().attributes();
 				if (!attributes.keySet().isEmpty()) {
 					updateAttributes(player, ops, structure);
 				}
@@ -68,7 +68,7 @@ public class StructureAttributeHandler {
 			sendPacket(player, ApplyStructureAttributesPacket.createEmpty());
 		}
 		if (structure instanceof DelegatingStructure delegating) {
-			sendPacket(player, ApplyStructureAttributesPacket.create(ops, (EnvironmentAttributeMap) delegating.config().getAttributes()));
+			sendPacket(player, ApplyStructureAttributesPacket.create(ops, (EnvironmentAttributeMap) delegating.config().attributes()));
 		}
 	}
 	
