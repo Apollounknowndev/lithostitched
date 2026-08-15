@@ -129,6 +129,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("add_biome_spawns", AddBiomeSpawnsModifier.CODEC),
 			Map.entry("add_features", AddFeaturesModifier.CODEC),
 			Map.entry("add_processor_list_processors", AddProcessorListProcessorsModifier.CODEC),
+			Map.entry("add_spawn_costs", AddSpawnCostsModifier.CODEC),
 			Map.entry("add_structure_set_entries", AddStructureSetEntriesModifier.CODEC),
 			Map.entry("add_structure_templates", AddStructureTemplatesModifier.CODEC),
 			Map.entry("add_surface_rule", AddSurfaceRuleModifier.CODEC),

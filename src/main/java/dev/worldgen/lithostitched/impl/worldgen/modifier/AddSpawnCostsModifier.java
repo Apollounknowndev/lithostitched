@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.worldgen.modifier;
+package dev.worldgen.lithostitched.impl.worldgen.modifier;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -20,15 +20,26 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public record SetSpawnCostsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, Map<EntityType<?>, MobSpawnCost> spawnCosts, boolean append) implements WorldgenModifier {
+//? if neoforge {
+/*import net.neoforged.neoforge.common.world.BiomeModifier;
+import dev.worldgen.lithostitched.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
+*///? }
+
+public record AddSpawnCostsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, Map<EntityType<?>, MobSpawnCost> spawnCosts) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
 	public static final SimpleMapCodec<EntityType<?>, MobSpawnCost> SPAWN_COST_CODEC = Codec.simpleMap(BuiltInRegistries.ENTITY_TYPE.byNameCodec(), MobSpawnSettings.MobSpawnCost.CODEC, BuiltInRegistries.ENTITY_TYPE);
-	public static final MapCodec<SetSpawnCostsModifier> CODEC = RecordCodecBuilder.<SetSpawnCostsModifier>mapCodec(instance -> instance.group(
+	public static final MapCodec<AddSpawnCostsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
-		PRIORITY_DEFAULT_CODEC.forGetter(SetSpawnCostsModifier::priority),
-		Biome.LIST_CODEC.fieldOf("biomes").forGetter(SetSpawnCostsModifier::biomes),
-		SPAWN_COST_CODEC.fieldOf("spawn_costs").forGetter(SetSpawnCostsModifier::spawnCosts),
-		Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetSpawnCostsModifier::append)
-	).apply(instance, SetSpawnCostsModifier::new));
+		PRIORITY_DEFAULT_CODEC.forGetter(AddSpawnCostsModifier::priority),
+		Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddSpawnCostsModifier::biomes),
+		SPAWN_COST_CODEC.fieldOf("spawn_costs").forGetter(AddSpawnCostsModifier::spawnCosts)
+	).apply(instance, AddSpawnCostsModifier::new));
+	
+	//? if neoforge {
+	/*@Override
+	public BiomeModifier createNeoforgeModifier() {
+		return new LithostitchedNeoforgeBiomeModifiers.AddSpawnCostsBiomeModifier(this);
+	}
+	*///? }
 	
 	
 	@Override
@@ -41,17 +52,14 @@ public record SetSpawnCostsModifier(Optional<LoadPredicate> predicate, int prior
 			MobSpawnSettingsAccessor accessor = (MobSpawnSettingsAccessor) biome.getMobSettings();
 			
 			Map<EntityType<?>, MobSpawnCost> spawnCosts = new HashMap<>();
-			if (this.append) {
-				spawnCosts.putAll(accessor.lithostitched$getSpawnCosts());
-			}
+			spawnCosts.putAll(accessor.lithostitched$getSpawnCosts());
 			spawnCosts.putAll(this.spawnCosts);
-			
 			accessor.lithostitched$setSpawnCosts(spawnCosts);
 		}
 	}
 	
 	@Override
 	public MapCodec<? extends WorldgenModifier> codec() {
-		return null;
+		return CODEC;
 	}
 }

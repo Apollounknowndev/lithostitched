@@ -6,14 +6,12 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeClimate;
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeEffects;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.AddSpawnCostsModifier;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.attribute.*;
 import net.minecraft.world.level.biome.Biome;
-import net.neoforged.neoforge.common.world.BiomeModifier;
-import net.neoforged.neoforge.common.world.BiomeSpecialEffectsBuilder;
-import net.neoforged.neoforge.common.world.ClimateSettingsBuilder;
-import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
+import net.neoforged.neoforge.common.world.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -92,6 +90,25 @@ public class LithostitchedNeoforgeBiomeModifiers {
         @Override
         public MapCodec<? extends BiomeModifier> codec()
         {
+            return CODEC;
+        }
+    }
+    
+    public record AddSpawnCostsBiomeModifier(AddSpawnCostsModifier modifier) implements BiomeModifier {
+        public static final MapCodec<AddSpawnCostsBiomeModifier> CODEC = AddSpawnCostsModifier.CODEC.xmap(AddSpawnCostsBiomeModifier::new, AddSpawnCostsBiomeModifier::modifier);
+        
+        @Override
+        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+            if (phase == Phase.ADD && this.modifier.biomes().contains(biome)) {
+	            MobSpawnSettingsBuilder spawnSettings = builder.getMobSpawnSettings();
+                for (var costEntry : this.modifier.spawnCosts().entrySet()) {
+                    spawnSettings.addMobCharge(costEntry.getKey(), costEntry.getValue().charge(), costEntry.getValue().energyBudget());
+                }
+            }
+        }
+        
+        @Override
+        public MapCodec<? extends BiomeModifier> codec() {
             return CODEC;
         }
     }
