@@ -1,11 +1,8 @@
 package dev.worldgen.lithostitched.mixin.common.timeline;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.worldgen.lithostitched.impl.duck.AttributeLayerBuilderDuck;
+import dev.worldgen.lithostitched.duck.AttributeLayerBuilderDuck;
 import dev.worldgen.lithostitched.impl.duck.BiomeTimelineDuck;
 import dev.worldgen.lithostitched.impl.duck.BiomeWeightingDuck;
-import dev.worldgen.lithostitched.impl.worldgen.attribute.PositionalTimeBasedLayer;
 import it.unimi.dsi.fastutil.objects.Reference2DoubleArrayMap;
 import it.unimi.dsi.fastutil.objects.Reference2DoubleMap;
 import it.unimi.dsi.fastutil.objects.Reference2DoubleMaps;
@@ -13,7 +10,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.attribute.EnvironmentAttribute;
-import net.minecraft.world.attribute.EnvironmentAttributeLayer;
 import net.minecraft.world.attribute.EnvironmentAttributeLayer.TimeBased;
 import net.minecraft.world.attribute.EnvironmentAttributeSystem;
 import net.minecraft.world.attribute.LerpFunction;
@@ -29,22 +25,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 @Mixin(EnvironmentAttributeSystem.class)
 public class EnvironmentAttributeSystemMixin {
-	@WrapOperation(
-		method = "bakeLayerSampler",
-		at = @At(
-			value = "INVOKE",
-			target = "Ljava/util/stream/Stream;anyMatch(Ljava/util/function/Predicate;)Z"
-		)
-	)
-	private <Value> boolean markBiomeTimelinesAsPositionAffected(Stream<Value> stream, Predicate<? super EnvironmentAttributeLayer<Value>> predicate, Operation<Boolean> operation) {
-		return operation.call(stream, predicate.or(layer -> layer instanceof PositionalTimeBasedLayer));
-	}
-	
 	@Inject(
 		method = "addDefaultLayers",
 		at = @At("TAIL")

@@ -6,7 +6,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.worldgen.lithostitched.impl.worldgen.attribute.PositionalTimeBasedLayer;
+import dev.worldgen.lithostitched.worldgen.attribute.PositionalTimeBasedLayer;
 import net.minecraft.world.attribute.*;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
