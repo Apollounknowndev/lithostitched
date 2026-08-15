@@ -1,8 +1,10 @@
 package dev.worldgen.lithostitched.mixin.common;
 
 import dev.worldgen.lithostitched.duck.ContextAccessor;
+import dev.worldgen.lithostitched.duck.ContextBiomeAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -19,7 +21,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 @Mixin(SurfaceRules.Context.class)
-public class SurfaceRulesContextMixin implements ContextAccessor {
+public class SurfaceRulesContextMixin implements ContextAccessor, ContextBiomeAccessor {
     @Shadow @Final SurfaceSystem system;
     @Shadow @Final ChunkAccess chunk;
     @Shadow int blockX;
@@ -29,6 +31,7 @@ public class SurfaceRulesContextMixin implements ContextAccessor {
     @Shadow NoiseChunk noiseChunk;
     
     @Shadow private RandomState randomState;
+    @Shadow private Supplier<Holder<Biome>> biome;
     
     @Override
     public SurfaceSystem getSystem() {
@@ -68,5 +71,10 @@ public class SurfaceRulesContextMixin implements ContextAccessor {
     @Override
     public int getZ() {
         return this.blockZ;
+    }
+    
+    @Override
+    public SurfaceRules.Condition biomeMatches(HolderSet<Biome> biomes) {
+        return () -> biomes.contains(this.biome.get());
     }
 }
