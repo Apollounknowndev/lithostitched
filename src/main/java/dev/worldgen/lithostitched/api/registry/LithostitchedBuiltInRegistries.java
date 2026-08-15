@@ -17,6 +17,7 @@ import dev.worldgen.lithostitched.impl.worldgen.bandlands.band.WrappedBand;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.*;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.InjectorBiomeSource;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
+import dev.worldgen.lithostitched.worldgen.blockpredicate.*;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.*;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.MergedDensityFunction;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.OriginalMarkerDensityFunction;
@@ -24,8 +25,15 @@ import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.WrappedMa
 import dev.worldgen.lithostitched.impl.worldgen.fastnoise.CellularNoiseType;
 import dev.worldgen.lithostitched.impl.worldgen.fastnoise.PerlinNoiseType;
 import dev.worldgen.lithostitched.impl.worldgen.fastnoise.SimplexNoiseType;
+import dev.worldgen.lithostitched.worldgen.feature.*;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
+import dev.worldgen.lithostitched.worldgen.modifier.*;
+import dev.worldgen.lithostitched.worldgen.modifier.attribute.*;
+import dev.worldgen.lithostitched.worldgen.modifier.internal.RereferenceNoiseSettingsModifier;
+import dev.worldgen.lithostitched.worldgen.placementcondition.*;
 import dev.worldgen.lithostitched.impl.worldgen.processor.*;
+import dev.worldgen.lithostitched.worldgen.poolelement.LithostitchedFeaturePoolElement;
+import dev.worldgen.lithostitched.worldgen.processor.condition.*;
 import dev.worldgen.lithostitched.impl.worldgen.surface.condition.*;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.BandlandsRule;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.ReferenceRule;
@@ -33,25 +41,18 @@ import dev.worldgen.lithostitched.impl.worldgen.surface.rule.TransientMergedRule
 import dev.worldgen.lithostitched.worldgen.attribute.LithostitchedEnvironmentAttributes;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
-import dev.worldgen.lithostitched.worldgen.blockpredicate.*;
-import dev.worldgen.lithostitched.worldgen.feature.*;
-import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetBiomeAttributesModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetDimensionAttributesModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetTimelineTracksModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.internal.CompileRawTemplatesModifier;
-import dev.worldgen.lithostitched.worldgen.modifier.internal.RereferenceNoiseSettingsModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
-import dev.worldgen.lithostitched.worldgen.placementcondition.*;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.ConditionPlacement;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.NoiseSlopePlacement;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.OffsetPlacement;
 import dev.worldgen.lithostitched.worldgen.poolalias.RandomEntries;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
-import dev.worldgen.lithostitched.worldgen.poolelement.LithostitchedFeaturePoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.legacy.GuaranteedPoolElement;
 import dev.worldgen.lithostitched.worldgen.poolelement.legacy.LimitedPoolElement;
-import dev.worldgen.lithostitched.worldgen.processor.condition.*;
 import dev.worldgen.lithostitched.worldgen.stateprovider.RandomBlockProvider;
 import dev.worldgen.lithostitched.worldgen.stateprovider.WeightedProvider;
 import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
@@ -139,9 +140,11 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("replace_climate", ReplaceClimateModifier.CODEC),
 			Map.entry("replace_effects", ReplaceEffectsModifier.CODEC),
 			Map.entry("set_biome_attributes", SetBiomeAttributesModifier.CODEC),
+			Map.entry("set_biome_timeline", SetBiomeTimelineModifier.CODEC),
 			Map.entry("set_dimension_attributes", SetDimensionAttributesModifier.CODEC),
 			Map.entry("set_pool_aliases", SetPoolAliasesModifier.CODEC),
 			Map.entry("set_pool_element_processors", SetPoolElementProcessorsModifier.CODEC),
+			Map.entry("set_structure_attributes", SetStructureAttributesModifier.CODEC),
 			Map.entry("set_structure_spawn_condition", SetStructureSpawnConditionModifier.CODEC),
 			Map.entry("set_timeline_tracks", SetTimelineTracksModifier.CODEC),
 			Map.entry("stack_feature", StackFeatureModifier.CODEC),
