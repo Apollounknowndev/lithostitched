@@ -16,7 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public record AddFeaturesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) implements WorldgenModifier {
+//? if neoforge {
+/*import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifiers;
+*///? }
+
+public record AddFeaturesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<AddFeaturesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(AddFeaturesModifier::priority),
@@ -24,6 +29,13 @@ public record AddFeaturesModifier(Optional<LoadPredicate> predicate, int priorit
         PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(AddFeaturesModifier::features),
         GenerationStep.Decoration.CODEC.fieldOf("step").forGetter(AddFeaturesModifier::step)
     ).apply(instance, AddFeaturesModifier::new));
+    
+    //? if neoforge {
+    /*@Override
+    public BiomeModifier createNeoforgeModifier() {
+        return new BiomeModifiers.AddFeaturesBiomeModifier(biomes, features, step);
+    }
+    *///? }
     
     @Override
     public void apply(RegistryAccess registries) {

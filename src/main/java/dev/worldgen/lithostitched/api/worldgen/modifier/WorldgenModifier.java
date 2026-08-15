@@ -55,8 +55,8 @@ public interface WorldgenModifier {
 	Integer DEFAULT_PRIORITY = 1000;
 	Integer REMOVAL_PRIORITY = 2000;
 	
-	MapCodec<Integer> PRIORITY_DEFAULT_CODEC = Codec.INT.optionalFieldOf("priority", 1000);
-	MapCodec<Integer> PRIORITY_REMOVE_CODEC = Codec.INT.optionalFieldOf("priority", 2000);
+	MapCodec<Integer> PRIORITY_DEFAULT_CODEC = Codec.INT.optionalFieldOf("priority", DEFAULT_PRIORITY);
+	MapCodec<Integer> PRIORITY_REMOVE_CODEC = Codec.INT.optionalFieldOf("priority", REMOVAL_PRIORITY);
 	
 	Optional<LoadPredicate> predicate();
 	int priority();
