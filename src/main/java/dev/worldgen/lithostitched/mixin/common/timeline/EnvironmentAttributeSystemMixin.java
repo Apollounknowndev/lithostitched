@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.worldgen.lithostitched.impl.duck.AttributeLayerBuilderDuck;
 import dev.worldgen.lithostitched.impl.duck.BiomeTimelineDuck;
 import dev.worldgen.lithostitched.impl.duck.BiomeWeightingDuck;
-import dev.worldgen.lithostitched.impl.worldgen.attribute.PositionalTimeBasedLayer;
+import dev.worldgen.lithostitched.worldgen.attribute.PositionalTimeBasedLayer;
 import it.unimi.dsi.fastutil.objects.Reference2DoubleArrayMap;
 import it.unimi.dsi.fastutil.objects.Reference2DoubleMap;
 import it.unimi.dsi.fastutil.objects.Reference2DoubleMaps;

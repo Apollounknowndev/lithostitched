@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.impl.duck;
 
-import dev.worldgen.lithostitched.impl.worldgen.attribute.PositionalTimeBasedLayer;
+import dev.worldgen.lithostitched.worldgen.attribute.PositionalTimeBasedLayer;
 import net.minecraft.world.attribute.EnvironmentAttribute;
 import net.minecraft.world.attribute.EnvironmentAttributeSystem;
 
