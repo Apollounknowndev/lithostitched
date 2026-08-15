@@ -1,18 +1,14 @@
-package dev.worldgen.lithostitched.impl.worldgen.modifier.attribute;
+package dev.worldgen.lithostitched.worldgen.modifier.attribute;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
-import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.impl.duck.BiomeTimelineDuck;
-import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.attribute.EnvironmentAttributeMap;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.timeline.Timeline;
 

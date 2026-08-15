@@ -1,23 +1,21 @@
-package dev.worldgen.lithostitched.impl.worldgen.modifier.attribute;
+package dev.worldgen.lithostitched.worldgen.modifier.attribute;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
-import dev.worldgen.lithostitched.impl.Lithostitched;
-import dev.worldgen.lithostitched.impl.worldgen.structure.DelegatingConfig;
-import dev.worldgen.lithostitched.impl.worldgen.structure.DelegatingStructure;
-import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
+import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.worldgen.structure.DelegatingConfig;
+import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.world.attribute.EnvironmentAttributeMap;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
 import java.util.Optional;
@@ -26,7 +24,7 @@ public record SetStructureAttributesModifier(Optional<LoadPredicate> predicate, 
     public static final MapCodec<SetStructureAttributesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetStructureAttributesModifier::priority),
-        RegistryCodecs.holderSet(Registries.STRUCTURE).fieldOf("structures").forGetter(SetStructureAttributesModifier::structures),
+        RegistryCodecs.homogeneousList(Registries.STRUCTURE).fieldOf("structures").forGetter(SetStructureAttributesModifier::structures),
         EnvironmentAttributeMap.CODEC_ONLY_POSITIONAL.fieldOf("attributes").forGetter(SetStructureAttributesModifier::attributes),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetStructureAttributesModifier::append)
     ).apply(instance, SetStructureAttributesModifier::new));

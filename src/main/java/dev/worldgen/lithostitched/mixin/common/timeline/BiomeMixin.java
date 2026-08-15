@@ -6,8 +6,8 @@ import dev.worldgen.lithostitched.impl.duck.BiomeTimelineDuck;
 import dev.worldgen.lithostitched.util.CodecExtender;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.timeline.Timeline;
 import org.spongepowered.asm.mixin.Mixin;
@@ -50,7 +50,7 @@ public class BiomeMixin implements BiomeTimelineDuck {
 			codec,
 			(instance, wrapper) -> instance.group(
 				wrapper,
-				RegistryCodecs.holderSet(Registries.TIMELINE).lenientOptionalFieldOf("lithostitched:timelines", HolderSet.direct()).forGetter(biome -> BiomeTimelineDuck.cast(biome).lithostitched$getTimelines())
+				RegistryCodecs.homogeneousList(Registries.TIMELINE).lenientOptionalFieldOf("lithostitched:timelines", HolderSet.direct()).forGetter(biome -> BiomeTimelineDuck.cast(biome).lithostitched$getTimelines())
 			).apply(
 				instance,
 				(biome, timelines) -> {
