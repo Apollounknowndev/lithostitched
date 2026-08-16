@@ -293,7 +293,8 @@ public class LithostitchedBuiltInRegistries {
 		));
 		LithostitchedRegistrar.register(NeoForgeRegistries.BIOME_MODIFIER_SERIALIZERS, Map.ofEntries(
 			Map.entry("replace_climate", LithostitchedNeoforgeBiomeModifiers.ReplaceClimateBiomeModifier.CODEC),
-			Map.entry("replace_effects", LithostitchedNeoforgeBiomeModifiers.ReplaceEffectsBiomeModifier.CODEC)
+			Map.entry("replace_effects", LithostitchedNeoforgeBiomeModifiers.ReplaceEffectsBiomeModifier.CODEC),
+			Map.entry("add_spawn_costs", LithostitchedNeoforgeBiomeModifiers.AddSpawnCostsBiomeModifier.CODEC)
 		));
 		*///? }
 	}
