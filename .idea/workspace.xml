@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Restore Neoforge biome modifiers">
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Finish add_spawn_costs modifier">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/platform/neoforge/worldgen/LithostitchedNeoforgeBiomeModifiers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/platform/neoforge/worldgen/LithostitchedNeoforgeBiomeModifiers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetSpawnCostsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/AddSpawnCostsModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/rule/TransientMergedRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/rule/TransientMergedRule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stonecutter.properties.toml" beforeDir="false" afterPath="$PROJECT_DIR$/stonecutter.properties.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -301,14 +302,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1754844028042</updated>
-    </task>
-    <task id="LOCAL-00005" summary="1.5.0+beta5">
-      <option name="closed" value="true" />
-      <created>1758833039815</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1758833039815</updated>
     </task>
     <task id="LOCAL-00006" summary="1.5.0+beta5">
       <option name="closed" value="true" />
@@ -694,14 +687,21 @@
       <option name="project" value="LOCAL" />
       <updated>1786791766388</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Finish add_spawn_costs modifier">
+      <option name="closed" value="true" />
+      <created>1786792689593</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1786792689594</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Remove test code" />
     <MESSAGE value="1.6.1" />
     <MESSAGE value="Remove '1.' prefix from version folders" />
     <MESSAGE value="Less failed 26.1 port" />
@@ -726,7 +726,8 @@
     <MESSAGE value="Fix crash with RU" />
     <MESSAGE value="Finish biome-based timeline backport" />
     <MESSAGE value="Restore Neoforge biome modifiers" />
-    <option name="LAST_COMMIT_MESSAGE" value="Restore Neoforge biome modifiers" />
+    <MESSAGE value="Finish add_spawn_costs modifier" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finish add_spawn_costs modifier" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

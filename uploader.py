@@ -5,12 +5,12 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.8.0+beta3"
+MOD_VERSION = "1.8.0+beta4"
 CHANGELOG = """
-- Added support for biome-based timelines. These can be applied in two ways:
-    - Adding a timeline to the optional `lithostitched:timelines` field in biome files.
-    - Using the `set_biome_timeline` worldgen modifier.
-- Fixed load predicates not applying correctly. This should fix some weirdness with Tectonic.
+- Fix worldgen modifiers editing biomes not applying on Neoforge.
+- Added two new worldgen modifier types:
+    - `add_spawn_costs` (you're welcome mystic)
+    - `set_structure_attributes`
 """
 UPLOAD_VERSIONS = [
     ("fabric", "26.1"),
