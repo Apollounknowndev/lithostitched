@@ -17,7 +17,7 @@ import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -231,7 +231,7 @@ public interface WorldgenModifier {
 			return new SetPoolElementProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(pool), Optional.empty(), list, append);
 		}
 		
-		public WorldgenModifier setPoolElementProcessors(Holder<StructureTemplatePool> pool, Holder<StructureProcessorList> list, boolean append, Identifier... ids) {
+		public WorldgenModifier setPoolElementProcessors(Holder<StructureTemplatePool> pool, Holder<StructureProcessorList> list, boolean append, ResourceLocation... ids) {
 			return new SetPoolElementProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(pool), Optional.of(List.of(ids)), list, append);
 		}
 		
@@ -239,7 +239,7 @@ public interface WorldgenModifier {
 			return new SetPoolElementProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), pools, Optional.empty(), list, append);
 		}
 		
-		public WorldgenModifier setPoolElementProcessors(HolderSet<StructureTemplatePool> pools, Holder<StructureProcessorList> list, boolean append, Identifier... ids) {
+		public WorldgenModifier setPoolElementProcessors(HolderSet<StructureTemplatePool> pools, Holder<StructureProcessorList> list, boolean append, ResourceLocation... ids) {
 			return new SetPoolElementProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), pools, Optional.of(List.of(ids)), list, append);
 		}
 		

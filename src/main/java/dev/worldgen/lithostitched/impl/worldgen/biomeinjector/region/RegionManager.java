@@ -25,7 +25,7 @@ public class RegionManager {
 		for (Holder<Biome> biome : biomes) {
 			TreeMap<Integer, ResourceKey<Region>> biomeMap = new TreeMap<>();
 			int weight = 1;
-			for (Map.Entry<ResourceKey<Region>, Region> entry : regions.entrySet().stream().sorted(Comparator.comparing(entry -> entry.getKey().identifier())).toList()) {
+			for (Map.Entry<ResourceKey<Region>, Region> entry : regions.entrySet().stream().sorted(Comparator.comparing(entry -> entry.getKey().location())).toList()) {
 				Region region = entry.getValue();
 				if (!region.biomes().contains(biome)) continue;
 				int regionWeight = region.weight();

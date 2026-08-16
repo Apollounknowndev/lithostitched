@@ -32,11 +32,7 @@ public final class WeightedProvider extends BlockStateProvider {
     }
     
     public BlockState getState(RandomSource random, BlockPos pos) {
-        return null;
-    }
-    
-    public BlockState getState(WorldGenLevel level, RandomSource random, BlockPos pos) {
         WeightedList<BlockStateProvider> providers = this.providers();
-        return providers.getRandom(random).map(provider ->  provider.getState(level, random, pos)).orElse(Blocks.AIR.defaultBlockState());
+        return providers.getRandom(random).map(provider ->  provider.getState(random, pos)).orElse(Blocks.AIR.defaultBlockState());
     }
 }

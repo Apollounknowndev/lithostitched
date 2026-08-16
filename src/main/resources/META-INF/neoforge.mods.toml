@@ -23,3 +23,11 @@ type = "required"
 versionRange = "${minecraft}"
 ordering = "NONE"
 side = "BOTH"
+
+
+[[dependencies.${id}]]
+modId = "apollib"
+type = "required"
+versionRange = "[1.2.0,)"
+ordering = "NONE"
+side = "BOTH"

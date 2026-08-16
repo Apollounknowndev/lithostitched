@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.Lithostitched;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.levelgen.structure.templatesystem.*;
@@ -34,7 +34,7 @@ public class UnboundReferenceProcessor extends StructureProcessor {
         return new UnboundReferenceProcessor(key(Lithostitched.id(name)));
     }
 
-    private static ResourceKey<StructureProcessorList> key(Identifier identifier) {
+    private static ResourceKey<StructureProcessorList> key(ResourceLocation identifier) {
         return ResourceKey.create(Registries.PROCESSOR_LIST, identifier);
     }
 

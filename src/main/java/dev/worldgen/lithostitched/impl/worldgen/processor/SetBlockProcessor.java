@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.processor.enums.RandomMode;
-import net.minecraft.util.valueproviders.IntProviders;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
@@ -62,7 +62,7 @@ public class SetBlockProcessor extends StructureProcessor {
             BlockPos samplePos = this.randomMode.select(pos, pivot, absolute);
 
             RandomSource random = RandomSource.create(worldGenLevel.getSeed()).forkPositional().at(samplePos);
-            BlockState state = this.blockState().getState(worldGenLevel, random, samplePos);
+            BlockState state = this.blockState().getState(random, samplePos);
 
             if (this.preserveState) {
                 return withState(random, absolute, state.getBlock().withPropertiesOf(absolute.state()));

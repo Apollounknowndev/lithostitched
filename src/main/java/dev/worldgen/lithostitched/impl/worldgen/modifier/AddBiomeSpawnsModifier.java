@@ -10,12 +10,11 @@ import dev.worldgen.lithostitched.api.worldgen.util.WeightedSpawnerData;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.mixin.common.MobSpawnSettingsAccessor;
-import net.minecraft.util.random.Weighted;
-import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.entity.MobCategory;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,11 +23,11 @@ import java.util.List;
 import java.util.Optional;
 
 //? if neoforge {
-/*import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
-*///? }
+//? }
 
-public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, List<WeightedSpawnerData> biomeSpawns) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
+public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, List<WeightedSpawnerData> biomeSpawns) implements WorldgenModifier /*? if neoforge{*/, NeoforgeModifierHolder /*?}*/ {
     public static final MapCodec<AddBiomeSpawnsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(AddBiomeSpawnsModifier::priority),
@@ -46,35 +45,33 @@ public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int prio
     ).apply(instance, AddBiomeSpawnsModifier::new));
     
     //? if neoforge {
-    /*@Override
+    @Override
     public BiomeModifier createNeoforgeModifier() {
-        return new BiomeModifiers.AddSpawnsBiomeModifier(biomes, WeightedList.of(
-            biomeSpawns
-                .stream()
-                .map(data -> new Weighted<>(new MobSpawnSettings.SpawnerData(data.type(), data.minCount(), data.maxCount()), data.weight()))
-                .toList()
-        ));
+        return new BiomeModifiers.AddSpawnsBiomeModifier(biomes, biomeSpawns
+            .stream()
+            .map(data -> new MobSpawnSettings.SpawnerData(data.type(), data.weight(), data.minCount(), data.maxCount()))
+            .toList()
+        );
     }
-    *///? }
+    //? }
     
     @Override
     public void apply(RegistryAccess registries) {
         //? if neoforge
-        //if (true) return;
+        if (true) return;
         
         for (Holder<Biome> entry : this.biomes()) {
             this.applyModifier(entry.value());
         }
     }
-
     public void applyModifier(Biome biome) {
         MobSpawnSettings biomeMobSettings = biome.getMobSettings();
-        HashMap<MobCategory, WeightedList<MobSpawnSettings.SpawnerData>> spawners = new HashMap<>(((MobSpawnSettingsAccessor)biomeMobSettings).getSpawners());
+        HashMap<MobCategory, WeightedRandomList<MobSpawnSettings.SpawnerData>> spawners = new HashMap<>(((MobSpawnSettingsAccessor)biomeMobSettings).getSpawners());
         for (WeightedSpawnerData spawner : this.biomeSpawns()) {
             MobCategory category = spawner.type().getCategory();
-            List<Weighted<MobSpawnSettings.SpawnerData>> categorySpawnList = new ArrayList<>(spawners.get(category).unwrap());
-            categorySpawnList.add(new Weighted<>(new MobSpawnSettings.SpawnerData(spawner.type(), spawner.minCount(), spawner.maxCount()), spawner.weight()));
-            spawners.put(category, WeightedList.of(categorySpawnList));
+            List<MobSpawnSettings.SpawnerData> categorySpawnList = new ArrayList<>(spawners.get(category).unwrap());
+            categorySpawnList.add(new MobSpawnSettings.SpawnerData(spawner.type(), spawner.weight(), spawner.minCount(), spawner.maxCount()));
+            spawners.put(category, WeightedRandomList.create(categorySpawnList));
         }
         ((MobSpawnSettingsAccessor)biomeMobSettings).setSpawners(spawners);
         ((BiomeAccessor)(Object)biome).setMobSettings(biomeMobSettings);

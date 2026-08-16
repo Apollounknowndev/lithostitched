@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.impl.predicate;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
-import net.minecraft.util.valueproviders.IntProviders;
+import net.minecraft.util.valueproviders.IntProvider;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.SharedConstants;
 import net.minecraft.server.packs.PackType;
@@ -17,7 +17,7 @@ public record PackFormatPredicate(InclusiveRange<Integer> supportedFormats) impl
 	@Override
 	public boolean test() {
 		return this.supportedFormats.isValueInRange(
-			SharedConstants.getCurrentVersion().packVersion(PackType.SERVER_DATA).major()
+			SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA)
 		);
 	}
 	

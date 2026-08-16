@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.worldgen.feature.util;
 
-import net.minecraft.util.valueproviders.IntProviders;
+import net.minecraft.util.valueproviders.IntProvider;
 import dev.worldgen.lithostitched.util.MiscUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;

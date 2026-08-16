@@ -14,11 +14,11 @@ import net.minecraft.world.level.biome.Biome;
 import java.util.Optional;
 
 //? if neoforge {
-/*import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifier;
 import dev.worldgen.lithostitched.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
-*///? }
+//? }
 
-public record ReplaceClimateModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, BiomeClimate climateSettings) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
+public record ReplaceClimateModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, BiomeClimate climateSettings) implements WorldgenModifier /*? if neoforge{*/, NeoforgeModifierHolder /*?}*/ {
     public static final MapCodec<ReplaceClimateModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(ReplaceClimateModifier::priority),
@@ -27,16 +27,16 @@ public record ReplaceClimateModifier(Optional<LoadPredicate> predicate, int prio
     ).apply(instance, ReplaceClimateModifier::new));
     
     //? if neoforge {
-    /*@Override
+    @Override
     public BiomeModifier createNeoforgeModifier() {
         return new LithostitchedNeoforgeBiomeModifiers.ReplaceClimateBiomeModifier(biomes, climateSettings);
     }
-    *///? }
+    //? }
 
     @Override
     public void apply(RegistryAccess registries) {
         //? if neoforge
-        //if (true) return;
+        if (true) return;
         
         Registry<Biome> registry = Lithostitched.registry(registries, Registries.BIOME);
         for (Holder<Biome> entry : this.biomes()) {

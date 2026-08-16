@@ -7,9 +7,9 @@ import dev.worldgen.lithostitched.api.worldgen.util.BiomeEffects;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.attribute.AmbientAdditionsSettings;
-import net.minecraft.world.attribute.AmbientMoodSettings;
-import net.minecraft.world.attribute.AmbientParticle;
+import net.minecraft.world.level.biome.AmbientAdditionsSettings;
+import net.minecraft.world.level.biome.AmbientMoodSettings;
+import net.minecraft.world.level.biome.AmbientParticleSettings;
 import net.minecraft.world.level.biome.BiomeSpecialEffects.GrassColorModifier;
 
 public class BiomeEffectsBuilderImpl implements BiomeEffectsBuilder {
@@ -21,7 +21,7 @@ public class BiomeEffectsBuilderImpl implements BiomeEffectsBuilder {
 	private Optional<Integer> dryFoliageColor = Optional.empty();
 	private Optional<Integer> grassColor = Optional.empty();
 	private Optional<GrassColorModifier> grassColorModifier = Optional.empty();
-	private Optional<AmbientParticle> ambientParticle = Optional.empty();
+	private Optional<AmbientParticleSettings> ambientParticle = Optional.empty();
 	private Optional<Holder<SoundEvent>> ambientSound = Optional.empty();
 	private Optional<AmbientMoodSettings> moodSound = Optional.empty();
 	private Optional<AmbientAdditionsSettings> additionsSound = Optional.empty();
@@ -68,7 +68,7 @@ public class BiomeEffectsBuilderImpl implements BiomeEffectsBuilder {
 		return this;
 	}
 	
-	public BiomeEffectsBuilderImpl ambientParticle(AmbientParticle ambientParticle) {
+	public BiomeEffectsBuilderImpl ambientParticle(AmbientParticleSettings ambientParticle) {
 		this.ambientParticle = Optional.ofNullable(ambientParticle);
 		return this;
 	}

@@ -9,7 +9,7 @@ import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.worldgen.feature.config.CompositeConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -28,7 +28,7 @@ import java.util.Optional;
  */
 public record DelegatingConfig(
     StructurePoolElement delegate,
-    Optional<Identifier> name,
+    Optional<ResourceLocation> name,
     Optional<PlacementCondition> placementCondition,
     Optional<InclusiveRange<Integer>> allowedDepth,
     Optional<Integer> forcedCount,
@@ -40,7 +40,7 @@ public record DelegatingConfig(
 ) {
     public static final MapCodec<DelegatingConfig> CODEC = RecordCodecBuilder.<DelegatingConfig>mapCodec(instance -> instance.group(
         StructurePoolElement.CODEC.fieldOf("delegate").forGetter(DelegatingConfig::delegate),
-        Identifier.CODEC.optionalFieldOf("name").forGetter(DelegatingConfig::name),
+        ResourceLocation.CODEC.optionalFieldOf("name").forGetter(DelegatingConfig::name),
         PlacementCondition.CODEC.optionalFieldOf("condition").forGetter(DelegatingConfig::placementCondition),
         LithostitchedCodecs.INT_RANGE.optionalFieldOf("allowed_depth").forGetter(DelegatingConfig::allowedDepth),
         ExtraCodecs.POSITIVE_INT.optionalFieldOf("forced_count").forGetter(DelegatingConfig::forcedCount),
@@ -62,7 +62,7 @@ public record DelegatingConfig(
         this(delegate, Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), false, false, Heightmap.Types.WORLD_SURFACE_WG, Optional.empty());
     }
 
-    public Identifier getName() {
+    public ResourceLocation getName() {
         return this.name.orElseGet(() -> Lithostitched.id("generated/" + this.delegate.hashCode()));
     }
 

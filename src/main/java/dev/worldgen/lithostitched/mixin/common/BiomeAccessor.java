@@ -1,6 +1,5 @@
 package dev.worldgen.lithostitched.mixin.common;
 
-import net.minecraft.world.attribute.EnvironmentAttributeMap;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
@@ -33,10 +32,4 @@ public interface BiomeAccessor {
     @Accessor("mobSettings")
     @Mutable
     void setMobSettings(MobSpawnSettings mobSettings);
-    
-    //? if >= 26.1 {
-    @Accessor("attributes")
-    @Mutable
-    void setAttributes(EnvironmentAttributeMap map);
-    //? }
 }

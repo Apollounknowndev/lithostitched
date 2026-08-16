@@ -10,7 +10,7 @@ import dev.worldgen.lithostitched.mixin.common.NoiseBasedChunkGeneratorAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.*;
@@ -74,19 +74,19 @@ public record RereferenceNoiseSettingsModifier() implements WorldgenModifier {
     }
     
     private static boolean doDepthNoiseRouterValuesMatch(NoiseRouter saved, NoiseRouter registry) {
-        Identifier savedId = getDensityFunctionId(NoiseRouterTarget.DEPTH.getDensityFunction(saved));
-        Identifier registryId = getDensityFunctionId(NoiseRouterTarget.DEPTH.getDensityFunction(registry));
+        ResourceLocation savedId = getDensityFunctionId(NoiseRouterTarget.DEPTH.getDensityFunction(saved));
+        ResourceLocation registryId = getDensityFunctionId(NoiseRouterTarget.DEPTH.getDensityFunction(registry));
 	    
 	    return savedId != null && savedId.equals(registryId);
     }
     
-    private static Identifier getDensityFunctionId(DensityFunction function) {
+    private static ResourceLocation getDensityFunctionId(DensityFunction function) {
         if (function instanceof MergedDensityFunction merged) {
             function = merged.original();
         }
         if (function instanceof DensityFunctions.HolderHolder(Holder<DensityFunction> holder)) {
             if (holder.unwrapKey().isPresent()) {
-                return holder.unwrapKey().get().identifier();
+                return holder.unwrapKey().get().location();
             }
         }
         return null;

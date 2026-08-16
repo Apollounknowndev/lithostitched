@@ -1,12 +1,10 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
-import dev.worldgen.lithostitched.Lithostitched;
-import net.minecraft.util.valueproviders.IntProviders;
 import dev.worldgen.lithostitched.worldgen.feature.config.StructureTemplateConfig;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
@@ -17,8 +15,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-
-import java.util.Objects;
 
 public class StructureTemplateFeature extends Feature<StructureTemplateConfig> {
     public static final StructureTemplateFeature FEATURE = new StructureTemplateFeature();
@@ -44,10 +40,10 @@ public class StructureTemplateFeature extends Feature<StructureTemplateConfig> {
 
         BlockPos jigsawPos = origin;
         if (config.startJigsawName().isPresent()) {
-            Identifier startName = config.startJigsawName().get();
+            ResourceLocation startName = config.startJigsawName().get();
             ObjectArrayList<StructureTemplate.StructureBlockInfo> jigsawBlocks = template.filterBlocks(origin, new StructurePlaceSettings().setRotation(rotation.getRotated(Rotation.CLOCKWISE_180)), Blocks.JIGSAW, true);
             for (StructureTemplate.StructureBlockInfo jigsaw : jigsawBlocks) {
-                Identifier jigsawName = Identifier.tryParse(jigsaw.nbt().getStringOr("name", ""));
+                ResourceLocation jigsawName = ResourceLocation.tryParse(jigsaw.nbt().getString("name"));
                 if (jigsawName == null || !jigsawName.equals(startName)) continue;
                 jigsawPos = jigsaw.pos();
                 break;

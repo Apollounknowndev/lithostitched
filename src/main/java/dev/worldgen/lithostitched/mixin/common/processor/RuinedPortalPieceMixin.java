@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(RuinedPortalPiece.class)
 public class RuinedPortalPieceMixin {
     @ModifyReturnValue(
-        method = "makeSettings(Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplateManager;Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/resources/Identifier;)Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructurePlaceSettings;",
+        method = "makeSettings(Lnet/minecraft/world/level/block/Mirror;Lnet/minecraft/world/level/block/Rotation;Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalPiece$VerticalPlacement;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/levelgen/structure/structures/RuinedPortalPiece$Properties;)Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructurePlaceSettings;",
         at = @At("RETURN")
     )
     private static StructurePlaceSettings addRuinedPortalProcessor(StructurePlaceSettings settings) {

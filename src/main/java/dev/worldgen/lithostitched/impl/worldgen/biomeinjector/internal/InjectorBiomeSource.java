@@ -16,7 +16,7 @@ import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.RegionManag
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.biome.Climate.TargetPoint;
@@ -57,7 +57,7 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		return this.directDelegate;
 	}
 	
-	public void applyInjectors(Map<Identifier, BiomeInjector> injectors, Optional<DensityFunction> regionFunction, Map<ResourceKey<Region>, Region> regions, DensityFunctionWrapper noiseHelper) {
+	public void applyInjectors(Map<ResourceLocation, BiomeInjector> injectors, Optional<DensityFunction> regionFunction, Map<ResourceKey<Region>, Region> regions, DensityFunctionWrapper noiseHelper) {
 		this.possibleBiomes = new ArrayList<>();
 		
 		injectors.values().forEach(injector -> {
@@ -215,7 +215,7 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		int quartY = QuartPos.fromBlock(pos.getY());
 		int quartZ = QuartPos.fromBlock(pos.getZ());
 		Holder<Biome> biome = this.baseResolver.getNoiseBiome(quartX, quartY, quartZ, sampler);
-		Identifier region = this.regionManager.getRegion(context, biome).identifier();
+		ResourceLocation region = this.regionManager.getRegion(context, biome).location();
 		int rawValue = this.regionManager.getRegionValue(context, biome);
 		return String.format("Region: %s (Raw value: %s)", region, rawValue);
 	}

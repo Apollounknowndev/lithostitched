@@ -26,7 +26,7 @@ import java.util.function.Function;
 public interface PlacementCondition {
     @SuppressWarnings("unchecked")
     Codec<PlacementCondition> BASE_CODEC = Codec.lazyInitialized(() -> {
-        var registry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistries.PLACEMENT_CONDITION_TYPE.identifier());
+        var registry = BuiltInRegistries.REGISTRY.getOptional(LithostitchedRegistries.PLACEMENT_CONDITION_TYPE.location());
         if (registry.isEmpty()) throw new NullPointerException("Placement condition registry does not exist yet!");
         return ((Registry<MapCodec<? extends PlacementCondition>>) registry.get()).byNameCodec();
     }).dispatch(PlacementCondition::codec, Function.identity());

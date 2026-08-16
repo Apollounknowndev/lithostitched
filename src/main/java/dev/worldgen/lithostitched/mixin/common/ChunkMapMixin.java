@@ -5,7 +5,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
-import net.minecraft.util.valueproviders.IntProviders;
 import dev.worldgen.lithostitched.worldgen.modifier.WrapNoiseRouterModifier;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.RegistryAccess;
@@ -55,7 +54,7 @@ public class ChunkMapMixin {
                 modifyDensityFunction(NoiseRouterTarget.EROSION, router.erosion(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.DEPTH, router.depth(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.RIDGES, router.ridges(), modifiers),
-                modifyDensityFunction(NoiseRouterTarget.PRELIMINARY_SURFACE_LEVEL, router.preliminarySurfaceLevel(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.INITIAL_DENSITY_WITHOUT_JAGGEDNESS, router.initialDensityWithoutJaggedness(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.FINAL_DENSITY, router.finalDensity(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.VEIN_TOGGLE, router.veinToggle(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.VEIN_RIDGED, router.veinRidged(), modifiers),

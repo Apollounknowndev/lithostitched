@@ -1,7 +1,6 @@
 package dev.worldgen.lithostitched.api.worldgen.util;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.util.valueproviders.IntProviders;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.NoiseRouter;
@@ -19,7 +18,7 @@ public enum NoiseRouterTarget implements StringRepresentable {
     EROSION("erosion", NoiseRouter::erosion),
     DEPTH("depth", NoiseRouter::depth),
     RIDGES("ridges", NoiseRouter::ridges),
-    PRELIMINARY_SURFACE_LEVEL("preliminary_surface_level", NoiseRouter::preliminarySurfaceLevel),
+    INITIAL_DENSITY_WITHOUT_JAGGEDNESS("initial_density_without_jaggedness", NoiseRouter::initialDensityWithoutJaggedness),
     FINAL_DENSITY("final_density", NoiseRouter::finalDensity),
     VEIN_TOGGLE("vein_toggle", NoiseRouter::veinToggle),
     VEIN_RIDGED("vein_ridged", NoiseRouter::veinRidged),

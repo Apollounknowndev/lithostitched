@@ -37,8 +37,4 @@ public final class RandomBlockProvider extends BlockStateProvider {
     public BlockState getState(RandomSource random, BlockPos pos) {
         return this.blocks.getRandomElement(random).map(Holder::value).orElse(Blocks.AIR).defaultBlockState();
     }
-    
-    public BlockState getState(WorldGenLevel level, RandomSource random, BlockPos pos) {
-        return this.blocks.getRandomElement(random).map(Holder::value).orElse(Blocks.AIR).defaultBlockState();
-    }
 }

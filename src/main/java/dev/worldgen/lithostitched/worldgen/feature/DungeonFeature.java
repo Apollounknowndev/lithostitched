@@ -1,13 +1,9 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
 import dev.worldgen.lithostitched.Lithostitched;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.util.valueproviders.IntProviders;
 import dev.worldgen.lithostitched.worldgen.feature.config.DungeonConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
@@ -88,8 +84,8 @@ public class DungeonFeature extends Feature<DungeonConfig> {
                             level.setBlock(currentPos, Blocks.CAVE_AIR.defaultBlockState(), 2);
                         } else if (currentState.isSolid() && !currentState.is(Blocks.CHEST)) {
                             this.safeSetBlock(level, currentPos, y == -1 ?
-                                config.floorProvider().getState(level, random, currentPos) :
-                                config.wallProvider().getState(level, random, currentPos),
+                                config.floorProvider().getState(random, currentPos) :
+                                config.wallProvider().getState(random, currentPos),
                             predicate);
                         }
                     }

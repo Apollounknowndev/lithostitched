@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.worldgen.poolelement;
 
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.api.worldgen.poolelement.DelegatingElementBuilder;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class DelegatingElementBuilderImpl implements DelegatingElementBuilder {
 	private final StructurePoolElement delegate;
-	private Optional<Identifier> name = Optional.empty();
+	private Optional<ResourceLocation> name = Optional.empty();
 	private Optional<PlacementCondition> placementCondition = Optional.empty();
 	private Optional<InclusiveRange<Integer>> allowedDepth = Optional.empty();
 	private Optional<Integer> forcedCount = Optional.empty();
@@ -63,7 +63,7 @@ public class DelegatingElementBuilderImpl implements DelegatingElementBuilder {
 	}
 	
 	@Override
-	public DelegatingElementBuilder named(Identifier name) {
+	public DelegatingElementBuilder named(ResourceLocation name) {
 		this.name = Optional.of(name);
 		return this;
 	}

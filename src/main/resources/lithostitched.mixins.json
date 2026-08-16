@@ -9,12 +9,10 @@
     "common.BiomeSourceInvoker",
     "common.ChunkGeneratorAccessor",
     "common.ChunkMapMixin",
-    "common.DimensionTypeAccessor",
     "common.GameTestServerMixin",
     "common.HolderReferenceAccessor",
     "common.JigsawStructureAccessor",
     "common.JigsawStructureMixin",
-    "common.LevelStorageSourceMixin",
     "common.MappedRegistryAccessor",
     "common.MobSpawnSettingsAccessor",
     "common.MultiNoiseBiomeSourceAccessor",
@@ -32,7 +30,6 @@
     "common.StructureTemplatePoolAccessor",
     "common.StructureTemplatePoolMixin",
     "common.SurfaceRulesContextMixin",
-    "common.TimelineAccessor",
     "common.bandlands.NoiseBasedChunkGeneratorMixin",
     "common.bandlands.SurfaceSystemMixin",
     "common.compat.terrablender.NoiseBasedChunkGeneratorMixin",
@@ -41,8 +38,7 @@
     "common.mnbs.MNBSPLMixin",
     "common.mnbs.ParameterListAccessor",
     "common.neoforge.ServerLifecycleHooksMixin",
-    "common.predicate.PendingRegistrationMixin",
-    "common.predicate.ResourceManagerRegistryLoadTaskMixin",
+    "common.predicate.RegistryDataLoaderMixin",
     "common.processor.EndCityPieceMixin",
     "common.processor.IglooPieceMixin",
     "common.processor.NetherFossilPieceMixin",
@@ -62,19 +58,10 @@
     "common.template.mansion.floor.FirstFloorMixin",
     "common.template.mansion.floor.SecondFloorMixin",
     "common.template.mansion.floor.ThirdFloorMixin",
-    "common.timeline.BiomeMixin",
-    "common.timeline.EnvironmentAttributeProbeMixin",
-    "common.timeline.EnvironmentAttributeSystemBuilderMixin",
-    "common.timeline.EnvironmentAttributeSystemMixin",
-    "common.timeline.EnvironmentAttributeSystemValueSamplerMixin",
-    "common.timeline.SpatialAttributeInterpolatorMixin",
     "common.villager.VillagerTypeMixin"
   ],
   "client": [
-    "client.ClientLevelMixin",
-    "client.EnvironmentAttributeSystemMixin",
-    "client.IntegratedServerMixin",
-    "client.MusicManagerMixin"
+    "client.IntegratedServerMixin"
   ],
   "server": [
     "server.DedicatedServerMixin"

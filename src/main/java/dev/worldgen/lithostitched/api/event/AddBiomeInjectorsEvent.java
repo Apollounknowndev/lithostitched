@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.api.event;
 import dev.worldgen.lithostitched.impl.event.LithostitchedEvent;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.BiConsumer;
 
@@ -28,5 +28,5 @@ public interface AddBiomeInjectorsEvent {
 		}
 	}));
 	
-	void addInjectors(RegistryAccess registries, BiConsumer<Identifier, BiomeInjector> consumer);
+	void addInjectors(RegistryAccess registries, BiConsumer<ResourceLocation, BiomeInjector> consumer);
 }

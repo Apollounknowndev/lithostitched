@@ -8,7 +8,7 @@ import net.minecraft.core.FrontAndTop;
 import net.minecraft.core.Vec3i;
 import net.minecraft.data.worldgen.Pools;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
@@ -48,11 +48,11 @@ public class LithostitchedFeaturePoolElement extends StructurePoolElement {
     
     private CompoundTag fillDefaultJigsawNBT() {
         CompoundTag tag = new CompoundTag();
-        tag.store("name", Identifier.CODEC, this.config().jigsawName());
+        tag.putString("name", this.config().jigsawName().toString());
         tag.putString("final_state", "minecraft:air");
-        tag.store("pool", JigsawBlockEntity.POOL_CODEC, Pools.EMPTY);
-        tag.store("target", Identifier.CODEC, this.config().targetName());
-        tag.store("joint", JigsawBlockEntity.JointType.CODEC, JigsawBlockEntity.JointType.ROLLABLE);
+        tag.putString("pool", Pools.EMPTY.toString());
+        tag.putString("target", this.config().targetName().toString());
+        tag.putString("joint", JigsawBlockEntity.JointType.ROLLABLE.getSerializedName());
         return tag;
     }
     
@@ -62,16 +62,14 @@ public class LithostitchedFeaturePoolElement extends StructurePoolElement {
     }
     
     @Override
-    public List<StructureTemplate.JigsawBlockInfo> getShuffledJigsawBlocks(
+    public List<StructureTemplate.StructureBlockInfo> getShuffledJigsawBlocks(
         final StructureTemplateManager structureTemplateManager, final BlockPos position, final Rotation rotation, final RandomSource random
     ) {
         return List.of(
-            StructureTemplate.JigsawBlockInfo.of(
-                new StructureTemplate.StructureBlockInfo(
-                    position,
-                    Blocks.JIGSAW.defaultBlockState().setValue(JigsawBlock.ORIENTATION, FrontAndTop.fromFrontAndTop(Direction.DOWN, Direction.SOUTH)),
-                    this.defaultJigsawNBT
-                )
+            new StructureTemplate.StructureBlockInfo(
+                position,
+                Blocks.JIGSAW.defaultBlockState().setValue(JigsawBlock.ORIENTATION, FrontAndTop.fromFrontAndTop(Direction.DOWN, Direction.SOUTH)),
+                this.defaultJigsawNBT
             )
         );
     }

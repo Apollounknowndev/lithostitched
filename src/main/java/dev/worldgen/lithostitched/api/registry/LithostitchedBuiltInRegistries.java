@@ -1,6 +1,7 @@
 package dev.worldgen.lithostitched.api.registry;
 
 import com.mojang.serialization.MapCodec;
+import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.bandlands.Band;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
@@ -28,7 +29,6 @@ import dev.worldgen.lithostitched.impl.worldgen.fastnoise.SimplexNoiseType;
 import dev.worldgen.lithostitched.worldgen.feature.*;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
-import dev.worldgen.lithostitched.worldgen.modifier.attribute.*;
 import dev.worldgen.lithostitched.worldgen.modifier.internal.RereferenceNoiseSettingsModifier;
 import dev.worldgen.lithostitched.worldgen.placementcondition.*;
 import dev.worldgen.lithostitched.impl.worldgen.processor.*;
@@ -38,12 +38,8 @@ import dev.worldgen.lithostitched.impl.worldgen.surface.condition.*;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.BandlandsRule;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.ReferenceRule;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.TransientMergedRule;
-import dev.worldgen.lithostitched.worldgen.attribute.LithostitchedEnvironmentAttributes;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
-import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetBiomeAttributesModifier;
-import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetDimensionAttributesModifier;
-import dev.worldgen.lithostitched.worldgen.modifier.attribute.SetTimelineTracksModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.internal.CompileRawTemplatesModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.ConditionPlacement;
@@ -66,14 +62,14 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 import java.util.Map;
 
 //? if fabric {
-import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
-//? } else {
-/*import net.neoforged.neoforge.registries.DeferredRegister;
+/*import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+*///? } else {
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import dev.worldgen.lithostitched.platform.neoforge.LithostitchedRegistrations;
 import dev.worldgen.lithostitched.platform.neoforge.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
-*///? }
+//? }
 
 /**
  * All of Lithostitched's static registries.
@@ -90,11 +86,11 @@ public class LithostitchedBuiltInRegistries {
 	
 	private static <T> Registry<T> create(ResourceKey<Registry<T>> key) {
 		//? if fabric {
-		return FabricRegistryBuilder.create(key).buildAndRegister();
-		//? } else {
-		/*DeferredRegister<T> register = LithostitchedRegistrations.createDeferredRegister(key);
+		/*return FabricRegistryBuilder.createSimple(key).buildAndRegister();
+		*///? } else {
+		DeferredRegister<T> register = LithostitchedRegistrations.createDeferredRegister(key);
 		return register.makeRegistry(b -> {});
-		*///? }
+		//? }
 	}
 	
 	/**
@@ -103,13 +99,13 @@ public class LithostitchedBuiltInRegistries {
 	public static void init() {
 		//MixinEnvironment.getCurrentEnvironment().audit();
 		
-		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.BANDLANDS, Bandlands.CODEC);
-		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.BIOME_INJECTOR, BiomeInjector.CODEC);
-		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.FAST_NOISE_CONFIG, FastNoiseConfig.CODEC);
-		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.REGION, Region.CODEC);
-		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.SURFACE_RULE, SurfaceRules.RuleSource.CODEC);
-		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.TEMPLATE_LIST, TemplateList.CODEC);
-		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.WORLDGEN_MODIFIER, WorldgenModifier.CODEC);
+		Lithostitched.REGISTRAR.registerRegistry(LithostitchedRegistries.BANDLANDS, Bandlands.CODEC);
+		Lithostitched.REGISTRAR.registerRegistry(LithostitchedRegistries.BIOME_INJECTOR, BiomeInjector.CODEC);
+		Lithostitched.REGISTRAR.registerRegistry(LithostitchedRegistries.FAST_NOISE_CONFIG, FastNoiseConfig.CODEC);
+		Lithostitched.REGISTRAR.registerRegistry(LithostitchedRegistries.REGION, Region.CODEC);
+		Lithostitched.REGISTRAR.registerRegistry(LithostitchedRegistries.SURFACE_RULE, SurfaceRules.RuleSource.CODEC);
+		Lithostitched.REGISTRAR.registerRegistry(LithostitchedRegistries.TEMPLATE_LIST, TemplateList.CODEC);
+		Lithostitched.REGISTRAR.registerRegistry(LithostitchedRegistries.WORLDGEN_MODIFIER, WorldgenModifier.CODEC);
 		
 		LithostitchedRegistrar.register(LithostitchedBuiltInRegistries.BANDLANDS_BAND_TYPE, Map.ofEntries(
 			Map.entry("base", BaseBand.CODEC),
@@ -140,14 +136,9 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("remove_structure_set_entries", RemoveStructureSetEntriesModifier.CODEC),
 			Map.entry("replace_climate", ReplaceClimateModifier.CODEC),
 			Map.entry("replace_effects", ReplaceEffectsModifier.CODEC),
-			Map.entry("set_biome_attributes", SetBiomeAttributesModifier.CODEC),
-			Map.entry("set_biome_timeline", SetBiomeTimelineModifier.CODEC),
-			Map.entry("set_dimension_attributes", SetDimensionAttributesModifier.CODEC),
 			Map.entry("set_pool_aliases", SetPoolAliasesModifier.CODEC),
 			Map.entry("set_pool_element_processors", SetPoolElementProcessorsModifier.CODEC),
-			Map.entry("set_structure_attributes", SetStructureAttributesModifier.CODEC),
 			Map.entry("set_structure_spawn_condition", SetStructureSpawnConditionModifier.CODEC),
-			Map.entry("set_timeline_tracks", SetTimelineTracksModifier.CODEC),
 			Map.entry("stack_feature", StackFeatureModifier.CODEC),
 			Map.entry("wrap_density_function", WrapDensityFunctionModifier.CODEC),
 			Map.entry("wrap_noise_router", WrapNoiseRouterModifier.CODEC)
@@ -224,9 +215,6 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("sin", SinDensityFunction.DATA_CODEC),
 			Map.entry("sqrt", SqrtDensityFunction.DATA_CODEC)
 		));
-		LithostitchedRegistrar.register(BuiltInRegistries.ENVIRONMENT_ATTRIBUTE, Map.ofEntries(
-			Map.entry("structure/reset_music", LithostitchedEnvironmentAttributes.RESET_MUSIC)
-		));
 		LithostitchedRegistrar.register(BuiltInRegistries.FEATURE, Map.ofEntries(
 			Map.entry("composite", CompositeFeature.FEATURE),
 			Map.entry("dungeon", DungeonFeature.FEATURE),
@@ -288,7 +276,7 @@ public class LithostitchedBuiltInRegistries {
 		));
 		
 		//? if neoforge {
-		/*LithostitchedRegistrar.register(NeoForgeRegistries.CONDITION_SERIALIZERS, Map.ofEntries(
+		LithostitchedRegistrar.register(NeoForgeRegistries.CONDITION_SERIALIZERS, Map.ofEntries(
 			Map.entry("breaks_seed_parity", BreaksSeedParityCondition.CODEC)
 		));
 		LithostitchedRegistrar.register(NeoForgeRegistries.BIOME_MODIFIER_SERIALIZERS, Map.ofEntries(
@@ -296,6 +284,6 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("replace_effects", LithostitchedNeoforgeBiomeModifiers.ReplaceEffectsBiomeModifier.CODEC),
 			Map.entry("add_spawn_costs", LithostitchedNeoforgeBiomeModifiers.AddSpawnCostsBiomeModifier.CODEC)
 		));
-		*///? }
+		//? }
 	}
 }

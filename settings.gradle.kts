@@ -24,8 +24,8 @@ plugins {
 
 stonecutter {
     create(rootProject) {
-        version("fabric", "26.1").buildscript("build.fabric.gradle.kts")
-        version("neoforge", "26.1").buildscript("build.neoforge.gradle.kts")
+        version("fabric", "1.21.1").buildscript("build.fabric.gradle.kts")
+        version("neoforge", "1.21.1").buildscript("build.neoforge.gradle.kts")
 
         vcsVersion = "fabric"
     }

@@ -2,7 +2,7 @@ plugins {
     id("dev.kikugie.stonecutter")
 }
 
-stonecutter active "fabric"
+stonecutter active "neoforge"
 
 // See https://stonecutter.kikugie.dev/wiki/config/params
 stonecutter parameters {
@@ -10,7 +10,7 @@ stonecutter parameters {
 
     // Makes version- and loader-specific properties apply from `stoncutter.properties.toml`
     properties {
-        tags("26.1", loader)
+        tags("21.1", loader)
     }
 
     // Adds constants to Stonecutter comments (i.e. for `//? if fabric {...`)

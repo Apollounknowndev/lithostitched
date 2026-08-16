@@ -1,5 +1,5 @@
 //? if neoforge {
-/*package dev.worldgen.lithostitched.platform.neoforge;
+package dev.worldgen.lithostitched.platform.neoforge;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -15,9 +15,9 @@ import java.util.function.Consumer;
 
 import static dev.worldgen.lithostitched.Lithostitched.MOD_ID;
 
-/^*
+/**
  * Built-in registries for Lithostitched on Neoforge.
- ^/
+ */
 public final class LithostitchedRegistrations {
 	public static final Map<ResourceKey<?>, DeferredRegister<?>> REGISTER_CACHE = new HashMap<>();
 	public static final List<Consumer<DataPackRegistryEvent.NewRegistry>> DYNAMIC_REGISTRIES = new ArrayList<>();
@@ -35,4 +35,4 @@ public final class LithostitchedRegistrations {
 		});
 	}
 }
-*///? }
+//? }

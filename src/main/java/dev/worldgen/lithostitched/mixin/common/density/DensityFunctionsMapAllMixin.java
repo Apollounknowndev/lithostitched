@@ -13,20 +13,21 @@ import org.spongepowered.asm.mixin.Mixin;
     "net.minecraft.world.level.levelgen.DensityFunctions$Spline"
 })
 public class DensityFunctionsMapAllMixin {
+    
     @WrapMethod(method = "mapAll")
     private DensityFunction modulation$cacheMapAllSafely(DensityFunction.Visitor visitor, Operation<DensityFunction> original) {
         DensityFunction self = (DensityFunction) this;
-
+        
         DensityFunction cached = MapAllCache.get(visitor, self);
         if (cached != null) {
             return cached;
         }
-
+        
         MapAllCache.push();
-
+        
         try {
             DensityFunction result = original.call(visitor);
-
+            
             MapAllCache.put(visitor, self, result);
             return result;
         } finally {

@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.api.tag;
 import dev.worldgen.lithostitched.Lithostitched;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
@@ -23,6 +23,6 @@ public interface LithostitchedBiomeTags {
 	}
 	
 	static TagKey<Biome> createVillagerTypeTag(ResourceKey<?> holder) {
-		return TagKey.create(Registries.BIOME, Lithostitched.vanillaToLithostitched(holder.identifier().withPrefix("has_villager_type/")));
+		return TagKey.create(Registries.BIOME, Lithostitched.vanillaToLithostitched(holder.location().withPrefix("has_villager_type/")));
 	}
 }

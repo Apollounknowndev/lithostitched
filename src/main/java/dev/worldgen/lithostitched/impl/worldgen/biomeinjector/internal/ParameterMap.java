@@ -6,7 +6,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector.ClimateParameter;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
-import net.minecraft.util.valueproviders.IntProviders;
+import net.minecraft.util.valueproviders.IntProvider;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.resources.ResourceKey;

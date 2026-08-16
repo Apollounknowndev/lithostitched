@@ -1,25 +1,24 @@
 package dev.worldgen.lithostitched.worldgen.structure;
 
 import com.google.common.collect.Lists;
+import dev.worldgen.apollib.Apollib;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.worldgen.structure.MaxDistanceFromCenter;
-import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.duck.StructurePoolAccess;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingConfig;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingPoolElement;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.Pools;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.SequencedPriorityIterator;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.block.JigsawBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
@@ -42,7 +41,7 @@ public class AlternateJigsawGenerator {
         LevelHeightAccessor heightLimitView = context.heightAccessor();
         WorldgenRandom random = context.random();
 
-        Registry<StructureTemplatePool> registry = registries.lookupOrThrow(Registries.TEMPLATE_POOL);
+        Registry<StructureTemplatePool> registry = Apollib.registry(registries, Registries.TEMPLATE_POOL);
         Rotation rotation = config.fixedRotation() ? Rotation.NONE : Rotation.getRandom(random);
 
         StructurePoolElement startingElement = config.startPool().unwrapKey().flatMap(
@@ -54,12 +53,12 @@ public class AlternateJigsawGenerator {
         }
 
         BlockPos startPos;
-        Optional<Identifier> startJigsawName = config.startJigsawName();
+        Optional<ResourceLocation> startJigsawName = config.startJigsawName();
         if (startJigsawName.isPresent()) {
-            Identifier identifier = startJigsawName.get();
+            ResourceLocation identifier = startJigsawName.get();
             Optional<BlockPos> optional = findNamedJigsaw(startingElement, identifier, pos, rotation, structureTemplateManager, random);
             if (optional.isEmpty()) {
-                Lithostitched.LOGGER.error("No starting jigsaw {} found in start pool {}", identifier, config.startPool().unwrapKey().map((key) -> key.identifier().toString()).orElse("<unregistered>"));
+                Lithostitched.LOGGER.error("No starting jigsaw {} found in start pool {}", identifier, config.startPool().unwrapKey().map((key) -> key.location().toString()).orElse("<unregistered>"));
                 return Optional.empty();
             }
 
@@ -99,10 +98,10 @@ public class AlternateJigsawGenerator {
                 MaxDistanceFromCenter maxDistance = config.maxDistanceFromCenter();
                 AABB box = new AABB(
                         originX - maxDistance.horizontal(),
-                        Math.max(originY - maxDistance.vertical(), heightLimitView.getMinY() + config.dimensionPadding().bottom()),
+                        Math.max(originY - maxDistance.vertical(), heightLimitView.getMinBuildHeight() + config.dimensionPadding().bottom()),
                         originZ - maxDistance.horizontal(),
                         originX + maxDistance.horizontal() + 1,
-                        Math.min(originY + maxDistance.vertical() + 1, heightLimitView.getMaxY() - config.dimensionPadding().top()),
+                        Math.min(originY + maxDistance.vertical() + 1, heightLimitView.getMaxBuildHeight()  - config.dimensionPadding().top()),
                         originZ + maxDistance.horizontal() + 1
                 );
                 BoxOctree boxOctree = new BoxOctree(box);
@@ -115,27 +114,30 @@ public class AlternateJigsawGenerator {
             list.forEach(collector::addPiece);
         }));
     }
-
+    
     private static boolean pieceWithinPaddingBounds(LevelHeightAccessor levelHeightAccessor, DimensionPadding dimensionPadding, BoundingBox boundingBox) {
         if (dimensionPadding == DimensionPadding.ZERO) {
             return false;
         } else {
-            int minY = levelHeightAccessor.getMinY() + dimensionPadding.bottom();
-            int maxY = levelHeightAccessor.getMaxY() - dimensionPadding.top();
+            int minY = levelHeightAccessor.getMinBuildHeight() + dimensionPadding.bottom();
+            int maxY = levelHeightAccessor.getMaxBuildHeight() - dimensionPadding.top();
             return boundingBox.minY() < minY || boundingBox.maxY() > maxY;
         }
     }
-
-    private static Optional<BlockPos> findNamedJigsaw(StructurePoolElement pool, Identifier name, BlockPos pos, Rotation rotation, StructureTemplateManager structureManager, WorldgenRandom random) {
-        List<StructureTemplate.JigsawBlockInfo> list = pool.getShuffledJigsawBlocks(structureManager, pos, rotation, random);
-
-        for (StructureTemplate.JigsawBlockInfo jigsawBlock : list) {
-            if (name.equals(jigsawBlock.name())) {
-                return Optional.of(jigsawBlock.info().pos());
+    
+    private static Optional<BlockPos> findNamedJigsaw(StructurePoolElement pool, ResourceLocation id, BlockPos pos, Rotation rotation, StructureTemplateManager structureManager, WorldgenRandom random) {
+        List<StructureTemplate.StructureBlockInfo> list = pool.getShuffledJigsawBlocks(structureManager, pos, rotation, random);
+        Optional<BlockPos> optional = Optional.empty();
+        for (StructureTemplate.StructureBlockInfo structureBlockInfo : list) {
+            if (structureBlockInfo.nbt() == null) continue;
+            ResourceLocation identifier = ResourceLocation.tryParse(structureBlockInfo.nbt().getString("name"));
+            if (id.equals(identifier)) {
+                optional = Optional.of(structureBlockInfo.pos());
+                break;
             }
         }
-
-        return Optional.empty();
+        
+        return optional;
     }
 
     private static void generatePieces(Structure.GenerationContext context, boolean vanilla, int maxSize, boolean useExpansionHack, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, LevelHeightAccessor heightLimitView, RandomSource random, Registry<StructureTemplatePool> structurePoolRegistry, PoolElementStructurePiece firstPiece, List<PoolElementStructurePiece> pieces, BoxOctree boxOctree, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
@@ -161,7 +163,7 @@ public class AlternateJigsawGenerator {
         private final StructureTemplateManager structureTemplateManager;
         private final List<? super PoolElementStructurePiece> piecesToPlace;
         private final RandomSource random;
-        private final Map<Identifier, Integer> groupCounts = new HashMap<>();
+        private final Map<ResourceLocation, Integer> groupCounts = new HashMap<>();
         final SequencedPriorityIterator<PieceState> pieces = new SequencedPriorityIterator<>();
 
         private StructurePoolGenerator(Structure.GenerationContext context, boolean vanilla, Registry<StructureTemplatePool> registry, int maxSize, ChunkGenerator chunkGenerator, StructureTemplateManager structureTemplateManager, List<? super PoolElementStructurePiece> children, RandomSource random) {
@@ -174,19 +176,18 @@ public class AlternateJigsawGenerator {
             this.piecesToPlace = children;
             this.random = random;
         }
-
+        
         private void generatePiece(PoolElementStructurePiece parentPiece, BoxOctree parentOctree, int depth, boolean useExpansionHack, LevelHeightAccessor world, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
             StructurePoolElement anchorElement = parentPiece.getElement();
             BoundingBox parentBoundingBox = parentPiece.getBoundingBox();
             BoxOctree directParentOctree = null;
-
-            for (StructureTemplate.JigsawBlockInfo anchorJigsaw : anchorElement.getShuffledJigsawBlocks(this.structureTemplateManager, parentPiece.getPosition(), parentPiece.getRotation(), this.random)) {
-                StructureTemplate.StructureBlockInfo anchorInfo = anchorJigsaw.info();
-                BlockPos candidateConnectorPos = adjustJigsawPos(anchorInfo);
-                Holder<StructureTemplatePool> poolEntry = getTemplatePoolHolder(aliasLookup.lookup(anchorJigsaw.pool()), candidateConnectorPos);
+            
+            for (StructureTemplate.StructureBlockInfo anchorJigsawInfo : anchorElement.getShuffledJigsawBlocks(this.structureTemplateManager, parentPiece.getPosition(), parentPiece.getRotation(), this.random)) {
+                BlockPos candidateConnectorPos = anchorJigsawInfo.pos().relative(JigsawBlock.getFrontFacing(anchorJigsawInfo.state()));
+                Holder<StructureTemplatePool> poolEntry = getTemplatePoolHolder(getTemplatePoolKey(anchorJigsawInfo, aliasLookup), candidateConnectorPos);
                 if (poolEntry == null) continue;
                 boolean connectorInParentBoundingBox = parentBoundingBox.isInside(candidateConnectorPos);
-
+                
                 BoxOctree octree;
                 if (connectorInParentBoundingBox && !getConfig(anchorElement).otherPiecesCanIntersect()) {
                     if (directParentOctree == null) {
@@ -196,70 +197,77 @@ public class AlternateJigsawGenerator {
                 } else {
                     octree = parentOctree;
                 }
-
+                
                 MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools = new MutableObject<>(new ArrayList<>());
-                findAndTestChildCandidates(poolEntry, checkedPools, parentPiece, anchorJigsaw, octree, -1, depth, useExpansionHack, world, true, aliasLookup, liquidSettings);
+                findAndTestChildCandidates(poolEntry, checkedPools, parentPiece, anchorJigsawInfo, octree, -1, depth, useExpansionHack, world, true, aliasLookup, liquidSettings);
             }
+        }
+        
+        private static ResourceKey<StructureTemplatePool> getTemplatePoolKey(StructureTemplate.StructureBlockInfo info, PoolAliasLookup aliasLookup) {
+            CompoundTag compoundTag = Objects.requireNonNull(info.nbt(), () -> info + " nbt was null");
+            ResourceKey<StructureTemplatePool> resourceKey = Pools.parseKey(compoundTag.getString("pool"));
+            
+            return aliasLookup.lookup(resourceKey);
         }
 
         /**
          * Find a valid child from a pool of child candidates.
          * If none are found, go to the template pool's fallback and try again.
          */
-        private void findAndTestChildCandidates(Holder<StructureTemplatePool> entry, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, PoolElementStructurePiece parentPiece, StructureTemplate.JigsawBlockInfo anchorJigsawInfo, BoxOctree octree, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, boolean firstIteration, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+        private void findAndTestChildCandidates(Holder<StructureTemplatePool> entry, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, BoxOctree octree, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, boolean firstIteration, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
             List<StructurePoolElement> childCandidates = this.getPoolElements(entry.unwrapKey().orElse(Pools.EMPTY), checkedPools, depth, firstIteration);
-
+            
             if (childCandidates.isEmpty()) return;
             boolean foundChild = findValidChildPiece(childCandidates, parentPiece, anchorJigsawInfo, octree, k, depth, useExpansionHack, world, aliasLookup, liquidSettings);
             if (!foundChild) {
                 findAndTestChildCandidates(entry.value().getFallback(), checkedPools, parentPiece, anchorJigsawInfo, octree, k, depth, useExpansionHack, world, false, aliasLookup, liquidSettings);
             }
         }
-
+        
         private List<StructurePoolElement> getPoolElements(ResourceKey<StructureTemplatePool> poolKey, MutableObject<List<ResourceKey<StructureTemplatePool>>> checkedPools, int depth, boolean firstIteration) {
             // No point grabbing the pool if it's the empty pool
             if (poolKey == Pools.EMPTY) return List.of();
-
+            
             if (Lithostitched.breaksSeedParity() || !this.vanilla) {
                 // If we've already iterated over this pool, don't iterate over it again to prevent infinite looping
-                if (checkedPools.get().contains(poolKey)) {
+                if (checkedPools.getValue().contains(poolKey)) {
                     StringBuilder stringBuilder = new StringBuilder();
-                    for (ResourceKey<StructureTemplatePool> checkedPoolKey : checkedPools.get()) {
-                        stringBuilder.append(checkedPoolKey.identifier()).append(" -> ");
+                    for (ResourceKey<StructureTemplatePool> checkedPoolKey : checkedPools.getValue()) {
+                        stringBuilder.append(checkedPoolKey.location()).append(" -> ");
                     }
-                    stringBuilder.append(poolKey.identifier());
-
+                    stringBuilder.append(poolKey.location());
+                    
                     Lithostitched.debug("Template pool fallback chain found: {}", stringBuilder);
                     return List.of();
                 }
-
-                checkedPools.get().add(poolKey);
-
+                
+                checkedPools.getValue().add(poolKey);
+                
                 // Get pool to get the elements, start with fallback pool if at max size
-                Holder<StructureTemplatePool> pool = this.registry.get(poolKey).orElseThrow();
-
+                Holder<StructureTemplatePool> pool = this.registry.getHolder(poolKey).orElseThrow();
+                
                 // Skip straight to fallback if on max depth
                 if (depth == this.maxSize && firstIteration) {
                     pool = pool.value().getFallback();
                 }
-
+                
                 return ((StructurePoolAccess)pool.value()).getLithostitchedTemplates().shuffle(random);
             }
-
+            
             if (!firstIteration) return List.of();
-
+            
             // Get pool to get the elements, start with fallback pool if at max size
-            Holder<StructureTemplatePool> pool = this.registry.get(poolKey).orElseThrow();
+            Holder<StructureTemplatePool> pool = this.registry.getHolder(poolKey).orElseThrow();
             Holder<StructureTemplatePool> fallback = pool.value().getFallback();
-
+            
             List<StructurePoolElement> elements = new ArrayList<>();
-
+            
             if (depth != this.maxSize) {
                 elements.addAll(pool.value().getShuffledTemplates(this.random));
             }
-
+            
             elements.addAll(fallback.value().getShuffledTemplates(this.random));
-
+            
             return elements;
         }
 
@@ -267,21 +275,19 @@ public class AlternateJigsawGenerator {
          * Iterate through list of child candidate pieces to find a valid one to use.
          */
         @SuppressWarnings("deprecation")
-        private boolean findValidChildPiece(List<StructurePoolElement> elements, PoolElementStructurePiece parentPiece, StructureTemplate.JigsawBlockInfo anchorJigsaw, BoxOctree octree, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
-            StructureTemplate.StructureBlockInfo anchorInfo = anchorJigsaw.info();
-
-            BlockPos anchorPos = anchorInfo.pos();
-            BlockPos candidateConnectorPos = adjustJigsawPos(anchorInfo);
+        private boolean findValidChildPiece(List<StructurePoolElement> elements, PoolElementStructurePiece parentPiece, StructureTemplate.StructureBlockInfo anchorJigsawInfo, BoxOctree octree, int k, int depth, boolean useExpansionHack, LevelHeightAccessor world, PoolAliasLookup aliasLookup, LiquidSettings liquidSettings) {
+            BlockPos anchorPos = anchorJigsawInfo.pos();
+            BlockPos candidateConnectorPos = anchorPos.relative(JigsawBlock.getFrontFacing(anchorJigsawInfo.state()));
             int parentMinY = parentPiece.getBoundingBox().minY();
             int anchorDistanceToFloor = anchorPos.getY() - parentMinY;
             StructureTemplatePool.Projection parentProjection = parentPiece.getElement().getProjection();
             boolean parentRigid = parentProjection == StructureTemplatePool.Projection.RIGID;
-
+            
             for (StructurePoolElement element : elements) {
                 if (element == EmptyPoolElement.INSTANCE) {
                     return true;
                 }
-
+                
                 DelegatingConfig config = new DelegatingConfig(element);
                 boolean isDelegating = false;
                 if (element instanceof DelegatingPoolElement delegating) {
@@ -291,23 +297,20 @@ public class AlternateJigsawGenerator {
                         continue;
                     }
                 }
-
+                
                 for (Rotation rotation : Rotation.getShuffled(this.random)) {
-                    List<StructureTemplate.JigsawBlockInfo> connectorJigsaws = element.getShuffledJigsawBlocks(this.structureTemplateManager, BlockPos.ZERO, rotation, this.random);
+                    List<StructureTemplate.StructureBlockInfo> connectorJigsaws = element.getShuffledJigsawBlocks(this.structureTemplateManager, BlockPos.ZERO, rotation, this.random);
                     BoundingBox connectorBoundingBox = element.getBoundingBox(this.structureTemplateManager, BlockPos.ZERO, rotation);
-
+                    
                     // Expansion hack
                     int l;
                     if (useExpansionHack && connectorBoundingBox.getYSpan() <= 16) {
-                        l = connectorJigsaws.stream().mapToInt((jigsawInfo) -> {
-                            StructureTemplate.StructureBlockInfo blockInfo = jigsawInfo.info();
-                            if (!connectorBoundingBox.isInside(adjustJigsawPos(blockInfo))) {
+                        l = connectorJigsaws.stream().mapToInt((blockInfo) -> {
+                            if (!connectorBoundingBox.isInside(blockInfo.pos().relative(JigsawBlock.getFrontFacing(blockInfo.state())))) {
                                 return 0;
                             } else {
-                                // This is technically bugged behavior, fallback chains need to be taken into account.
-                                // This should never matter though.
-                                ResourceKey<StructureTemplatePool> registryKey2 = aliasLookup.lookup(jigsawInfo.pool());
-                                Optional<? extends Holder<StructureTemplatePool>> optional1 = this.registry.get(registryKey2);
+                                ResourceKey<StructureTemplatePool> registryKey2 = getTemplatePoolKey(blockInfo, aliasLookup);
+                                Optional<? extends Holder<StructureTemplatePool>> optional1 = this.registry.getHolder(registryKey2);
                                 Optional<Holder<StructureTemplatePool>> optional2 = optional1.map(entry -> entry.value().getFallback());
                                 int i2 = optional1.map(entry -> entry.value().getMaxSize(this.structureTemplateManager)).orElse(0);
                                 int j2 = optional2.map(entry -> entry.value().getMaxSize(this.structureTemplateManager)).orElse(0);
@@ -317,18 +320,18 @@ public class AlternateJigsawGenerator {
                     } else {
                         l = 0;
                     }
-
+                    
                     // Find valid jigsaw block to attach
-                    for (StructureTemplate.JigsawBlockInfo connectorJigsawInfo: connectorJigsaws) {
-                        if (JigsawBlock.canAttach(anchorJigsaw, connectorJigsawInfo)) {
-                            BlockPos connectorPos = connectorJigsawInfo.info().pos();
+                    for (StructureTemplate.StructureBlockInfo connectorJigsawInfo: connectorJigsaws) {
+                        if (JigsawBlock.canAttach(anchorJigsawInfo, connectorJigsawInfo)) {
+                            BlockPos connectorPos = connectorJigsawInfo.pos();
                             BlockPos blockPos5 = candidateConnectorPos.subtract(connectorPos);
                             BoundingBox blockBox3 = element.getBoundingBox(this.structureTemplateManager, blockPos5, rotation);
                             int m = blockBox3.minY();
                             StructureTemplatePool.Projection connectorProjection = element.getProjection();
                             boolean connectorProjectionRigid = connectorProjection == StructureTemplatePool.Projection.RIGID;
                             int connectorY = connectorPos.getY();
-                            int o = anchorDistanceToFloor - connectorY + JigsawBlock.getFrontFacing(anchorInfo.state()).getStepY();
+                            int o = anchorDistanceToFloor - connectorY + JigsawBlock.getFrontFacing(anchorJigsawInfo.state()).getStepY();
                             int p;
                             if (parentRigid && connectorProjectionRigid) {
                                 p = parentMinY + o;
@@ -336,32 +339,32 @@ public class AlternateJigsawGenerator {
                                 if (k == -1) {
                                     k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), config.terrainMatchingHeightmap(), world, context.randomState());
                                 }
-
+                                
                                 p = k - connectorY;
                             }
-
+                            
                             int q = p - m;
                             BoundingBox blockBox4 = blockBox3.moved(0, q, 0);
                             BlockPos blockPos6 = blockPos5.offset(0, q, 0);
-
-
+                            
+                            
                             int r;
                             if (l > 0) {
                                 r = Math.max(l + 1, blockBox4.maxY() - blockBox4.minY());
                                 blockBox4.encapsulate(new BlockPos(blockBox4.minX(), blockBox4.minY() + r, blockBox4.minZ()));
                             }
-
-
+                            
+                            
                             if (config.allowBoundingBoxCollisions() || octree.withinBoundsButNotIntersectingChildren(AABB.of(blockBox4).deflate(0.25))) {
                                 // At this point the piece is ready to be placed
                                 if (isDelegating) {
                                     this.groupCounts.put(config.getName(), this.groupCounts.getOrDefault(config.getName(), 0) + 1);
                                 }
-
+                                
                                 if (!config.otherPiecesCanIntersect()) {
                                     octree.addBox(AABB.of(blockBox4));
                                 }
-
+                                
                                 r = parentPiece.getGroundLevelDelta();
                                 int s;
                                 if (connectorProjectionRigid) {
@@ -369,9 +372,9 @@ public class AlternateJigsawGenerator {
                                 } else {
                                     s = element.getGroundLevelDelta();
                                 }
-
+                                
                                 PoolElementStructurePiece poolStructurePiece = new PoolElementStructurePiece(this.structureTemplateManager, element, blockPos6, s, rotation, blockBox4, liquidSettings);
-
+                                
                                 int t;
                                 if (parentRigid) {
                                     t = parentMinY + anchorDistanceToFloor;
@@ -381,17 +384,18 @@ public class AlternateJigsawGenerator {
                                     if (k == -1) {
                                         k = this.chunkGenerator.getFirstFreeHeight(anchorPos.getX(), anchorPos.getZ(), config.terrainMatchingHeightmap(), world, context.randomState());
                                     }
-
+                                    
                                     t = k + o / 2;
                                 }
-
-                                parentPiece.addJunction(new JigsawJunction(candidateConnectorPos.getX(), t - anchorDistanceToFloor + r, candidateConnectorPos.getZ(), o, connectorProjection));
+                                
+                                parentPiece.addJunction(new JigsawJunction(candidateConnectorPos.getX(), t - anchorDistanceToFloor + r,
+                                    candidateConnectorPos.getZ(), o, connectorProjection));
                                 poolStructurePiece.addJunction(new JigsawJunction(anchorPos.getX(), t - connectorY + s, anchorPos.getZ(), -o, parentProjection));
-
+                                
                                 this.piecesToPlace.add(poolStructurePiece);
                                 if (depth + 1 <= this.maxSize) {
-                                    PieceState pieceState = new PieceState(poolStructurePiece, octree, depth + 1);
-                                    this.pieces.add(pieceState, anchorJigsaw.placementPriority());
+                                    int priority = anchorJigsawInfo.nbt() != null ? anchorJigsawInfo.nbt().getInt("placement_priority") : 0;
+                                    this.pieces.add(new PieceState(poolStructurePiece, octree, depth + 1), priority);
                                 }
                                 return true;
                             }
@@ -403,14 +407,14 @@ public class AlternateJigsawGenerator {
         }
 
         private Holder<StructureTemplatePool> getTemplatePoolHolder(ResourceKey<StructureTemplatePool> key, BlockPos pos) {
-            Optional<? extends Holder<StructureTemplatePool>> optional = this.registry.get(key);
+            Optional<? extends Holder<StructureTemplatePool>> optional = this.registry.getHolder(key);
             if (optional.isEmpty()) {
-                Lithostitched.LOGGER.warn("Couldn't find template pool reference: {} (Jigsaw block location: {})", key.identifier(), pos.toShortString());
+                Lithostitched.LOGGER.warn("Couldn't find template pool reference: {} (Jigsaw block location: {})", key.location(), pos.toShortString());
             } else {
                 Holder<StructureTemplatePool> regularPool = optional.get();
                 if ((regularPool.value()).size() == 0) {
                     if (!regularPool.is(Pools.EMPTY)) {
-                        Lithostitched.LOGGER.warn("Referenced template pool is empty: {} (Jigsaw block location: {})", key.identifier(), pos.toShortString());
+                        Lithostitched.LOGGER.warn("Referenced template pool is empty: {} (Jigsaw block location: {})", key.location(), pos.toShortString());
                     }
                 } else {
                     return regularPool;

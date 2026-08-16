@@ -6,7 +6,7 @@ import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.Level;

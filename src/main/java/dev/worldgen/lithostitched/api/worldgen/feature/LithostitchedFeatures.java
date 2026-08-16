@@ -6,7 +6,7 @@ import dev.worldgen.lithostitched.worldgen.feature.*;
 import dev.worldgen.lithostitched.worldgen.feature.config.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.FloatProvider;
 import net.minecraft.util.valueproviders.IntProvider;
@@ -67,11 +67,11 @@ public interface LithostitchedFeatures {
 		return new SelectConfig(features);
 	}
 	
-	static StructureTemplateConfig structureTemplate(Identifier template, Holder<StructureProcessorList> processors, LiquidSettings liquidSettings) {
+	static StructureTemplateConfig structureTemplate(ResourceLocation template, Holder<StructureProcessorList> processors, LiquidSettings liquidSettings) {
 		return new StructureTemplateConfig(template, processors, Optional.empty(), liquidSettings, Optional.empty());
 	}
 	
-	static StructureTemplateConfig structureTemplate(Identifier template, Holder<StructureProcessorList> processors, Optional<Rotation> rotation, LiquidSettings liquidSettings, Optional<Identifier> startJigsawName) {
+	static StructureTemplateConfig structureTemplate(ResourceLocation template, Holder<StructureProcessorList> processors, Optional<Rotation> rotation, LiquidSettings liquidSettings, Optional<ResourceLocation> startJigsawName) {
 		return new StructureTemplateConfig(template, processors, rotation, liquidSettings, startJigsawName);
 	}
 	

@@ -5,7 +5,7 @@ import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise.FastNoiseConfig;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.BiomeInjectorManager;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
-import net.minecraft.util.valueproviders.IntProviders;
+import net.minecraft.util.valueproviders.IntProvider;
 import dev.worldgen.lithostitched.worldgen.surface.SurfaceRuleManager;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -17,7 +17,7 @@ import net.minecraft.world.level.dimension.LevelStem;
 public class LithostitchedInternalHooks {
 	public static void onServerAboutToStart(MinecraftServer server) {
 		RegistryAccess registries = server.registryAccess();
-		long seed = server.getWorldGenSettings().options().seed();
+		long seed = server.getWorldData().worldGenOptions().seed();
 		
 		applyModifiersAndInjections(registries, Lithostitched.registry(registries, Registries.LEVEL_STEM), seed);
 	}

@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.api.worldgen.poolelement;
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingConfig;
 import dev.worldgen.lithostitched.worldgen.poolelement.DelegatingElementBuilderImpl;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
@@ -19,7 +19,7 @@ public interface DelegatingElementBuilder {
 	DelegatingElementBuilder allowedDepth(InclusiveRange<Integer> allowedDepth);
 	DelegatingElementBuilder terrainAdaptation(TerrainAdjustment adaptation);
 	DelegatingElementBuilder condition(PlacementCondition condition);
-	DelegatingElementBuilder named(Identifier name);
+	DelegatingElementBuilder named(ResourceLocation name);
 	DelegatingElementBuilder terrainMatchingHeightmap(Heightmap.Types heightmap);
 	DelegatingElementBuilder allowBoundingBoxCollisions();
 	DelegatingElementBuilder otherPiecesCanIntersect();

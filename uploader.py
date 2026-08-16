@@ -7,14 +7,15 @@ import json
 MOD_ID = "lithostitched"
 MOD_VERSION = "1.8.0+beta4"
 CHANGELOG = """
-- Fix worldgen modifiers editing biomes not applying on Neoforge.
-- Added two new worldgen modifier types:
-    - `add_spawn_costs` (you're welcome mystic)
-    - `set_structure_attributes`
+- Introduced an optimization to density function caching. This will be most noticeable when playing with heavy worldgen packs like Tectonic or Lithosphere.
+    - A special thank you to Unnecessarymb and Evanbones for finding and implementing this optimization, respectively.
+- Fixed the fields on the `offset` placement modifier being non-optional.
+- Fixed the `dungeon` feature type not working.
+- Added `add_spawn_costs` worldgen modifier (you're welcome mystic)
 """
 UPLOAD_VERSIONS = [
-    ("fabric", "26.1"),
-    ("neoforge", "26.1"),
+    ("fabric", "21.1"),
+    ("neoforge", "21.1"),
 ]
 
 DEPENDENCIES = []

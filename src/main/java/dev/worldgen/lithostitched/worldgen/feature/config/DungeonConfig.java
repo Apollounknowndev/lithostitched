@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.worldgen.feature.config;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.util.WeightedList;
-import net.minecraft.util.valueproviders.IntProviders;
+import net.minecraft.util.valueproviders.IntProvider;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import dev.worldgen.lithostitched.worldgen.stateprovider.WeightedProvider;
 import net.minecraft.core.HolderSet;
@@ -38,7 +38,7 @@ public record DungeonConfig(int minOpenings, int maxOpenings, IntProvider radius
     public static final Codec<DungeonConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         ExtraCodecs.NON_NEGATIVE_INT.fieldOf("min_openings").orElse(1).forGetter(DungeonConfig::minOpenings),
         ExtraCodecs.NON_NEGATIVE_INT.fieldOf("max_openings").orElse(5).forGetter(DungeonConfig::maxOpenings),
-        IntProviders.codec(1, 16).fieldOf("radius").orElse(UniformInt.of(2, 3)).forGetter(DungeonConfig::radius),
+        IntProvider.codec(1, 16).fieldOf("radius").orElse(UniformInt.of(2, 3)).forGetter(DungeonConfig::radius),
         ExtraCodecs.NON_NEGATIVE_INT.fieldOf("max_chests").orElse(2).forGetter(DungeonConfig::maxChests),
         WeightedList.codec(BuiltInRegistries.ENTITY_TYPE.byNameCodec()).fieldOf("spawner_entity").orElse(DEFAULT_MOBS).forGetter(DungeonConfig::spawnerMobs),
         BlockStateProvider.CODEC.fieldOf("floor_provider").orElse(new WeightedProvider(DEFAULT_FLOOR)).forGetter(DungeonConfig::floorProvider),

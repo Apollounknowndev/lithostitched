@@ -10,17 +10,17 @@ import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateList;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.RegistryCodecs;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 import java.util.Optional;
 
-public record AddStructureTemplatesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<TemplateList> targets, List<Identifier> templates) implements WorldgenModifier {
+public record AddStructureTemplatesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<TemplateList> targets, List<ResourceLocation> templates) implements WorldgenModifier {
     public static final MapCodec<AddStructureTemplatesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(AddStructureTemplatesModifier::priority),
         RegistryCodecs.homogeneousList(LithostitchedRegistries.TEMPLATE_LIST).fieldOf("targets").forGetter(AddStructureTemplatesModifier::targets),
-        LithostitchedCodecs.compactList(Identifier.CODEC).fieldOf("templates").forGetter(AddStructureTemplatesModifier::templates)
+        LithostitchedCodecs.compactList(ResourceLocation.CODEC).fieldOf("templates").forGetter(AddStructureTemplatesModifier::templates)
     ).apply(instance, AddStructureTemplatesModifier::new));
 
     @Override

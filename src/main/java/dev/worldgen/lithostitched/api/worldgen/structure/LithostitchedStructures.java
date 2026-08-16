@@ -7,7 +7,7 @@ import dev.worldgen.lithostitched.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingConfig;
 import dev.worldgen.lithostitched.worldgen.structure.DelegatingStructure;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
@@ -37,7 +37,7 @@ public interface LithostitchedStructures {
 		));
 	}
 	
-	static Structure jigsaw(Structure.StructureSettings settings, Holder<StructureTemplatePool> startPool, Optional<Identifier> startJigsawName, IntProvider size, boolean fixedRotation, HeightProvider startHeight, boolean useExpansionHack, Optional<Either<SurfaceSnap, Heightmap.Types>> startProjection, MaxDistanceFromCenter maxDistanceFromCenter, List<PoolAliasBinding> poolAliases, DimensionPadding dimensionPadding, LiquidSettings liquidSettings) {
+	static Structure jigsaw(Structure.StructureSettings settings, Holder<StructureTemplatePool> startPool, Optional<ResourceLocation> startJigsawName, IntProvider size, boolean fixedRotation, HeightProvider startHeight, boolean useExpansionHack, Optional<Either<SurfaceSnap, Heightmap.Types>> startProjection, MaxDistanceFromCenter maxDistanceFromCenter, List<PoolAliasBinding> poolAliases, DimensionPadding dimensionPadding, LiquidSettings liquidSettings) {
 		return new AlternateJigsawStructure(settings, new AlternateJigsawConfig(
 			startPool, 
 			startJigsawName, 

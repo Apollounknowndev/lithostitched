@@ -4,7 +4,7 @@ import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
 import dev.worldgen.lithostitched.mixin.common.RandomStateAccessor;
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.synth.BlendedNoise;

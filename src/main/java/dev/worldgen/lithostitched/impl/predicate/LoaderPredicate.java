@@ -11,10 +11,10 @@ public record LoaderPredicate(String loader) implements LoadPredicate {
 	).apply(instance, LoaderPredicate::new));
 	
 	//? if fabric {
-	public static final String CURRENT_LOADER = "fabric";
-	//? } else {
-	/*public static final String CURRENT_LOADER = "neoforge";
-	*///? }
+	/*public static final String CURRENT_LOADER = "fabric";
+	*///? } else {
+	public static final String CURRENT_LOADER = "neoforge";
+	//? }
 	
 	@Override
 	public boolean test() {

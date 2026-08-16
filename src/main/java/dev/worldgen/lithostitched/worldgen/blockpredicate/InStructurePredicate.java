@@ -47,7 +47,7 @@ public record InStructurePredicate(Optional<Holder<Structure>> structure, Search
 
         Map<Structure, LongSet> references = new HashMap<>();
         adjustedBox.intersectingChunks().forEach(chunk ->
-            references.putAll(level.getChunk(chunk.x(), chunk.z(), ChunkStatus.STRUCTURE_REFERENCES).getAllReferences())
+            references.putAll(level.getChunk(chunk.x, chunk.z, ChunkStatus.STRUCTURE_REFERENCES).getAllReferences())
         );
 
         for (Map.Entry<Structure, LongSet> reference : references.entrySet()) {

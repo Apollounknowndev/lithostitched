@@ -10,7 +10,7 @@ import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
@@ -25,18 +25,18 @@ import java.util.*;
 */
 public class SurfaceRuleManager {
     public static void applySurfaceRules(RegistryAccess registries, Registry<LevelStem> dimensions) {
-	    List<Map.Entry<Identifier, AddSurfaceRuleModifier>> surfaceRules = ModifierManager.getModifiersOfType(registries, AddSurfaceRuleModifier.CODEC);
+	    List<Map.Entry<ResourceLocation, AddSurfaceRuleModifier>> surfaceRules = ModifierManager.getModifiersOfType(registries, AddSurfaceRuleModifier.CODEC);
         if (surfaceRules.isEmpty()) return;
 
-        HashMap<Identifier, ArrayList<Pair<Identifier, AddSurfaceRuleModifier>>> assignedSurfaceRules = new HashMap<>();
-        for (Map.Entry<Identifier, AddSurfaceRuleModifier> entry : surfaceRules) {
+        HashMap<ResourceLocation, ArrayList<Pair<ResourceLocation, AddSurfaceRuleModifier>>> assignedSurfaceRules = new HashMap<>();
+        for (Map.Entry<ResourceLocation, AddSurfaceRuleModifier> entry : surfaceRules) {
             entry.getValue().levels().forEach(level ->
-                assignedSurfaceRules.computeIfAbsent(level.identifier(), __ -> new ArrayList<>()).add(Pair.of(entry.getKey(), entry.getValue()))
+                assignedSurfaceRules.computeIfAbsent(level.location(), __ -> new ArrayList<>()).add(Pair.of(entry.getKey(), entry.getValue()))
             );
         }
 
         for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : dimensions.entrySet()) {
-            Identifier location = entry.getKey().identifier();
+            ResourceLocation location = entry.getKey().location();
             var surfaceRulesForKey = assignedSurfaceRules.get(location);
             if (surfaceRulesForKey != null) {
                 if (!(entry.getValue().generator() instanceof NoiseBasedChunkGenerator generator)) continue;
@@ -48,7 +48,7 @@ public class SurfaceRuleManager {
         }
     }
 
-    private static SurfaceRules.RuleSource buildModdedSurfaceRules(ArrayList<Pair<Identifier, AddSurfaceRuleModifier>> surfaceInjections, SurfaceRules.RuleSource original) {
+    private static SurfaceRules.RuleSource buildModdedSurfaceRules(ArrayList<Pair<ResourceLocation, AddSurfaceRuleModifier>> surfaceInjections, SurfaceRules.RuleSource original) {
         // TODO: Implement caching
         List<SurfaceRules.RuleSource> additions = new ArrayList<>();
         surfaceInjections.sort(Comparator.comparingInt(pair -> pair.getSecond().priority()));

@@ -1,6 +1,6 @@
 package dev.worldgen.lithostitched.api.worldgen.bandlands;
 
-import net.minecraft.util.valueproviders.IntProviders;
+import net.minecraft.util.valueproviders.IntProvider;
 import dev.worldgen.lithostitched.impl.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.impl.worldgen.bandlands.BandlandsBuilderImpl;
 import net.minecraft.util.valueproviders.IntProvider;

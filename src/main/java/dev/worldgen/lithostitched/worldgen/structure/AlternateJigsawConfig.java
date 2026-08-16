@@ -6,9 +6,9 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.structure.MaxDistanceFromCenter;
 import dev.worldgen.lithostitched.api.worldgen.structure.SurfaceSnap;
-import net.minecraft.util.valueproviders.IntProviders;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.heightproviders.HeightProvider;
@@ -23,7 +23,7 @@ import java.util.Optional;
 
 public record AlternateJigsawConfig(
     Holder<StructureTemplatePool> startPool,
-    Optional<Identifier> startJigsawName,
+    Optional<ResourceLocation> startJigsawName,
     IntProvider size,
     boolean fixedRotation,
     HeightProvider startHeight,
@@ -36,8 +36,8 @@ public record AlternateJigsawConfig(
 ) {
     public static final MapCodec<AlternateJigsawConfig> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(AlternateJigsawConfig::startPool),
-        Identifier.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(AlternateJigsawConfig::startJigsawName),
-        IntProviders.codec(0, 128).fieldOf("size").forGetter(AlternateJigsawConfig::size),
+        ResourceLocation.CODEC.optionalFieldOf("start_jigsaw_name").forGetter(AlternateJigsawConfig::startJigsawName),
+        IntProvider.codec(0, 128).fieldOf("size").forGetter(AlternateJigsawConfig::size),
         Codec.BOOL.optionalFieldOf("fixed_rotation", false).forGetter(AlternateJigsawConfig::fixedRotation),
         HeightProvider.CODEC.fieldOf("start_height").forGetter(AlternateJigsawConfig::startHeight),
         Codec.BOOL.fieldOf("use_expansion_hack").forGetter(AlternateJigsawConfig::useExpansionHack),
@@ -51,7 +51,7 @@ public record AlternateJigsawConfig(
 
     public static AlternateJigsawConfig create(
             Holder<StructureTemplatePool> startPool,
-            Optional<Identifier> startJigsawName,
+            Optional<ResourceLocation> startJigsawName,
             IntProvider size,
             boolean fixedRotation,
             HeightProvider startHeight,

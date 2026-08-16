@@ -7,7 +7,7 @@ import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
 import dev.worldgen.lithostitched.config.ConfigState;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,11 +34,11 @@ public class Lithostitched {
 		return ResourceKey.create(resourceKey, id(name));
 	}
 
-	public static Identifier id(String name) {
-		return Identifier.fromNamespaceAndPath(MOD_ID, name);
+	public static ResourceLocation id(String name) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
 	}
 	
-	public static Identifier vanillaToLithostitched(Identifier id) {
+	public static ResourceLocation vanillaToLithostitched(ResourceLocation id) {
 		if (id.getNamespace().equals("minecraft")) {
 			return id(id.getPath());
 		}
@@ -46,7 +46,7 @@ public class Lithostitched {
 	}
 
 	public static <T> Registry<T> registry(RegistryAccess registries, ResourceKey<? extends Registry<T>> key) {
-		return registries.lookupOrThrow(key);
+		return registries.registryOrThrow(key);
 	}
 	
 	public static boolean breaksSeedParity() {

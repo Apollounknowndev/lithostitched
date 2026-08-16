@@ -6,7 +6,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.worldgen.processor.LithostitchedProcessorLists;
 import dev.worldgen.lithostitched.duck.ReferencePosDuck;
-import net.minecraft.util.valueproviders.IntProviders;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.WorldGenLevel;

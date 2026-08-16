@@ -5,18 +5,18 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.attribute.AmbientAdditionsSettings;
-import net.minecraft.world.attribute.AmbientMoodSettings;
-import net.minecraft.world.attribute.AmbientParticle;
+import net.minecraft.world.level.biome.AmbientAdditionsSettings;
+import net.minecraft.world.level.biome.AmbientMoodSettings;
+import net.minecraft.world.level.biome.AmbientParticleSettings;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
 
 import java.util.Optional;
 
 public record BiomeEffects(
-    Optional<Integer> fogColor, Optional<Integer> waterColor, Optional<Integer> waterFogColor, Optional<Integer> skyColor,
-    Optional<Integer> foliageColor, Optional<Integer> dryFoliageColor, Optional<Integer> grassColor, Optional<BiomeSpecialEffects.GrassColorModifier> grassColorModifier,
-    Optional<AmbientParticle> ambientParticle, Optional<Holder<SoundEvent>> ambientSound, Optional<AmbientMoodSettings> moodSound,
-    Optional<AmbientAdditionsSettings> additionsSound, Optional<Music> music, Optional<Float> musicVolume
+	Optional<Integer> fogColor, Optional<Integer> waterColor, Optional<Integer> waterFogColor, Optional<Integer> skyColor,
+	Optional<Integer> foliageColor, Optional<Integer> dryFoliageColor, Optional<Integer> grassColor, Optional<BiomeSpecialEffects.GrassColorModifier> grassColorModifier,
+	Optional<AmbientParticleSettings> ambientParticle, Optional<Holder<SoundEvent>> ambientSound, Optional<AmbientMoodSettings> moodSound,
+	Optional<AmbientAdditionsSettings> additionsSound, Optional<Music> music, Optional<Float> musicVolume
 ) {
     public static final Codec<BiomeEffects> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.INT.optionalFieldOf("fog_color").forGetter(BiomeEffects::fogColor),
@@ -27,7 +27,7 @@ public record BiomeEffects(
         Codec.INT.optionalFieldOf("dry_foliage_color").forGetter(BiomeEffects::dryFoliageColor),
         Codec.INT.optionalFieldOf("grass_color").forGetter(BiomeEffects::grassColor),
         BiomeSpecialEffects.GrassColorModifier.CODEC.optionalFieldOf("grass_color_modifier").forGetter(BiomeEffects::grassColorModifier),
-        AmbientParticle.CODEC.optionalFieldOf("particle").forGetter(BiomeEffects::ambientParticle),
+        AmbientParticleSettings.CODEC.optionalFieldOf("particle").forGetter(BiomeEffects::ambientParticle),
         SoundEvent.CODEC.optionalFieldOf("ambient_sound").forGetter(BiomeEffects::ambientSound),
         AmbientMoodSettings.CODEC.optionalFieldOf("mood_sound").forGetter(BiomeEffects::moodSound),
         AmbientAdditionsSettings.CODEC.optionalFieldOf("additions_sound").forGetter(BiomeEffects::additionsSound),

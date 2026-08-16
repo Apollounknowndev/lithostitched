@@ -1,10 +1,10 @@
 package dev.worldgen.lithostitched.mixin.common.neoforge;
 
 //? if neoforge {
-/*import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.NeoforgeModifierHolder;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,18 +25,18 @@ public class ServerLifecycleHooksMixin {
 	private static List<BiomeModifier> lithostitched$injectBiomeModifers(List<BiomeModifier> biomeModifiers, MinecraftServer server) {
 		List<BiomeModifier> allBiomeModifiers = new ArrayList<>(biomeModifiers);
 		
-		Map<Identifier, WorldgenModifier> modifiers = ModifierManager.getAllModifiers(server.registryAccess());
+		Map<ResourceLocation, WorldgenModifier> modifiers = ModifierManager.getAllModifiers(server.registryAccess());
 		var lithostitchedBiomeModifiers = modifiers.entrySet().stream().filter(entry -> entry.getValue() instanceof NeoforgeModifierHolder).map(entry -> Map.entry(entry.getKey(), (NeoforgeModifierHolder) entry.getValue())).toList();
 		lithostitchedBiomeModifiers.forEach(entry -> allBiomeModifiers.add(entry.getValue().createNeoforgeModifier()));
 		
 		return allBiomeModifiers;
 	}
 }
-*///? } else {
-import net.minecraft.server.MinecraftServer;
+//? } else {
+/*import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(MinecraftServer.class)
 public class ServerLifecycleHooksMixin {
 }
-//? }
+*///? }

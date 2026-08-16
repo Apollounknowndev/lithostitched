@@ -16,7 +16,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.FeatureSorter;
@@ -34,10 +34,10 @@ public class BiomeInjectorManager {
 			ResourceKey<LevelStem> dimension = entry.getKey();
 			
 			
-			Map<Identifier, BiomeInjector> injectors = new HashMap<>();
+			Map<ResourceLocation, BiomeInjector> injectors = new HashMap<>();
 			registries.lookupOrThrow(LithostitchedRegistries.BIOME_INJECTOR).listElements().forEach(holder -> {
 				if (holder.value().dimension().equals(dimension)) {
-					injectors.put(holder.key().identifier(), holder.value());
+					injectors.put(holder.key().location(), holder.value());
 				}
 			});
 			AddBiomeInjectorsEvent.EVENT.invoker().addInjectors(registries, (id, injector) -> {
@@ -94,11 +94,11 @@ public class BiomeInjectorManager {
 			accessor.setFeaturesPerStep(LithostitchedPlatform.memoize(() ->
 				FeatureSorter.buildFeaturesPerStep(List.copyOf(injectorSource.possibleBiomes()), biome -> accessor.getGetter().apply(biome).features(), true)
 			));
-			Lithostitched.debug("Applying {} biome injections for dimension {}", injectors.size(), dimension.identifier());
+			Lithostitched.debug("Applying {} biome injections for dimension {}", injectors.size(), dimension.location());
 		}
 	}
 	
-	private static Identifier createRegionId(ResourceKey<LevelStem> dimension) {
-		return Lithostitched.vanillaToLithostitched(dimension.identifier()).withPrefix("region/");
+	private static ResourceLocation createRegionId(ResourceKey<LevelStem> dimension) {
+		return Lithostitched.vanillaToLithostitched(dimension.location()).withPrefix("region/");
 	}
 }

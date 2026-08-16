@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.api.event;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.impl.event.LithostitchedEvent;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.BiConsumer;
 
@@ -28,5 +28,5 @@ public interface AddWorldgenModifiersEvent {
 		}
 	}));
 	
-	void addModifiers(RegistryAccess registries, BiConsumer<Identifier, WorldgenModifier> consumer);
+	void addModifiers(RegistryAccess registries, BiConsumer<ResourceLocation, WorldgenModifier> consumer);
 }

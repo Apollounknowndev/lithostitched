@@ -6,7 +6,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.worldgen.modifier.template.TemplateLists;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -30,7 +30,7 @@ public class ShipwreckStructureMixin {
         if (!Lithostitched.breaksSeedParity()) {
             return operation.call(templateManager, pos, rotation, pieceAccessor, random, beached);
         }
-        Identifier id = TemplateLists.getRandom(context.registryAccess(), beached ? TemplateLists.SHIPWRECK_BEACHED : TemplateLists.SHIPWRECK_OCEAN, random);
+        ResourceLocation id = TemplateLists.getRandom(context.registryAccess(), beached ? TemplateLists.SHIPWRECK_BEACHED : TemplateLists.SHIPWRECK_OCEAN, random);
         ShipwreckPieces.ShipwreckPiece piece = new ShipwreckPieces.ShipwreckPiece(templateManager, id, pos, rotation, beached);
         pieceAccessor.addPiece(piece);
         return piece;

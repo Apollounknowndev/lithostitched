@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.worldgen.processor.condition;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
-import net.minecraft.util.valueproviders.IntProviders;
+import net.minecraft.util.valueproviders.IntProvider;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import dev.worldgen.lithostitched.api.worldgen.processor.enums.BlockType;
 import dev.worldgen.lithostitched.api.util.StatePropertiesPredicate;

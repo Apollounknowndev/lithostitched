@@ -1,6 +1,5 @@
 package dev.worldgen.lithostitched.worldgen.feature;
 
-import net.minecraft.util.valueproviders.IntProviders;
 import dev.worldgen.lithostitched.util.MiscUtils;
 import dev.worldgen.lithostitched.worldgen.feature.config.LargeDripstoneConfig;
 import dev.worldgen.lithostitched.worldgen.feature.util.DripstoneUtils;
@@ -42,8 +41,8 @@ public class LargeDripstoneFeature extends Feature<LargeDripstoneConfig> {
                 if (range.height() < 4) {
                     return false;
                 } else {
-                    int minInclusive = config.columnRadius().minInclusive();
-                    int maxInclusive = config.columnRadius().maxInclusive();
+                    int minInclusive = config.columnRadius().getMinValue();
+                    int maxInclusive = config.columnRadius().getMaxValue();
                     
                     int unclampedRadius = (int) (range.height() * config.maxColumnRadiusToCaveHeightRatio());
                     int maxRadius = Mth.clamp(unclampedRadius, minInclusive, maxInclusive);
@@ -157,7 +156,7 @@ public class LargeDripstoneFeature extends Feature<LargeDripstoneConfig> {
                                 BlockPos dripstonePos = windOffsetter.offset(pos);
                                 if (DripstoneUtils.isEmptyOrWaterOrLava(level, dripstonePos)) {
                                     placedBlock = true;
-                                    level.setBlock(dripstonePos, this.stateProvider.getState(level, random, dripstonePos), 2);
+                                    level.setBlock(dripstonePos, this.stateProvider.getState(random, dripstonePos), 2);
                                 } else if (placedBlock && level.getBlockState(dripstonePos).is(BlockTags.BASE_STONE_OVERWORLD)) {
                                     break;
                                 }
