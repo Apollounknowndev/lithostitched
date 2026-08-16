@@ -5,17 +5,13 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.8.0+beta4"
+MOD_VERSION = "1.8.0+beta5"
 CHANGELOG = """
-- Introduced an optimization to density function caching. This will be most noticeable when playing with heavy worldgen packs like Tectonic or Lithosphere.
-    - A special thank you to Unnecessarymb and Evanbones for finding and implementing this optimization, respectively.
-- Fixed the fields on the `offset` placement modifier being non-optional.
-- Fixed the `dungeon` feature type not working.
-- Added `add_spawn_costs` worldgen modifier (you're welcome mystic)
+- Fixed crashing on Fabric.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "21.1"),
-    ("neoforge", "21.1"),
+    #("neoforge", "21.1"),
 ]
 
 DEPENDENCIES = []

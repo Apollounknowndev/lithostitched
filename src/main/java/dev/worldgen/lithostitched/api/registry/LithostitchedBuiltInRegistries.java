@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.api.registry;
 
+//import org.spongepowered.asm.mixin.MixinEnvironment;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;

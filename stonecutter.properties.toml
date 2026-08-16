@@ -5,7 +5,7 @@ mod.group = "dev.worldgen.lithostitched"
 mod.url = "https://modrinth.com/project/lithostitched"
 mod.sources = "https://github.com/Apollounknowndev/lithostitched"
 mod.description = "A library mod with new configurability and compatibility enhancements for worldgen"
-mod.version = "1.8.0+beta4"
+mod.version = "1.8.0+beta5"
 
 deps.fabric_loader = "0.19.3"
 loomx.loom_version = "1.17-SNAPSHOT"

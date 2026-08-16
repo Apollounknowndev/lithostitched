@@ -18,6 +18,9 @@ import java.util.Optional;
 @Mixin(Beardifier.class)
 public abstract class BeardifierMixin {
     @WrapOperation(
+        //? if fabric
+        //method = "method_42694",
+        //? if neoforge
         method = "lambda$forStructuresInChunk$2(Lnet/minecraft/world/level/ChunkPos;Lit/unimi/dsi/fastutil/objects/ObjectList;IILit/unimi/dsi/fastutil/objects/ObjectList;Lnet/minecraft/world/level/levelgen/structure/StructureStart;)V",
         at = @At(
             value = "INVOKE",

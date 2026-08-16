@@ -6,14 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Finish add_spawn_costs modifier">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.fabric.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.fabric.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.neoforge.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.neoforge.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/neoforge.mods.toml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/neoforge.mods.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fabric.mod.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fabric.mod.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/lithostitched.ct" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lithostitched.ct" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stonecutter.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/stonecutter.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/BeardifierMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/BeardifierMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stonecutter.properties.toml" beforeDir="false" afterPath="$PROJECT_DIR$/stonecutter.properties.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,6 +104,9 @@
     "Gradle.1.20.1 [prepareFabric1219ClientRun].executor": "Run",
     "Gradle.1.20.1 [prepareNeoforge1211ClientRun].executor": "Run",
     "Gradle.1.20.1 [prepareNeoforge1219ClientRun].executor": "Run",
+    "Gradle.21.1 [genSourcesWithCfr].executor": "Run",
+    "Gradle.21.1 [stonecutterSwitchTofabric].executor": "Run",
+    "Gradle.21.1 [stonecutterSwitchToneoforge].executor": "Run",
     "Gradle.Build lithostitched.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
     "Gradle.Minecraft Client (:26.2-fabric).executor": "Run",
@@ -203,7 +202,7 @@
       <recent name="dev.worldgen.lithostitched.impl.worldgen.surface.condition" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.neoforge - Client">
+  <component name="RunManager" selected="Gradle.lithostitched [build]">
     <configuration name="neoforge - Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
       <module name="lithostitched.neoforge.main" />
