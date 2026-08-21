@@ -70,7 +70,6 @@ import java.util.Map;
 
 //? if fabric {
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
-import net.minecraft.world.level.levelgen.feature.rootplacers.RootPlacerType;
 //? } else {
 /*import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
