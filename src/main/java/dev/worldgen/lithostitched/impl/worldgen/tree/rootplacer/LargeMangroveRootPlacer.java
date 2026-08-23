@@ -77,7 +77,7 @@ public class LargeMangroveRootPlacer extends MangroveRootPlacer {
                 BlockPos blockpos = trunkOrigin.offset(pair.getKey()).above(offset-1);
                 List<BlockPos> simulate = Lists.newArrayList();
                 if (!this.simulateRoots(level, random, blockpos, pair.getValue(), trunkOrigin, simulate, 0)) {
-                    return false;
+                    continue;
                 }
 
                 list.addAll(simulate);
