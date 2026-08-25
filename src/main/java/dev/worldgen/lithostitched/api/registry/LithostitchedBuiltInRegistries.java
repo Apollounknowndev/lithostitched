@@ -17,6 +17,9 @@ import dev.worldgen.lithostitched.impl.worldgen.bandlands.band.WrappedBand;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.*;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.InjectorBiomeSource;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
+import dev.worldgen.lithostitched.impl.worldgen.tree.foliageplacer.BranchedMegaJungleFoliagePlacer;
+import dev.worldgen.lithostitched.impl.worldgen.tree.foliageplacer.BranchedMegaPineFoliagePlacer;
+import dev.worldgen.lithostitched.impl.worldgen.tree.rootplacer.LargeMangroveRootPlacer;
 import dev.worldgen.lithostitched.worldgen.blockpredicate.*;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.*;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.MergedDensityFunction;
@@ -87,7 +90,7 @@ public class LithostitchedBuiltInRegistries {
 	public static final Registry<MapCodec<? extends BiomeInjector>> BIOME_INJECTOR_TYPE = create(LithostitchedRegistries.BIOME_INJECTOR_TYPE);
 	public static final Registry<MapCodec<? extends FastNoiseConfig>> FAST_NOISE_CONFIG_TYPE = create(LithostitchedRegistries.FAST_NOISE_CONFIG_TYPE);
 	public static final Registry<MapCodec<? extends LoadPredicate>> LOAD_PREDICATE_TYPE = create(LithostitchedRegistries.LOAD_PREDICATE_TYPE);
-	
+
 	private static <T> Registry<T> create(ResourceKey<Registry<T>> key) {
 		//? if fabric {
 		return FabricRegistryBuilder.create(key).buildAndRegister();
@@ -96,13 +99,13 @@ public class LithostitchedBuiltInRegistries {
 		return register.makeRegistry(b -> {});
 		*///? }
 	}
-	
+
 	/**
 	 * Purely for use in Lithostitched, don't call this.
 	 */
 	public static void init() {
 		//MixinEnvironment.getCurrentEnvironment().audit();
-		
+
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.BANDLANDS, Bandlands.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.BIOME_INJECTOR, BiomeInjector.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.FAST_NOISE_CONFIG, FastNoiseConfig.CODEC);
@@ -110,7 +113,7 @@ public class LithostitchedBuiltInRegistries {
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.SURFACE_RULE, SurfaceRules.RuleSource.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.TEMPLATE_LIST, TemplateList.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.WORLDGEN_MODIFIER, WorldgenModifier.CODEC);
-		
+
 		LithostitchedRegistrar.register(LithostitchedBuiltInRegistries.BANDLANDS_BAND_TYPE, Map.ofEntries(
 			Map.entry("base", BaseBand.CODEC),
 			Map.entry("repeating", RepeatingBand.CODEC),
@@ -190,9 +193,9 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("perlin", PerlinNoiseType.CODEC),
 			Map.entry("simplex", SimplexNoiseType.CODEC)
 		));
-		
-		
-		
+
+
+
 		LithostitchedRegistrar.register(BuiltInRegistries.BIOME_SOURCE, Map.ofEntries(
 			Map.entry("injector", InjectorBiomeSource.CODEC)
 		));
@@ -214,7 +217,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("wrapped_marker", WrappedMarkerDensityFunction.CODEC.codec()),
 			Map.entry("original_marker", OriginalMarkerDensityFunction.CODEC.codec()),
 			Map.entry("fast_noise", FastNoiseDensityFunction.CODEC.codec()),
-			
+
 			Map.entry("axis", AxisDensityFunction.DATA_CODEC),
 			Map.entry("ceil", CeilDensityFunction.DATA_CODEC),
 			Map.entry("cos", CosDensityFunction.DATA_CODEC),
@@ -239,6 +242,13 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("weighted_selector", WeightedSelectorFeature.FEATURE),
 			Map.entry("well", WellFeature.FEATURE),
 			Map.entry("vines", VinesFeature.FEATURE)
+		));
+		LithostitchedRegistrar.register(BuiltInRegistries.FOLIAGE_PLACER_TYPE, Map.ofEntries(
+				Map.entry("branched_mega_pine_foliage_placer", BranchedMegaPineFoliagePlacer.TYPE),
+				Map.entry("branched_jungle_foliage_placer", BranchedMegaJungleFoliagePlacer.TYPE)
+		));
+		LithostitchedRegistrar.register(BuiltInRegistries.ROOT_PLACER_TYPE, Map.ofEntries(
+				Map.entry("large_mangrove_root_placer", LargeMangroveRootPlacer.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.MATERIAL_RULE, Map.ofEntries(
 			Map.entry("transient_merged", TransientMergedRule.CODEC),
@@ -277,7 +287,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("apply_random", ApplyRandomStructureProcessor.TYPE),
 			Map.entry("block_swap", BlockSwapStructureProcessor.TYPE),
 			Map.entry("reference", ReferenceStructureProcessor.TYPE),
-			
+
 			Map.entry("condition", ConditionProcessor.TYPE),
 			Map.entry("discard_input", DiscardInputProcessor.TYPE),
 			Map.entry("schedule_tick", ScheduleTickProcessor.TYPE),
@@ -287,7 +297,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("delegating", DelegatingStructure.TYPE),
 			Map.entry("jigsaw", AlternateJigsawStructure.TYPE)
 		));
-		
+
 		//? if neoforge {
 		/*LithostitchedRegistrar.register(NeoForgeRegistries.CONDITION_SERIALIZERS, Map.ofEntries(
 			Map.entry("breaks_seed_parity", BreaksSeedParityCondition.CODEC)
