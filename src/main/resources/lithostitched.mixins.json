@@ -33,6 +33,7 @@
     "common.StructureTemplatePoolMixin",
     "common.SurfaceRulesContextMixin",
     "common.TimelineAccessor",
+    "common.TreeConfigurationAccessor",
     "common.bandlands.NoiseBasedChunkGeneratorMixin",
     "common.bandlands.SurfaceSystemMixin",
     "common.compat.terrablender.NoiseBasedChunkGeneratorMixin",

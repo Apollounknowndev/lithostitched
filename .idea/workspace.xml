@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Finish add_spawn_costs modifier">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/TreeConfigurationAccessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetTreeDecoratorsModifier.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/lithostitched.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lithostitched.mixins.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,8 +58,8 @@
         <option value="JUnit5 Test Class" />
         <option value="Enum" />
         <option value="Record" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -101,6 +104,8 @@
     "Gradle.1.20.1 [prepareFabric1219ClientRun].executor": "Run",
     "Gradle.1.20.1 [prepareNeoforge1211ClientRun].executor": "Run",
     "Gradle.1.20.1 [prepareNeoforge1219ClientRun].executor": "Run",
+    "Gradle.26.1 [stonecutterSwitchTofabric].executor": "Run",
+    "Gradle.26.1 [stonecutterSwitchToneoforge].executor": "Run",
     "Gradle.Build lithostitched.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
     "Gradle.Minecraft Client (:26.2-fabric).executor": "Run",
@@ -153,7 +158,7 @@
     "git-widget-placeholder": "26.1",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ldglo/Documents/Github/lithostitched/src/main/resources/data/example/timeline",
+    "last_opened_file_path": "C:/Users/ldglo/Documents/Github/lithostitched/26.1/run",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
@@ -163,17 +168,17 @@
   },
   "keyToStringList": {
     "dev.kikugie.stonecutter.projects": [
-      "{\"id\":\"lithostitched\",\"path\":\":\",\"identityPath\":\":\",\"name\":\"lithostitched\",\"qName\":\"lithostitched\",\"group\":\"\",\"version\":\"unspecified\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\stonecutter.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{\"buildSrc\":{\"id\":\":buildSrc\",\"path\":\":\",\"identityPath\":\":buildSrc\",\"name\":\"buildSrc\",\"qName\":\"buildSrc\",\"group\":\"\",\"version\":\"unspecified\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\buildSrc\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\buildSrc\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\buildSrc\\\\build.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}},\"fabric\":{\"id\":\":fabric\",\"path\":\":fabric\",\"identityPath\":\":fabric\",\"name\":\"fabric\",\"qName\":\":fabric\",\"group\":\"lithostitched\",\"version\":\"1.8.0+beta4-fabric-26.1\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\versions\\\\fabric\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\versions\\\\fabric\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\build.fabric.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}},\"neoforge\":{\"id\":\":neoforge\",\"path\":\":neoforge\",\"identityPath\":\":neoforge\",\"name\":\"neoforge\",\"qName\":\":neoforge\",\"group\":\"lithostitched\",\"version\":\"1.8.0+beta4-neoforge-26.1\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\versions\\\\neoforge\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\versions\\\\neoforge\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\build.neoforge.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}}},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}}"
+      "{\"id\":\"lithostitched\",\"path\":\":\",\"identityPath\":\":\",\"name\":\"lithostitched\",\"qName\":\"lithostitched\",\"group\":\"\",\"version\":\"unspecified\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\stonecutter.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{\"buildSrc\":{\"id\":\":buildSrc\",\"path\":\":\",\"identityPath\":\":buildSrc\",\"name\":\"buildSrc\",\"qName\":\"buildSrc\",\"group\":\"\",\"version\":\"unspecified\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\buildSrc\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\buildSrc\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\buildSrc\\\\build.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}},\"fabric\":{\"id\":\":fabric\",\"path\":\":fabric\",\"identityPath\":\":fabric\",\"name\":\"fabric\",\"qName\":\":fabric\",\"group\":\"lithostitched\",\"version\":\"1.8.0+beta4-fabric-26.1\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\versions\\\\fabric\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\versions\\\\fabric\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\build.fabric.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}},\"neoforge\":{\"id\":\":neoforge\",\"path\":\":neoforge\",\"identityPath\":\":neoforge\",\"name\":\"neoforge\",\"qName\":\":neoforge\",\"group\":\"lithostitched\",\"version\":\"1.8.0+beta4-neoforge-26.1\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\versions\\\\neoforge\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\versions\\\\neoforge\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\build.neoforge.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}}},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}}"
     ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.1\run" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\main\resources\data\example\timeline" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\main\resources\data\lithostitched\lithostitched\worldgen_modifier" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\main\java\dev\worldgen\lithostitched\mixin\common" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\main\java\dev\worldgen\lithostitched\platform\neoforge" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\main\java\dev\worldgen\lithostitched" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -189,19 +194,19 @@
       <recent name="dev.worldgen.lithostitched.worldgen.bandlands" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.worldgen.lithostitched.worldgen.modifier" />
       <recent name="dev.worldgen.lithostitched.impl.worldgen.modifier.attribute" />
       <recent name="dev.worldgen.lithostitched.impl.worldgen.densityfunction" />
       <recent name="dev.worldgen.lithostitched.worldgen.modifier.internal" />
       <recent name="dev.worldgen.lithostitched.mixin.common" />
-      <recent name="dev.worldgen.lithostitched.impl.worldgen.surface.condition" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.neoforge - Client">
+  <component name="RunManager" selected="Gradle.Minecraft Client (:fabric)">
     <configuration name="neoforge - Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
       <module name="lithostitched.neoforge.main" />
-      <option name="PROGRAM_PARAMETERS" value="@C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\versions\\neoforge\\build\\moddev\\clientRunProgramArgs.txt" />
-      <option name="VM_PARAMETERS" value="@C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\versions\\neoforge\\build\\moddev\\clientRunVmArgs.txt -Dfml.modFolders=lithostitched%%C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\versions\\neoforge\\build\\classes\\java\\main;lithostitched%%C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\versions\\neoforge\\build\\resources\\main" />
+      <option name="PROGRAM_PARAMETERS" value="@C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\26.1\\versions\\neoforge\\build\\moddev\\clientRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\26.1\\versions\\neoforge\\build\\moddev\\clientRunVmArgs.txt -Dfml.modFolders=lithostitched%%C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\26.1\\versions\\neoforge\\build\\classes\\java\\main;lithostitched%%C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\26.1\\versions\\neoforge\\build\\resources\\main" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -210,8 +215,8 @@
     <configuration name="neoforge - Server" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
       <module name="lithostitched.neoforge.main" />
-      <option name="PROGRAM_PARAMETERS" value="@C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\versions\\neoforge\\build\\moddev\\serverRunProgramArgs.txt" />
-      <option name="VM_PARAMETERS" value="@C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\versions\\neoforge\\build\\moddev\\serverRunVmArgs.txt -Dfml.modFolders=lithostitched%%C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\versions\\neoforge\\build\\classes\\java\\main;lithostitched%%C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\versions\\neoforge\\build\\resources\\main" />
+      <option name="PROGRAM_PARAMETERS" value="@C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\26.1\\versions\\neoforge\\build\\moddev\\serverRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\26.1\\versions\\neoforge\\build\\moddev\\serverRunVmArgs.txt -Dfml.modFolders=lithostitched%%C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\26.1\\versions\\neoforge\\build\\classes\\java\\main;lithostitched%%C:\\Users\\ldglo\\Documents\\Github\\lithostitched\\26.1\\versions\\neoforge\\build\\resources\\main" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
       <method v="2">
         <option name="Make" enabled="true" />

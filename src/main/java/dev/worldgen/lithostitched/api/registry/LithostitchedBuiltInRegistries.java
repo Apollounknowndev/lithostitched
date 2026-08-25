@@ -147,6 +147,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("set_pool_element_processors", SetPoolElementProcessorsModifier.CODEC),
 			Map.entry("set_structure_attributes", SetStructureAttributesModifier.CODEC),
 			Map.entry("set_structure_spawn_condition", SetStructureSpawnConditionModifier.CODEC),
+			Map.entry("set_tree_decorators", SetTreeDecoratorsModifier.CODEC),
 			Map.entry("set_timeline_tracks", SetTimelineTracksModifier.CODEC),
 			Map.entry("stack_feature", StackFeatureModifier.CODEC),
 			Map.entry("wrap_density_function", WrapDensityFunctionModifier.CODEC),
