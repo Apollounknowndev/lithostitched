@@ -13,7 +13,7 @@ public record InBiomePlacementCondition(HolderSet<Biome> biomes) implements Plac
 
     @Override
     public boolean test(Context context, BlockPos pos) {
-        Holder<Biome> biome = context.biomeSource().getNoiseBiome(QuartPos.fromBlock(pos.getX()), QuartPos.fromBlock(pos.getY()), QuartPos.fromBlock(pos.getZ()), context.randomState().sampler());
+        Holder<Biome> biome = context.biomeResolver().getNoiseBiome(QuartPos.fromBlock(pos.getX()), QuartPos.fromBlock(pos.getY()), QuartPos.fromBlock(pos.getZ()));
         return this.biomes.contains(biome);
     }
 

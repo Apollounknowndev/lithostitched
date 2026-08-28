@@ -5,8 +5,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
-import dev.worldgen.lithostitched.api.worldgen.densityfunction.SimpleContext;
-import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
 import dev.worldgen.lithostitched.impl.platform.LithostitchedPlatform;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.*;
 import dev.worldgen.lithostitched.mixin.common.MultiNoiseBiomeSourceAccessor;
@@ -20,7 +18,10 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.biome.Climate.TargetPoint;
-import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.RandomState;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensitySamplerSet;
+import net.minecraft.world.level.levelgen.densityfunction.SamplerContext;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -36,17 +37,16 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 	
 	private final BiomeSource directDelegate;
 	private final BiomeSource rootDelegate;
-	public BiomeResolver baseResolver;
 	
 	private final Map<MapCodec<? extends BiomeInjector>, List<BiomeInjector>> injectorsByType = new HashMap<>();
 	private List<Holder<Biome>> possibleBiomes = new ArrayList<>();
 	private List<Holder<Biome>> replacedBiomes = new ArrayList<>();
 	private RegionManager regionManager;
+	private RandomState randomState;
 	
 	public InjectorBiomeSource(BiomeSource directDelegate) {
 		this.directDelegate = directDelegate;
 		this.rootDelegate = getRootSource(directDelegate);
-		this.baseResolver = directDelegate;
 	}
 	
 	public BiomeSource rootDelegate() {
@@ -57,11 +57,12 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		return this.directDelegate;
 	}
 	
-	public void applyInjectors(Map<Identifier, BiomeInjector> injectors, Optional<DensityFunction> regionFunction, Map<ResourceKey<Region>, Region> regions, DensityFunctionWrapper noiseHelper) {
+	public void applyInjectors(Map<Identifier, BiomeInjector> injectors, Optional<DensityFunction> regionFunction, Map<ResourceKey<Region>, Region> regions, RandomState randomState) {
 		this.possibleBiomes = new ArrayList<>();
+		this.randomState = randomState;
 		
 		injectors.values().forEach(injector -> {
-			injector.mapAll(noiseHelper);
+			//injector.mapAll(noiseHelper);
 			
 			List<BiomeInjector> byType = this.injectorsByType.getOrDefault(injector.codec(), new ArrayList<>());
 			byType.add(injector);
@@ -79,7 +80,7 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		
 		if (!(this.rootDelegate instanceof MultiNoiseBiomeSource multiNoise)) {
 			Lithostitched.debug("Biome source is not a MultiNoiseBiomeSource instance, got {}. add_points injectors will not run.", this.rootDelegate.getClass().getSimpleName());
-			this.regionManager = new RegionManager(regionFunction, regions, noiseHelper, this.directDelegate.possibleBiomes());
+			this.regionManager = new RegionManager(regionFunction, regions, this.directDelegate.possibleBiomes());
 			return;
 		}
 		
@@ -98,7 +99,7 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		
 		// Calling `directDelegate.possibleBiomes()` will trigger Biolith's point injection,
 		// at which point Lithostitched's point injections won't work.
-		this.regionManager = new RegionManager(regionFunction, regions, noiseHelper, this.directDelegate.possibleBiomes());
+		this.regionManager = new RegionManager(regionFunction, regions, this.directDelegate.possibleBiomes());
 	}
 	
 	private static void updateParameters(Climate.ParameterList<Holder<Biome>> original, List<Pair<Climate.ParameterPoint, Holder<Biome>>> modifiedParameters) {
@@ -150,25 +151,30 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 	}
 	
 	@Override
-	public Holder<Biome> getNoiseBiome(int quartX, int quartY, int quartZ, Climate.Sampler sampler) {
+	public BiomeResolver createResolver(Climate.Sampler sampler) {
+		BiomeResolver baseResolver = this.directDelegate.createResolver(sampler);
+		DensitySamplerSet samplers = this.randomState.samplersWithContext(SamplerContext.builder().enableCaches().build());
+		// TODO: Maybe make cached?
+		return (x, y, z) -> this.getNoiseBiome(x, y, z, baseResolver, sampler, samplers);
+	}
+	
+	public Holder<Biome> getNoiseBiome(int quartX, int quartY, int quartZ, BiomeResolver baseResolver, Climate.Sampler climate, DensitySamplerSet samplers) {
 		if (this.injectorsByType.isEmpty()) {
-			return this.baseResolver.getNoiseBiome(quartX, quartY, quartZ, sampler);
+			return baseResolver.getNoiseBiome(quartX, quartY, quartZ);
 		}
 		
 		int blockX = QuartPos.toBlock(quartX);
 		int blockY = QuartPos.toBlock(quartY);
 		int blockZ = QuartPos.toBlock(quartZ);
-		SimpleContext context = SimpleContext.of(blockX, blockY, blockZ);
-		TargetPoint point = sampler.sample(quartX, quartY, quartZ);
-		HashMap<DensityFunction, Float> densities = new HashMap<>();
+		TargetPoint point = climate.sample(quartX, quartY, quartZ);
 		
-		Holder<Biome> biome = this.baseResolver.getNoiseBiome(quartX, quartY, quartZ, sampler);
-		ResourceKey<Region> currentRegion = this.regionManager.getRegion(context, biome);
+		Holder<Biome> biome = baseResolver.getNoiseBiome(quartX, quartY, quartZ);
+		ResourceKey<Region> currentRegion = this.regionManager.getRegion(blockX, blockY, blockZ, samplers, biome);
 		
 		if (this.injectorsByType.containsKey(ForcePlacement.CODEC)) {
 			for (BiomeInjector injector : this.injectorsByType.getOrDefault(ForcePlacement.CODEC, List.of())) {
 				ForcePlacement forcePlacement = (ForcePlacement) injector;
-				if (forcePlacement.matches(context, point, densities, currentRegion)) {
+				if (forcePlacement.matches(blockX, blockY, blockZ, samplers, point, currentRegion)) {
 					return forcePlacement.biome();
 				}
 			}
@@ -177,7 +183,7 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		if (this.injectorsByType.containsKey(DispatchAlternateLayout.CODEC)) {
 			for (BiomeInjector injector : this.injectorsByType.getOrDefault(DispatchAlternateLayout.CODEC, List.of())) {
 				DispatchAlternateLayout alternateLayout = (DispatchAlternateLayout) injector;
-				if (alternateLayout.matches(context, point, densities, currentRegion)) {
+				if (alternateLayout.matches(blockX, blockY, blockZ, samplers, point, currentRegion)) {
 					biome = alternateLayout.points().findValue(point);
 					break;
 				}
@@ -186,7 +192,7 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		
 		for (BiomeInjector injector : this.injectorsByType.getOrDefault(ReplacePartially.CODEC, List.of())) {
 			ReplacePartially replacePartially = (ReplacePartially) injector;
-			if (replacePartially.matches(context, point, densities, biome, currentRegion)) {
+			if (replacePartially.matches(blockX, blockY, blockZ, samplers, point, biome, currentRegion)) {
 				biome = replacePartially.replacement();
 				break;
 			}
@@ -209,15 +215,16 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		this.directDelegate.addDebugInfo(lines, pos, sampler);
 	}
 	
-	public String getRegionLine(Climate.Sampler sampler, BlockPos pos) {
-		SimpleContext context = SimpleContext.of(pos);
+	public String getRegionLine(BlockPos pos) {
+		/*SimpleContext context = SimpleContext.of(pos);
 		int quartX = QuartPos.fromBlock(pos.getX());
 		int quartY = QuartPos.fromBlock(pos.getY());
 		int quartZ = QuartPos.fromBlock(pos.getZ());
-		Holder<Biome> biome = this.baseResolver.getNoiseBiome(quartX, quartY, quartZ, sampler);
+		Holder<Biome> biome = this.baseResolver.getNoiseBiome(quartX, quartY, quartZ);
 		Identifier region = this.regionManager.getRegion(context, biome).identifier();
 		int rawValue = this.regionManager.getRegionValue(context, biome);
-		return String.format("Region: %s (Raw value: %s)", region, rawValue);
+		return String.format("Region: %s (Raw value: %s)", region, rawValue);*/
+		return "";
 	}
 	
 	private static BiomeSource getRootSource(BiomeSource currentSource) {

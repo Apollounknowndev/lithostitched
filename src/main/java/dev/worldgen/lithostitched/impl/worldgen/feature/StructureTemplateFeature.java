@@ -28,7 +28,7 @@ public record StructureTemplateFeature(Identifier template, Holder<StructureProc
     
     @Override
     public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
-        StructureTemplateManager templateManager = level.getLevel().getServer().getStructureManager();
+        StructureTemplateManager templateManager = level.getLevel().getServer().getStructureTemplateManager();
         StructureTemplate template = templateManager.getOrCreate(this.template());
         Rotation rotation = this.rotation().orElse(Rotation.getRandom(random));
         

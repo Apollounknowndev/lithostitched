@@ -5,7 +5,7 @@ import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.Parameter
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
 
 /**
  * Builder of parameter conditions for replace_partially and force_placement biome injectors.

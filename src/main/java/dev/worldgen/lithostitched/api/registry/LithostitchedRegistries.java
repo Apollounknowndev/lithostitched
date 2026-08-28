@@ -14,7 +14,6 @@ import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondi
 import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.levelgen.SurfaceRules;
 
 public interface LithostitchedRegistries {
 	// Dynamic

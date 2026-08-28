@@ -5,9 +5,11 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "2.0.0+beta1"
+MOD_VERSION = "2.0.0+beta2"
 CHANGELOG = """
-
+- Ported to 26.3-snapshot-10.
+- Replaced the `add_surface_rule` modifier with `set_material_rule`. The modifier now targets `material_rule` files.
+- Removed legacy support for pre-1.21.11 fields in the biome `effects` file in the `replace_effects` modifier.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "26.3"),
@@ -33,7 +35,7 @@ MODRINTH_GAME_VERSIONS = {
     "21.1": ["1.21.1"],
     "26.1": ["26.1", "26.1.1", "26.1.2"],
     "26.2": ["26.2"],
-    "26.3": ["26.3-snapshot-7"],
+    "26.3": ["26.3-snapshot-10"],
 }
 
 CURSEFORGE_TOKEN = os.getenv('TOKEN_CF')

@@ -65,16 +65,16 @@ public class FNL
         Perlin,
         ValueCubic,
         Value
-    };
-
-    public enum RotationType3D
+    }
+	
+	public enum RotationType3D
     {
         None,
         ImproveXYPlanes,
         ImproveXZPlanes
-    };
-
-    public enum FractalType implements StringRepresentable {
+    }
+	
+	public enum FractalType implements StringRepresentable {
         None("none"),
         FBm("fbm"),
         Ridged("ridged"),
@@ -100,9 +100,9 @@ public class FNL
         EuclideanSq,
         Manhattan,
         Hybrid
-    };
-
-    public enum CellularReturnType
+    }
+	
+	public enum CellularReturnType
     {
         CellValue,
         Distance,
@@ -111,24 +111,24 @@ public class FNL
         Distance2Sub,
         Distance2Mul,
         Distance2Div
-    };
-
-    public enum DomainWarpType
+    }
+	
+	public enum DomainWarpType
     {
         OpenSimplex2,
         OpenSimplex2Reduced,
         BasicGrid
-    };
-
-    private enum TransformType3D
+    }
+	
+	private enum TransformType3D
     {
         None,
         ImproveXYPlanes,
         ImproveXZPlanes,
         DefaultOpenSimplex2
-    };
-
-    private int mSeed = 1337;
+    }
+	
+	private int mSeed = 1337;
     private float mFrequency = 0.01f;
     private NoiseType mNoiseType = NoiseType.OpenSimplex2;
     private RotationType3D mRotationType3D = RotationType3D.None;
@@ -216,7 +216,7 @@ public class FNL
     public void SetFractalType(FractalType fractalType) { mFractalType = fractalType; }
 
     /// <summary>
-    /// Sets octave count for all fractal noise types 
+    /// Sets octave count for all fractal noise types
     /// </summary>
     /// <remarks>
     /// Default: 3
@@ -287,7 +287,7 @@ public class FNL
     /// <remarks>
     /// Default: 1.0
     /// Note: Setting this higher than 1 will cause artifacts
-    /// </remarks> 
+    /// </remarks>
     public void SetCellularJitter(float cellularJitter) { mCellularJitterModifier = cellularJitter; }
 
 
@@ -329,7 +329,8 @@ public class FNL
             case OpenSimplex2:
             case OpenSimplex2S:
                 {
-                    final /*FNLfloat*/ double SQRT3 = (/*FNLfloat*/ double)1.7320508075688772935274463415059;
+	                /*FNLfloat*/
+	                final /*FNLfloat*/ double SQRT3 = 1.7320508075688772935274463415059;
                     final /*FNLfloat*/ double F2 = 0.5f * (SQRT3 - 1);
                     /*FNLfloat*/ double t = (x + y) * F2;
                     x += t;
@@ -371,25 +372,30 @@ public class FNL
                 {
                     /*FNLfloat*/ double xy = x + y;
                     /*FNLfloat*/ double s2 = xy * -(/*FNLfloat*/ double)0.211324865405187;
-                    z *= (/*FNLfloat*/ double)0.577350269189626;
+	                /*FNLfloat*/
+	                z *= 0.577350269189626;
                     x += s2 - z;
                     y = y + s2 - z;
-                    z += xy * (/*FNLfloat*/ double)0.577350269189626;
+	                /*FNLfloat*/
+	                z += xy * 0.577350269189626;
                 }
                 break;
             case ImproveXZPlanes:
                 {
                     /*FNLfloat*/ double xz = x + z;
                     /*FNLfloat*/ double s2 = xz * -(/*FNLfloat*/ double)0.211324865405187;
-                    y *= (/*FNLfloat*/ double)0.577350269189626;
+	                /*FNLfloat*/
+	                y *= 0.577350269189626;
                     x += s2 - y;
                     z += s2 - y;
-                    y += xz * (/*FNLfloat*/ double)0.577350269189626;
+	                /*FNLfloat*/
+	                y += xz * 0.577350269189626;
                 }
                 break;
             case DefaultOpenSimplex2:
                 {
-                    final /*FNLfloat*/ double R3 = (/*FNLfloat*/ double)(2.0 / 3.0);
+	                /*FNLfloat*/
+	                final /*FNLfloat*/ double R3 = 2.0 / 3.0;
                     /*FNLfloat*/ double r = (x + y + z) * R3; // Rotation, not skew
                     x = r - x;
                     y = r - y;
@@ -426,15 +432,15 @@ public class FNL
     {
         switch (mFractalType)
         {
-            default:
-                DomainWarpSingle(coord);
-                break;
-            case DomainWarpProgressive:
+	        case DomainWarpProgressive:
                 DomainWarpFractalProgressive(coord);
                 break;
             case DomainWarpIndependent:
                 DomainWarpFractalIndependent(coord);
                 break;
+	        default:
+		        DomainWarpSingle(coord);
+		        break;
         }
     }
 
@@ -450,15 +456,15 @@ public class FNL
     {
         switch (mFractalType)
         {
-            default:
-                DomainWarpSingle(coord);
-                break;
-            case DomainWarpProgressive:
+	        case DomainWarpProgressive:
                 DomainWarpFractalProgressive(coord);
                 break;
             case DomainWarpIndependent:
                 DomainWarpFractalIndependent(coord);
                 break;
+	        default:
+		        DomainWarpSingle(coord);
+		        break;
         }
     }
 
@@ -882,7 +888,7 @@ public class FNL
     }
 
 
-    // Fractal PingPong 
+    // Fractal PingPong
 
     private float GenFractalPingPong(/*FNLfloat*/ double x, /*FNLfloat*/ double y)
     {
@@ -948,8 +954,8 @@ public class FNL
         float yi = (float)(y - j);
 
         float t = (xi + yi) * G2;
-        float x0 = (float)(xi - t);
-        float y0 = (float)(yi - t);
+        float x0 = xi - t;
+        float y0 = yi - t;
 
         i *= PrimeX;
         j *= PrimeY;
@@ -963,19 +969,19 @@ public class FNL
             n0 = (a * a) * (a * a) * GradCoord(seed, i, j, x0, y0);
         }
 
-        float c = (float)(2 * (1 - 2 * G2) * (1 / G2 - 2)) * t + ((float)(-2 * (1 - 2 * G2) * (1 - 2 * G2)) + a);
+        float c = 2 * (1 - 2 * G2) * (1 / G2 - 2) * t + ((-2 * (1 - 2 * G2) * (1 - 2 * G2)) + a);
         if (c <= 0) n2 = 0;
         else
         {
-            float x2 = x0 + (2 * (float)G2 - 1);
-            float y2 = y0 + (2 * (float)G2 - 1);
+            float x2 = x0 + (2 * G2 - 1);
+            float y2 = y0 + (2 * G2 - 1);
             n2 = (c * c) * (c * c) * GradCoord(seed, i + PrimeX, j + PrimeY, x2, y2);
         }
 
         if (y0 > x0)
         {
-            float x1 = x0 + (float)G2;
-            float y1 = y0 + ((float)G2 - 1);
+            float x1 = x0 + G2;
+            float y1 = y0 + (G2 - 1);
             float b = 0.5f - x1 * x1 - y1 * y1;
             if (b <= 0) n1 = 0;
             else
@@ -985,8 +991,8 @@ public class FNL
         }
         else
         {
-            float x1 = x0 + ((float)G2 - 1);
-            float y1 = y0 + (float)G2;
+            float x1 = x0 + (G2 - 1);
+            float y1 = y0 + G2;
             float b = 0.5f - x1 * x1 - y1 * y1;
             if (b <= 0) n1 = 0;
             else
@@ -1098,8 +1104,9 @@ public class FNL
     private float SingleOpenSimplex2S(int seed, /*FNLfloat*/ double x, /*FNLfloat*/ double y)
     {
         // 2D OpenSimplex2S case is a modified 2D simplex noise.
-
-        final /*FNLfloat*/ double SQRT3 = (/*FNLfloat*/ double)1.7320508075688772935274463415059;
+	    
+	    /*FNLfloat*/
+	    final /*FNLfloat*/ double SQRT3 = 1.7320508075688772935274463415059;
         final /*FNLfloat*/ double G2 = (3 - SQRT3) / 6;
 
         /*
@@ -1527,26 +1534,16 @@ public class FNL
                 distance1 = FastSqrt(distance1);
             }
         }
-
-        switch (mCellularReturnType)
-        {
-            case CellValue:
-                return closestHash * (1 / 2147483648.0f);
-            case Distance:
-                return distance0 - 1;
-            case Distance2:
-                return distance1 - 1;
-            case Distance2Add:
-                return (distance1 + distance0) * 0.5f - 1;
-            case Distance2Sub:
-                return distance1 - distance0 - 1;
-            case Distance2Mul:
-                return distance1 * distance0 * 0.5f - 1;
-            case Distance2Div:
-                return distance0 / distance1 - 1;
-            default:
-                return 0;
-        }
+	    
+	    return switch (mCellularReturnType) {
+		    case CellValue -> closestHash * (1 / 2147483648.0f);
+		    case Distance -> distance0 - 1;
+		    case Distance2 -> distance1 - 1;
+		    case Distance2Add -> (distance1 + distance0) * 0.5f - 1;
+		    case Distance2Sub -> distance1 - distance0 - 1;
+		    case Distance2Mul -> distance1 * distance0 * 0.5f - 1;
+		    case Distance2Div -> distance0 / distance1 - 1;
+	    };
     }
 
     private float SingleCellular(int seed, /*FNLfloat*/ double x, /*FNLfloat*/ double y, /*FNLfloat*/ double z)
@@ -1950,7 +1947,8 @@ public class FNL
             case OpenSimplex2:
             case OpenSimplex2Reduced:
                 {
-                    final /*FNLfloat*/ double SQRT3 = (/*FNLfloat*/ double)1.7320508075688772935274463415059;
+	                /*FNLfloat*/
+	                final /*FNLfloat*/ double SQRT3 = 1.7320508075688772935274463415059;
                     final /*FNLfloat*/ double F2 = 0.5f * (SQRT3 - 1);
                     /*FNLfloat*/ double t = (xs + ys) * F2;
                     xs += t; ys += t;
@@ -1972,30 +1970,35 @@ public class FNL
         /*FNLfloat*/ double xs = coord.x;
         /*FNLfloat*/ double ys = coord.y;
         /*FNLfloat*/ double zs = coord.z;
-        switch (mWarpTransformType3D) 
+        switch (mWarpTransformType3D)
         {
-            case ImproveXYPlanes: 
+            case ImproveXYPlanes:
                 {
                     /*FNLfloat*/ double xy = xs + ys;
                     /*FNLfloat*/ double s2 = xy * -(/*FNLfloat*/ double)0.211324865405187;
-                    zs *= (/*FNLfloat*/ double)0.577350269189626;
+	                /*FNLfloat*/
+	                zs *= 0.577350269189626;
                     xs += s2 - zs;
                     ys = ys + s2 - zs;
-                    zs += xy * (/*FNLfloat*/ double)0.577350269189626;
+	                /*FNLfloat*/
+	                zs += xy * 0.577350269189626;
                 }
                 break;
             case ImproveXZPlanes:
                 {
                     /*FNLfloat*/ double xz = xs + zs;
                     /*FNLfloat*/ double s2 = xz * -(/*FNLfloat*/ double)0.211324865405187;
-                    ys *= (/*FNLfloat*/ double)0.577350269189626;
+	                /*FNLfloat*/
+	                ys *= 0.577350269189626;
                     xs += s2 - ys; zs += s2 - ys;
-                    ys += xz * (/*FNLfloat*/ double)0.577350269189626;
+	                /*FNLfloat*/
+	                ys += xz * 0.577350269189626;
                 }
                 break;
             case DefaultOpenSimplex2:
                 {
-                    final /*FNLfloat*/ double R3 = (/*FNLfloat*/ double)(2.0 / 3.0);
+	                /*FNLfloat*/
+	                final /*FNLfloat*/ double R3 = 2.0 / 3.0;
                     /*FNLfloat*/ double r = (xs + ys + zs) * R3; // Rotation, not skew
                     xs = r - xs;
                     ys = r - ys;
@@ -2027,7 +2030,8 @@ public class FNL
                 case OpenSimplex2:
                 case OpenSimplex2Reduced:
                     {
-                        final /*FNLfloat*/ double SQRT3 = (/*FNLfloat*/ double)1.7320508075688772935274463415059;
+	                    /*FNLfloat*/
+	                    final /*FNLfloat*/ double SQRT3 = 1.7320508075688772935274463415059;
                         final /*FNLfloat*/ double F2 = 0.5f * (SQRT3 - 1);
                         /*FNLfloat*/ double t = (xs + ys) * F2;
                         xs += t; ys += t;
@@ -2062,24 +2066,29 @@ public class FNL
                     {
                         /*FNLfloat*/ double xy = xs + ys;
                         /*FNLfloat*/ double s2 = xy * -(/*FNLfloat*/ double)0.211324865405187;
-                        zs *= (/*FNLfloat*/ double)0.577350269189626;
+	                    /*FNLfloat*/
+	                    zs *= 0.577350269189626;
                         xs += s2 - zs;
                         ys = ys + s2 - zs;
-                        zs += xy * (/*FNLfloat*/ double)0.577350269189626;
+	                    /*FNLfloat*/
+	                    zs += xy * 0.577350269189626;
                     }
                     break;
                 case ImproveXZPlanes:
                     {
                         /*FNLfloat*/ double xz = xs + zs;
                         /*FNLfloat*/ double s2 = xz * -(/*FNLfloat*/ double)0.211324865405187;
-                        ys *= (/*FNLfloat*/ double)0.577350269189626;
+	                    /*FNLfloat*/
+	                    ys *= 0.577350269189626;
                         xs += s2 - ys; zs += s2 - ys;
-                        ys += xz * (/*FNLfloat*/ double)0.577350269189626;
+	                    /*FNLfloat*/
+	                    ys += xz * 0.577350269189626;
                     }
                     break;
                 case DefaultOpenSimplex2:
                     {
-                        final /*FNLfloat*/ double R3 = (/*FNLfloat*/ double)(2.0 / 3.0);
+	                    /*FNLfloat*/
+	                    final /*FNLfloat*/ double R3 = 2.0 / 3.0;
                         /*FNLfloat*/ double r = (xs + ys + zs) * R3; // Rotation, not skew
                         xs = r - xs;
                         ys = r - ys;
@@ -2109,7 +2118,8 @@ public class FNL
             case OpenSimplex2:
             case OpenSimplex2Reduced:
                 {
-                    final /*FNLfloat*/ double SQRT3 = (/*FNLfloat*/ double)1.7320508075688772935274463415059;
+	                /*FNLfloat*/
+	                final /*FNLfloat*/ double SQRT3 = 1.7320508075688772935274463415059;
                     final /*FNLfloat*/ double F2 = 0.5f * (SQRT3 - 1);
                     /*FNLfloat*/ double t = (xs + ys) * F2;
                     xs += t; ys += t;
@@ -2144,24 +2154,29 @@ public class FNL
                 {
                     /*FNLfloat*/ double xy = xs + ys;
                     /*FNLfloat*/ double s2 = xy * -(/*FNLfloat*/ double)0.211324865405187;
-                    zs *= (/*FNLfloat*/ double)0.577350269189626;
+	                /*FNLfloat*/
+	                zs *= 0.577350269189626;
                     xs += s2 - zs;
                     ys = ys + s2 - zs;
-                    zs += xy * (/*FNLfloat*/ double)0.577350269189626;
+	                /*FNLfloat*/
+	                zs += xy * 0.577350269189626;
                 }
                 break;
             case ImproveXZPlanes:
                 {
                     /*FNLfloat*/ double xz = xs + zs;
                     /*FNLfloat*/ double s2 = xz * -(/*FNLfloat*/ double)0.211324865405187;
-                    ys *= (/*FNLfloat*/ double)0.577350269189626;
+	                /*FNLfloat*/
+	                ys *= 0.577350269189626;
                     xs += s2 - ys; zs += s2 - ys;
-                    ys += xz * (/*FNLfloat*/ double)0.577350269189626;
+	                /*FNLfloat*/
+	                ys += xz * 0.577350269189626;
                 }
                 break;
             case DefaultOpenSimplex2:
                 {
-                    final /*FNLfloat*/ double R3 = (/*FNLfloat*/ double)(2.0 / 3.0);
+	                /*FNLfloat*/
+	                final /*FNLfloat*/ double R3 = 2.0 / 3.0;
                     /*FNLfloat*/ double r = (xs + ys + zs) * R3; // Rotation, not skew
                     xs = r - xs;
                     ys = r - ys;
@@ -2302,8 +2317,8 @@ public class FNL
         float yi = (float)(y - j);
 
         float t = (xi + yi) * G2;
-        float x0 = (float)(xi - t);
-        float y0 = (float)(yi - t);
+        float x0 = xi - t;
+        float y0 = yi - t;
 
         i *= PrimeX;
         j *= PrimeY;
@@ -2339,11 +2354,11 @@ public class FNL
             vy += aaaa * yo;
         }
 
-        float c = (float)(2 * (1 - 2 * G2) * (1 / G2 - 2)) * t + ((float)(-2 * (1 - 2 * G2) * (1 - 2 * G2)) + a);
+        float c = 2 * (1 - 2 * G2) * (1 / G2 - 2) * t + ((-2 * (1 - 2 * G2) * (1 - 2 * G2)) + a);
         if (c > 0)
         {
-            float x2 = x0 + (2 * (float)G2 - 1);
-            float y2 = y0 + (2 * (float)G2 - 1);
+            float x2 = x0 + (2 * G2 - 1);
+            float y2 = y0 + (2 * G2 - 1);
             float cccc = (c * c) * (c * c);
             float xo, yo;
             if (outGradOnly)
@@ -2371,8 +2386,8 @@ public class FNL
 
         if (y0 > x0)
         {
-            float x1 = x0 + (float)G2;
-            float y1 = y0 + ((float)G2 - 1);
+            float x1 = x0 + G2;
+            float y1 = y0 + (G2 - 1);
             float b = 0.5f - x1 * x1 - y1 * y1;
             if (b > 0)
             {
@@ -2403,8 +2418,8 @@ public class FNL
         }
         else
         {
-            float x1 = x0 + ((float)G2 - 1);
-            float y1 = y0 + (float)G2;
+            float x1 = x0 + (G2 - 1);
+            float y1 = y0 + G2;
             float b = 0.5f - x1 * x1 - y1 * y1;
             if (b > 0)
             {

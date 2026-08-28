@@ -7,8 +7,8 @@ import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.InclusiveRange;
-import net.minecraft.world.level.levelgen.DensityFunction;
-import net.minecraft.world.level.levelgen.DensityFunctions;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunctions;
 
 import java.util.HashMap;
 import java.util.Map;

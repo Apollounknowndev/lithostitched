@@ -13,38 +13,14 @@ import net.minecraft.world.attribute.AmbientParticle;
 import net.minecraft.world.level.biome.BiomeSpecialEffects.GrassColorModifier;
 
 public class BiomeEffectsBuilderImpl implements BiomeEffectsBuilder {
-	private Optional<Integer> fogColor = Optional.empty();
 	private Optional<Integer> waterColor = Optional.empty();
-	private Optional<Integer> waterFogColor = Optional.empty();
-	private Optional<Integer> skyColor = Optional.empty();
 	private Optional<Integer> foliageColor = Optional.empty();
 	private Optional<Integer> dryFoliageColor = Optional.empty();
 	private Optional<Integer> grassColor = Optional.empty();
 	private Optional<GrassColorModifier> grassColorModifier = Optional.empty();
-	private Optional<AmbientParticle> ambientParticle = Optional.empty();
-	private Optional<Holder<SoundEvent>> ambientSound = Optional.empty();
-	private Optional<AmbientMoodSettings> moodSound = Optional.empty();
-	private Optional<AmbientAdditionsSettings> additionsSound = Optional.empty();
-	private Optional<Music> music = Optional.empty();
-	private Optional<Float> musicVolume = Optional.empty();
-	
-	public BiomeEffectsBuilderImpl fogColor(Integer fogColor) {
-		this.fogColor = Optional.ofNullable(fogColor);
-		return this;
-	}
 	
 	public BiomeEffectsBuilderImpl waterColor(Integer waterColor) {
 		this.waterColor = Optional.ofNullable(waterColor);
-		return this;
-	}
-	
-	public BiomeEffectsBuilderImpl waterFogColor(Integer waterFogColor) {
-		this.waterFogColor = Optional.ofNullable(waterFogColor);
-		return this;
-	}
-	
-	public BiomeEffectsBuilderImpl skyColor(Integer skyColor) {
-		this.skyColor = Optional.ofNullable(skyColor);
 		return this;
 	}
 	
@@ -68,52 +44,13 @@ public class BiomeEffectsBuilderImpl implements BiomeEffectsBuilder {
 		return this;
 	}
 	
-	public BiomeEffectsBuilderImpl ambientParticle(AmbientParticle ambientParticle) {
-		this.ambientParticle = Optional.ofNullable(ambientParticle);
-		return this;
-	}
-	
-	public BiomeEffectsBuilderImpl ambientSound(Holder<SoundEvent> ambientSound) {
-		this.ambientSound = Optional.ofNullable(ambientSound);
-		return this;
-	}
-	
-	public BiomeEffectsBuilderImpl moodSound(AmbientMoodSettings moodSound) {
-		this.moodSound = Optional.ofNullable(moodSound);
-		return this;
-	}
-	
-	public BiomeEffectsBuilderImpl additionsSound(AmbientAdditionsSettings additionsSound) {
-		this.additionsSound = Optional.ofNullable(additionsSound);
-		return this;
-	}
-	
-	public BiomeEffectsBuilderImpl music(Music music) {
-		this.music = Optional.ofNullable(music);
-		return this;
-	}
-	
-	public BiomeEffectsBuilderImpl musicVolume(Float musicVolume) {
-		this.musicVolume = Optional.ofNullable(musicVolume);
-		return this;
-	}
-	
 	public BiomeEffects build() {
 		return new BiomeEffects(
-			fogColor,
 			waterColor,
-			waterFogColor,
-			skyColor,
 			foliageColor,
 			dryFoliageColor,
 			grassColor,
-			grassColorModifier,
-			ambientParticle,
-			ambientSound,
-			moodSound,
-			additionsSound,
-			music,
-			musicVolume
+			grassColorModifier
 		);
 	}
 }

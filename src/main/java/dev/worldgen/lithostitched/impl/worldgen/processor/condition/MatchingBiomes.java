@@ -24,10 +24,7 @@ public record MatchingBiomes(HolderSet<Biome> biomes, ProcessorPosition position
     public boolean test(WorldGenLevel level, Data data, StructurePlaceSettings settings, RandomSource random) {
         if (!(level.getChunkSource() instanceof ServerChunkCache source)) return false;
         BlockPos pos = this.position.select(data);
-        Holder<Biome> biome = source.getGenerator().getBiomeSource().getNoiseBiome(
-            QuartPos.fromBlock(pos.getX()), QuartPos.fromBlock(pos.getY()), QuartPos.fromBlock(pos.getZ()),
-            source.randomState().sampler()
-        );
+        Holder<Biome> biome = source.getLevel().getNoiseBiome(QuartPos.fromBlock(pos.getX()), QuartPos.fromBlock(pos.getY()), QuartPos.fromBlock(pos.getZ()));
         return this.biomes.contains(biome);
     }
 

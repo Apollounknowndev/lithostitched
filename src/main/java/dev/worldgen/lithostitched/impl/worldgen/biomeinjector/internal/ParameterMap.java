@@ -11,7 +11,8 @@ import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.biome.Climate.TargetPoint;
-import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensitySamplerSet;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,22 +35,12 @@ public final class ParameterMap {
 		this.region = region;
 	}
 	
-	public void mapAll(DensityFunctionWrapper noiseHelper) {
-		Map<Either<ClimateParameter, DensityFunction>, InclusiveRange<Float>> mappedParameters = new HashMap<>();
-		for (var entry : this.parameters.entrySet()) {
-			var either = entry.getKey();
-			mappedParameters.put(either.mapRight(df -> df.mapAll(noiseHelper)), entry.getValue());
-		}
-		this.parameters.clear();
-		this.parameters.putAll(mappedParameters);
-	}
-	
-	public boolean matches(DensityFunction.FunctionContext context, TargetPoint point, HashMap<DensityFunction, Float> densities, ResourceKey<Region> currentRegion) {
+	public boolean matches(int blockX, int blockY, int blockZ, DensitySamplerSet samplers, TargetPoint point, ResourceKey<Region> currentRegion) {
 		if (!region.map(currentRegion::equals).orElse(true)) return false;
 		for (var entry : this.parameters.entrySet()) {
 			float density = entry.getKey().map(
 				reserved -> reserved.getter.apply(point) / 10000F,
-				df -> densities.computeIfAbsent(df, __ -> df.compute(context))
+				df -> samplers.sampleValue(df, blockX, blockY, blockZ)
 			);
 			if (!entry.getValue().isValueInRange(density)) return false;
 		}

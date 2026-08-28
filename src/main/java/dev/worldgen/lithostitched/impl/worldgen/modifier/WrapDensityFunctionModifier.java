@@ -9,7 +9,7 @@ import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.util.DensityFunctionInjectorHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
 
 import java.util.Optional;
 

@@ -5,7 +5,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
-import dev.worldgen.lithostitched.api.util.InjectionType;
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeClimate;
 import dev.worldgen.lithostitched.api.worldgen.util.WeightedSpawnerData;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
@@ -14,15 +13,13 @@ import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
 import dev.worldgen.lithostitched.impl.worldgen.feature.CompositeFeature;
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import net.minecraft.core.*;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -144,14 +141,6 @@ public interface WorldgenModifier {
 		@SafeVarargs
 		public final WorldgenModifier addTemplatePoolElements(HolderSet<StructureTemplatePool> pools, Pair<StructurePoolElement, Integer>... elements) {
 			return new AddTemplatePoolElementsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), pools, List.of(elements));
-		}
-		
-		public WorldgenModifier addSurfaceRule(ResourceKey<Level> dimension, InjectionType injectionType, SurfaceRules.RuleSource ruleSource) {
-			return new AddSurfaceRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), List.of(Registries.levelToLevelStem(dimension)), injectionType, ruleSource);
-		}
-		
-		public WorldgenModifier addSurfaceRule(List<ResourceKey<Level>> dimensions, InjectionType injectionType, SurfaceRules.RuleSource ruleSource) {
-			return new AddSurfaceRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), dimensions.stream().map(Registries::levelToLevelStem).toList(), injectionType, ruleSource);
 		}
 		
 		public WorldgenModifier noop() {

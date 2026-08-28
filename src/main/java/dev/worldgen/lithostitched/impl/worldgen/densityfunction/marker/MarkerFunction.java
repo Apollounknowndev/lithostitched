@@ -1,21 +1,18 @@
 package dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker;
 
 import net.minecraft.util.Interval;
-import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensitySampler;
+import net.minecraft.world.level.levelgen.densityfunction.DfRewriteRule;
 
 public interface MarkerFunction extends DensityFunction {
     @Override
-    default float compute(DensityFunction.FunctionContext context) {
-        throw new IllegalStateException("Marker density function should never be computed!");
+    default DensitySampler compileSampler(final CompileContext context) {
+        throw new IllegalStateException("Marker density function should never be compiled!");
     }
     
     @Override
-    default void fillArray(final float[] output, final ContextProvider contextProvider) {
-        contextProvider.fillAllDirectly(output, this);
-    }
-    
-    @Override
-    default DensityFunction mapChildren(final Visitor visitor) {
+    default DensityFunction rewriteChildren(final DfRewriteRule rule) {
         return this;
     }
     

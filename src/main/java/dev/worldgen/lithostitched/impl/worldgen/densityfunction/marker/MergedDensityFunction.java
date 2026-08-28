@@ -3,8 +3,10 @@ package dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Holder;
 import net.minecraft.util.Interval;
-import net.minecraft.world.level.levelgen.DensityFunction;
-import net.minecraft.world.level.levelgen.DensityFunctions;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunctions;
+import net.minecraft.world.level.levelgen.densityfunction.DensitySampler;
+import net.minecraft.world.level.levelgen.densityfunction.DfRewriteRule;
 
 /**
  * Holds two density functions, one of which runs.
@@ -19,20 +21,16 @@ public record MergedDensityFunction(DensityFunction original, DensityFunction wr
     private static DensityFunction unwrappedOriginal(DensityFunction df) {
         return df instanceof MergedDensityFunction merged ? unwrappedOriginal(merged.original()) : df;
     }
-
+    
     @Override
-    public float compute(FunctionContext context) {
-        return this.full.compute(context);
+    public DensitySampler compileSampler(CompileContext context) {
+        return this.full.compileSampler(context);
     }
     
     @Override
-    public void fillArray(float[] output, ContextProvider contextProvider) {
-        this.full.fillArray(output, contextProvider);
-    }
-
-    @Override
-    public DensityFunction mapChildren(Visitor visitor) {
-        return visitor.apply(this.full);
+    public DensityFunction rewriteChildren(DfRewriteRule rule) {
+        DensityFunction full = this.full.rewriteChildren(rule);
+        return full == this.full ? this : new MergedDensityFunction(original, wrapped, full);
     }
     
     @Override

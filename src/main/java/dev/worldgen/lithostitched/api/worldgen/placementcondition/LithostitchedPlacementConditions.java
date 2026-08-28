@@ -7,7 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.util.Arrays;
@@ -55,11 +55,11 @@ public interface LithostitchedPlacementConditions {
 		return new OffsetPlacementCondition(condition, offset);
 	}
 	
-	static PlacementCondition sampleDensity(Holder<DensityFunction> densityFunction, InclusiveRange<Double> range) {
+	static PlacementCondition sampleDensity(DensityFunction densityFunction, InclusiveRange<Float> range) {
 		return new SampleDensityPlacementCondition(densityFunction, range);
 	}
 	
-	static PlacementCondition sampleNoiseRouter(NoiseRouterTarget target, InclusiveRange<Double> range) {
+	static PlacementCondition sampleNoiseRouter(NoiseRouterTarget target, InclusiveRange<Float> range) {
 		return new SampleNoiseRouterPlacementCondition(target, range);
 	}
 	

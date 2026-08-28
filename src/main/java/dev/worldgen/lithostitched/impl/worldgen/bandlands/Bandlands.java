@@ -6,7 +6,7 @@ import dev.worldgen.lithostitched.impl.duck.SurfaceSystemAccessor;
 import dev.worldgen.lithostitched.api.worldgen.bandlands.Band;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.SurfaceSystem;
+import net.minecraft.world.level.levelgen.material.MaterialSystem;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +33,7 @@ public final class Bandlands {
         return bands;
     }
 
-    public BlockState getBand(SurfaceSystem system, int x, int y, int z) {
+    public BlockState getBand(MaterialSystem system, int x, int y, int z) {
         if (filledBandlands == null) return base;
 
         int i = (int)Math.round(((SurfaceSystemAccessor)system).getBandOffsetNoise().get(x, 0.0F, z) * (double)4.0F);

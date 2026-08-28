@@ -50,7 +50,7 @@ public class ChunkMapMixin {
                 modifyDensityFunction(NoiseRouterTarget.EROSION, router.erosion(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.DEPTH, router.depth(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.RIDGES, router.ridges(), modifiers),
-                modifyDensityFunction(NoiseRouterTarget.PRELIMINARY_SURFACE_LEVEL, router.preliminarySurfaceLevel(), modifiers),
+                modifyDensityFunction(NoiseRouterTarget.CHUNK_SURFACE_LEVEL, router.chunkSurfaceLevel(), modifiers),
                 modifyDensityFunction(NoiseRouterTarget.FINAL_DENSITY, router.finalDensity(), modifiers)
             ));
         }

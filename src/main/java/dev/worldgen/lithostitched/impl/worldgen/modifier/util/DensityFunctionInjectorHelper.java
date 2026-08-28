@@ -4,14 +4,14 @@ import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.MarkerFun
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.MergedDensityFunction;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.OriginalMarkerDensityFunction;
 import net.minecraft.core.Holder;
-import net.minecraft.world.level.levelgen.DensityFunction;
-import net.minecraft.world.level.levelgen.DensityFunctions;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunctions;
 
 public class DensityFunctionInjectorHelper {
     public static DensityFunction wrap(final DensityFunction wrapped, DensityFunction wrapper) {
         if (wrapped instanceof MergedDensityFunction merged) {
             final DensityFunction original = merged.original();
-            return new MergedDensityFunction(original, wrapped, wrapper.mapAll(value -> {
+            return new MergedDensityFunction(original, wrapped, wrapper.rewriteChildren(value -> {
                 if (isMarker(value)) {
                     if (value instanceof OriginalMarkerDensityFunction) {
                         return original;
@@ -23,7 +23,7 @@ public class DensityFunctionInjectorHelper {
             }));
         }
         
-        return new MergedDensityFunction(wrapped, wrapped, wrapper.mapAll(value -> {
+        return new MergedDensityFunction(wrapped, wrapped, wrapper.rewriteChildren(value -> {
             if (isMarker(value)) {
                 return wrapped;
             }

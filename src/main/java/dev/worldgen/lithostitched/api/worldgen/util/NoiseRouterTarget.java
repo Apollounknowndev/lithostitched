@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.api.worldgen.util;
 import com.mojang.serialization.Codec;
 import net.minecraft.util.valueproviders.IntProviders;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
 import net.minecraft.world.level.levelgen.NoiseRouter;
 
 import java.util.function.Function;
@@ -15,7 +15,7 @@ public enum NoiseRouterTarget implements StringRepresentable {
     EROSION("erosion", NoiseRouter::erosion),
     DEPTH("depth", NoiseRouter::depth),
     RIDGES("ridges", NoiseRouter::ridges),
-    PRELIMINARY_SURFACE_LEVEL("preliminary_surface_level", NoiseRouter::preliminarySurfaceLevel),
+    CHUNK_SURFACE_LEVEL("chunk_surface_level", NoiseRouter::chunkSurfaceLevel),
     FINAL_DENSITY("final_density", NoiseRouter::finalDensity);
 
     public static final Codec<NoiseRouterTarget> CODEC = StringRepresentable.fromEnum(NoiseRouterTarget::values);

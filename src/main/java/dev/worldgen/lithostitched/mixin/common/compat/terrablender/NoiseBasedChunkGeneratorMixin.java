@@ -13,9 +13,10 @@ import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+// TODO: Investigate
 @Mixin(NoiseBasedChunkGenerator.class)
 public class NoiseBasedChunkGeneratorMixin {
-	@WrapOperation(
+	/*@WrapOperation(
 		method = "doCreateBiomes",
 		at = @At(
 			value = "INVOKE",
@@ -35,16 +36,16 @@ public class NoiseBasedChunkGeneratorMixin {
 		method = "doCreateBiomes",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/world/level/chunk/ChunkAccess;fillBiomesFromNoise(Lnet/minecraft/world/level/biome/BiomeResolver;Lnet/minecraft/world/level/biome/Climate$Sampler;)V"
+			target = "Lnet/minecraft/world/level/chunk/ChunkAccess;fillBiomesFromNoise(Lnet/minecraft/world/level/biome/BiomeResolver;)V"
 		)
 	)
-	private void rewrapInjector(ChunkAccess protoChunk, BiomeResolver resolver, Climate.Sampler sampler, Operation<Void> operator, @Share("injector") LocalRef<InjectorBiomeSource> ref) {
+	private void rewrapInjector(ChunkAccess protoChunk, BiomeResolver resolver, Operation<Void> operator, @Share("injector") LocalRef<InjectorBiomeSource> ref) {
 		InjectorBiomeSource injector = ref.get();
 		if (injector != null) {
 			InjectorBiomeSource cloned = injector.clone();
 			cloned.baseResolver = resolver;
 			resolver = cloned;
 		}
-		operator.call(protoChunk, resolver, sampler);
-	}
+		operator.call(protoChunk, resolver);
+	}*/
 }

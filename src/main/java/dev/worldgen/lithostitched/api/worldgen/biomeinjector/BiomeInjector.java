@@ -39,12 +39,7 @@ public interface BiomeInjector {
 	Optional<LoadPredicate> predicate();
 	ResourceKey<LevelStem> dimension();
 	int priority();
-	
 	List<Holder<Biome>> possibleBiomes();
-	
-	default void mapAll(DensityFunctionWrapper noiseHelper) {
-	
-	}
 	
 	MapCodec<? extends BiomeInjector> codec();
 	

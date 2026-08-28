@@ -3,10 +3,12 @@ package dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
+import net.minecraft.util.Interval;
+import net.minecraft.world.level.levelgen.synth.Noise;
 
 import java.util.function.Function;
 
-public abstract class FastNoiseConfig {
+public abstract class FastNoiseConfig implements Noise {
     public static final Codec<FastNoiseConfig> CODEC = LithostitchedBuiltInRegistries.FAST_NOISE_CONFIG_TYPE.byNameCodec().dispatch(FastNoiseConfig::getCodec, Function.identity());
 
     public abstract MapCodec<? extends FastNoiseConfig> getCodec();
@@ -35,8 +37,16 @@ public abstract class FastNoiseConfig {
     public void bind(long seed) {
         fnl.SetSeed((int) seed + salt);
     }
-
-    public float sample(double x, double y, double z) {
+    
+    public Interval range() {
+        return Interval.of(-1, 1);
+    }
+    
+    public float get(double x, double y) {
+        return fnl.GetNoise(x, y);
+    }
+    
+    public float get(double x, double y, double z) {
         return fnl.GetNoise(x, y, z);
     }
 }

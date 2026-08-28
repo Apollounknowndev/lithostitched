@@ -15,20 +15,11 @@ public interface BiomeEffectsBuilder {
 		return new BiomeEffectsBuilderImpl();
 	}
 	
-	BiomeEffectsBuilder fogColor(Integer fogColor);
 	BiomeEffectsBuilder waterColor(Integer waterColor);
-	BiomeEffectsBuilder waterFogColor(Integer waterFogColor);
-	BiomeEffectsBuilder skyColor(Integer skyColor);
 	BiomeEffectsBuilder foliageColor(Integer foliageColor);
 	BiomeEffectsBuilder dryFoliageColor(Integer dryFoliageColor);
 	BiomeEffectsBuilder grassColor(Integer grassColor);
 	BiomeEffectsBuilder grassColorModifier(BiomeSpecialEffects.GrassColorModifier grassColorModifier);
-	BiomeEffectsBuilder ambientParticle(AmbientParticle ambientParticle);
-	BiomeEffectsBuilder ambientSound(Holder<SoundEvent> ambientSound);
-	BiomeEffectsBuilder moodSound(AmbientMoodSettings moodSound);
-	BiomeEffectsBuilder additionsSound(AmbientAdditionsSettings additionsSound);
-	BiomeEffectsBuilder music(Music music);
-	BiomeEffectsBuilder musicVolume(Float musicVolume);
 	
 	BiomeEffects build();
 }

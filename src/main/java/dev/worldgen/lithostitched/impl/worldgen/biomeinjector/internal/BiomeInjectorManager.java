@@ -18,21 +18,23 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.FeatureSorter;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.dimension.LevelStem;
-import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.RandomState;
 
 import java.util.*;
 
 public class BiomeInjectorManager {
-	public static void applyBiomeInjectors(RegistryAccess registries, Registry<LevelStem> dimensions, long seed) {
+	public static void applyBiomeInjectors(MinecraftServer server, RegistryAccess registries, Registry<LevelStem> dimensions, long seed) {
 		for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : dimensions.entrySet()) {
 			ResourceKey<LevelStem> dimension = entry.getKey();
-			
+			ServerLevel level = server.getLevel(Registries.levelStemToLevel(dimension));
 			
 			Map<Identifier, BiomeInjector> injectors = new HashMap<>();
 			registries.lookupOrThrow(LithostitchedRegistries.BIOME_INJECTOR).listElements().forEach(holder -> {
@@ -51,12 +53,6 @@ public class BiomeInjectorManager {
 			if (!(generator instanceof NoiseBasedChunkGenerator noiseGenerator)) continue;
 			
 			RandomState randomState = RandomState.create(registries.lookupOrThrow(Registries.NOISE), seed, noiseGenerator.generatorSettings().value());
-			DensityFunctionWrapper noiseHelper = new DensityFunctionWrapper(
-				seed,
-				noiseGenerator.generatorSettings().value().useLegacyRandomSource(),
-				randomState,
-				((RandomStateAccessor)(Object)randomState).getRandom()
-			);
 			
 			Map<ResourceKey<Region>, Region> regions = new HashMap<>();
 			registries
@@ -64,8 +60,8 @@ public class BiomeInjectorManager {
 				.listElements()
 				.filter(holder -> holder.value().dimension().equals(dimension))
 				.forEach(reference -> regions.put(reference.key(), reference.value()));
-			AddRegionsEvent.EVENT.invoker().addRegions(registries, (key, level, biomes, weight) -> {
-				Region region = Region.create(key, level, biomes, weight);
+			AddRegionsEvent.EVENT.invoker().addRegions(registries, (key, levelKey, biomes, weight) -> {
+				Region region = Region.create(key, levelKey, biomes, weight);
 				if (!injectors.containsKey(key) && region.dimension().equals(dimension)) {
 					regions.put(key, region);
 				}
@@ -89,7 +85,7 @@ public class BiomeInjectorManager {
 			if (!canInject) continue;
 			
 			InjectorBiomeSource injectorSource = currentSource instanceof InjectorBiomeSource injector ? injector : new InjectorBiomeSource(accessor.getBiomeSource());
-			injectorSource.applyInjectors(injectors, regionFunction, regions, noiseHelper);
+			injectorSource.applyInjectors(injectors, regionFunction, regions, randomState);
 			accessor.setBiomeSource(injectorSource);
 			accessor.setFeaturesPerStep(LithostitchedPlatform.memoize(() ->
 				FeatureSorter.buildFeaturesPerStep(List.copyOf(injectorSource.possibleBiomes()), biome -> accessor.getGetter().apply(biome).features(), true)

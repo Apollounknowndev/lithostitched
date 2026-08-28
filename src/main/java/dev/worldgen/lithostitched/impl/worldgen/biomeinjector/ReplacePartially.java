@@ -13,7 +13,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.dimension.LevelStem;
-import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensitySamplerSet;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,15 +29,10 @@ public record ReplacePartially(Optional<LoadPredicate> predicate, ResourceKey<Le
 		Biome.CODEC.fieldOf("replacement").forGetter(ReplacePartially::replacement),
 		ParameterMap.CODEC.forGetter(ReplacePartially::parameters)
 	).apply(i, ReplacePartially::new));
-	
-	@Override
-	public void mapAll(DensityFunctionWrapper noiseHelper) {
-		this.parameters.mapAll(noiseHelper);
-	}
-	
-	public boolean matches(DensityFunction.FunctionContext context, Climate.TargetPoint point, HashMap<DensityFunction, Float> densities, Holder<Biome> biome, ResourceKey<Region> currentRegion) {
+
+	public boolean matches(int blockX, int blockY, int blockZ, DensitySamplerSet samplers, Climate.TargetPoint point, Holder<Biome> biome, ResourceKey<Region> currentRegion) {
 		if (!this.targets().contains(biome)) return false;
-		return this.parameters.matches(context, point, densities, currentRegion);
+		return this.parameters.matches(blockX, blockY, blockZ, samplers, point, currentRegion);
 	}
 	
 	@Override

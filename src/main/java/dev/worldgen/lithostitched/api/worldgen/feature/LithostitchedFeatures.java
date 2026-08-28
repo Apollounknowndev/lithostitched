@@ -68,8 +68,4 @@ public interface LithostitchedFeatures {
 	static Feature vines(WeightedList<Block> blocks, Optional<HolderSet<Block>> canPlaceOn, IntProvider maxLength) {
 		return new VinesFeature(blocks, canPlaceOn, maxLength);
 	}
-	
-	static Feature well(BlockStateProvider groundProvider, BlockStateProvider suspiciousProvider, BlockStateProvider standardProvider, BlockStateProvider slabProvider, BlockStateProvider fluidProvider, IntProvider suspiciousPlacements, ResourceKey<LootTable> suspiciousLootTable) {
-		return new WellFeature(groundProvider, suspiciousProvider, standardProvider, slabProvider, fluidProvider, suspiciousPlacements, suspiciousLootTable);
-	}
 }

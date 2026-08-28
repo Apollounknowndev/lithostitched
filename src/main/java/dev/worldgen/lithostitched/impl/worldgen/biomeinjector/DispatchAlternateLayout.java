@@ -14,7 +14,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.biome.Climate.ParameterList;
 import net.minecraft.world.level.dimension.LevelStem;
-import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensitySamplerSet;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,13 +30,8 @@ public record DispatchAlternateLayout(Optional<LoadPredicate> predicate, Resourc
 		ParameterList.codec(Biome.CODEC.fieldOf("biome")).fieldOf("points").forGetter(DispatchAlternateLayout::points)
 	).apply(i, DispatchAlternateLayout::new));
 	
-	@Override
-	public void mapAll(DensityFunctionWrapper noiseHelper) {
-		this.parameters.mapAll(noiseHelper);
-	}
-	
-	public boolean matches(DensityFunction.FunctionContext context, Climate.TargetPoint point, HashMap<DensityFunction, Float> densities, ResourceKey<Region> currentRegion) {
-		return this.parameters.matches(context, point, densities, currentRegion);
+	public boolean matches(int blockX, int blockY, int blockZ, DensitySamplerSet samplers, Climate.TargetPoint point, ResourceKey<Region> currentRegion) {
+		return this.parameters.matches(blockX, blockY, blockZ, samplers, point, currentRegion);
 	}
 	
 	@Override

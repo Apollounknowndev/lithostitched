@@ -43,7 +43,7 @@ public class LithostitchedFabricClient implements ClientModInitializer {
 			if (serverOrClientLevel instanceof ServerLevel serverLevel) {
 				ServerChunkCache source = serverLevel.getChunkSource();
 				if (source.getGenerator().getBiomeSource() instanceof InjectorBiomeSource injector) {
-					displayer.addLine(injector.getRegionLine(source.randomState().sampler(), pos));
+					displayer.addLine(injector.getRegionLine(pos));
 				}
 			}
 		});

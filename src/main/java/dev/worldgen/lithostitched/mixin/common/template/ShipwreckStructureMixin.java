@@ -10,7 +10,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.StructurePieceAccessor;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.levelgen.structure.structures.ShipwreckPieces;
 import net.minecraft.world.level.levelgen.structure.structures.ShipwreckStructure;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
@@ -23,16 +23,16 @@ public class ShipwreckStructureMixin {
         method = "generatePieces",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/level/levelgen/structure/structures/ShipwreckPieces;addRandomPiece(Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplateManager;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/Rotation;Lnet/minecraft/world/level/levelgen/structure/StructurePieceAccessor;Lnet/minecraft/util/RandomSource;Z)Lnet/minecraft/world/level/levelgen/structure/structures/ShipwreckPieces$ShipwreckPiece;"
+            target = "Lnet/minecraft/world/level/levelgen/structure/structures/ShipwreckPieces;addRandomPiece(Lnet/minecraft/world/level/levelgen/structure/templatesystem/StructureTemplateManager;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/Rotation;Lnet/minecraft/world/level/levelgen/structure/pieces/StructurePiecesBuilder;Lnet/minecraft/util/RandomSource;Z)Lnet/minecraft/world/level/levelgen/structure/structures/ShipwreckPieces$ShipwreckPiece;"
         )
     )
-    private ShipwreckPieces.ShipwreckPiece useTemplateList(StructureTemplateManager templateManager, BlockPos pos, Rotation rotation, StructurePieceAccessor pieceAccessor, RandomSource random, boolean beached, Operation<ShipwreckPieces.ShipwreckPiece> operation, @Local(ordinal = 0, argsOnly = true) Structure.GenerationContext context) {
+    private ShipwreckPieces.ShipwreckPiece useTemplateList(StructureTemplateManager templateManager, BlockPos pos, Rotation rotation, StructurePiecesBuilder builder, RandomSource random, boolean beached, Operation<ShipwreckPieces.ShipwreckPiece> operation, @Local(ordinal = 0, argsOnly = true) Structure.GenerationContext context) {
         if (!Lithostitched.breaksSeedParity()) {
-            return operation.call(templateManager, pos, rotation, pieceAccessor, random, beached);
+            return operation.call(templateManager, pos, rotation, builder, random, beached);
         }
         Identifier id = TemplateLists.getRandom(context.registryAccess(), beached ? TemplateLists.SHIPWRECK_BEACHED : TemplateLists.SHIPWRECK_OCEAN, random);
         ShipwreckPieces.ShipwreckPiece piece = new ShipwreckPieces.ShipwreckPiece(templateManager, id, pos, rotation, beached);
-        pieceAccessor.addPiece(piece);
+        builder.addPiece(piece);
         return piece;
     }
 }

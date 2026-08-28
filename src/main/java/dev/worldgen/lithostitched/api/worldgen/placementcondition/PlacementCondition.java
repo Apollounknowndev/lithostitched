@@ -10,6 +10,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.BiomeResolver;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.RandomState;
@@ -45,14 +46,15 @@ public interface PlacementCondition {
 
     MapCodec<? extends PlacementCondition> codec();
 
-    record Context(RegistryAccess registries, ChunkGenerator generator, LevelHeightAccessor heightAccessor, RandomState randomState, BiomeSource biomeSource, long seed) {
+    record Context(RegistryAccess registries, ChunkGenerator generator, LevelHeightAccessor heightAccessor, RandomState randomState, BiomeResolver biomeResolver, long seed) {
         private static Context create(Structure.GenerationContext context) {
-            return new Context(context.registryAccess(), context.chunkGenerator(), context.heightAccessor(), context.randomState(), context.biomeSource(), context.seed());
+            return new Context(context.registryAccess(), context.chunkGenerator(), context.heightAccessor(), context.randomState(), context.biomeResolver(), context.seed());
         }
 
         private static Context create(PlacementContext context) {
             WorldGenLevel level = context.getLevel();
-            return new Context(level.registryAccess(), context.generator(), level, level.getLevel().getChunkSource().randomState(), context.generator().getBiomeSource(), level.getSeed());
+            RandomState randomState = level.getLevel().getChunkSource().randomState();
+            return new Context(level.registryAccess(), context.generator(), level, randomState, level, level.getSeed());
         }
     }
 }

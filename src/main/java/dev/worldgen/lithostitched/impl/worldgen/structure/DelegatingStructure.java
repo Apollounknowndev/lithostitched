@@ -41,11 +41,10 @@ public class DelegatingStructure extends Structure {
     private boolean isValid(GenerationStub stub, GenerationContext context) {
         BlockPos pos = stub.position();
         if (
-            !context.validBiome().test(context.chunkGenerator().getBiomeSource().getNoiseBiome(
+            !context.validBiome().test(context.biomeResolver().getNoiseBiome(
                 QuartPos.fromBlock(pos.getX()),
                 QuartPos.fromBlock(pos.getY()),
-                QuartPos.fromBlock(pos.getZ()),
-                context.randomState().sampler()
+                QuartPos.fromBlock(pos.getZ())
             ))
         ) return false;
         return this.config.spawnCondition().map(condition -> condition.test(context, pos)).orElse(true);
