@@ -9,16 +9,9 @@ import dev.worldgen.lithostitched.duck.ContextAccessor;
 import dev.worldgen.lithostitched.duck.SeedAccessor;
 import dev.worldgen.lithostitched.mixin.common.NoiseChunkAccessor;
 import dev.worldgen.lithostitched.mixin.common.RandomStateAccessor;
-import dev.worldgen.lithostitched.mixin.common.SurfaceRulesContextMixin;
-import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
-import dev.worldgen.lithostitched.worldgen.placementcondition.SampleDensityPlacementCondition;
-import net.minecraft.core.Holder;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.util.KeyDispatchDataCodec;
-import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.*;
-
-import java.util.function.BiFunction;
 
 public record SampleDensityCondition(DensityFunction densityFunction, InclusiveRange<Double> range) implements SurfaceRules.ConditionSource {
     public static final MapCodec<SampleDensityCondition> CODEC = RecordCodecBuilder.<SampleDensityCondition>mapCodec(i -> i.group(
