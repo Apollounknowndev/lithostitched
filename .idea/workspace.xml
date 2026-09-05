@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Finish add_spawn_costs modifier">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/TreeConfigurationAccessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetTreeDecoratorsModifier.java" afterDir="false" />
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Add set_tree_decorators modifier">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/lithostitched.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lithostitched.mixins.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -305,14 +302,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1754844028042</updated>
-    </task>
-    <task id="LOCAL-00006" summary="1.5.0+beta5">
-      <option name="closed" value="true" />
-      <created>1758833247231</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1758833247231</updated>
     </task>
     <task id="LOCAL-00007" summary="MNBS migration, sketchy but should work?">
       <option name="closed" value="true" />
@@ -698,14 +687,21 @@
       <option name="project" value="LOCAL" />
       <updated>1786792689594</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Add set_tree_decorators modifier">
+      <option name="closed" value="true" />
+      <created>1787665444840</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1787665444840</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="1.6.1" />
     <MESSAGE value="Remove '1.' prefix from version folders" />
     <MESSAGE value="Less failed 26.1 port" />
     <MESSAGE value="aaaaaa" />
@@ -730,7 +726,8 @@
     <MESSAGE value="Finish biome-based timeline backport" />
     <MESSAGE value="Restore Neoforge biome modifiers" />
     <MESSAGE value="Finish add_spawn_costs modifier" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finish add_spawn_costs modifier" />
+    <MESSAGE value="Add set_tree_decorators modifier" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add set_tree_decorators modifier" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

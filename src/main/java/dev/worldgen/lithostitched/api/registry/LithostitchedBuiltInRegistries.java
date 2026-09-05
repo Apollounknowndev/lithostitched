@@ -244,11 +244,8 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("vines", VinesFeature.FEATURE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.FOLIAGE_PLACER_TYPE, Map.ofEntries(
-				Map.entry("branched_mega_pine_foliage_placer", BranchedMegaPineFoliagePlacer.TYPE),
-				Map.entry("branched_jungle_foliage_placer", BranchedMegaJungleFoliagePlacer.TYPE)
-		));
-		LithostitchedRegistrar.register(BuiltInRegistries.ROOT_PLACER_TYPE, Map.ofEntries(
-				Map.entry("large_mangrove_root_placer", LargeMangroveRootPlacer.TYPE)
+			Map.entry("branched_mega_pine", BranchedMegaPineFoliagePlacer.TYPE),
+			Map.entry("branched_jungle", BranchedMegaJungleFoliagePlacer.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.MATERIAL_RULE, Map.ofEntries(
 			Map.entry("transient_merged", TransientMergedRule.CODEC),
@@ -267,19 +264,20 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("noise_slope", NoiseSlopePlacement.TYPE),
 			Map.entry("offset", OffsetPlacement.TYPE)
 		));
-		LithostitchedRegistrar.register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, Map.ofEntries(
-			Map.entry("delegating", DelegatingPoolElement.TYPE),
-			Map.entry("guaranteed", GuaranteedPoolElement.TYPE),
-			Map.entry("limited", LimitedPoolElement.TYPE)
-		));
 		LithostitchedRegistrar.register(BuiltInRegistries.POOL_ALIAS_BINDING_TYPE, Map.ofEntries(
 			Map.entry("internal/random_entries", RandomEntries.CODEC)
+		));
+		LithostitchedRegistrar.register(BuiltInRegistries.ROOT_PLACER_TYPE, Map.ofEntries(
+			Map.entry("large_mangrove", LargeMangroveRootPlacer.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.RULE_BLOCK_ENTITY_MODIFIER, Map.ofEntries(
 			Map.entry("apply_all", ApplyAll.TYPE),
 			Map.entry("apply_random", ApplyRandom.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, Map.ofEntries(
+			Map.entry("delegating", DelegatingPoolElement.TYPE),
+			Map.entry("guaranteed", GuaranteedPoolElement.TYPE),
+			Map.entry("limited", LimitedPoolElement.TYPE),
 			Map.entry("feature", LithostitchedFeaturePoolElement.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.STRUCTURE_PROCESSOR, Map.ofEntries(
