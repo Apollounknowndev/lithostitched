@@ -5,13 +5,13 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.8.0+beta5"
+MOD_VERSION = "1.8.0+beta6"
 CHANGELOG = """
-- Fixed crashing on Fabric.
+- Fixed generation issues with Terrablender installed.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "21.1"),
-    #("neoforge", "21.1"),
+    ("neoforge", "21.1"),
 ]
 
 DEPENDENCIES = []

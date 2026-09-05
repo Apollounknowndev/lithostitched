@@ -40,3 +40,7 @@ accessible field net/minecraft/world/level/ChunkPos x I
 accessible field net/minecraft/world/level/ChunkPos z I
 
 accessible class net/minecraft/world/level/biome/Climate$RTree
+
+# Tree stuff
+accessible field net/minecraft/world/level/levelgen/feature/foliageplacers/MegaPineFoliagePlacer crownHeight Lnet/minecraft/util/valueproviders/IntProvider;
+accessible method net/minecraft/world/level/levelgen/feature/rootplacers/MangroveRootPlacer simulateRoots (Lnet/minecraft/world/level/LevelSimulatedReader;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;Lnet/minecraft/core/BlockPos;Ljava/util/List;I)Z
