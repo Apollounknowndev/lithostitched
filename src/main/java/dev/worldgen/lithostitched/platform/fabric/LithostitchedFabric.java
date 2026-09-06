@@ -1,5 +1,5 @@
 //? if fabric {
-/*package dev.worldgen.lithostitched.platform.fabric;
+package dev.worldgen.lithostitched.platform.fabric;
 
 import dev.worldgen.lithostitched.Lithostitched;
 import dev.worldgen.lithostitched.platform.fabric.resource.BreaksSeedParityCondition;
@@ -13,4 +13,4 @@ public final class LithostitchedFabric implements ModInitializer {
 		ResourceConditions.register(BreaksSeedParityCondition.TYPE);
 	}
 }
-*///? }
+//? }

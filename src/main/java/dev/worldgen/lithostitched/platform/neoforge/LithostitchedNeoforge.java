@@ -1,5 +1,5 @@
 //? if neoforge {
-package dev.worldgen.lithostitched.platform.neoforge;
+/*package dev.worldgen.lithostitched.platform.neoforge;
 
 import com.mojang.serialization.Codec;
 import dev.worldgen.lithostitched.Lithostitched;
@@ -22,4 +22,4 @@ public final class LithostitchedNeoforge {
 		return event -> event.dataPackRegistry(key, codec);
 	}
 }
-//? }
+*///? }

@@ -19,16 +19,16 @@ import java.util.Optional;
 public abstract class BeardifierMixin {
     @WrapOperation(
         //? if fabric
-        //method = "method_42694",
+        method = "method_42694",
         //? if neoforge
-        method = "lambda$forStructuresInChunk$2(Lnet/minecraft/world/level/ChunkPos;Lit/unimi/dsi/fastutil/objects/ObjectList;IILit/unimi/dsi/fastutil/objects/ObjectList;Lnet/minecraft/world/level/levelgen/structure/StructureStart;)V",
+        //method = "lambda$forStructuresInChunk$2(Lnet/minecraft/world/level/ChunkPos;Lit/unimi/dsi/fastutil/objects/ObjectList;IILit/unimi/dsi/fastutil/objects/ObjectList;Lnet/minecraft/world/level/levelgen/structure/StructureStart;)V",
         at = @At(
             value = "INVOKE",
             target = "Lit/unimi/dsi/fastutil/objects/ObjectList;add(Ljava/lang/Object;)Z",
             //? if fabric
-            //ordinal = 0
+            ordinal = 0
             //? if neoforge
-            ordinal = 1
+            //ordinal = 1
         )
     )
     private static boolean overrideTerrainAdaptation(ObjectList<Beardifier.Rigid> list, Object rigid, Operation<Boolean> operation, @Local(ordinal = 0) StructurePiece structurePiece) {

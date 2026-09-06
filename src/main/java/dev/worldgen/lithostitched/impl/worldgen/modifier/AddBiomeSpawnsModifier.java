@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.Optional;
 
 //? if neoforge {
-import net.neoforged.neoforge.common.world.BiomeModifier;
+/*import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
-//? }
+*///? }
 
-public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, List<WeightedSpawnerData> biomeSpawns) implements WorldgenModifier /*? if neoforge{*/, NeoforgeModifierHolder /*?}*/ {
+public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, List<WeightedSpawnerData> biomeSpawns) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<AddBiomeSpawnsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(AddBiomeSpawnsModifier::priority),
@@ -45,7 +45,7 @@ public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int prio
     ).apply(instance, AddBiomeSpawnsModifier::new));
     
     //? if neoforge {
-    @Override
+    /*@Override
     public BiomeModifier createNeoforgeModifier() {
         return new BiomeModifiers.AddSpawnsBiomeModifier(biomes, biomeSpawns
             .stream()
@@ -53,12 +53,12 @@ public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int prio
             .toList()
         );
     }
-    //? }
+    *///? }
     
     @Override
     public void apply(RegistryAccess registries) {
         //? if neoforge
-        if (true) return;
+        //if (true) return;
         
         for (Holder<Biome> entry : this.biomes()) {
             this.applyModifier(entry.value());

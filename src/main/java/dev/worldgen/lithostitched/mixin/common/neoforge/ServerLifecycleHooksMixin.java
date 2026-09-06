@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.mixin.common.neoforge;
 
 //? if neoforge {
-import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+/*import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.NeoforgeModifierHolder;
 import net.minecraft.resources.ResourceLocation;
@@ -32,11 +32,11 @@ public class ServerLifecycleHooksMixin {
 		return allBiomeModifiers;
 	}
 }
-//? } else {
-/*import net.minecraft.server.MinecraftServer;
+*///? } else {
+import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(MinecraftServer.class)
 public class ServerLifecycleHooksMixin {
 }
-*///? }
+//? }

@@ -1,5 +1,5 @@
 //? if fabric {
-/*package dev.worldgen.lithostitched.platform.fabric.resource;
+package dev.worldgen.lithostitched.platform.fabric.resource;
 
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.Lithostitched;
@@ -23,4 +23,4 @@ public class BreaksSeedParityCondition implements ResourceCondition {
     public boolean test(HolderLookup.@Nullable Provider registryLookup) {
         return Lithostitched.breaksSeedParity();
     }
-}*///? }
+}//? }

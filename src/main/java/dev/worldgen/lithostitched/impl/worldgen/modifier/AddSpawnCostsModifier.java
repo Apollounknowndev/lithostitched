@@ -21,11 +21,11 @@ import java.util.Map;
 import java.util.Optional;
 
 //? if neoforge {
-import net.neoforged.neoforge.common.world.BiomeModifier;
+/*import net.neoforged.neoforge.common.world.BiomeModifier;
 import dev.worldgen.lithostitched.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
-//? }
+*///? }
 
-public record AddSpawnCostsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, Map<EntityType<?>, MobSpawnCost> spawnCosts) implements WorldgenModifier /*? if neoforge{*/, NeoforgeModifierHolder /*?}*/ {
+public record AddSpawnCostsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, Map<EntityType<?>, MobSpawnCost> spawnCosts) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
 	public static final SimpleMapCodec<EntityType<?>, MobSpawnCost> SPAWN_COST_CODEC = Codec.simpleMap(BuiltInRegistries.ENTITY_TYPE.byNameCodec(), MobSpawnSettings.MobSpawnCost.CODEC, BuiltInRegistries.ENTITY_TYPE);
 	public static final MapCodec<AddSpawnCostsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
@@ -35,17 +35,17 @@ public record AddSpawnCostsModifier(Optional<LoadPredicate> predicate, int prior
 	).apply(instance, AddSpawnCostsModifier::new));
 	
 	//? if neoforge {
-	@Override
+	/*@Override
 	public BiomeModifier createNeoforgeModifier() {
 		return new LithostitchedNeoforgeBiomeModifiers.AddSpawnCostsBiomeModifier(this);
 	}
-	//? }
+	*///? }
 	
 	
 	@Override
 	public void apply(RegistryAccess registries) {
 		//? if neoforge
-		if (true) return;
+		//if (true) return;
 		
 		for (Holder<Biome> holder : this.biomes()) {
 			Biome biome = holder.value();
