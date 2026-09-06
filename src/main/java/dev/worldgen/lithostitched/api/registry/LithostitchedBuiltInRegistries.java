@@ -31,6 +31,9 @@ import dev.worldgen.lithostitched.impl.worldgen.surface.condition.internal.TagFi
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.BandlandsRule;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.ReferenceRule;
 import dev.worldgen.lithostitched.impl.worldgen.surface.rule.TransientMergedRule;
+import dev.worldgen.lithostitched.impl.worldgen.tree.foliageplacer.BranchedMegaJungleFoliagePlacer;
+import dev.worldgen.lithostitched.impl.worldgen.tree.foliageplacer.BranchedMegaPineFoliagePlacer;
+import dev.worldgen.lithostitched.impl.worldgen.tree.rootplacer.LargeMangroveRootPlacer;
 import dev.worldgen.lithostitched.worldgen.attribute.LithostitchedEnvironmentAttributes;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.worldgen.blockentitymodifier.ApplyRandom;
@@ -145,6 +148,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("set_structure_attributes", SetStructureAttributesModifier.CODEC),
 			Map.entry("set_structure_spawn_condition", SetStructureSpawnConditionModifier.CODEC),
 			Map.entry("set_timeline_tracks", SetTimelineTracksModifier.CODEC),
+			Map.entry("set_tree_decorators", SetTreeDecoratorsModifier.CODEC),
 			Map.entry("stack_feature", StackFeatureModifier.CODEC),
 			Map.entry("wrap_density_function", WrapDensityFunctionModifier.CODEC),
 			Map.entry("wrap_noise_router", WrapNoiseRouterModifier.CODEC)
@@ -236,6 +240,10 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("well", WellFeature.FEATURE),
 			Map.entry("vines", VinesFeature.FEATURE)
 		));
+		LithostitchedRegistrar.register(BuiltInRegistries.FOLIAGE_PLACER_TYPE, Map.ofEntries(
+			Map.entry("branched_mega_pine", BranchedMegaPineFoliagePlacer.TYPE),
+			Map.entry("branched_jungle", BranchedMegaJungleFoliagePlacer.TYPE)
+		));
 		LithostitchedRegistrar.register(BuiltInRegistries.MATERIAL_RULE, Map.ofEntries(
 			Map.entry("transient_merged", TransientMergedRule.CODEC),
 			Map.entry("bandlands", BandlandsRule.CODEC),
@@ -255,19 +263,20 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("noise_slope", NoiseSlopePlacement.TYPE),
 			Map.entry("offset", OffsetPlacement.TYPE)
 		));
-		LithostitchedRegistrar.register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, Map.ofEntries(
-			Map.entry("delegating", DelegatingPoolElement.TYPE),
-			Map.entry("guaranteed", GuaranteedPoolElement.TYPE),
-			Map.entry("limited", LimitedPoolElement.TYPE)
-		));
 		LithostitchedRegistrar.register(BuiltInRegistries.POOL_ALIAS_BINDING_TYPE, Map.ofEntries(
 			Map.entry("internal/random_entries", RandomEntries.CODEC)
+		));
+		LithostitchedRegistrar.register(BuiltInRegistries.ROOT_PLACER_TYPE, Map.ofEntries(
+			Map.entry("large_mangrove", LargeMangroveRootPlacer.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.RULE_BLOCK_ENTITY_MODIFIER, Map.ofEntries(
 			Map.entry("apply_all", ApplyAll.TYPE),
 			Map.entry("apply_random", ApplyRandom.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.STRUCTURE_POOL_ELEMENT, Map.ofEntries(
+			Map.entry("delegating", DelegatingPoolElement.TYPE),
+			Map.entry("guaranteed", GuaranteedPoolElement.TYPE),
+			Map.entry("limited", LimitedPoolElement.TYPE),
 			Map.entry("feature", LithostitchedFeaturePoolElement.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.STRUCTURE_PROCESSOR, Map.ofEntries(

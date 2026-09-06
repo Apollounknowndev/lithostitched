@@ -6,7 +6,6 @@ import dev.worldgen.lithostitched.duck.ContextAccessor;
 import dev.worldgen.lithostitched.impl.worldgen.bandlands.Bandlands;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.RegistryFileCodec;
-import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
 public record BandlandsRule(Holder<Bandlands> options) implements SurfaceRules.RuleSource {
@@ -19,6 +18,6 @@ public record BandlandsRule(Holder<Bandlands> options) implements SurfaceRules.R
 
     @Override
     public SurfaceRules.SurfaceRule apply(SurfaceRules.Context context) {
-        return (x, y, z) -> this.options.value().getBand(((ContextAccessor)(Object)context).getSystem(), x, y, z);
+        return (x, y, z) -> this.options.value().getBand(((ContextAccessor)(Object)context).lithostitched$getSystem(), x, y, z);
     }
 }

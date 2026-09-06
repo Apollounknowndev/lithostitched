@@ -8,7 +8,7 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 import java.util.Set;
 
 public interface ContextBiomeAccessor {
-	SurfaceRules.Condition biomeMatches(HolderSet<Biome> biome);
+	SurfaceRules.Condition lithostitched$biomeMatches(HolderSet<Biome> biome);
 	
 	static ContextBiomeAccessor cast(SurfaceRules.Context context) {
 		return (ContextBiomeAccessor) (Object) context;

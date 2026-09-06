@@ -31,42 +31,42 @@ public class SurfaceRulesContextMixin implements ContextAccessor {
     @Shadow private RandomState randomState;
     
     @Override
-    public SurfaceSystem getSystem() {
+    public SurfaceSystem lithostitched$getSystem() {
         return this.system;
     }
 
     @Override
-    public ChunkAccess getChunk() {
+    public ChunkAccess lithostitched$getChunk() {
         return this.chunk;
     }
     
     @Override
-    public NoiseChunk getNoiseChunk() {
+    public NoiseChunk lithostitched$getNoiseChunk() {
         return this.noiseChunk;
     }
     
     @Override
-    public RandomState getRandomState() {
+    public RandomState lithostitched$getRandomState() {
         return this.randomState;
     }
     
     @Override
-    public int getStoneDepthBelow() {
+    public int lithostitched$getStoneDepthBelow() {
         return this.stoneDepthBelow;
     }
 
     @Override
-    public int getX() {
+    public int lithostitched$getX() {
         return this.blockX;
     }
 
     @Override
-    public int getY() {
+    public int lithostitched$getY() {
         return this.blockY;
     }
 
     @Override
-    public int getZ() {
+    public int lithostitched$getZ() {
         return this.blockZ;
     }
 }

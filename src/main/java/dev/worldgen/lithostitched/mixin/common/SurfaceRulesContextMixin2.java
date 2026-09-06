@@ -22,7 +22,7 @@ public abstract class SurfaceRulesContextMixin2 implements ContextBiomeAccessor 
     protected abstract Holder<Biome> getBiome();
     
     @Override
-    public SurfaceRules.Condition biomeMatches(HolderSet<Biome> biomes) {
+    public SurfaceRules.Condition lithostitched$biomeMatches(HolderSet<Biome> biomes) {
         if (this.possibleBiomes != null) {
             if (ContextBiomeAccessor.canNeverMatch(biomes, this.possibleBiomes)) {
                 return () -> false;

@@ -1,7 +1,0 @@
-tiny	2	0	official	named
-c	akq	net/minecraft/resources/ResourceKey
-	m	()Lakr;	a	identifier
-c	akr	net/minecraft/resources/Identifier
-c	ddt	net/minecraft/world/attribute/AmbientAdditionsSettings
-c	ddu	net/minecraft/world/attribute/AmbientMoodSettings
-c	ddv	net/minecraft/world/attribute/AmbientParticle

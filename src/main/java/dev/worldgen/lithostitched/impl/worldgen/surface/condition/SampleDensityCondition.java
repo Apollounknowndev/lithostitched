@@ -9,15 +9,8 @@ import dev.worldgen.lithostitched.duck.ContextAccessor;
 import dev.worldgen.lithostitched.duck.SeedAccessor;
 import dev.worldgen.lithostitched.mixin.common.NoiseChunkAccessor;
 import dev.worldgen.lithostitched.mixin.common.RandomStateAccessor;
-import dev.worldgen.lithostitched.mixin.common.SurfaceRulesContextMixin;
-import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
-import dev.worldgen.lithostitched.worldgen.placementcondition.SampleDensityPlacementCondition;
-import net.minecraft.core.Holder;
 import net.minecraft.util.InclusiveRange;
-import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.*;
-
-import java.util.function.BiFunction;
 
 public record SampleDensityCondition(DensityFunction densityFunction, InclusiveRange<Double> range) implements SurfaceRules.ConditionSource {
     public static final MapCodec<SampleDensityCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -38,8 +31,8 @@ public record SampleDensityCondition(DensityFunction densityFunction, InclusiveR
     @Override
     public SurfaceRules.Condition apply(SurfaceRules.Context context) {
         ContextAccessor accessor = (ContextAccessor)(Object)context;
-        NoiseChunk noiseChunk = accessor.getNoiseChunk();
-        RandomState randomState = accessor.getRandomState();
+        NoiseChunk noiseChunk = accessor.lithostitched$getNoiseChunk();
+        RandomState randomState = accessor.lithostitched$getRandomState();
         long seed = ((SeedAccessor)(Object)randomState).getSeed();
         DensityFunctionWrapper wrapper = new DensityFunctionWrapper(seed, false, randomState, ((RandomStateAccessor)(Object)randomState).getRandom());
         DensityFunction df = this.densityFunction

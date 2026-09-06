@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.duck.ContextAccessor;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.util.InclusiveRange;
-import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.SurfaceRules;
@@ -41,9 +40,9 @@ public record SlopeCondition(InclusiveRange<Integer> threshold) implements Surfa
 
         @Override
         public boolean compute() {
-            ChunkAccess chunkAccess = this.context.getChunk();
-            int x = this.context.getX() & 0xF;
-            int z = this.context.getZ() & 0xF;
+            ChunkAccess chunkAccess = this.context.lithostitched$getChunk();
+            int x = this.context.lithostitched$getX() & 0xF;
+            int z = this.context.lithostitched$getZ() & 0xF;
 
             int north = Math.max(z - 1, 0);
             int south = Math.min(z + 1, 15);
