@@ -40,8 +40,8 @@ public class SurfaceRuleManager {
             var surfaceRulesForKey = assignedSurfaceRules.get(location);
             if (surfaceRulesForKey != null) {
                 if (!(entry.getValue().generator() instanceof NoiseBasedChunkGenerator generator)) continue;
-                NoiseGeneratorSettings settings = generator.generatorSettings().value();
-                ((NoiseGeneratorSettingsAccessor)(Object)settings).setSurfaceRule(buildModdedSurfaceRules(surfaceRulesForKey, settings.surfaceRule()));
+                NoiseGeneratorSettingsAccessor settings = (NoiseGeneratorSettingsAccessor)(Object) generator.generatorSettings().value();
+                settings.setSurfaceRule(buildModdedSurfaceRules(surfaceRulesForKey, settings.getSurfaceRuleBecauseTerriblenderSucksAndWontLetMeUseTheNormalMethodToGetTheSurfaceRules()));
 
                 Lithostitched.debug("Applied {} surface rule additions for '{}' dimension", surfaceRulesForKey.size(), location);
             }
