@@ -16,7 +16,7 @@ import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 public record SampleDensityPlacementCondition(Holder<DensityFunction> densityFunction, InclusiveRange<Double> range) implements PlacementCondition {
     public static final MapCodec<SampleDensityPlacementCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LithostitchedCodecs.DF_REFERENCE.fieldOf("density_function").forGetter(SampleDensityPlacementCondition::densityFunction),
-        Codec.DOUBLE.optionalFieldOf("min_inclusive", Double.MIN_VALUE).forGetter(condition -> condition.range.minInclusive()),
+        Codec.DOUBLE.optionalFieldOf("min_inclusive", -Double.MAX_VALUE).forGetter(condition -> condition.range.minInclusive()),
         Codec.DOUBLE.optionalFieldOf("max_inclusive", Double.MAX_VALUE).forGetter(condition -> condition.range.maxInclusive())
     ).apply(instance, SampleDensityPlacementCondition::new));
     

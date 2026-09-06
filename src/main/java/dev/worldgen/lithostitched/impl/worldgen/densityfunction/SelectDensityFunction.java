@@ -22,7 +22,7 @@ public record SelectDensityFunction(DensityFunction input, DensityFunction fallb
 	public static final KeyDispatchDataCodec<SelectDensityFunction> CODEC = KeyDispatchDataCodec.of(DATA_CODEC);
 	
 	public static SelectDensityFunction create(DensityFunction input, DensityFunction fallback, List<Selection> selections) {
-		double min = Double.MIN_VALUE;
+		double min = -Double.MAX_VALUE;
 		double max = Double.MAX_VALUE;
 		for (Selection selection : selections) {
 			min = Math.min(min, selection.function.minValue());

@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Rename surface context methods">
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Cellular noise, min value fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -190,9 +190,9 @@
       <recent name="dev.worldgen.lithostitched.worldgen.bandlands" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.worldgen.lithostitched.impl.worldgen.densityfunction" />
       <recent name="dev.worldgen.lithostitched.worldgen.modifier" />
       <recent name="dev.worldgen.lithostitched.impl.worldgen.modifier.attribute" />
-      <recent name="dev.worldgen.lithostitched.impl.worldgen.densityfunction" />
       <recent name="dev.worldgen.lithostitched.worldgen.modifier.internal" />
       <recent name="dev.worldgen.lithostitched.mixin.common" />
     </key>
@@ -301,30 +301,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1754844028042</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Structure environment attributes">
-      <option name="closed" value="true" />
-      <created>1770258512603</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1770258512603</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Implement basic biome injectors">
-      <option name="closed" value="true" />
-      <created>1770351141949</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1770351141949</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Cleaned up parameters">
-      <option name="closed" value="true" />
-      <created>1770411903252</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1770411903252</updated>
     </task>
     <task id="LOCAL-00012" summary="Cleaned up reserved names">
       <option name="closed" value="true" />
@@ -694,15 +670,37 @@
       <option name="project" value="LOCAL" />
       <updated>1788664634949</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="fix terrablender surface rule compat">
+      <option name="closed" value="true" />
+      <created>1788666554528</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1788666554528</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Cellular noise, min value fixes">
+      <option name="closed" value="true" />
+      <created>1788673336777</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1788673336777</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Cellular noise, min value fixes">
+      <option name="closed" value="true" />
+      <created>1788673543207</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1788673543207</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="aaaaaa" />
-    <MESSAGE value="1.6.6" />
     <MESSAGE value="1.6.8" />
     <MESSAGE value="1.7.0" />
     <MESSAGE value="1.7.3 (now works, wahoo)" />
@@ -726,7 +724,9 @@
     <MESSAGE value="Add set_tree_decorators modifier" />
     <MESSAGE value="Rename root/foliage placers" />
     <MESSAGE value="Rename surface context methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rename surface context methods" />
+    <MESSAGE value="fix terrablender surface rule compat" />
+    <MESSAGE value="Cellular noise, min value fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cellular noise, min value fixes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

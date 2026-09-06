@@ -15,7 +15,7 @@ import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 public record SampleNoiseRouterPlacementCondition(NoiseRouterTarget target, InclusiveRange<Double> range) implements PlacementCondition {
     public static final MapCodec<SampleNoiseRouterPlacementCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         NoiseRouterTarget.CODEC.fieldOf("target").forGetter(SampleNoiseRouterPlacementCondition::target),
-        Codec.DOUBLE.optionalFieldOf("min_inclusive", Double.MIN_VALUE).forGetter(condition -> condition.range.minInclusive()),
+        Codec.DOUBLE.optionalFieldOf("min_inclusive", -Double.MAX_VALUE).forGetter(condition -> condition.range.minInclusive()),
         Codec.DOUBLE.optionalFieldOf("max_inclusive", Double.MAX_VALUE).forGetter(condition -> condition.range.maxInclusive())
     ).apply(instance, SampleNoiseRouterPlacementCondition::new));
     
