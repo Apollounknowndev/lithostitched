@@ -223,7 +223,9 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("select", SelectDensityFunction.DATA_CODEC),
 			Map.entry("shift", ShiftDensityFunction.DATA_CODEC),
 			Map.entry("sin", SinDensityFunction.DATA_CODEC),
-			Map.entry("sqrt", SqrtDensityFunction.DATA_CODEC)
+			Map.entry("sqrt", SqrtDensityFunction.DATA_CODEC),
+			
+			Map.entry("cellular", CellularDensityFunction.DATA_CODEC)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.ENVIRONMENT_ATTRIBUTE, Map.ofEntries(
 			Map.entry("structure/reset_music", LithostitchedEnvironmentAttributes.RESET_MUSIC)

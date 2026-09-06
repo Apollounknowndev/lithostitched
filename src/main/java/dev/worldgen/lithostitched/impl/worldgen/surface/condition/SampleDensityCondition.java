@@ -15,7 +15,7 @@ import net.minecraft.world.level.levelgen.*;
 public record SampleDensityCondition(DensityFunction densityFunction, InclusiveRange<Double> range) implements SurfaceRules.ConditionSource {
     public static final MapCodec<SampleDensityCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         DensityFunction.CODEC.fieldOf("density_function").forGetter(SampleDensityCondition::densityFunction),
-        Codec.DOUBLE.optionalFieldOf("min_inclusive", Double.MIN_VALUE).forGetter(condition -> condition.range.minInclusive()),
+        Codec.DOUBLE.optionalFieldOf("min_inclusive", -Double.MAX_VALUE).forGetter(condition -> condition.range.minInclusive()),
         Codec.DOUBLE.optionalFieldOf("max_inclusive", Double.MAX_VALUE).forGetter(condition -> condition.range.maxInclusive())
     ).apply(instance, SampleDensityCondition::new));
     
