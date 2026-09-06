@@ -30,7 +30,7 @@ public record AxisDensityFunction(Axis axis) implements DensityFunction {
 	
 	@Override
 	public double minValue() {
-		return this.axis == Axis.Y ? -4064 : Double.MIN_VALUE;
+		return this.axis == Axis.Y ? -4064 : -Double.MAX_VALUE;
 	}
 	
 	@Override
