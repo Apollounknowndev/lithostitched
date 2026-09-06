@@ -7,24 +7,28 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.api.worldgen.util.WeightedSpawnerData;
+import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
+import dev.worldgen.lithostitched.mixin.common.MobSpawnSettingsAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.MobSpawnSettings;
-import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
-import dev.worldgen.lithostitched.mixin.common.MobSpawnSettingsAccessor;
 import net.minecraft.util.random.Weighted;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import java.util.Optional;
 
-public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, List<WeightedSpawnerData> biomeSpawns) implements WorldgenModifier {
+//? if neoforge {
+/*import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifiers;
+*///? }
+
+public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, List<WeightedSpawnerData> biomeSpawns) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<AddBiomeSpawnsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(AddBiomeSpawnsModifier::priority),
@@ -40,6 +44,18 @@ public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int prio
             Either::left
         ).forGetter(AddBiomeSpawnsModifier::biomeSpawns)
     ).apply(instance, AddBiomeSpawnsModifier::new));
+    
+    //? if neoforge {
+    /*@Override
+    public BiomeModifier createNeoforgeModifier() {
+        return new BiomeModifiers.AddSpawnsBiomeModifier(biomes, WeightedList.of(
+            biomeSpawns
+                .stream()
+                .map(data -> new Weighted<>(new MobSpawnSettings.SpawnerData(data.type(), data.minCount(), data.maxCount()), data.weight()))
+                .toList()
+        ));
+    }
+    *///? }
     
     @Override
     public void apply(RegistryAccess registries) {
@@ -68,7 +84,5 @@ public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int prio
     public MapCodec<? extends WorldgenModifier> codec() {
         return CODEC;
     }
-    
-
 }
 

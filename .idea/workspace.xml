@@ -4,24 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Add biome-based timelines">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/tree/foliageplacer/BranchedMegaJungleFoliagePlacer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/tree/foliageplacer/BranchedMegaPineFoliagePlacer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/tree/rootplacer/LargeMangroveRootPlacer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/TreeConfigurationAccessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetTreeDecoratorsModifier.java" afterDir="false" />
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Remove mappings file, add foliage/root placers, tree decorator modifier, rename surface context methods">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/AddSpawnCostsModifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/NeoforgeModifierHolder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/neoforge/ServerLifecycleHooksMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/duck/ContextAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/duck/ContextAccessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/duck/ContextBiomeAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/duck/ContextBiomeAccessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/condition/BiomeCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/condition/BiomeCondition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/condition/SampleDensityCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/condition/SampleDensityCondition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/condition/SlopeCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/condition/SlopeCondition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/rule/BandlandsRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/rule/BandlandsRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/SurfaceRulesContextMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/SurfaceRulesContextMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/SurfaceRulesContextMixin2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/SurfaceRulesContextMixin2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/accesstransformer.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/accesstransformer.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/lithostitched.ct" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lithostitched.ct" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/AddBiomeSpawnsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/AddBiomeSpawnsModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/AddFeaturesModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/AddFeaturesModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/RemoveBiomeSpawnsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/RemoveBiomeSpawnsModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/RemoveFeaturesModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/RemoveFeaturesModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/ReplaceClimateModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/ReplaceClimateModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/ReplaceEffectsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/ReplaceEffectsModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/MobSpawnSettingsAccessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/MobSpawnSettingsAccessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/platform/neoforge/worldgen/LithostitchedNeoforgeBiomeModifiers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/platform/neoforge/worldgen/LithostitchedNeoforgeBiomeModifiers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/lithostitched.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lithostitched.mixins.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -117,6 +112,8 @@
     "Gradle.1.20.1 [prepareFabric1219ClientRun].executor": "Run",
     "Gradle.1.20.1 [prepareNeoforge1211ClientRun].executor": "Run",
     "Gradle.1.20.1 [prepareNeoforge1219ClientRun].executor": "Run",
+    "Gradle.26.2 [stonecutterSwitchTofabric].executor": "Run",
+    "Gradle.26.2 [stonecutterSwitchToneoforge].executor": "Run",
     "Gradle.Build lithostitched.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
     "Gradle.Minecraft Client (:26.2-fabric).executor": "Run",
@@ -169,7 +166,7 @@
     "git-widget-placeholder": "26.2",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/ldglo/Documents/Github/lithostitched/26.2/src/main/java/dev/worldgen/lithostitched/impl/worldgen",
+    "last_opened_file_path": "C:/Users/ldglo/Documents/Github/lithostitched/26.2/src/main/java/dev/worldgen/lithostitched/mixin/common",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
@@ -185,11 +182,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.2\src\main\java\dev\worldgen\lithostitched\mixin\common" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.2\src\main\java\dev\worldgen\lithostitched\impl\worldgen\modifier" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.2\src\main\java\dev\worldgen\lithostitched\impl\worldgen" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\main\resources\data\example\timeline" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\main\resources\data\lithostitched\lithostitched\worldgen_modifier" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\main\java\dev\worldgen\lithostitched\mixin\common" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\main\java\dev\worldgen\lithostitched\platform\neoforge" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -212,7 +209,7 @@
       <recent name="dev.worldgen.lithostitched.worldgen.modifier.internal" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.lithostitched [build]">
+  <component name="RunManager" selected="Gradle.Minecraft Client (:fabric)">
     <configuration name="neoforge - Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
       <module name="lithostitched.neoforge.main" />
@@ -316,14 +313,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1754844028042</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Delegating pool element additions, in_structure block predicate">
-      <option name="closed" value="true" />
-      <created>1755210264365</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1755210264365</updated>
     </task>
     <task id="LOCAL-00003" summary="Optimize jigsaw structures">
       <option name="closed" value="true" />
@@ -709,14 +698,21 @@
       <option name="project" value="LOCAL" />
       <updated>1786512347855</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Remove mappings file, add foliage/root placers, tree decorator modifier, rename surface context methods">
+      <option name="closed" value="true" />
+      <created>1788664565637</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1788664565637</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Density functions" />
     <MESSAGE value="Fix runtime df wrappers" />
     <MESSAGE value="Fix runtime modifier injection" />
     <MESSAGE value="Remove test code" />
@@ -741,7 +737,8 @@
     <MESSAGE value="Finish 26.2 version of 1.8.0+beta1" />
     <MESSAGE value="Fixed surface rules making noise settings inline, cobbled together a system for rereferencing in old worlds" />
     <MESSAGE value="Remove more legacy features" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove more legacy features" />
+    <MESSAGE value="Remove mappings file, add foliage/root placers, tree decorator modifier, rename surface context methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove mappings file, add foliage/root placers, tree decorator modifier, rename surface context methods" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -16,7 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public record RemoveFeaturesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) implements WorldgenModifier {
+//? if neoforge {
+/*import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifiers;
+import java.util.Set;
+*///? }
+
+public record RemoveFeaturesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<RemoveFeaturesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_REMOVE_CODEC.forGetter(RemoveFeaturesModifier::priority),
@@ -24,6 +30,13 @@ public record RemoveFeaturesModifier(Optional<LoadPredicate> predicate, int prio
         PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(RemoveFeaturesModifier::features),
         GenerationStep.Decoration.CODEC.fieldOf("step").forGetter(RemoveFeaturesModifier::step)
     ).apply(instance, RemoveFeaturesModifier::new));
+    
+    //? if neoforge {
+    /*@Override
+    public BiomeModifier createNeoforgeModifier() {
+        return new BiomeModifiers.RemoveFeaturesBiomeModifier(biomes, features, Set.of(step));
+    }
+    *///? }
     
     @Override
     public void apply(RegistryAccess registries) {
