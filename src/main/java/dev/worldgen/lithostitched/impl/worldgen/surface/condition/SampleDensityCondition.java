@@ -33,8 +33,8 @@ public record SampleDensityCondition(DensityFunction densityFunction, InclusiveR
     @Override
     public SurfaceRules.Condition apply(SurfaceRules.Context context) {
         ContextAccessor accessor = (ContextAccessor)(Object)context;
-        NoiseChunk noiseChunk = accessor.getNoiseChunk();
-        RandomState randomState = accessor.getRandomState();
+        NoiseChunk noiseChunk = accessor.lithostitched$getNoiseChunk();
+        RandomState randomState = accessor.lithostitched$getRandomState();
         long seed = ((SeedAccessor)(Object)randomState).getSeed();
         DensityFunctionWrapper wrapper = new DensityFunctionWrapper(seed, false, randomState, ((RandomStateAccessor)(Object)randomState).getRandom());
         DensityFunction df = this.densityFunction

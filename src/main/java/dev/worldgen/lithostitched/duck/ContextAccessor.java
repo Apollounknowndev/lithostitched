@@ -7,17 +7,17 @@ import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.SurfaceSystem;
 
 public interface ContextAccessor {
-    SurfaceSystem getSystem();
-    ChunkAccess getChunk();
-    NoiseChunk getNoiseChunk();
-    RandomState getRandomState();
-    int getStoneDepthBelow();
+    SurfaceSystem lithostitched$getSystem();
+    ChunkAccess lithostitched$getChunk();
+    NoiseChunk lithostitched$getNoiseChunk();
+    RandomState lithostitched$getRandomState();
+    int lithostitched$getStoneDepthBelow();
 
-    int getX();
-    int getY();
-    int getZ();
+    int lithostitched$getX();
+    int lithostitched$getY();
+    int lithostitched$getZ();
     
     default Vec3i getPos() {
-        return new Vec3i(getX(), getY(), getZ());
+        return new Vec3i(lithostitched$getX(), lithostitched$getY(), lithostitched$getZ());
     }
 }

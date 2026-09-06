@@ -2,7 +2,6 @@ package dev.worldgen.lithostitched.impl.worldgen.surface.condition;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.duck.ContextAccessor;
 import dev.worldgen.lithostitched.duck.ContextBiomeAccessor;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
 import net.minecraft.core.HolderSet;
@@ -24,6 +23,6 @@ public record BiomeCondition(HolderSet<Biome> biomes) implements SurfaceRules.Co
     
     @Override
     public SurfaceRules.Condition apply(SurfaceRules.Context context) {
-        return ((ContextBiomeAccessor)(Object)context).biomeMatches(this.biomes);
+        return ((ContextBiomeAccessor)(Object)context).lithostitched$biomeMatches(this.biomes);
     }
 }
