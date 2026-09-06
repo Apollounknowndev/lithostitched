@@ -16,4 +16,7 @@ public interface NoiseGeneratorSettingsAccessor {
     @Accessor("surfaceRule")
     @Mutable
     void setSurfaceRule(SurfaceRules.RuleSource surfaceRule);
+    
+    @Accessor("surfaceRule")
+    SurfaceRules.RuleSource getSurfaceRuleBecauseTerriblenderSucksAndWontLetMeUseTheNormalMethodToGetTheSurfaceRules();
 }

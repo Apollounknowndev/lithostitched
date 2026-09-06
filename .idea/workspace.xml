@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Add set_tree_decorators modifier">
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Rename surface context methods">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -301,22 +301,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1754844028042</updated>
-    </task>
-    <task id="LOCAL-00007" summary="MNBS migration, sketchy but should work?">
-      <option name="closed" value="true" />
-      <created>1765243267455</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1765243267455</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Structure environment attributes">
-      <option name="closed" value="true" />
-      <created>1769751040628</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1769751040628</updated>
     </task>
     <task id="LOCAL-00009" summary="Structure environment attributes">
       <option name="closed" value="true" />
@@ -694,15 +678,29 @@
       <option name="project" value="LOCAL" />
       <updated>1787665444840</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Rename root/foliage placers">
+      <option name="closed" value="true" />
+      <created>1788664551964</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1788664551964</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Rename surface context methods">
+      <option name="closed" value="true" />
+      <created>1788664634949</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1788664634949</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Remove '1.' prefix from version folders" />
-    <MESSAGE value="Less failed 26.1 port" />
     <MESSAGE value="aaaaaa" />
     <MESSAGE value="1.6.6" />
     <MESSAGE value="1.6.8" />
@@ -726,7 +724,9 @@
     <MESSAGE value="Restore Neoforge biome modifiers" />
     <MESSAGE value="Finish add_spawn_costs modifier" />
     <MESSAGE value="Add set_tree_decorators modifier" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add set_tree_decorators modifier" />
+    <MESSAGE value="Rename root/foliage placers" />
+    <MESSAGE value="Rename surface context methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rename surface context methods" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
