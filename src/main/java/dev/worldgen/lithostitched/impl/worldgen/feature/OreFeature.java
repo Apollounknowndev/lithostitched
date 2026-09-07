@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -26,7 +27,7 @@ public record OreFeature(int size, List<Target> targets) implements Feature {
         Target.CODEC.listOf().fieldOf("targets").forGetter(OreFeature::targets)
     ).apply(instance, OreFeature::new));
     
-    public static OreFeature create(int size, List<Pair<BlockPredicate, BlockStateProvider>> targets) {
+    public static OreFeature create(int size, List<Pair<BlockPredicate, Holder<BlockStateProvider>>> targets) {
         return new OreFeature(size, targets.stream().map(pair -> new Target(pair.getFirst(), pair.getSecond())).toList());
     }
     
@@ -155,7 +156,7 @@ public record OreFeature(int size, List<Target> targets) implements Feature {
 
                                                         for (Target target : this.targets()) {
                                                             if (target.predicate().test(level, pos)) {
-                                                                section.setBlockState(sectionX, sectionY, sectionZ, target.stateProvider().getState(level, random, pos), false);
+                                                                section.setBlockState(sectionX, sectionY, sectionZ, target.stateProvider().value().getState(level, random, pos), false);
                                                                 blocksPlaced++;
                                                                 break;
                                                             }
@@ -176,7 +177,7 @@ public record OreFeature(int size, List<Target> targets) implements Feature {
         return blocksPlaced > 0;
     }
     
-    public record Target(BlockPredicate predicate, BlockStateProvider stateProvider) {
+    public record Target(BlockPredicate predicate, Holder<BlockStateProvider> stateProvider) {
         public static final Codec<Target> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             BlockPredicate.CODEC.fieldOf("predicate").forGetter(Target::predicate),
             BlockStateProvider.CODEC.fieldOf("state_provider").forGetter(Target::stateProvider)

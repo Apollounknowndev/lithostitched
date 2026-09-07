@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import dev.worldgen.lithostitched.impl.worldgen.stateprovider.WeightedProvider;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -40,7 +41,7 @@ import java.util.function.Predicate;
 
 public record DungeonFeature(
     int minOpenings, int maxOpenings, IntProvider radius, int maxChests, WeightedList<EntityType<?>> spawnerMobs,
-    BlockStateProvider floorProvider, BlockStateProvider wallProvider, 
+    Holder<BlockStateProvider> floorProvider, Holder<BlockStateProvider> wallProvider,
     Optional<HolderSet<Block>> dungeonInvalidBlocks, ResourceKey<LootTable> lootTable
 ) implements Feature {
     private static final WeightedList<EntityType<?>> DEFAULT_MOBS = WeightedList.<EntityType<?>>builder()
@@ -48,9 +49,9 @@ public record DungeonFeature(
         .add(EntityTypes.SKELETON, 1)
         .add(EntityTypes.SPIDER, 1)
         .build();
-    private static final WeightedList<BlockStateProvider> DEFAULT_FLOOR = WeightedList.<BlockStateProvider>builder()
-        .add(BlockStateProvider.simple(Blocks.MOSSY_COBBLESTONE), 3)
-        .add(BlockStateProvider.simple(Blocks.COBBLESTONE), 1)
+    private static final WeightedList<Holder<BlockStateProvider>> DEFAULT_FLOOR = WeightedList.<Holder<BlockStateProvider>>builder()
+        .add(BlockStateProvider.holderOf(Blocks.MOSSY_COBBLESTONE), 3)
+        .add(BlockStateProvider.holderOf(Blocks.COBBLESTONE), 1)
         .build();
     
     public static final MapCodec<DungeonFeature> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -59,8 +60,8 @@ public record DungeonFeature(
         IntProviders.codec(1, 16).fieldOf("radius").orElse(UniformInt.of(2, 3)).forGetter(DungeonFeature::radius),
         ExtraCodecs.NON_NEGATIVE_INT.fieldOf("max_chests").orElse(2).forGetter(DungeonFeature::maxChests),
         WeightedList.codec(BuiltInRegistries.ENTITY_TYPE.byNameCodec()).fieldOf("spawner_entity").orElse(DEFAULT_MOBS).forGetter(DungeonFeature::spawnerMobs),
-        BlockStateProvider.CODEC.fieldOf("floor_provider").orElse(new WeightedProvider(DEFAULT_FLOOR)).forGetter(DungeonFeature::floorProvider),
-        BlockStateProvider.CODEC.fieldOf("wall_provider").orElse(BlockStateProvider.simple(Blocks.COBBLESTONE)).forGetter(DungeonFeature::wallProvider),
+        BlockStateProvider.CODEC.fieldOf("floor_provider").orElse(Holder.direct(new WeightedProvider(DEFAULT_FLOOR))).forGetter(DungeonFeature::floorProvider),
+        BlockStateProvider.CODEC.fieldOf("wall_provider").orElse(Holder.direct(BlockStateProvider.of(Blocks.COBBLESTONE))).forGetter(DungeonFeature::wallProvider),
         LithostitchedCodecs.BLOCK_SET.optionalFieldOf("dungeon_invalid_blocks").forGetter(DungeonFeature::dungeonInvalidBlocks),
         ResourceKey.codec(Registries.LOOT_TABLE).fieldOf("loot_table").orElse(BuiltInLootTables.SIMPLE_DUNGEON).forGetter(DungeonFeature::lootTable)
     ).apply(instance, DungeonFeature::new));
@@ -117,8 +118,8 @@ public record DungeonFeature(
                             level.setBlock(currentPos, Blocks.CAVE_AIR.defaultBlockState(), 2);
                         } else if (currentState.isSolid() && !currentState.is(Blocks.CHEST)) {
                             this.safeSetBlock(level, currentPos, y == -1 ?
-                                this.floorProvider().getState(level, random, currentPos) :
-                                this.wallProvider().getState(level, random, currentPos),
+                                this.floorProvider().value().getState(level, random, currentPos) :
+                                this.wallProvider().value().getState(level, random, currentPos),
                             predicate);
                         }
                     }

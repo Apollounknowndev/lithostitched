@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.util.valueproviders.FloatProviders;
 import net.minecraft.util.valueproviders.IntProvider;
@@ -28,9 +29,9 @@ import net.minecraft.world.phys.Vec3;
 import java.util.Optional;
 
 public record LargeDripstoneFeature(
-    BlockStateProvider stateProvider, HolderSet<Block> replaceableBlocks, int floorToCeilingSearchRange,
-    IntProvider columnRadius, FloatProvider heightScale, float maxColumnRadiusToCaveHeightRatio,
-    FloatProvider stalactiteBluntness, FloatProvider stalagmiteBluntness, FloatProvider windSpeed, int minRadiusForWind, float minBluntnessForWind
+    Holder<BlockStateProvider> stateProvider, HolderSet<Block> replaceableBlocks, int floorToCeilingSearchRange,
+	IntProvider columnRadius, FloatProvider heightScale, float maxColumnRadiusToCaveHeightRatio,
+	FloatProvider stalactiteBluntness, FloatProvider stalagmiteBluntness, FloatProvider windSpeed, int minRadiusForWind, float minBluntnessForWind
 ) implements Feature {
     public static final MapCodec<LargeDripstoneFeature> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         BlockStateProvider.CODEC.fieldOf("state_provider").forGetter(LargeDripstoneFeature::stateProvider),
@@ -70,10 +71,10 @@ public record LargeDripstoneFeature(
                     int radius = Mth.randomBetweenInclusive(random, minInclusive, maxRadius);
 
                     LargeDripstone ceilingDripstone = makeDripstone(
-                        this.stateProvider(), random, origin.atY(range.ceiling() - 1), false, radius, this.stalactiteBluntness(), this.heightScale()
+                        this.stateProvider().value(), random, origin.atY(range.ceiling() - 1), false, radius, this.stalactiteBluntness(), this.heightScale()
                     );
                     LargeDripstone floorDripstone = makeDripstone(
-                        this.stateProvider(), random, origin.atY(range.floor() + 1), true, radius, this.stalagmiteBluntness(), this.heightScale()
+                        this.stateProvider().value(), random, origin.atY(range.floor() + 1), true, radius, this.stalagmiteBluntness(), this.heightScale()
                     );
 
                     WindOffsetter windOffsetter;

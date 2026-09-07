@@ -37,15 +37,15 @@ public interface LithostitchedFeatures {
 		return new CompositeFeature(features, Type.CANCEL_ON_SUCCESS);
 	}
 	
-	static Feature dungeon(int minOpenings, int maxOpenings, IntProvider radius, int maxChests, WeightedList<EntityType<?>> spawnerMobs, BlockStateProvider floorProvider, BlockStateProvider wallProvider, Optional<HolderSet<Block>> dungeonInvalidBlocks, ResourceKey<LootTable> lootTable) {
+	static Feature dungeon(int minOpenings, int maxOpenings, IntProvider radius, int maxChests, WeightedList<EntityType<?>> spawnerMobs, Holder<BlockStateProvider> floorProvider, Holder<BlockStateProvider> wallProvider, Optional<HolderSet<Block>> dungeonInvalidBlocks, ResourceKey<LootTable> lootTable) {
 		return new DungeonFeature(minOpenings, maxOpenings, radius, maxChests, spawnerMobs, floorProvider, wallProvider, dungeonInvalidBlocks, lootTable);
 	}
 	
-	static Feature largeDripstone(BlockStateProvider stateProvider, HolderSet<Block> replaceableBlocks, int floorToCeilingSearchRange, IntProvider columnRadius, FloatProvider heightScale, float maxColumnRadiusToCaveHeightRatio, FloatProvider stalactiteBluntness, FloatProvider stalagmiteBluntness, FloatProvider windSpeed, int minRadiusForWind, float minBluntnessForWind) {
+	static Feature largeDripstone(Holder<BlockStateProvider> stateProvider, HolderSet<Block> replaceableBlocks, int floorToCeilingSearchRange, IntProvider columnRadius, FloatProvider heightScale, float maxColumnRadiusToCaveHeightRatio, FloatProvider stalactiteBluntness, FloatProvider stalagmiteBluntness, FloatProvider windSpeed, int minRadiusForWind, float minBluntnessForWind) {
 		return new LargeDripstoneFeature(stateProvider, replaceableBlocks, floorToCeilingSearchRange, columnRadius, heightScale, maxColumnRadiusToCaveHeightRatio, stalactiteBluntness, stalagmiteBluntness, windSpeed, minRadiusForWind, minBluntnessForWind);
 	}
 	
-	static Feature ore(int size, List<Pair<BlockPredicate, BlockStateProvider>> targets) {
+	static Feature ore(int size, List<Pair<BlockPredicate, Holder<BlockStateProvider>>> targets) {
 		return OreFeature.create(size, targets);
 	}
 	

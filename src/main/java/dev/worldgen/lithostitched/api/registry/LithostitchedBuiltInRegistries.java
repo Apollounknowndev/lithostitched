@@ -46,6 +46,9 @@ import dev.worldgen.lithostitched.impl.worldgen.stateprovider.WeightedProvider;
 import dev.worldgen.lithostitched.impl.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.impl.worldgen.structure.DelegatingStructure;
 
+import dev.worldgen.lithostitched.impl.worldgen.tree.foliageplacer.BranchedMegaJungleFoliagePlacer;
+import dev.worldgen.lithostitched.impl.worldgen.tree.foliageplacer.BranchedMegaPineFoliagePlacer;
+import dev.worldgen.lithostitched.impl.worldgen.tree.rootplacer.LargeMangroveRootPlacer;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -114,6 +117,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("add_biome_spawns", AddBiomeSpawnsModifier.CODEC),
 			Map.entry("add_features", AddFeaturesModifier.CODEC),
 			Map.entry("add_processor_list_processors", AddProcessorListProcessorsModifier.CODEC),
+			Map.entry("add_spawn_costs", AddSpawnCostsModifier.CODEC),
 			Map.entry("add_structure_set_entries", AddStructureSetEntriesModifier.CODEC),
 			Map.entry("add_structure_templates", AddStructureTemplatesModifier.CODEC),
 			Map.entry("add_template_pool_elements", AddTemplatePoolElementsModifier.CODEC),
@@ -132,6 +136,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("set_structure_attributes", SetStructureAttributesModifier.CODEC),
 			Map.entry("set_structure_spawn_condition", SetStructureSpawnConditionModifier.CODEC),
 			Map.entry("set_timeline_tracks", SetTimelineTracksModifier.CODEC),
+			Map.entry("set_tree_decorators", SetTreeDecoratorsModifier.CODEC),
 			Map.entry("stack_feature", StackFeatureModifier.CODEC),
 			Map.entry("wrap_density_function", WrapDensityFunctionModifier.CODEC),
 			Map.entry("wrap_noise_router", WrapNoiseRouterModifier.CODEC)
@@ -198,7 +203,9 @@ public class LithostitchedBuiltInRegistries {
 			
 			Map.entry("cos", CosFunction.CODEC),
 			Map.entry("shift", ShiftFunction.CODEC),
-			Map.entry("sin", SinFunction.CODEC)
+			Map.entry("sin", SinFunction.CODEC),
+			
+			Map.entry("cellular", CellularDensityFunction.CODEC)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.ENVIRONMENT_ATTRIBUTE, Map.ofEntries(
 			Map.entry("structure/reset_music", LithostitchedEnvironmentAttributes.RESET_MUSIC)
@@ -212,6 +219,10 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("select", SelectFeature.CODEC),
 			Map.entry("structure_template", StructureTemplateFeature.CODEC),
 			Map.entry("vines", VinesFeature.CODEC)
+		));
+		LithostitchedRegistrar.register(BuiltInRegistries.FOLIAGE_PLACER_TYPE, Map.ofEntries(
+			Map.entry("branched_mega_pine", BranchedMegaPineFoliagePlacer.TYPE),
+			Map.entry("branched_jungle", BranchedMegaJungleFoliagePlacer.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.MATERIAL_RULE_TYPE, Map.ofEntries(
 			Map.entry("bandlands", BandlandsRule.CODEC)
@@ -231,6 +242,9 @@ public class LithostitchedBuiltInRegistries {
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.POOL_ALIAS_BINDING_TYPE, Map.ofEntries(
 			Map.entry("internal/random_entries", RandomEntries.CODEC)
+		));
+		LithostitchedRegistrar.register(BuiltInRegistries.ROOT_PLACER_TYPE, Map.ofEntries(
+			Map.entry("large_mangrove", LargeMangroveRootPlacer.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.RULE_BLOCK_ENTITY_MODIFIER, Map.ofEntries(
 			Map.entry("apply_all", ApplyAll.TYPE),

@@ -1,11 +1,12 @@
 package dev.worldgen.lithostitched.api.worldgen.stateprovider;
 
+import net.minecraft.core.Holder;
 import net.minecraft.util.random.WeightedList;
 import dev.worldgen.lithostitched.impl.worldgen.stateprovider.WeightedProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 public interface LithostitchedStateProviders {
-	static BlockStateProvider weighted(WeightedList<BlockStateProvider> list) {
+	static BlockStateProvider weighted(WeightedList<Holder<BlockStateProvider>> list) {
 		return new WeightedProvider(list);
 	}
 }

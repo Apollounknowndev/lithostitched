@@ -54,7 +54,7 @@ public interface LithostitchedProcessors {
 		return ScheduleTickProcessor.INSTANCE;
 	}
 	
-	static StructureProcessor setBlock(BlockStateProvider stateProvider, boolean preserveState, RandomMode randomMode, RuleBlockEntityModifier modifier) {
+	static StructureProcessor setBlock(Holder<BlockStateProvider> stateProvider, boolean preserveState, RandomMode randomMode, RuleBlockEntityModifier modifier) {
 		return new SetBlockProcessor(stateProvider, preserveState, randomMode, modifier);
 	}
 }

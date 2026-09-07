@@ -20,7 +20,7 @@ public interface LithostitchedMaterialConditions {
 		return new SlopeCondition(threshold);
 	}
 	
-	static MaterialCondition sampleDensity(DensityFunction densityFunction, InclusiveRange<Float> range) {
-		return new SampleDensityCondition(densityFunction, range);
+	static MaterialCondition sampleDensity(DensityFunction function, InclusiveRange<Float> range, boolean prefill) {
+		return new SampleDensityCondition(function, range, prefill);
 	}
 }
