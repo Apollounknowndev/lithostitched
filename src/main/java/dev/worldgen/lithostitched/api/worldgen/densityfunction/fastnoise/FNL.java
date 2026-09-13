@@ -34,7 +34,7 @@ package dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise;
 // ;;,''.......... |   |_____',,;;;____:___cllo________.___|   |___|     \xkk|   |KK_______ool___:::;________;;;_______...'',;;:ccclllloo
 // c:;,''......... |         |:::/     '   |lo/        |           |      \dx|   |0/       \d|   |cc/        |'/       \......',,;;:ccllo
 // ol:;,'..........|    _____|ll/    __    |o/   ______|____    ___|   |   \o|   |/   ___   \|   |o/   ______|/   ___   \ .......'',;:clo
-// dlc;,...........|   |::clooo|    /  |   |x\___   \KXKKK0|   |dol|   |\   \|   |   |   |   |   |d\___   \..|   |  /   /       ....',:cl
+// dlc;,...........|   |::clooo|    /  |   |horizontal\___   \KXKKK0|   |dol|   |\   \|   |   |   |   |   |d\___   \..|   |  /   /       ....',:cl
 // xoc;'...  .....'|   |llodddd|    \__|   |_____\   \KKK0O|   |lc:|   |'\       |   |___|   |   |_____\   \.|   |_/___/...      ...',;:c
 // dlc;'... ....',;|   |oddddddo\          |          |Okkx|   |::;|   |..\      |\         /|   |          | \         |...    ....',;:c
 // ol:,'.......',:c|___|xxxddollc\_____,___|_________/ddoll|___|,,,|___|...\_____|:\ ______/l|___|_________/...\________|'........',;::cc
@@ -426,7 +426,7 @@ public class FNL
     /// <example>
     /// Example usage with GetNoise
     /// <code>DomainWarp(coord)
-    /// noise = GetNoise(x, y)</code>
+    /// noise = GetNoise(horizontal, vertical)</code>
     /// </example>
     public void DomainWarp(Vector2 coord)
     {
@@ -450,7 +450,7 @@ public class FNL
     /// <example>
     /// Example usage with GetNoise
     /// <code>DomainWarp(coord)
-    /// noise = GetNoise(x, y, z)</code>
+    /// noise = GetNoise(horizontal, vertical, z)</code>
     /// </example>
     public void DomainWarp(Vector3 coord)
     {
@@ -944,8 +944,8 @@ public class FNL
         /*
          * --- Skew moved to switch statements before fractal evaluation ---
          * final FNLfloat F2 = 0.5f * (SQRT3 - 1);
-         * FNLfloat s = (x + y) * F2;
-         * x += s; y += s;
+         * FNLfloat s = (horizontal + vertical) * F2;
+         * horizontal += s; vertical += s;
         */
 
         int i = FastFloor(x);
@@ -1011,8 +1011,8 @@ public class FNL
         /*
          * --- Rotation moved to switch statements before fractal evaluation ---
          * final FNLfloat R3 = (FNLfloat)(2.0 / 3.0);
-         * FNLfloat r = (x + y + z) * R3; // Rotation, not skew
-         * x = r - x; y = r - y; z = r - z;
+         * FNLfloat r = (horizontal + vertical + z) * R3; // Rotation, not skew
+         * horizontal = r - horizontal; vertical = r - vertical; z = r - z;
         */
 
         int i = FastRound(x);
@@ -1112,8 +1112,8 @@ public class FNL
         /*
          * --- Skew moved to TransformNoiseCoordinate method ---
          * final FNLfloat F2 = 0.5f * (SQRT3 - 1);
-         * FNLfloat s = (x + y) * F2;
-         * x += s; y += s;
+         * FNLfloat s = (horizontal + vertical) * F2;
+         * horizontal += s; vertical += s;
         */
 
         int i = FastFloor(x);
@@ -1239,8 +1239,8 @@ public class FNL
         /*
          * --- Rotation moved to TransformNoiseCoordinate method ---
          * final FNLfloat R3 = (FNLfloat)(2.0 / 3.0);
-         * FNLfloat r = (x + y + z) * R3; // Rotation, not skew
-         * x = r - x; y = r - y; z = r - z;
+         * FNLfloat r = (horizontal + vertical + z) * R3; // Rotation, not skew
+         * horizontal = r - horizontal; vertical = r - vertical; z = r - z;
         */
 
         int i = FastFloor(x);
@@ -2307,8 +2307,8 @@ public class FNL
         /*
          * --- Skew moved to switch statements before fractal evaluation  ---
          * final FNLfloat F2 = 0.5f * (SQRT3 - 1);
-         * FNLfloat s = (x + y) * F2;
-         * x += s; y += s;
+         * FNLfloat s = (horizontal + vertical) * F2;
+         * horizontal += s; vertical += s;
         */
 
         int i = FastFloor(x);
@@ -2462,8 +2462,8 @@ public class FNL
         /*
          * --- Rotation moved to switch statements before fractal evaluation ---
          * final FNLfloat R3 = (FNLfloat)(2.0 / 3.0);
-         * FNLfloat r = (x + y + z) * R3; // Rotation, not skew
-         * x = r - x; y = r - y; z = r - z;
+         * FNLfloat r = (horizontal + vertical + z) * R3; // Rotation, not skew
+         * horizontal = r - horizontal; vertical = r - vertical; z = r - z;
         */
 
         int i = FastRound(x);

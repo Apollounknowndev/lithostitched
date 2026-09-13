@@ -32,7 +32,6 @@
     "common.TimelineAccessor",
     "common.TreeFeatureAccessor",
     "common.bandlands.MaterialSystemMixin",
-    "common.bandlands.NoiseBasedChunkGeneratorMixin",
     "common.compat.terrablender.NoiseBasedChunkGeneratorMixin",
     "common.mnbs.MNBSMixin",
     "common.mnbs.MNBSPLMixin",

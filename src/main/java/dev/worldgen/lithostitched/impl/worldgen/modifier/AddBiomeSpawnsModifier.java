@@ -7,9 +7,17 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.api.worldgen.util.WeightedSpawnerData;
+import dev.worldgen.lithostitched.impl.Lithostitched;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.attribute.EnvironmentAttributeMap;
+import net.minecraft.world.attribute.EnvironmentAttributes;
+import net.minecraft.world.attribute.modifier.AttributeModifier;
+import net.minecraft.world.attribute.modifier.MobSpawnSettingsModifier;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
@@ -29,16 +37,7 @@ public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int prio
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(AddBiomeSpawnsModifier::priority),
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddBiomeSpawnsModifier::biomes),
-        Codec.mapEither(
-            WeightedSpawnerData.CODEC.listOf().fieldOf("spawners"),
-            WeightedSpawnerData.CODEC.fieldOf("spawners")
-        ).xmap(
-            either -> either.map(
-                list -> list,
-                List::of
-            ),
-            Either::left
-        ).forGetter(AddBiomeSpawnsModifier::biomeSpawns)
+        ExtraCodecs.compactListCodec(WeightedSpawnerData.CODEC).fieldOf("spawners").forGetter(AddBiomeSpawnsModifier::biomeSpawns)
     ).apply(instance, AddBiomeSpawnsModifier::new));
     
     @Override
@@ -47,30 +46,48 @@ public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int prio
         //if (true) return;
         
         for (Holder<Biome> entry : this.biomes()) {
-            this.applyModifier(entry.value());
+            this.applyModifier(registries, entry);
         }
     }
     
-    // TODO: Rewrite this
-    public void applyModifier(Biome biome) {
-        throw new IllegalStateException("Biome spawning modifiers have not been reimplemented yet. Please return later.");
-        /*MobSpawnSettings biomeMobSettings = biome.getMobSettings();
-        HashMap<MobCategory, WeightedList<MobSpawnSettings.SpawnerData>> spawners = new HashMap<>(((MobSpawnSettingsAccessor)biomeMobSettings).getSpawners());
-        for (WeightedSpawnerData spawner : this.biomeSpawns()) {
-            MobCategory category = spawner.type().getCategory();
-            List<Weighted<MobSpawnSettings.SpawnerData>> categorySpawnList = new ArrayList<>(spawners.get(category).unwrap());
-            categorySpawnList.add(new Weighted<>(new MobSpawnSettings.SpawnerData(spawner.type(), spawner.minCount(), spawner.maxCount()), spawner.weight()));
-            spawners.put(category, WeightedList.of(categorySpawnList));
+    public void applyModifier(RegistryAccess registries, Holder<Biome> biome) {
+        var attributeBuilder = EnvironmentAttributeMap.builder();
+        attributeBuilder.putAll(biome.value().getAttributes());
+	    
+	    EnvironmentAttributeMap.Entry<MobSpawnSettings, ?> spawnEntry = biome.value().getAttributes().get(EnvironmentAttributes.NATURAL_MOB_SPAWNS);
+	    
+	    var spawnBuilder = new MobSpawnSettings.Builder();
+	    if (spawnEntry != null) {
+		    AttributeModifier<MobSpawnSettings, MobSpawnSettings> modifier = (AttributeModifier<MobSpawnSettings, MobSpawnSettings>) spawnEntry.modifier();
+            MobSpawnSettings settings = (MobSpawnSettings) spawnEntry.argument();
+            
+            for (MobCategory category : settings.definedCategories()) {
+                var mobsInCategory = settings.getMobsInCategory(category);
+                if (mobsInCategory != null) {
+                    spawnBuilder.addAllSpawns(category, mobsInCategory);
+                }
+            }
+            
+            for (WeightedSpawnerData injectedData : this.biomeSpawns) {
+                spawnBuilder.addSpawn(injectedData.type(), injectedData.weight(), injectedData.count());
+            }
+            
+            attributeBuilder.modify(EnvironmentAttributes.NATURAL_MOB_SPAWNS, modifier, spawnBuilder.build());
+        } else {
+		    for (WeightedSpawnerData injectedData : this.biomeSpawns) {
+                spawnBuilder.addSpawn(injectedData.type(), injectedData.weight(), injectedData.count());
+            }
+            
+            attributeBuilder.modify(EnvironmentAttributes.NATURAL_MOB_SPAWNS, MobSpawnSettingsModifier.overlay(), spawnBuilder.build());
         }
-        ((MobSpawnSettingsAccessor)biomeMobSettings).setSpawners(spawners);
-        ((BiomeAccessor)(Object)biome).setMobSettings(biomeMobSettings);*/
+        
+        ((BiomeAccessor)(Object)biome.value()).setAttributes(attributeBuilder.build());
+        WorldgenModifier.resetRegistrationInfo(Lithostitched.registry(registries, Registries.BIOME), biome);
     }
 
     @Override
     public MapCodec<? extends WorldgenModifier> codec() {
         return CODEC;
     }
-    
-
 }
 

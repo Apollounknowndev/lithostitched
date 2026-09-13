@@ -16,6 +16,8 @@ import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
 import net.minecraft.world.level.levelgen.densityfunction.DfRewriteRule;
 
 public class LithostitchedInternalHooks {
+	public static long WORLD_SEED = 0;
+	
 	public static void onServerAboutToStart(MinecraftServer server) {
 		RegistryAccess registries = server.registryAccess();
 		long seed = server.getWorldGenSettings().options().seed();
@@ -24,6 +26,7 @@ public class LithostitchedInternalHooks {
 	}
 	
 	public static void applyModifiersAndInjections(MinecraftServer server, RegistryAccess registries, Registry<LevelStem> dimensions, long seed) {
+		WORLD_SEED = seed;
 		for (Holder.Reference<DensityFunction> df : Lithostitched.registry(registries, Registries.DENSITY_FUNCTION).listElements().toList()) {
 			var accessor = ((HolderReferenceAccessor<DensityFunction>)df);
 			accessor.setValue(
