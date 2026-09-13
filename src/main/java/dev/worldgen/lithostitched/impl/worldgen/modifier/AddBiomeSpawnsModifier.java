@@ -1,7 +1,5 @@
 package dev.worldgen.lithostitched.impl.worldgen.modifier;
 
-import com.mojang.datafixers.util.Either;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
@@ -17,17 +15,11 @@ import net.minecraft.world.attribute.EnvironmentAttributeMap;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.attribute.modifier.AttributeModifier;
 import net.minecraft.world.attribute.modifier.MobSpawnSettingsModifier;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
-import dev.worldgen.lithostitched.mixin.common.MobSpawnSettingsAccessor;
-import net.minecraft.util.random.Weighted;
-import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.entity.MobCategory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import java.util.Optional;
@@ -63,10 +55,10 @@ public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int prio
             
             for (MobCategory category : settings.definedCategories()) {
                 var mobsInCategory = settings.getMobsInCategory(category);
-                if (mobsInCategory != null) {
-                    spawnBuilder.addAllSpawns(category, mobsInCategory);
-                }
+                if (mobsInCategory == null) continue;
+                spawnBuilder.addAllSpawns(category, mobsInCategory);
             }
+            spawnBuilder.addAllCosts(settings.allSpawnCosts());
             
             for (WeightedSpawnerData injectedData : this.biomeSpawns) {
                 spawnBuilder.addSpawn(injectedData.type(), injectedData.weight(), injectedData.count());

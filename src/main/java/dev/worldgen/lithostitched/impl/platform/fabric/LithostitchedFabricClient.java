@@ -18,6 +18,8 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.levelgen.RandomState;
+import net.minecraft.world.level.levelgen.densityfunction.SamplerContext;
 
 public class LithostitchedFabricClient implements ClientModInitializer {
 	@Override
@@ -43,7 +45,9 @@ public class LithostitchedFabricClient implements ClientModInitializer {
 			if (serverOrClientLevel instanceof ServerLevel serverLevel) {
 				ServerChunkCache source = serverLevel.getChunkSource();
 				if (source.getGenerator().getBiomeSource() instanceof InjectorBiomeSource injector) {
-					displayer.addLine(injector.getRegionLine(pos));
+					RandomState randomState = source.randomState();
+					SamplerContext context = SamplerContext.builder().enableCaches().build();
+					displayer.addLine(injector.getRegionLine(randomState.samplersWithContext(context), randomState.createClimateSampler(context), pos));
 				}
 			}
 		});

@@ -4,11 +4,15 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.impl.Lithostitched;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.attribute.EnvironmentAttributeMap;
+import net.minecraft.world.attribute.EnvironmentAttributes;
+import net.minecraft.world.attribute.modifier.AttributeModifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.Biome;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
@@ -38,22 +42,35 @@ public record RemoveBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int p
         //if (true) return;
         
         for (Holder<Biome> entry : this.biomes()) {
-            this.applyModifier(entry.value());
+            this.applyModifier(registries, entry);
         }
     }
     
-    // TODO: Rewrite this
-    public void applyModifier(Biome biome) {
-        throw new IllegalStateException("Biome spawning modifiers have not been reimplemented yet. Please return later.");
-        /*MobSpawnSettings biomeMobSettings = biome.getMobSettings();
-        HashMap<MobCategory, WeightedList<MobSpawnSettings.SpawnerData>> spawners = new HashMap<>(((MobSpawnSettingsAccessor)biomeMobSettings).getSpawners());
-        for (MobCategory category : MobCategory.values()) {
-            List<Weighted<MobSpawnSettings.SpawnerData>> categorySpawnList = new ArrayList<>(spawners.get(category).unwrap());
-            categorySpawnList.removeIf(mobEntry -> this.mobs.contains(mobEntry.value().type().builtInRegistryHolder()));
-            spawners.put(category, WeightedList.of(categorySpawnList));
+    public void applyModifier(RegistryAccess registries, Holder<Biome> biome) {
+        EnvironmentAttributeMap.Entry<MobSpawnSettings, ?> spawnEntry = biome.value().getAttributes().get(EnvironmentAttributes.NATURAL_MOB_SPAWNS);
+        if (spawnEntry == null) return;
+        
+        var attributeBuilder = EnvironmentAttributeMap.builder();
+        attributeBuilder.putAll(biome.value().getAttributes());
+        
+        var spawnBuilder = new MobSpawnSettings.Builder();
+        AttributeModifier<MobSpawnSettings, MobSpawnSettings> modifier = (AttributeModifier<MobSpawnSettings, MobSpawnSettings>) spawnEntry.modifier();
+        MobSpawnSettings settings = (MobSpawnSettings) spawnEntry.argument();
+        
+        for (MobCategory category : settings.definedCategories()) {
+            var mobsInCategory = settings.getMobsInCategory(category);
+            if (mobsInCategory == null) continue;
+            mobsInCategory.unwrap().forEach(weighted -> {
+                MobSpawnSettings.SpawnerData data = weighted.value();
+                if (this.mobs.contains(data.type().builtInRegistryHolder())) return;
+                spawnBuilder.addSpawn(data.type(), weighted.weight(), data.count());
+            });
         }
-        ((MobSpawnSettingsAccessor)biomeMobSettings).setSpawners(spawners);
-        ((BiomeAccessor)(Object)biome).setMobSettings(biomeMobSettings);*/
+        
+        attributeBuilder.modify(EnvironmentAttributes.NATURAL_MOB_SPAWNS, modifier, spawnBuilder.build());
+        
+        ((BiomeAccessor)(Object)biome.value()).setAttributes(attributeBuilder.build());
+        WorldgenModifier.resetRegistrationInfo(Lithostitched.registry(registries, Registries.BIOME), biome);
     }
 
     @Override

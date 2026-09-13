@@ -159,6 +159,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("multiple_of", MultipleOfPlacementCondition.CODEC),
 			Map.entry("not", NotPlacementCondition.CODEC),
 			Map.entry("offset", OffsetPlacementCondition.CODEC),
+			Map.entry("sample_aquifers", SampleAquifersPlacementCondition.CODEC),
 			Map.entry("sample_density", SampleDensityPlacementCondition.CODEC),
 			Map.entry("sample_noise_router", SampleNoiseRouterPlacementCondition.CODEC),
 			Map.entry("true", TruePlacementCondition.CODEC)

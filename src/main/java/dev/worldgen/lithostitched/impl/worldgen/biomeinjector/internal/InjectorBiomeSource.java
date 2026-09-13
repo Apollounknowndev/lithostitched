@@ -215,16 +215,14 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		this.directDelegate.addDebugInfo(lines, pos, sampler);
 	}
 	
-	public String getRegionLine(BlockPos pos) {
-		/*SimpleContext context = SimpleContext.of(pos);
+	public String getRegionLine(DensitySamplerSet samplers, Climate.Sampler climate, BlockPos pos) {
 		int quartX = QuartPos.fromBlock(pos.getX());
 		int quartY = QuartPos.fromBlock(pos.getY());
 		int quartZ = QuartPos.fromBlock(pos.getZ());
-		Holder<Biome> biome = this.baseResolver.getNoiseBiome(quartX, quartY, quartZ);
-		Identifier region = this.regionManager.getRegion(context, biome).identifier();
-		int rawValue = this.regionManager.getRegionValue(context, biome);
-		return String.format("Region: %s (Raw value: %s)", region, rawValue);*/
-		return "";
+		Holder<Biome> biome = this.directDelegate.createResolver(climate).getNoiseBiome(quartX, quartY, quartZ);
+		Identifier region = this.regionManager.getRegion(pos.getX(), pos.getY(), pos.getZ(), samplers, biome).identifier();
+		int rawValue = this.regionManager.getRegionValue(pos.getX(), pos.getY(), pos.getZ(), samplers, biome);
+		return String.format("Region: %s (Raw value: %s)", region, rawValue);
 	}
 	
 	private static BiomeSource getRootSource(BiomeSource currentSource) {

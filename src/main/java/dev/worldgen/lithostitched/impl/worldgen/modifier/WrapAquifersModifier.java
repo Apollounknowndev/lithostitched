@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
-import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
+import dev.worldgen.lithostitched.api.worldgen.util.AquiferTarget;
 import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.util.DensityFunctionInjectorHelper;
 import net.minecraft.core.Holder;
@@ -18,14 +18,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public record WrapNoiseRouterModifier(Optional<LoadPredicate> predicate, int priority, ResourceKey<Level> dimension, NoiseRouterTarget target, Holder<DensityFunction> wrapperFunction) implements WorldgenModifier {
-    public static final MapCodec<WrapNoiseRouterModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+public record WrapAquifersModifier(Optional<LoadPredicate> predicate, int priority, ResourceKey<Level> dimension, AquiferTarget target, Holder<DensityFunction> wrapperFunction) implements WorldgenModifier {
+    public static final MapCodec<WrapAquifersModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
-        PRIORITY_DEFAULT_CODEC.forGetter(WrapNoiseRouterModifier::priority),
-        ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension").forGetter(WrapNoiseRouterModifier::dimension),
-        NoiseRouterTarget.CODEC.fieldOf("target").forGetter(WrapNoiseRouterModifier::target),
-        LithostitchedCodecs.DF_REFERENCE.fieldOf("wrapper_function").forGetter(WrapNoiseRouterModifier::wrapperFunction)
-    ).apply(instance, WrapNoiseRouterModifier::new));
+        PRIORITY_DEFAULT_CODEC.forGetter(WrapAquifersModifier::priority),
+        ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension").forGetter(WrapAquifersModifier::dimension),
+        AquiferTarget.CODEC.fieldOf("target").forGetter(WrapAquifersModifier::target),
+        LithostitchedCodecs.DF_REFERENCE.fieldOf("wrapper_function").forGetter(WrapAquifersModifier::wrapperFunction)
+    ).apply(instance, WrapAquifersModifier::new));
 
     @Override
     public void apply(RegistryAccess registries) {}
@@ -35,10 +35,10 @@ public record WrapNoiseRouterModifier(Optional<LoadPredicate> predicate, int pri
         return CODEC;
     }
 
-    public static DensityFunction modifyRouterFunction(NoiseRouterTarget target, DensityFunction wrapped, List<WrapNoiseRouterModifier> modifiers) {
+    public static DensityFunction modifyAquiferFunction(AquiferTarget target, DensityFunction wrapped, List<WrapAquifersModifier> modifiers) {
         List<DensityFunction> orderedFunctions = modifiers.stream()
             .filter(modifier -> modifier.target == target)
-            .sorted(Comparator.comparingInt(WrapNoiseRouterModifier::priority))
+            .sorted(Comparator.comparingInt(WrapAquifersModifier::priority))
             .map(modifier -> modifier.wrapperFunction().value())
             .toList();
 

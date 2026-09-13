@@ -22,7 +22,6 @@ import java.util.List;
  */
 public interface LithostitchedCodecs {
     Codec<HolderSet<Block>> BLOCK_SET = RegistryCodecs.holderSet(Registries.BLOCK);
-    MapCodec<Float> CHANCE = Codec.floatRange(0.0F, 1.0F).fieldOf("chance");
     Codec<InclusiveRange<Integer>> INT_RANGE = Codec.withAlternative(
         InclusiveRange.INT,
         RecordCodecBuilder.create(instance -> instance.group(

@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.impl.worldgen.blockpredicate;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import net.minecraft.core.BlockPos;
@@ -9,7 +10,7 @@ import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicateType;
 
 public record RandomChancePredicate(float chance) implements BlockPredicate {
-    public static final MapCodec<RandomChancePredicate> CODEC = LithostitchedCodecs.CHANCE.xmap(RandomChancePredicate::new, RandomChancePredicate::chance);
+    public static final MapCodec<RandomChancePredicate> CODEC = Codec.floatRange(0.0F, 1.0F).fieldOf("chance").xmap(RandomChancePredicate::new, RandomChancePredicate::chance);
     public static final BlockPredicateType<RandomChancePredicate> TYPE = () -> CODEC;
 
     @Override

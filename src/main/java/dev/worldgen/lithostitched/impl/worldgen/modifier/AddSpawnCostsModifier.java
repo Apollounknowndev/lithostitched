@@ -6,13 +6,23 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mojang.serialization.codecs.SimpleMapCodec;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.worldgen.util.WeightedSpawnerData;
+import dev.worldgen.lithostitched.impl.Lithostitched;
+import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.mixin.common.MobSpawnSettingsAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.attribute.EnvironmentAttributeMap;
+import net.minecraft.world.attribute.EnvironmentAttributes;
+import net.minecraft.world.attribute.modifier.AttributeModifier;
+import net.minecraft.world.attribute.modifier.MobSpawnSettingsModifier;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.biome.MobSpawnSettings.MobSpawnCost;
 
 import java.util.HashMap;
@@ -40,20 +50,36 @@ public record AddSpawnCostsModifier(Optional<LoadPredicate> predicate, int prior
 	}
 	*///? }
 	
-	
-	// TODO: Rewrite this
 	@Override
 	public void apply(RegistryAccess registries) {
-		throw new IllegalStateException("Biome spawning modifiers have not been reimplemented yet. Please return later.");
-		/*for (Holder<Biome> holder : this.biomes()) {
-			Biome biome = holder.value();
-			MobSpawnSettingsAccessor accessor = (MobSpawnSettingsAccessor) biome.getMobSettings();
-			
-			Map<EntityType<?>, MobSpawnCost> spawnCosts = new HashMap<>();
-			spawnCosts.putAll(accessor.lithostitched$getSpawnCosts());
-			spawnCosts.putAll(this.spawnCosts);
-			accessor.lithostitched$setSpawnCosts(spawnCosts);
-		}*/
+		for (Holder<Biome> entry : this.biomes()) {
+			this.applyModifier(registries, entry);
+		}
+	}
+	
+	public void applyModifier(RegistryAccess registries, Holder<Biome> biome) {
+		EnvironmentAttributeMap.Entry<MobSpawnSettings, ?> spawnEntry = biome.value().getAttributes().get(EnvironmentAttributes.NATURAL_MOB_SPAWNS);
+		if (spawnEntry == null) return;
+		
+		var attributeBuilder = EnvironmentAttributeMap.builder();
+		attributeBuilder.putAll(biome.value().getAttributes());
+		
+		AttributeModifier<MobSpawnSettings, MobSpawnSettings> modifier = (AttributeModifier<MobSpawnSettings, MobSpawnSettings>) spawnEntry.modifier();
+		MobSpawnSettings settings = (MobSpawnSettings) spawnEntry.argument();
+		var spawnBuilder = new MobSpawnSettings.Builder();
+		
+		for (MobCategory category : settings.definedCategories()) {
+			var mobsInCategory = settings.getMobsInCategory(category);
+			if (mobsInCategory == null) continue;
+			spawnBuilder.addAllSpawns(category, mobsInCategory);
+		}
+		spawnBuilder.addAllCosts(settings.allSpawnCosts());
+		spawnBuilder.addAllCosts(this.spawnCosts);
+		
+		attributeBuilder.modify(EnvironmentAttributes.NATURAL_MOB_SPAWNS, modifier, spawnBuilder.build());
+		
+		((BiomeAccessor)(Object)biome.value()).setAttributes(attributeBuilder.build());
+		WorldgenModifier.resetRegistrationInfo(Lithostitched.registry(registries, Registries.BIOME), biome);
 	}
 	
 	@Override
