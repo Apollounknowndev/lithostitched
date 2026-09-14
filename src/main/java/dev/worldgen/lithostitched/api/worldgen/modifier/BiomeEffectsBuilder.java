@@ -1,13 +1,7 @@
 package dev.worldgen.lithostitched.api.worldgen.modifier;
 
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeEffects;
-import dev.worldgen.lithostitched.impl.worldgen.modifier.BiomeEffectsBuilderImpl;
-import net.minecraft.core.Holder;
-import net.minecraft.sounds.Music;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.attribute.AmbientAdditionsSettings;
-import net.minecraft.world.attribute.AmbientMoodSettings;
-import net.minecraft.world.attribute.AmbientParticle;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.internal.BiomeEffectsBuilderImpl;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
 
 public interface BiomeEffectsBuilder {

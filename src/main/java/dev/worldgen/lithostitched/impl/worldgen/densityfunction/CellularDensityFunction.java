@@ -3,6 +3,7 @@ package dev.worldgen.lithostitched.impl.worldgen.densityfunction;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.worldgen.densityfunction.cellular.ReturnType;
 import dev.worldgen.lithostitched.impl.LithostitchedInternalHooks;
 import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import net.minecraft.core.BlockPos;
@@ -32,7 +33,7 @@ public record CellularDensityFunction(Optional<CellCondition> condition, GridDim
 	
 	@Override
 	public DensitySampler compileSampler(CompileContext context) {
-		if (this.gridDimensions.vertical == 0) {
+		if (this.gridDimensions.is2d()) {
 			return new XZSampler(
 				this.condition.map(cc -> cc.compileSampler(context)),
 				this.gridDimensions,
@@ -66,7 +67,7 @@ public record CellularDensityFunction(Optional<CellCondition> condition, GridDim
 	
 	@Override
 	public @Axes int domainAxes() {
-		return ALL_AXES;
+		return this.gridDimensions.is2d() ? 5 : ALL_AXES;
 	}
 	
 	@Override
@@ -87,6 +88,10 @@ public record CellularDensityFunction(Optional<CellCondition> condition, GridDim
 			ExtraCodecs.POSITIVE_INT,
 			size -> new GridDimensions(size, size)
 		);
+		
+		public boolean is2d() {
+			return this.vertical == 0;
+		}
 	}
 	
 	public record CellCondition(DensityFunction function, InclusiveRange<Float> range, float fallbackValue) {
@@ -107,29 +112,6 @@ public record CellularDensityFunction(Optional<CellCondition> condition, GridDim
 		
 		public record Sampler(DensitySampler function, InclusiveRange<Float> range, float fallbackValue) {}
 	}
-	
-	public enum ReturnType implements StringRepresentable {
-		CELL_VALUE("cell_value"),
-		DISTANCE_1("distance_1"),
-		DISTANCE_2("distance_2"),
-		DISTANCE_2_ADD("distance_2_add"),
-		DISTANCE_2_SUB("distance_2_sub"),
-		DISTANCE_2_MUL("distance_2_mul"),
-		DISTANCE_2_DIV("distance_2_div");
-		
-		public static final Codec<ReturnType> CODEC = StringRepresentable.fromValues(ReturnType::values);
-		private final String name;
-		
-		ReturnType(String name) {
-			this.name = name;
-		}
-		
-		@Override
-		public String getSerializedName() {
-			return this.name;
-		}
-	}
-	
 	public record XZSampler(Optional<CellCondition.Sampler> condition, GridDimensions gridSize, float jitter, ReturnType returnType, int salt, long seed) implements DensitySampler {
 		@Override
 		public void sampleVolume(SamplerContext context, DensityBuffer outputBuffer, DensityVolume volume) {

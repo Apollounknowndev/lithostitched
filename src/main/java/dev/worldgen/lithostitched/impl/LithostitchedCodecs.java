@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.impl;
 
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -53,9 +54,31 @@ public interface LithostitchedCodecs {
     static <T> Codec<List<T>> compactList(Codec<T> codec) {
         return Codec.withAlternative(codec.listOf(), codec, List::of);
     }
-
+    
+    // Either a single entry, simple list of entries, or weighted list of entries.
     static <T> Codec<WeightedList<T>> compactWeightedList(Codec<T> codec, boolean allowsEmpty) {
+        Codec<List<T>> singleOrListCodec = Codec.either(
+            codec,
+            codec.listOf(allowsEmpty ? 0 : 1, Integer.MAX_VALUE)
+        ).xmap(either -> either.map(List::of, t -> t), list -> list.size() == 1 ? Either.left(list.getFirst()) : Either.right(list));
+        
         Codec<WeightedList<T>> weightedCodec = allowsEmpty ? WeightedList.codec(codec) : WeightedList.nonEmptyCodec(codec);
-        return Codec.withAlternative(weightedCodec, codec, WeightedList::of);
+        
+        return Codec.xor(
+            singleOrListCodec,
+            weightedCodec
+        ).xmap(
+            either -> either.map(
+                list -> {
+                    WeightedList.Builder<T> builder = WeightedList.builder();
+                    for (T entry : list) {
+                        builder.add(entry);
+                    }
+                    return builder.build();
+                },
+                t -> t
+            ),
+            Either::right
+        );
     }
 }

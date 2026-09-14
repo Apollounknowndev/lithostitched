@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.impl.worldgen.modifier.util;
+package dev.worldgen.lithostitched.impl.worldgen.modifier.internal;
 
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.MarkerFunction;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.MergedDensityFunction;

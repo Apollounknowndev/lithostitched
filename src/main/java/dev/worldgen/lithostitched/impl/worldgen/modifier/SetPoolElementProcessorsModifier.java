@@ -15,6 +15,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -38,7 +39,7 @@ public record SetPoolElementProcessorsModifier(Optional<LoadPredicate> predicate
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetPoolElementProcessorsModifier::priority),
         registrySet(Registries.TEMPLATE_POOL, "template_pools").forGetter(SetPoolElementProcessorsModifier::templatePools),
-        LithostitchedCodecs.compactList(Identifier.CODEC).optionalFieldOf("locations").forGetter(SetPoolElementProcessorsModifier::locations),
+        ExtraCodecs.compactListCodec(Identifier.CODEC).optionalFieldOf("locations").forGetter(SetPoolElementProcessorsModifier::locations),
         StructureProcessorType.LIST_CODEC.fieldOf("processor_list").forGetter(SetPoolElementProcessorsModifier::processorList),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetPoolElementProcessorsModifier::append)
     ).apply(instance, SetPoolElementProcessorsModifier::new));

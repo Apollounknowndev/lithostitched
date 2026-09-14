@@ -6,8 +6,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.processor.RandomSettings;
 import dev.worldgen.lithostitched.api.worldgen.processor.enums.RandomMode;
 import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
-import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.WorldGenLevel;
@@ -19,7 +19,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import java.util.List;
 
 public class ConditionProcessor implements StructureProcessor {
-    private static final Codec<List<StructureProcessor>> PROCESSOR_CODEC = LithostitchedCodecs.compactList(StructureProcessorType.SINGLE_CODEC);
+    private static final Codec<List<StructureProcessor>> PROCESSOR_CODEC = ExtraCodecs.compactListCodec(StructureProcessorType.SINGLE_CODEC);
     public static final MapCodec<ConditionProcessor> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         RandomSettings.CODEC.fieldOf("random_mode").orElse(new RandomSettings(RandomMode.PER_BLOCK)).forGetter(ConditionProcessor::randomSettings),
         ProcessorCondition.CODEC.fieldOf("if_true").forGetter(ConditionProcessor::condition),

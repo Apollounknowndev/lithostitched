@@ -16,11 +16,11 @@ public interface LithostitchedMaterialConditions {
 		return new AnyOfCondition(Arrays.asList(conditions));
 	}
 	
-	static MaterialCondition slope(InclusiveRange<Integer> threshold) {
-		return new SlopeCondition(threshold);
+	static MaterialCondition slope(int minSteepness, int maxSteepness) {
+		return new SlopeCondition(new InclusiveRange<>(minSteepness, maxSteepness));
 	}
 	
-	static MaterialCondition sampleDensity(DensityFunction function, InclusiveRange<Float> range, boolean prefill) {
-		return new SampleDensityCondition(function, range, prefill);
+	static MaterialCondition sampleDensity(DensityFunction function, float minValue, float maxValue, boolean prefill) {
+		return new SampleDensityCondition(function, new InclusiveRange<>(minValue, maxValue), prefill);
 	}
 }

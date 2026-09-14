@@ -3,7 +3,7 @@ package dev.worldgen.lithostitched.impl.duck;
 import net.minecraft.world.attribute.EnvironmentAttributeMap;
 import net.minecraft.world.level.Level;
 
-import static dev.worldgen.lithostitched.impl.worldgen.attribute.LithostitchedEnvironmentAttributes.RESET_MUSIC;
+import static dev.worldgen.lithostitched.api.worldgen.attribute.LithostitchedEnvironmentAttributes.RESET_MUSIC;
 import static dev.worldgen.lithostitched.impl.worldgen.structure.StructureAttributeHandler.STRUCTURE_ATTRIBUTE_LERP;
 
 public interface StructureAttributesHolder {

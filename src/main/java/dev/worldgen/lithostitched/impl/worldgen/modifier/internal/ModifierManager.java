@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.impl.worldgen.modifier;
+package dev.worldgen.lithostitched.impl.worldgen.modifier.internal;
 
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.impl.Lithostitched;
@@ -17,7 +17,6 @@ import net.minecraft.world.level.dimension.LevelStem;
 import java.util.*;
 
 public class ModifierManager {
-    
     public static void applyModifiers(RegistryAccess registries, Registry<LevelStem> dimensions) {
         boolean recompileSortedFeatures = false;
         

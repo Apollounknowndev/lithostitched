@@ -1,7 +1,7 @@
 package dev.worldgen.lithostitched.api.worldgen.blockpredicate;
 
 import dev.worldgen.lithostitched.impl.worldgen.blockpredicate.*;
-import dev.worldgen.lithostitched.api.util.StatePropertiesPredicate;
+import net.minecraft.advancements.predicates.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.InclusiveRange;
@@ -18,6 +18,14 @@ public interface LithostitchedBlockPredicates {
 	
 	static BlockPredicate blockState(Vec3i offset, StatePropertiesPredicate predicate) {
 		return new BlockStatePredicate(offset, predicate);
+	}
+	
+	static BlockPredicate grid(int radius, int distBetweenPoints, BlockPredicate predicate, int exactCount) {
+		return new GridPredicate(radius, distBetweenPoints, predicate, new InclusiveRange<>(exactCount));
+	}
+	
+	static BlockPredicate grid(int radius, int distBetweenPoints, BlockPredicate predicate, int minCount, int maxCount) {
+		return new GridPredicate(radius, distBetweenPoints, predicate, new InclusiveRange<>(minCount, maxCount));
 	}
 	
 	static BlockPredicate inStructure(int searchRange) {

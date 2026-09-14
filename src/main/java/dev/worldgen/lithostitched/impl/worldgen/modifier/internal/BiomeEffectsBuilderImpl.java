@@ -1,15 +1,9 @@
-package dev.worldgen.lithostitched.impl.worldgen.modifier;
+package dev.worldgen.lithostitched.impl.worldgen.modifier.internal;
 
 import java.util.Optional;
 
 import dev.worldgen.lithostitched.api.worldgen.modifier.BiomeEffectsBuilder;
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeEffects;
-import net.minecraft.core.Holder;
-import net.minecraft.sounds.Music;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.attribute.AmbientAdditionsSettings;
-import net.minecraft.world.attribute.AmbientMoodSettings;
-import net.minecraft.world.attribute.AmbientParticle;
 import net.minecraft.world.level.biome.BiomeSpecialEffects.GrassColorModifier;
 
 public class BiomeEffectsBuilderImpl implements BiomeEffectsBuilder {

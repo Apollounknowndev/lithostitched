@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.worldgen.lithostitched.api.worldgen.util.AquiferTarget;
 import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
-import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.internal.ModifierManager;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.WrapAquifersModifier;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.WrapNoiseRouterModifier;
 import net.minecraft.core.HolderGetter;

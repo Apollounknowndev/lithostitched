@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.impl.worldgen.modifier.attribute;
+package dev.worldgen.lithostitched.impl.worldgen.modifier;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;

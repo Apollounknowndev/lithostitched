@@ -6,7 +6,7 @@ import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.api.worldgen.util.AquiferTarget;
 import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
-import dev.worldgen.lithostitched.impl.worldgen.modifier.util.DensityFunctionInjectorHelper;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.internal.DensityFunctionInjectorHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;

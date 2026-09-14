@@ -57,12 +57,20 @@ public interface LithostitchedFeatures {
 		return new SelectFeature(features);
 	}
 	
-	static Feature structureTemplate(Identifier template, Holder<StructureProcessorList> processors, LiquidSettings liquidSettings) {
-		return new StructureTemplateFeature(template, processors, Optional.empty(), liquidSettings, Optional.empty());
+	static Feature structureTemplate(Identifier template, Holder<StructureProcessorList> processors) {
+		return new StructureTemplateFeature(WeightedList.of(template), processors, Optional.empty(), LiquidSettings.APPLY_WATERLOGGING, true);
 	}
 	
-	static Feature structureTemplate(Identifier template, Holder<StructureProcessorList> processors, Optional<Rotation> rotation, LiquidSettings liquidSettings, Optional<Identifier> startJigsawName) {
-		return new StructureTemplateFeature(template, processors, rotation, liquidSettings, startJigsawName);
+	static Feature structureTemplate(Identifier template, Holder<StructureProcessorList> processors, Optional<Rotation> rotation, LiquidSettings liquidSettings, boolean placeOnCenter) {
+		return new StructureTemplateFeature(WeightedList.of(template), processors, rotation, liquidSettings, placeOnCenter);
+	}
+	
+	static Feature structureTemplate(WeightedList<Identifier> templates, Holder<StructureProcessorList> processors) {
+		return new StructureTemplateFeature(templates, processors, Optional.empty(), LiquidSettings.APPLY_WATERLOGGING, true);
+	}
+	
+	static Feature structureTemplate(WeightedList<Identifier> templates, Holder<StructureProcessorList> processors, Optional<Rotation> rotation, LiquidSettings liquidSettings, boolean placeOnCenter) {
+		return new StructureTemplateFeature(templates, processors, rotation, liquidSettings, placeOnCenter);
 	}
 	
 	static Feature vines(WeightedList<Block> blocks, Optional<HolderSet<Block>> canPlaceOn, IntProvider maxLength) {

@@ -3,9 +3,8 @@ package dev.worldgen.lithostitched.api.util;
 import com.mojang.serialization.Codec;
 import net.minecraft.util.StringRepresentable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 public enum InjectionType implements StringRepresentable {
 	PREPEND("prepend"),
@@ -17,6 +16,14 @@ public enum InjectionType implements StringRepresentable {
 	
 	InjectionType(String name) {
 		this.name = name;
+	}
+	
+	public <T> T apply(T original, T injection, Function<List<T>, T> sequencer) {
+		return switch (this) {
+			case PREPEND -> sequencer.apply(List.of(injection, original));
+			case APPEND -> sequencer.apply(List.of(original, injection));
+			case REPLACE -> injection;
+		};
 	}
 	
 	@Override

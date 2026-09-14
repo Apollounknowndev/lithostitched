@@ -1,4 +1,4 @@
-package dev.worldgen.lithostitched.impl.worldgen.modifier.attribute;
+package dev.worldgen.lithostitched.impl.worldgen.modifier;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -8,7 +8,6 @@ import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.impl.worldgen.structure.DelegatingConfig;
 import dev.worldgen.lithostitched.impl.worldgen.structure.DelegatingStructure;
-import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
 import dev.worldgen.lithostitched.mixin.common.MappedRegistryAccessor;
 import net.minecraft.core.Holder;
@@ -17,7 +16,6 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.world.attribute.EnvironmentAttributeMap;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
 import java.util.Optional;

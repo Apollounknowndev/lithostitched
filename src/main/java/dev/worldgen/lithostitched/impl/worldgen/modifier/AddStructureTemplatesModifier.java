@@ -5,12 +5,12 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
-import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.template.TemplateList;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.ExtraCodecs;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +20,7 @@ public record AddStructureTemplatesModifier(Optional<LoadPredicate> predicate, i
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(AddStructureTemplatesModifier::priority),
         RegistryCodecs.holderSet(LithostitchedRegistries.TEMPLATE_LIST).fieldOf("targets").forGetter(AddStructureTemplatesModifier::targets),
-        LithostitchedCodecs.compactList(Identifier.CODEC).fieldOf("templates").forGetter(AddStructureTemplatesModifier::templates)
+        ExtraCodecs.compactListCodec(Identifier.CODEC).fieldOf("templates").forGetter(AddStructureTemplatesModifier::templates)
     ).apply(instance, AddStructureTemplatesModifier::new));
 
     @Override

@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.util.InjectionType;
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeClimate;
 import dev.worldgen.lithostitched.api.worldgen.util.WeightedSpawnerData;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
@@ -18,9 +19,11 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.material.rule.MaterialRule;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
@@ -32,6 +35,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
@@ -47,7 +51,6 @@ import static net.minecraft.core.HolderSet.direct;
 public interface WorldgenModifier {
 	Codec<WorldgenModifier> CODEC = LithostitchedBuiltInRegistries.MODIFIER_TYPE.byNameCodec().dispatch(WorldgenModifier::codec, Function.identity());
 	Integer DEFAULT_PRIORITY = 1000;
-	Integer REMOVAL_PRIORITY = 2000;
 	
 	MapCodec<Integer> PRIORITY_DEFAULT_CODEC = Codec.INT.optionalFieldOf("priority", 1000);
 	MapCodec<Integer> PRIORITY_REMOVE_CODEC = Codec.INT.optionalFieldOf("priority", 2000);
@@ -129,6 +132,14 @@ public interface WorldgenModifier {
 			return new AddStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(set), List.of(entries));
 		}
 		
+		public WorldgenModifier addSpawnCosts(Holder<Biome> biome, Map<EntityType<?>, MobSpawnSettings.MobSpawnCost> spawnCosts) {
+			return new AddSpawnCostsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), spawnCosts);
+		}
+		
+		public WorldgenModifier addSpawnCosts(HolderSet<Biome> biomes, Map<EntityType<?>, MobSpawnSettings.MobSpawnCost> spawnCosts) {
+			return new AddSpawnCostsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, spawnCosts);
+		}
+		
 		public WorldgenModifier addStructureSetEntries(HolderSet<StructureSet> sets, StructureSelectionEntry... entries) {
 			return new AddStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), sets, List.of(entries));
 		}
@@ -148,61 +159,69 @@ public interface WorldgenModifier {
 		}
 		
 		public WorldgenModifier removeBiomeSpawns(Holder<Biome> biome, Holder<EntityType<?>> mob) {
-			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(REMOVAL_PRIORITY), direct(biome), direct(mob));
+			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), direct(mob));
 		}
 		
 		public WorldgenModifier removeBiomeSpawns(HolderSet<Biome> biomes, Holder<EntityType<?>> mob) {
-			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(REMOVAL_PRIORITY), biomes, direct(mob));
+			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, direct(mob));
 		}
 		
 		public WorldgenModifier removeBiomeSpawns(Holder<Biome> biome, HolderSet<EntityType<?>> mobs) {
-			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(REMOVAL_PRIORITY), direct(biome), mobs);
+			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), mobs);
 		}
 		
 		public WorldgenModifier removeBiomeSpawns(HolderSet<Biome> biomes, HolderSet<EntityType<?>> mobs) {
-			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(REMOVAL_PRIORITY), biomes, mobs);
+			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, mobs);
 		}
 		
 		public WorldgenModifier removeFeatures(Holder<Biome> biome, Holder<PlacedFeature> feature, GenerationStep.Decoration step) {
-			return new RemoveFeaturesModifier(predicate, priority.orElse(REMOVAL_PRIORITY), direct(biome), direct(feature), step);
+			return new RemoveFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), direct(feature), step);
 		}
 		
 		public WorldgenModifier removeFeatures(HolderSet<Biome> biomes, Holder<PlacedFeature> feature, GenerationStep.Decoration step) {
-			return new RemoveFeaturesModifier(predicate, priority.orElse(REMOVAL_PRIORITY), biomes, direct(feature), step);
+			return new RemoveFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, direct(feature), step);
 		}
 		
 		public WorldgenModifier removeFeatures(Holder<Biome> biome, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) {
-			return new RemoveFeaturesModifier(predicate, priority.orElse(REMOVAL_PRIORITY), direct(biome), features, step);
+			return new RemoveFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), features, step);
 		}
 		
 		public WorldgenModifier removeFeatures(HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) {
-			return new RemoveFeaturesModifier(predicate, priority.orElse(REMOVAL_PRIORITY), biomes, features, step);
+			return new RemoveFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, features, step);
 		}
 		
 		@SafeVarargs
 		public final WorldgenModifier removeStructureSetEntries(Holder<StructureSet> set, Holder<Structure>... holders) {
-			return new RemoveStructureSetEntriesModifier(predicate, priority.orElse(REMOVAL_PRIORITY), direct(set), List.of(holders));
+			return new RemoveStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(set), List.of(holders));
 		}
 		
 		@SafeVarargs
 		public final WorldgenModifier removeStructureSetEntries(HolderSet<StructureSet> sets, Holder<Structure>... holders) {
-			return new RemoveStructureSetEntriesModifier(predicate, priority.orElse(REMOVAL_PRIORITY), sets, List.of(holders));
+			return new RemoveStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), sets, List.of(holders));
 		}
 		
-		public WorldgenModifier replaceClimate(Holder<Biome> biome, BiomeClimate climate) {
-			return new ReplaceClimateModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), climate);
+		public WorldgenModifier setBiomeClimate(Holder<Biome> biome, BiomeClimate climate) {
+			return new SetBiomeClimate(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), climate);
 		}
 		
-		public WorldgenModifier replaceClimate(HolderSet<Biome> biomes, BiomeClimate climate) {
-			return new ReplaceClimateModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, climate);
+		public WorldgenModifier setBiomeClimate(HolderSet<Biome> biomes, BiomeClimate climate) {
+			return new SetBiomeClimate(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, climate);
 		}
 		
-		public WorldgenModifier replaceEffects(Holder<Biome> biome, UnaryOperator<BiomeEffectsBuilder> operator) {
-			return new ReplaceEffectsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), operator.apply(BiomeEffectsBuilder.create()).build());
+		public WorldgenModifier setBiomeEffects(Holder<Biome> biome, UnaryOperator<BiomeEffectsBuilder> operator) {
+			return new SetBiomeEffectsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), operator.apply(BiomeEffectsBuilder.create()).build());
 		}
 		
-		public WorldgenModifier replaceEffects(HolderSet<Biome> biomes, UnaryOperator<BiomeEffectsBuilder> operator) {
-			return new ReplaceEffectsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, operator.apply(BiomeEffectsBuilder.create()).build());
+		public WorldgenModifier setBiomeEffects(HolderSet<Biome> biomes, UnaryOperator<BiomeEffectsBuilder> operator) {
+			return new SetBiomeEffectsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, operator.apply(BiomeEffectsBuilder.create()).build());
+		}
+		
+		public WorldgenModifier setMaterialRule(Holder<MaterialRule> targetRule, Holder<MaterialRule> injectedRule) {
+			return new SetMaterialRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), HolderSet.direct(targetRule), injectedRule, InjectionType.PREPEND);
+		}
+		
+		public WorldgenModifier setMaterialRule(Holder<MaterialRule> targetRule, Holder<MaterialRule> injectedRule, InjectionType injectionType) {
+			return new SetMaterialRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), HolderSet.direct(targetRule), injectedRule, injectionType);
 		}
 		
 		public WorldgenModifier setPoolAliases(Holder<Structure> structure, boolean append, PoolAliasBinding... aliases) {

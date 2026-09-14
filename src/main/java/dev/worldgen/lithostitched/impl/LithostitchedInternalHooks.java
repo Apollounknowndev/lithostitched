@@ -4,7 +4,7 @@ import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise.FastNoiseConfig;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.BiomeInjectorManager;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.CellularDensityFunction;
-import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.internal.ModifierManager;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;

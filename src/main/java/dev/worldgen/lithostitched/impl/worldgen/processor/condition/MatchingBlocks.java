@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
 import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import dev.worldgen.lithostitched.api.worldgen.processor.enums.BlockType;
-import dev.worldgen.lithostitched.api.util.StatePropertiesPredicate;
+import net.minecraft.advancements.predicates.StatePropertiesPredicate;
 import net.minecraft.core.HolderSet;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;

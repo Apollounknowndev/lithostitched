@@ -13,13 +13,13 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.Optional;
 
-public record ReplaceClimateModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, BiomeClimate climateSettings) implements WorldgenModifier {
-    public static final MapCodec<ReplaceClimateModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+public record SetBiomeClimate(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, BiomeClimate climateSettings) implements WorldgenModifier {
+    public static final MapCodec<SetBiomeClimate> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
-        PRIORITY_DEFAULT_CODEC.forGetter(ReplaceClimateModifier::priority),
-        Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceClimateModifier::biomes),
-        BiomeClimate.CODEC.fieldOf("climate").forGetter(ReplaceClimateModifier::climateSettings)
-    ).apply(instance, ReplaceClimateModifier::new));
+        PRIORITY_DEFAULT_CODEC.forGetter(SetBiomeClimate::priority),
+        Biome.LIST_CODEC.fieldOf("biomes").forGetter(SetBiomeClimate::biomes),
+        BiomeClimate.CODEC.fieldOf("climate").forGetter(SetBiomeClimate::climateSettings)
+    ).apply(instance, SetBiomeClimate::new));
 
     @Override
     public void apply(RegistryAccess registries) {

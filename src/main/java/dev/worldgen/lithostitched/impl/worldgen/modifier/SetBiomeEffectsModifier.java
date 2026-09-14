@@ -13,22 +13,20 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.biome.Biome;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
-import net.minecraft.world.attribute.*;
 import net.minecraft.world.level.biome.BiomeSpecialEffects;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public record ReplaceEffectsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, BiomeEffects effects) implements WorldgenModifier {
-    public static final MapCodec<ReplaceEffectsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+public record SetBiomeEffectsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, BiomeEffects effects) implements WorldgenModifier {
+    public static final MapCodec<SetBiomeEffectsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
-        PRIORITY_DEFAULT_CODEC.forGetter(ReplaceEffectsModifier::priority),
-        Biome.LIST_CODEC.fieldOf("biomes").forGetter(ReplaceEffectsModifier::biomes),
-        BiomeEffects.CODEC.fieldOf("effects").forGetter(ReplaceEffectsModifier::effects)
-    ).apply(instance, ReplaceEffectsModifier::new));
+        PRIORITY_DEFAULT_CODEC.forGetter(SetBiomeEffectsModifier::priority),
+        Biome.LIST_CODEC.fieldOf("biomes").forGetter(SetBiomeEffectsModifier::biomes),
+        BiomeEffects.CODEC.fieldOf("effects").forGetter(SetBiomeEffectsModifier::effects)
+    ).apply(instance, SetBiomeEffectsModifier::new));
 
     @Override
     public void apply(RegistryAccess registries) {

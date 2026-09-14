@@ -27,13 +27,12 @@ import dev.worldgen.lithostitched.impl.worldgen.fastnoise.PerlinNoiseType;
 import dev.worldgen.lithostitched.impl.worldgen.fastnoise.SimplexNoiseType;
 import dev.worldgen.lithostitched.impl.worldgen.feature.*;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
-import dev.worldgen.lithostitched.impl.worldgen.modifier.attribute.*;
 import dev.worldgen.lithostitched.impl.worldgen.placementcondition.*;
 import dev.worldgen.lithostitched.impl.worldgen.processor.*;
 import dev.worldgen.lithostitched.impl.worldgen.processor.condition.*;
 import dev.worldgen.lithostitched.impl.worldgen.material.condition.*;
 import dev.worldgen.lithostitched.impl.worldgen.material.rule.BandlandsRule;
-import dev.worldgen.lithostitched.impl.worldgen.attribute.LithostitchedEnvironmentAttributes;
+import dev.worldgen.lithostitched.api.worldgen.attribute.LithostitchedEnvironmentAttributes;
 import dev.worldgen.lithostitched.impl.worldgen.blockentitymodifier.ApplyAll;
 import dev.worldgen.lithostitched.impl.worldgen.blockentitymodifier.ApplyRandom;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.internal.CompileRawTemplatesModifier;
@@ -125,9 +124,9 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("remove_biome_spawns", RemoveBiomeSpawnsModifier.CODEC),
 			Map.entry("remove_features", RemoveFeaturesModifier.CODEC),
 			Map.entry("remove_structure_set_entries", RemoveStructureSetEntriesModifier.CODEC),
-			Map.entry("replace_climate", ReplaceClimateModifier.CODEC),
-			Map.entry("replace_effects", ReplaceEffectsModifier.CODEC),
 			Map.entry("set_biome_attributes", SetBiomeAttributesModifier.CODEC),
+			Map.entry("set_biome_climate", SetBiomeClimate.CODEC),
+			Map.entry("set_biome_effects", SetBiomeEffectsModifier.CODEC),
 			Map.entry("set_biome_timeline", SetBiomeTimelineModifier.CODEC),
 			Map.entry("set_dimension_attributes", SetDimensionAttributesModifier.CODEC),
 			Map.entry("set_material_rule", SetMaterialRuleModifier.CODEC),
