@@ -11,6 +11,8 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.random.Weighted;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.attribute.EnvironmentAttributeMap;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.attribute.modifier.AttributeModifier;
@@ -24,13 +26,30 @@ import java.util.List;
 
 import java.util.Optional;
 
-public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, List<WeightedSpawnerData> biomeSpawns) implements WorldgenModifier {
+//? if neoforge {
+/*import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifiers;
+*///? }
+
+public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, List<WeightedSpawnerData> biomeSpawns) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<AddBiomeSpawnsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(AddBiomeSpawnsModifier::priority),
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddBiomeSpawnsModifier::biomes),
         ExtraCodecs.compactListCodec(WeightedSpawnerData.CODEC).fieldOf("spawners").forGetter(AddBiomeSpawnsModifier::biomeSpawns)
     ).apply(instance, AddBiomeSpawnsModifier::new));
+    
+    //? if neoforge {
+    /*@Override
+    public BiomeModifier createNeoforgeModifier() {
+        return new BiomeModifiers.AddSpawnsBiomeModifier(biomes, WeightedList.of(
+            biomeSpawns
+                .stream()
+                .map(data -> new Weighted<>(new MobSpawnSettings.SpawnerData(data.type(), data.count()), data.weight()))
+                .toList()
+        ));
+    }
+    *///? }
     
     @Override
     public void apply(RegistryAccess registries) {

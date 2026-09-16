@@ -5,19 +5,65 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "2.0.0+beta3"
+MOD_VERSION = "2.0.0"
 CHANGELOG = """
-- Ported to 26.3-pre-2.
-- Ported up the new Lithostitched 1.8 features from the pre-26.3 beta versions.
-    - `add_spawn_costs` modifier (is now registered but doesn't yet work)
-    - `set_tree_decorators` modifier
-    - `branched_mega_jungle` and `branched_mega_pine` foliage placers
-    - `large_mangrove` root placer
-    - `cellular` density function type
+26.3 has a token of breaking changes to vanilla worldgen, so I've taken the time to make a bunch of changes to Lithostitched as well. What this means is:
+
+- 1.21.1 and 26.1 will continue getting updates as 1.x versions
+- 26.3 and above will get updates as 2.x versions
+
+Changes below will be listed relative to Lithostitched 1.8.
+
+Additions
+
+- `wrap_aquifers` modifier
+    - This is `wrap_noise_router` but for the fields that got moved to the `aquifers` object.
+- `sample_aquifers` placement modifier
+    - This is `sample_noise_router` but for the fields that got moved to the `aquifers` object.
+
+Changes
+
+- `add_surface_rule` modifier: now `set_material_rule` and injects into material rule files instead.
+- `replace_climate` modifier: now `set_biome_climate`.
+- `replace_effects` modifier: now `set_biome_effects`, and legacy support for pre-attribute `effects` fields was removed.
+- `placed` feature: Placed feature inside is now in `feature` field, not `config`
+- `structure_template` feature:
+    - `template` can now be a simple list of template ids or weighted list of template ids.
+    - `start_jigsaw_name` field has been removed.
+    - `place_on_center` optional boolean field was added. If unset or set to true, the template is centered before rotations and placement.
+- `weighted` block state provider: `entries` is now `providers`
+- `sample_noise_router` placement condition and `wrap_noise_router` modifier: Fields removed from noise router are no longer supported, this includes:
+  - `barrier`
+  - `fluid_level_floodedness`
+  - `fluid_level_spread`
+  - `lava`
+  - `vein_toggle`
+  - `vein_ridged`
+  - `vein_gap`
+
+Removals
+
+- `weighted_selector` feature
+- `axis` density function
+- `ceil` density function
+- `floor` density function
+- `mix` density function
+- `select` density function
+- `sqrt` density function
+- `offset` placement modifier
+- `random_block` block state provider
+- `matching_biomes` block predicate
+- `feature` pool element
+- `biome` surface condition
+- `reference` surface rule
+- `lithostitched/surface_rule` registry
+- `guaranteed` pool element
+- `limited` pool element
+- `well` feature type
 """
 UPLOAD_VERSIONS = [
     ("fabric", "26.3"),
-    #("neoforge", "26.3"),
+    ("neoforge", "26.3"),
 ]
 
 DEPENDENCIES = []
@@ -39,7 +85,7 @@ MODRINTH_GAME_VERSIONS = {
     "21.1": ["1.21.1"],
     "26.1": ["26.1", "26.1.1", "26.1.2"],
     "26.2": ["26.2"],
-    "26.3": ["26.3-pre-2"],
+    "26.3": ["26.3"],
 }
 
 CURSEFORGE_TOKEN = os.getenv('TOKEN_CF')
@@ -175,7 +221,7 @@ for modloader, game_version in UPLOAD_VERSIONS:
         print(f"File not found, skipping: {mod_path}")
         continue
 
-    upload_modrinth(modloader, game_version, mod_path, dependencies)
-    #upload_curseforge(modloader, game_version, mod_path, dependencies)
+    #upload_modrinth(modloader, game_version, mod_path, dependencies)
+    upload_curseforge(modloader, game_version, mod_path, dependencies)
 
 input("Press any key to close")

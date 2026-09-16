@@ -16,25 +16,31 @@ import net.minecraft.world.attribute.modifier.AttributeModifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.Biome;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
-import dev.worldgen.lithostitched.mixin.common.MobSpawnSettingsAccessor;
-import net.minecraft.util.random.Weighted;
-import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import java.util.Optional;
 
-public record RemoveBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, HolderSet<EntityType<?>> mobs) implements WorldgenModifier {
+
+//? if neoforge {
+/*import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifiers;
+*///? }
+
+public record RemoveBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, HolderSet<EntityType<?>> mobs) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<RemoveBiomeSpawnsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_REMOVE_CODEC.forGetter(RemoveBiomeSpawnsModifier::priority),
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(RemoveBiomeSpawnsModifier::biomes),
         RegistryCodecs.holderSet(Registries.ENTITY_TYPE).fieldOf("mobs").forGetter(RemoveBiomeSpawnsModifier::mobs)
     ).apply(instance, RemoveBiomeSpawnsModifier::new));
+    
+    //? if neoforge {
+    /*@Override
+    public BiomeModifier createNeoforgeModifier() {
+        return new BiomeModifiers.RemoveSpawnsBiomeModifier(biomes, mobs);
+    }
+    *///? }
     
     @Override
     public void apply(RegistryAccess registries) {

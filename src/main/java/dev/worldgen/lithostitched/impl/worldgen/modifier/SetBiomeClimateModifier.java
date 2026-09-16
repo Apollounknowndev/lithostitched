@@ -13,13 +13,25 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.Optional;
 
-public record SetBiomeClimate(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, BiomeClimate climateSettings) implements WorldgenModifier {
-    public static final MapCodec<SetBiomeClimate> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+//? if neoforge {
+/*import net.neoforged.neoforge.common.world.BiomeModifier;
+import dev.worldgen.lithostitched.impl.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
+*///? }
+
+public record SetBiomeClimateModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, BiomeClimate climateSettings) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
+    public static final MapCodec<SetBiomeClimateModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
-        PRIORITY_DEFAULT_CODEC.forGetter(SetBiomeClimate::priority),
-        Biome.LIST_CODEC.fieldOf("biomes").forGetter(SetBiomeClimate::biomes),
-        BiomeClimate.CODEC.fieldOf("climate").forGetter(SetBiomeClimate::climateSettings)
-    ).apply(instance, SetBiomeClimate::new));
+        PRIORITY_DEFAULT_CODEC.forGetter(SetBiomeClimateModifier::priority),
+        Biome.LIST_CODEC.fieldOf("biomes").forGetter(SetBiomeClimateModifier::biomes),
+        BiomeClimate.CODEC.fieldOf("climate").forGetter(SetBiomeClimateModifier::climateSettings)
+    ).apply(instance, SetBiomeClimateModifier::new));
+    
+    //? if neoforge {
+    /*@Override
+    public BiomeModifier createNeoforgeModifier() {
+        return new LithostitchedNeoforgeBiomeModifiers.ReplaceClimateBiomeModifier(biomes, climateSettings);
+    }
+    *///? }
 
     @Override
     public void apply(RegistryAccess registries) {

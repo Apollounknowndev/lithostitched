@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Optional;
 
 //? if neoforge {
-/*import dev.worldgen.lithostitched.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
+/*import dev.worldgen.lithostitched.impl.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 *///? }
 

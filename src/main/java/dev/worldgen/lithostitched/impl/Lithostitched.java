@@ -5,6 +5,7 @@ import dev.worldgen.apollib.config.ApollibConfigHolder;
 import dev.worldgen.apollib.registry.ApollibRegistrar;
 import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
 import dev.worldgen.lithostitched.impl.config.ConfigState;
+import dev.worldgen.lithostitched.impl.debug.LithostitchedDebugging;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.Identifier;
@@ -28,6 +29,10 @@ public class Lithostitched {
 		
 		LithostitchedBuiltInRegistries.init();
 		REGISTRAR.registerAll();
+		
+		if (CONFIG.getState().enableDebugSuite) {
+			LithostitchedDebugging.init();
+		}
 	}
 	
 	public static <T> ResourceKey<T> key(ResourceKey<? extends Registry<T>> resourceKey, String name) {

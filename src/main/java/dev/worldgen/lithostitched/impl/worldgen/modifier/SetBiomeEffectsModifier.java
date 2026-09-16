@@ -20,13 +20,26 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public record SetBiomeEffectsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, BiomeEffects effects) implements WorldgenModifier {
+
+//? if neoforge {
+/*import net.neoforged.neoforge.common.world.BiomeModifier;
+import dev.worldgen.lithostitched.impl.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
+*///? }
+
+public record SetBiomeEffectsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, BiomeEffects effects) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<SetBiomeEffectsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetBiomeEffectsModifier::priority),
         Biome.LIST_CODEC.fieldOf("biomes").forGetter(SetBiomeEffectsModifier::biomes),
         BiomeEffects.CODEC.fieldOf("effects").forGetter(SetBiomeEffectsModifier::effects)
     ).apply(instance, SetBiomeEffectsModifier::new));
+    
+    //? if neoforge {
+    /*@Override
+    public BiomeModifier createNeoforgeModifier() {
+        return new LithostitchedNeoforgeBiomeModifiers.ReplaceEffectsBiomeModifier(biomes, effects);
+    }
+    *///? }
 
     @Override
     public void apply(RegistryAccess registries) {

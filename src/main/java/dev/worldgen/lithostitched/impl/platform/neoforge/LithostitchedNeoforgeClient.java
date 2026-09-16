@@ -1,11 +1,11 @@
 //? if neoforge {
-/*package dev.worldgen.lithostitched.platform.neoforge;
+/*package dev.worldgen.lithostitched.impl.platform.neoforge;
 
 import com.mojang.serialization.DynamicOps;
-import dev.worldgen.lithostitched.Lithostitched;
-import dev.worldgen.lithostitched.duck.StructureAttributesHolder;
+import dev.worldgen.lithostitched.impl.Lithostitched;
+import dev.worldgen.lithostitched.impl.duck.StructureAttributesHolder;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.InjectorBiomeSource;
-import dev.worldgen.lithostitched.network.ApplyStructureAttributesPacket;
+import dev.worldgen.lithostitched.impl.network.ApplyStructureAttributesPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -15,6 +15,8 @@ import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.RandomState;
+import net.minecraft.world.level.levelgen.densityfunction.SamplerContext;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -46,7 +48,7 @@ public final class LithostitchedNeoforgeClient {
 	}
 	
 	private void addDebugScreenEntry(RegisterDebugEntriesEvent event) {
-		event.register(Lithostitched.id("region"), (displayer, serverOrClientLevel, clientChunk, serverChunk) -> {
+		event.register(Lithostitched.id("region"), (displayer, serverOrClientLevel, _, _) -> {
 			Minecraft minecraft = Minecraft.getInstance();
 			Entity entity = minecraft.getCameraEntity();
 			if (minecraft.level == null || entity == null) return;
@@ -55,7 +57,9 @@ public final class LithostitchedNeoforgeClient {
 			if (serverOrClientLevel instanceof ServerLevel serverLevel) {
 				ServerChunkCache source = serverLevel.getChunkSource();
 				if (source.getGenerator().getBiomeSource() instanceof InjectorBiomeSource injector) {
-					displayer.addLine(injector.getRegionLine(source.randomState().sampler(), pos));
+					RandomState randomState = source.randomState();
+					SamplerContext context = SamplerContext.builder().enableCaches().build();
+					displayer.addLine(injector.getRegionLine(randomState.samplersWithContext(context), randomState.createClimateSampler(context), pos));
 				}
 			}
 		});

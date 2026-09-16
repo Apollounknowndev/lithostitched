@@ -1,5 +1,5 @@
 //? if neoforge {
-/*package dev.worldgen.lithostitched.platform.neoforge;
+/*package dev.worldgen.lithostitched.impl.platform.neoforge;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static dev.worldgen.lithostitched.Lithostitched.MOD_ID;
+import static dev.worldgen.lithostitched.impl.Lithostitched.MOD_ID;
 
 /^*
  * Built-in registries for Lithostitched on Neoforge.

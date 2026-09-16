@@ -59,9 +59,9 @@ import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 //? } else {
 /*import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
-import dev.worldgen.lithostitched.platform.neoforge.LithostitchedRegistrations;
-import dev.worldgen.lithostitched.platform.neoforge.resource.BreaksSeedParityCondition;
-import dev.worldgen.lithostitched.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
+import dev.worldgen.lithostitched.impl.platform.neoforge.LithostitchedRegistrations;
+import dev.worldgen.lithostitched.impl.platform.neoforge.resource.BreaksSeedParityCondition;
+import dev.worldgen.lithostitched.impl.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
 *///? }
 
 /**
@@ -125,7 +125,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("remove_features", RemoveFeaturesModifier.CODEC),
 			Map.entry("remove_structure_set_entries", RemoveStructureSetEntriesModifier.CODEC),
 			Map.entry("set_biome_attributes", SetBiomeAttributesModifier.CODEC),
-			Map.entry("set_biome_climate", SetBiomeClimate.CODEC),
+			Map.entry("set_biome_climate", SetBiomeClimateModifier.CODEC),
 			Map.entry("set_biome_effects", SetBiomeEffectsModifier.CODEC),
 			Map.entry("set_biome_timeline", SetBiomeTimelineModifier.CODEC),
 			Map.entry("set_dimension_attributes", SetDimensionAttributesModifier.CODEC),

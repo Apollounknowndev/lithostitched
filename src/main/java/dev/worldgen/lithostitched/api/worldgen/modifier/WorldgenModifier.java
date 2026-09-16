@@ -201,11 +201,11 @@ public interface WorldgenModifier {
 		}
 		
 		public WorldgenModifier setBiomeClimate(Holder<Biome> biome, BiomeClimate climate) {
-			return new SetBiomeClimate(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), climate);
+			return new SetBiomeClimateModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), climate);
 		}
 		
 		public WorldgenModifier setBiomeClimate(HolderSet<Biome> biomes, BiomeClimate climate) {
-			return new SetBiomeClimate(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, climate);
+			return new SetBiomeClimateModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, climate);
 		}
 		
 		public WorldgenModifier setBiomeEffects(Holder<Biome> biome, UnaryOperator<BiomeEffectsBuilder> operator) {

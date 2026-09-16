@@ -36,6 +36,7 @@
     "common.mnbs.MNBSMixin",
     "common.mnbs.MNBSPLMixin",
     "common.mnbs.ParameterListAccessor",
+    "common.neoforge.ServerLifecycleHooksMixin",
     "common.predicate.PendingRegistrationMixin",
     "common.predicate.ResourceManagerRegistryLoadTaskMixin",
     "common.processor.EndCityPieceMixin",

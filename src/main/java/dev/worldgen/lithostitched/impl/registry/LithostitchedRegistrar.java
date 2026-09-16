@@ -11,8 +11,8 @@ import java.util.Map;
 //? if fabric {
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
  //? } else {
-/*import dev.worldgen.lithostitched.platform.neoforge.LithostitchedNeoforge;
-import dev.worldgen.lithostitched.platform.neoforge.LithostitchedRegistrations;
+/*import dev.worldgen.lithostitched.impl.platform.neoforge.LithostitchedNeoforge;
+import dev.worldgen.lithostitched.impl.platform.neoforge.LithostitchedRegistrations;
 *///? }
 
 public class LithostitchedRegistrar {

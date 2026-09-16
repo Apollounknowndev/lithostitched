@@ -1,8 +1,8 @@
 //? if neoforge {
-/*package dev.worldgen.lithostitched.platform.neoforge.resource;
+/*package dev.worldgen.lithostitched.impl.platform.neoforge.resource;
 
 import com.mojang.serialization.MapCodec;
-import dev.worldgen.lithostitched.Lithostitched;
+import dev.worldgen.lithostitched.impl.Lithostitched;
 import net.neoforged.neoforge.common.conditions.ICondition;
 
 public record BreaksSeedParityCondition() implements ICondition {

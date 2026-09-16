@@ -1,10 +1,10 @@
 //? if neoforge {
-/*package dev.worldgen.lithostitched.platform.neoforge;
+/*package dev.worldgen.lithostitched.impl.platform.neoforge;
 
 import com.mojang.serialization.Codec;
-import dev.worldgen.lithostitched.Lithostitched;
-import dev.worldgen.lithostitched.network.ApplyStructureAttributesPacket;
-import dev.worldgen.lithostitched.worldgen.structure.StructureAttributeHandler;
+import dev.worldgen.lithostitched.impl.Lithostitched;
+import dev.worldgen.lithostitched.impl.network.ApplyStructureAttributesPacket;
+import dev.worldgen.lithostitched.impl.worldgen.structure.StructureAttributeHandler;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
