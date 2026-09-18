@@ -24,7 +24,7 @@ public record SetMaterialRuleModifier(Optional<LoadPredicate> predicate, int pri
 		LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
 		PRIORITY_DEFAULT_CODEC.forGetter(WorldgenModifier::priority),
 		RegistryCodecs.holderSet(Registries.MATERIAL_RULE).fieldOf("target_rules").forGetter(SetMaterialRuleModifier::targetRules),
-		RegistryCodecs.holder(Registries.MATERIAL_RULE).fieldOf("material_rule").forGetter(SetMaterialRuleModifier::materialRule),
+		MaterialRule.HOLDER_CODEC.fieldOf("material_rule").forGetter(SetMaterialRuleModifier::materialRule),
 		InjectionType.CODEC.fieldOf("injection_type").orElse(InjectionType.PREPEND).forGetter(SetMaterialRuleModifier::injectionType)
 	).apply(instance, SetMaterialRuleModifier::new));
 	
