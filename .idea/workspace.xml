@@ -4,16 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="fix terrablender surface rule compat">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/CellularDensityFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/LithostitchedInternalHooks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/LithostitchedInternalHooks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/AxisDensityFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/AxisDensityFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/SelectDensityFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/SelectDensityFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/condition/SampleDensityCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/condition/SampleDensityCondition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/placementcondition/SampleDensityPlacementCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/placementcondition/SampleDensityPlacementCondition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/placementcondition/SampleNoiseRouterPlacementCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/placementcondition/SampleNoiseRouterPlacementCondition.java" afterDir="false" />
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="1.8.0 done">
+      <change beforePath="$PROJECT_DIR$/stonecutter.properties.toml" beforeDir="false" afterPath="$PROJECT_DIR$/stonecutter.properties.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,9 +53,9 @@
       <list>
         <option value="JUnit5 Test Class" />
         <option value="Enum" />
-        <option value="Record" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Record" />
       </list>
     </option>
   </component>
@@ -108,6 +100,7 @@
     "Gradle.1.20.1 [prepareFabric1219ClientRun].executor": "Run",
     "Gradle.1.20.1 [prepareNeoforge1211ClientRun].executor": "Run",
     "Gradle.1.20.1 [prepareNeoforge1219ClientRun].executor": "Run",
+    "Gradle.26.2 [:neoforge:net.neoforged.devlaunch.Main.main()].executor": "Run",
     "Gradle.26.2 [stonecutterSwitchTofabric].executor": "Run",
     "Gradle.26.2 [stonecutterSwitchToneoforge].executor": "Run",
     "Gradle.Build lithostitched.executor": "Run",
@@ -172,7 +165,7 @@
   },
   "keyToStringList": {
     "dev.kikugie.stonecutter.projects": [
-      "{\"id\":\"lithostitched\",\"path\":\":\",\"identityPath\":\":\",\"name\":\"lithostitched\",\"qName\":\"lithostitched\",\"group\":\"\",\"version\":\"unspecified\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\stonecutter.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{\"buildSrc\":{\"id\":\":buildSrc\",\"path\":\":\",\"identityPath\":\":buildSrc\",\"name\":\"buildSrc\",\"qName\":\"buildSrc\",\"group\":\"\",\"version\":\"unspecified\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\buildSrc\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\buildSrc\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\buildSrc\\\\build.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}},\"fabric\":{\"id\":\":fabric\",\"path\":\":fabric\",\"identityPath\":\":fabric\",\"name\":\"fabric\",\"qName\":\":fabric\",\"group\":\"lithostitched\",\"version\":\"1.8.0+beta3-fabric-26.2\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\versions\\\\fabric\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\versions\\\\fabric\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\build.fabric.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}},\"neoforge\":{\"id\":\":neoforge\",\"path\":\":neoforge\",\"identityPath\":\":neoforge\",\"name\":\"neoforge\",\"qName\":\":neoforge\",\"group\":\"lithostitched\",\"version\":\"1.8.0+beta3-neoforge-26.2\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\versions\\\\neoforge\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\versions\\\\neoforge\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\build.neoforge.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}}},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}}"
+      "{\"id\":\"lithostitched\",\"path\":\":\",\"identityPath\":\":\",\"name\":\"lithostitched\",\"qName\":\"lithostitched\",\"group\":\"\",\"version\":\"unspecified\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\stonecutter.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{\"buildSrc\":{\"id\":\":buildSrc\",\"path\":\":\",\"identityPath\":\":buildSrc\",\"name\":\"buildSrc\",\"qName\":\"buildSrc\",\"group\":\"\",\"version\":\"unspecified\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\buildSrc\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\buildSrc\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\buildSrc\\\\build.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}},\"fabric\":{\"id\":\":fabric\",\"path\":\":fabric\",\"identityPath\":\":fabric\",\"name\":\"fabric\",\"qName\":\":fabric\",\"group\":\"lithostitched\",\"version\":\"1.8.0+beta6-fabric-26.2\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\versions\\\\fabric\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\versions\\\\fabric\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\build.fabric.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}},\"neoforge\":{\"id\":\":neoforge\",\"path\":\":neoforge\",\"identityPath\":\":neoforge\",\"name\":\"neoforge\",\"qName\":\":neoforge\",\"group\":\"lithostitched\",\"version\":\"1.8.0+beta6-neoforge-26.2\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\versions\\\\neoforge\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\versions\\\\neoforge\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.2\\\\build.neoforge.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}}},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}}"
     ]
   }
 }]]></component>
@@ -205,7 +198,7 @@
       <recent name="dev.worldgen.lithostitched.impl.worldgen.modifier.attribute" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Minecraft Client (:fabric)">
+  <component name="RunManager" selected="Application.neoforge - Client">
     <configuration name="neoforge - Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
       <module name="lithostitched.neoforge.main" />
@@ -309,22 +302,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1754844028042</updated>
-    </task>
-    <task id="LOCAL-00005" summary="1.5.0+beta5">
-      <option name="closed" value="true" />
-      <created>1758833039815</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1758833039815</updated>
-    </task>
-    <task id="LOCAL-00006" summary="1.5.0+beta5">
-      <option name="closed" value="true" />
-      <created>1758833247231</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1758833247231</updated>
     </task>
     <task id="LOCAL-00007" summary="MNBS migration, sketchy but should work?">
       <option name="closed" value="true" />
@@ -702,15 +679,29 @@
       <option name="project" value="LOCAL" />
       <updated>1788666563490</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Cellular noise, min value fixes">
+      <option name="closed" value="true" />
+      <created>1788673342758</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1788673342758</updated>
+    </task>
+    <task id="LOCAL-00055" summary="1.8.0 done">
+      <option name="closed" value="true" />
+      <created>1790046612055</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1790046612055</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Remove test code" />
-    <MESSAGE value="1.6.1" />
     <MESSAGE value="Remove '1.' prefix from version folders" />
     <MESSAGE value="Less failed 26.1 port" />
     <MESSAGE value="aaaaaa" />
@@ -734,7 +725,9 @@
     <MESSAGE value="Remove mappings file, add foliage/root placers, tree decorator modifier, rename surface context methods" />
     <MESSAGE value="Fix Neoforge biome modifiers" />
     <MESSAGE value="fix terrablender surface rule compat" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix terrablender surface rule compat" />
+    <MESSAGE value="Cellular noise, min value fixes" />
+    <MESSAGE value="1.8.0 done" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.8.0 done" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -17,7 +17,7 @@ import net.minecraft.world.level.biome.Biome;
 import java.util.Optional;
 
 //? if neoforge {
-/*import net.minecraft.world.level.biome.Biome;
+/*import net.neoforged.neoforge.common.world.BiomeModifier;
 import dev.worldgen.lithostitched.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
 *///? }
 

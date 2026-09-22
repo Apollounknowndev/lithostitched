@@ -6,6 +6,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.util.KeyDispatchDataCodec;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.SurfaceRules.RuleSource;
 
@@ -22,7 +23,15 @@ public record ReferenceRule(HolderSet<RuleSource> rules) implements RuleSource {
         if (this.rules.size() == 0) return (x, y, z) -> null;
         if (this.rules.size() == 1) return this.rules.get(0).value().apply(context);
         
-        RuleSource[] sources = this.rules.stream().map(Holder::value).toArray(RuleSource[]::new);
-        return SurfaceRules.sequence(sources).apply(context);
+        SurfaceRules.SurfaceRule[] sources = this.rules.stream().map(Holder::value).map(source -> source.apply(context)).toArray(SurfaceRules.SurfaceRule[]::new);
+        return (x, y, z) -> {
+            for (SurfaceRules.SurfaceRule surfaceRule : sources) {
+                BlockState blockState = surfaceRule.tryApply(x, y, z);
+                if (blockState != null) {
+                    return blockState;
+                }
+            }
+            return null;
+        };
     }
 }
