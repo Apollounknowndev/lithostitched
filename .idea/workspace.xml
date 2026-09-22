@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Cellular noise, min value fixes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/LithostitchedInternalHooks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/LithostitchedInternalHooks.java" afterDir="false" />
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="1.8.0 done">
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/CellularDensityFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/CellularDensityFunction.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -106,6 +104,7 @@
     "Gradle.21.1 [genSourcesWithCfr].executor": "Run",
     "Gradle.21.1 [stonecutterSwitchTofabric].executor": "Run",
     "Gradle.21.1 [stonecutterSwitchToneoforge].executor": "Run",
+    "Gradle.Build 21.1.executor": "Run",
     "Gradle.Build lithostitched.executor": "Run",
     "Gradle.Download Sources.executor": "Run",
     "Gradle.Minecraft Client (:26.2-fabric).executor": "Run",
@@ -168,7 +167,7 @@
   },
   "keyToStringList": {
     "dev.kikugie.stonecutter.projects": [
-      "{\"id\":\"lithostitched\",\"path\":\":\",\"identityPath\":\":\",\"name\":\"lithostitched\",\"qName\":\"lithostitched\",\"group\":\"\",\"version\":\"unspecified\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\stonecutter.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{\"buildSrc\":{\"id\":\":buildSrc\",\"path\":\":\",\"identityPath\":\":buildSrc\",\"name\":\"buildSrc\",\"qName\":\"buildSrc\",\"group\":\"\",\"version\":\"unspecified\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\buildSrc\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\buildSrc\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\buildSrc\\\\build.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}},\"fabric\":{\"id\":\":fabric\",\"path\":\":fabric\",\"identityPath\":\":fabric\",\"name\":\"fabric\",\"qName\":\":fabric\",\"group\":\"lithostitched\",\"version\":\"1.8.0+beta6-fabric-21.1\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\versions\\\\fabric\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\versions\\\\fabric\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\build.fabric.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}},\"neoforge\":{\"id\":\":neoforge\",\"path\":\":neoforge\",\"identityPath\":\":neoforge\",\"name\":\"neoforge\",\"qName\":\":neoforge\",\"group\":\"lithostitched\",\"version\":\"1.8.0+beta6-neoforge-21.1\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\versions\\\\neoforge\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\versions\\\\neoforge\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\build.neoforge.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}}},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}}"
+      "{\"id\":\"lithostitched\",\"path\":\":\",\"identityPath\":\":\",\"name\":\"lithostitched\",\"qName\":\"lithostitched\",\"group\":\"\",\"version\":\"unspecified\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\stonecutter.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{\"buildSrc\":{\"id\":\":buildSrc\",\"path\":\":\",\"identityPath\":\":buildSrc\",\"name\":\"buildSrc\",\"qName\":\"buildSrc\",\"group\":\"\",\"version\":\"unspecified\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\buildSrc\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\buildSrc\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\buildSrc\\\\build.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}},\"fabric\":{\"id\":\":fabric\",\"path\":\":fabric\",\"identityPath\":\":fabric\",\"name\":\"fabric\",\"qName\":\":fabric\",\"group\":\"lithostitched\",\"version\":\"1.8.0+beta7-fabric-21.1\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\versions\\\\fabric\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\versions\\\\fabric\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\build.fabric.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}},\"neoforge\":{\"id\":\":neoforge\",\"path\":\":neoforge\",\"identityPath\":\":neoforge\",\"name\":\"neoforge\",\"qName\":\":neoforge\",\"group\":\"lithostitched\",\"version\":\"1.8.0+beta7-neoforge-21.1\",\"projectDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\versions\\\\neoforge\"},\"buildDir\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\versions\\\\neoforge\\\\build\"},\"buildFile\":{\"path\":\"C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\21.1\\\\build.neoforge.gradle.kts\"},\"externalSystemId\":\"GRADLE\",\"childProjects\":{},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}}},\"sourceSetModel\":{\"taskArtifacts\":[],\"configurationArtifacts\":{},\"sourceSets\":{},\"additionalArtifacts\":[]},\"taskModel\":{\"tasks\":{}}}"
     ]
   }
 }]]></component>
@@ -201,7 +200,7 @@
       <recent name="dev.worldgen.lithostitched.worldgen.modifier.internal" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Minecraft Client (:fabric)">
+  <component name="RunManager" selected="Gradle.lithostitched [build]">
     <configuration name="neoforge - Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
       <module name="lithostitched.neoforge.main" />
@@ -315,22 +314,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1754844028042</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Cleaned up reserved names">
-      <option name="closed" value="true" />
-      <created>1770428573332</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1770428573332</updated>
-    </task>
-    <task id="LOCAL-00013" summary="So much progress aaaaaaaa">
-      <option name="closed" value="true" />
-      <created>1771286940492</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1771286940492</updated>
     </task>
     <task id="LOCAL-00014" summary="Injector priority, force placement injector, FNL">
       <option name="closed" value="true" />
@@ -708,14 +691,29 @@
       <option name="project" value="LOCAL" />
       <updated>1788673540307</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Cellular noise, min value fixes">
+      <option name="closed" value="true" />
+      <created>1788675047195</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1788675047196</updated>
+    </task>
+    <task id="LOCAL-00062" summary="1.8.0 done">
+      <option name="closed" value="true" />
+      <created>1790046216153</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1790046216153</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="1.7.0" />
     <MESSAGE value="1.7.3 (now works, wahoo)" />
     <MESSAGE value="1.7.4-5" />
     <MESSAGE value="1.7.6-7-8-9" />
@@ -740,7 +738,8 @@
     <MESSAGE value="Fabric default on github again" />
     <MESSAGE value="Rename surface rule context methods" />
     <MESSAGE value="Cellular noise, min value fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cellular noise, min value fixes" />
+    <MESSAGE value="1.8.0 done" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.8.0 done" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
