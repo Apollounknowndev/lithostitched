@@ -5,12 +5,28 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.8.0+beta4"
+MOD_VERSION = "1.8.0"
 CHANGELOG = """
-- Fix worldgen modifiers editing biomes not applying on Neoforge.
-- Added two new worldgen modifier types:
-    - `add_spawn_costs` (you're welcome mystic)
-    - `set_structure_attributes`
+Lithostitched 1.8.0 is largely focused on backend changes, with the codebase split up based on version again. Various other changes and fixes have made it in, though.
+
+**Additions**
+
+- `add_spawn_costs` modifier (adds spawn costs for mobs in given biome(s))
+- `set_tree_decorators` modifier (adds/overrides tree decorators on given tree feature(s))
+- `branched_mega_jungle` foliage placer (for wider mega jungle trees)
+- `branched_mega_pine` foliage placer (for wider pine jungle trees)
+- `large_mangrove` root placer (for root placements with 2x2 trees)
+- `cellular` density function type (in-house 2d cellular noise with more consistency/features than fast noise)
+- Introduced an optimization to density function caching. This will be most noticeable when playing with heavy worldgen packs like Tectonic or Lithosphere.
+    - A special thank you to Unnecessarymb and Evanbones for finding and implementing this optimization, respectively.
+
+**Fixes**
+
+- Fixed a critical issue that caused worlds with surface rule injections to corrupt under certain conditions, such as when having a world with both RU 0.6 and Terrablender installed.
+- Fixed the fields on the `offset` placement modifier being non-optional.
+- Fixed the `dungeon` feature type not working.
+- Fixed annoying but harmless log errors when World Weaver is installed.
+- Fix the assumed minimum value in various places (e.g. `sample_density` placement condition) being 0, not roughly -1.8E308.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "26.1"),
