@@ -5,8 +5,6 @@ import com.mojang.serialization.Codec;
 import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.impl.network.ApplyStructureAttributesPacket;
 import dev.worldgen.lithostitched.impl.worldgen.structure.StructureAttributeHandler;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.IEventBus;
@@ -16,9 +14,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import net.neoforged.neoforge.registries.DataPackRegistryEvent;
-
-import java.util.function.Consumer;
 
 @Mod(Lithostitched.MOD_ID)
 public final class LithostitchedNeoforge {
@@ -29,10 +24,6 @@ public final class LithostitchedNeoforge {
 		bus.addListener(this::registerPayloadHandlers);
 		NeoForge.EVENT_BUS.addListener(this::onStartWorldTick);
 		NeoForge.EVENT_BUS.addListener(this::onPlayerDisconnect);
-	}
-	
-	public static <T> Consumer<DataPackRegistryEvent.NewRegistry> registerDynamicRegistry(ResourceKey<Registry<T>> key, Codec<T> codec) {
-		return event -> event.dataPackRegistry(key, codec);
 	}
 	
 	private void registerPayloadHandlers(RegisterPayloadHandlersEvent event) {

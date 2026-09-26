@@ -3,7 +3,9 @@
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.impl.duck.AttributeMapDuck;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.AddSpawnCostsModifier;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.SetBiomeAttributesModifier;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeClimate;
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeEffects;
@@ -86,6 +88,26 @@ public class LithostitchedNeoforgeBiomeModifiers {
                 for (var costEntry : this.modifier.spawnCosts().entrySet()) {
                     spawnSettings.addMobSpawnCost(costEntry.getKey(), costEntry.getValue().charge(), costEntry.getValue().energyBudget());
                 }
+            }
+        }
+        
+        @Override
+        public MapCodec<? extends BiomeModifier> codec() {
+            return CODEC;
+        }
+    }
+    
+    public record SetAttributesBiomeModifier(SetBiomeAttributesModifier modifier) implements BiomeModifier {
+        public static final MapCodec<SetAttributesBiomeModifier> CODEC = SetBiomeAttributesModifier.CODEC.xmap(SetAttributesBiomeModifier::new, SetAttributesBiomeModifier::modifier);
+        
+        @Override
+        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+            if (phase == Phase.MODIFY && this.modifier.biomes().contains(biome)) {
+                EnvironmentAttributeMapBuilder attributes = builder.getAttributes();
+                if (!this.modifier.append()) {
+                    ((AttributeMapDuck)(Object)attributes).clear();
+                }
+                attributes.putAll(this.modifier.attributes());
             }
         }
         

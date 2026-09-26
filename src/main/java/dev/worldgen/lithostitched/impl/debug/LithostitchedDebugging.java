@@ -7,6 +7,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.placement.NetherPlacements;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.attribute.EnvironmentAttributeMap;
+import net.minecraft.world.attribute.EnvironmentAttributes;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
 
 public class LithostitchedDebugging {
@@ -18,6 +21,11 @@ public class LithostitchedDebugging {
 				registries.lookupOrThrow(Registries.BIOME).getOrThrow(BiomeTags.IS_OVERWORLD),
 				registries.lookupOrThrow(Registries.PLACED_FEATURE).getOrThrow(NetherPlacements.LARGE_BASALT_COLUMNS),
 				GenerationStep.Decoration.RAW_GENERATION
+			));
+			
+			consumer.accept(id("pale_garden_fog"), WorldgenModifier.builder().setBiomeAttributes(
+				registries.lookupOrThrow(Registries.BIOME).getOrThrow(Biomes.PALE_GARDEN),
+				EnvironmentAttributeMap.builder().set(EnvironmentAttributes.FOG_END_DISTANCE, 32f).build()
 			));
 		});
 	}

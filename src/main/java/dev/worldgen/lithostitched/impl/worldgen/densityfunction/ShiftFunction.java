@@ -39,7 +39,7 @@ public record ShiftFunction(DensityFunction input, DensityFunction shiftX, Densi
 	
 	@Override
 	public @Axes int domainAxes() {
-		return this.input.domainAxes();
+		return this.input.domainAxes() | this.shiftX.domainAxes() | this.shiftY.domainAxes() | this.shiftZ.domainAxes();
 	}
 	
 	@Override

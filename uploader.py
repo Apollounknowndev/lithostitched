@@ -5,11 +5,9 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "2.0.2"
+MOD_VERSION = "2.0.4"
 CHANGELOG = """
-Fixes
-
-- `set_material_rule` now accepts an inlined `material_rule` instead of just a reference
+- Removed test code that made Pale Gardens have closer fog.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "26.3"),

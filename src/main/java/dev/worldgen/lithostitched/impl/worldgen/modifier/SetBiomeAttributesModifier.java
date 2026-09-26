@@ -16,7 +16,12 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.Optional;
 
-public record SetBiomeAttributesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, EnvironmentAttributeMap attributes, boolean append) implements WorldgenModifier {
+//? if neoforge {
+/*import net.neoforged.neoforge.common.world.BiomeModifier;
+import dev.worldgen.lithostitched.impl.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
+*///? }
+
+public record SetBiomeAttributesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, EnvironmentAttributeMap attributes, boolean append) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<SetBiomeAttributesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetBiomeAttributesModifier::priority),
@@ -24,9 +29,19 @@ public record SetBiomeAttributesModifier(Optional<LoadPredicate> predicate, int 
         EnvironmentAttributeMap.CODEC_ONLY_POSITIONAL.fieldOf("attributes").forGetter(SetBiomeAttributesModifier::attributes),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetBiomeAttributesModifier::append)
     ).apply(instance, SetBiomeAttributesModifier::new));
+    
+    //? if neoforge {
+    /*@Override
+    public BiomeModifier createNeoforgeModifier() {
+        return new LithostitchedNeoforgeBiomeModifiers.SetAttributesBiomeModifier(this);
+    }
+    *///? }
 
     @Override
     public void apply(RegistryAccess registries) {
+        //? if neoforge
+        //if (true) return;
+        
         for (Holder<Biome> biome : this.biomes) {
             var builder = EnvironmentAttributeMap.builder();
             if (this.append) {

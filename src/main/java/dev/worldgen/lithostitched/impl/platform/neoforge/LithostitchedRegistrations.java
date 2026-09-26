@@ -4,8 +4,8 @@
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NewDatapackRegistryEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,6 @@ import static dev.worldgen.lithostitched.impl.Lithostitched.MOD_ID;
  ^/
 public final class LithostitchedRegistrations {
 	public static final Map<ResourceKey<?>, DeferredRegister<?>> REGISTER_CACHE = new HashMap<>();
-	public static final List<Consumer<DataPackRegistryEvent.NewRegistry>> DYNAMIC_REGISTRIES = new ArrayList<>();
 	
 	public static <T> DeferredRegister<T> createDeferredRegister(ResourceKey<Registry<T>> key) {
 		var register = DeferredRegister.create(key, MOD_ID);
@@ -30,9 +29,6 @@ public final class LithostitchedRegistrations {
 	
 	public static void init(IEventBus bus) {
 		REGISTER_CACHE.values().forEach(deferredRegistry -> deferredRegistry.register(bus));
-		bus.addListener((DataPackRegistryEvent.NewRegistry event) -> {
-			DYNAMIC_REGISTRIES.forEach(consumer -> consumer.accept(event));
-		});
 	}
 }
 *///? }

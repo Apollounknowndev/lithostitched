@@ -51,6 +51,7 @@ import dev.worldgen.lithostitched.impl.worldgen.tree.rootplacer.LargeMangroveRoo
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 
 import java.util.Map;
 
@@ -92,6 +93,7 @@ public class LithostitchedBuiltInRegistries {
 	public static void init() {
 		//MixinEnvironment.getCurrentEnvironment().audit();
 		
+		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.BLOCK_PREDICATE, BlockPredicate.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.BANDLANDS, Bandlands.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.BIOME_INJECTOR, BiomeInjector.CODEC);
 		LithostitchedRegistrar.registerRegistry(LithostitchedRegistries.FAST_NOISE_CONFIG, FastNoiseConfig.CODEC);
@@ -271,6 +273,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("breaks_seed_parity", BreaksSeedParityCondition.CODEC)
 		));
 		LithostitchedRegistrar.register(NeoForgeRegistries.BIOME_MODIFIER_SERIALIZERS, Map.ofEntries(
+			Map.entry("set_biome_attributes", LithostitchedNeoforgeBiomeModifiers.SetAttributesBiomeModifier.CODEC),
 			Map.entry("replace_climate", LithostitchedNeoforgeBiomeModifiers.ReplaceClimateBiomeModifier.CODEC),
 			Map.entry("replace_effects", LithostitchedNeoforgeBiomeModifiers.ReplaceEffectsBiomeModifier.CODEC)
 		));

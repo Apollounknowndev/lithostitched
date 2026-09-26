@@ -14,10 +14,12 @@ import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondi
 import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 
 public interface LithostitchedRegistries {
 	// Dynamic
 	ResourceKey<Registry<WorldgenModifier>> WORLDGEN_MODIFIER = create("worldgen_modifier");
+	ResourceKey<Registry<BlockPredicate>> BLOCK_PREDICATE = create("block_predicate");
 	ResourceKey<Registry<Bandlands>> BANDLANDS = create("bandlands");
 	ResourceKey<Registry<TemplateList>> TEMPLATE_LIST = create("template_list");
 	ResourceKey<Registry<BiomeInjector>> BIOME_INJECTOR = create("biome_injector");

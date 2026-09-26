@@ -18,6 +18,13 @@ iconFile = "pack.png"
 config = "lithostitched.mixins.json"
 
 [[dependencies.${id}]]
+modId = "neoforge"
+type = "required"
+versionRange = "[26.3.0.20,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${id}]]
 modId = "minecraft"
 type = "required"
 versionRange = "${minecraft}"

@@ -9,13 +9,13 @@ public record SinFunction(DensityFunction input) implements DensityFunction {
     
     @Override
     public DensitySampler compileSampler(CompileContext context) {
-        return new CosFunction.CosSampler(this.input.compileSampler(context));
+        return new SinSampler(this.input.compileSampler(context));
     }
     
     @Override
     public DensityFunction rewriteChildren(DfRewriteRule rule) {
         DensityFunction input = rule.rewrite(this.input);
-        return input == this.input ? this : new CosFunction(input);
+        return input == this.input ? this : new SinFunction(input);
     }
     
     @Override

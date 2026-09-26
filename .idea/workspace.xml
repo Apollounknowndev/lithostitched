@@ -4,9 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Neo support, begin testing suite">
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="fix set_material_rule modifier">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/duck/AttributeMapDuck.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/blockpredicate/HolderHolderPredicate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/BlockPredicateMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/EnvironmentAttributeMapBuilderMixin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/SetMaterialRuleModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/SetMaterialRuleModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedRegistries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/modifier/WorldgenModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/modifier/WorldgenModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/debug/LithostitchedDebugging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/debug/LithostitchedDebugging.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/platform/neoforge/LithostitchedNeoforge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/platform/neoforge/LithostitchedNeoforge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/platform/neoforge/LithostitchedRegistrations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/platform/neoforge/LithostitchedRegistrations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/platform/neoforge/worldgen/LithostitchedNeoforgeBiomeModifiers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/platform/neoforge/worldgen/LithostitchedNeoforgeBiomeModifiers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/registry/LithostitchedRegistrar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/registry/LithostitchedRegistrar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/ShiftFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/ShiftFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/SinFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/SinFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/SetBiomeAttributesModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/SetBiomeAttributesModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/neoforge.mods.toml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/neoforge.mods.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/lithostitched.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lithostitched.mixins.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stonecutter.properties.toml" beforeDir="false" afterPath="$PROJECT_DIR$/stonecutter.properties.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.py" afterDir="false" />
     </list>
@@ -55,10 +71,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit5 Test Class" />
-        <option value="Interface" />
-        <option value="Record" />
         <option value="Enum" />
+        <option value="Record" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -169,7 +185,7 @@
   },
   &quot;keyToStringList&quot;: {
     &quot;dev.kikugie.stonecutter.projects&quot;: [
-      &quot;{\&quot;id\&quot;:\&quot;lithostitched\&quot;,\&quot;path\&quot;:\&quot;:\&quot;,\&quot;identityPath\&quot;:\&quot;:\&quot;,\&quot;name\&quot;:\&quot;lithostitched\&quot;,\&quot;qName\&quot;:\&quot;lithostitched\&quot;,\&quot;group\&quot;:\&quot;\&quot;,\&quot;version\&quot;:\&quot;unspecified\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\stonecutter.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{\&quot;buildSrc\&quot;:{\&quot;id\&quot;:\&quot;:buildSrc\&quot;,\&quot;path\&quot;:\&quot;:\&quot;,\&quot;identityPath\&quot;:\&quot;:buildSrc\&quot;,\&quot;name\&quot;:\&quot;buildSrc\&quot;,\&quot;qName\&quot;:\&quot;buildSrc\&quot;,\&quot;group\&quot;:\&quot;\&quot;,\&quot;version\&quot;:\&quot;unspecified\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\buildSrc\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\buildSrc\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\buildSrc\\\\build.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}},\&quot;fabric\&quot;:{\&quot;id\&quot;:\&quot;:fabric\&quot;,\&quot;path\&quot;:\&quot;:fabric\&quot;,\&quot;identityPath\&quot;:\&quot;:fabric\&quot;,\&quot;name\&quot;:\&quot;fabric\&quot;,\&quot;qName\&quot;:\&quot;:fabric\&quot;,\&quot;group\&quot;:\&quot;lithostitched\&quot;,\&quot;version\&quot;:\&quot;2.0.1-fabric-26.3\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\versions\\\\fabric\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\versions\\\\fabric\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\build.fabric.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}},\&quot;neoforge\&quot;:{\&quot;id\&quot;:\&quot;:neoforge\&quot;,\&quot;path\&quot;:\&quot;:neoforge\&quot;,\&quot;identityPath\&quot;:\&quot;:neoforge\&quot;,\&quot;name\&quot;:\&quot;neoforge\&quot;,\&quot;qName\&quot;:\&quot;:neoforge\&quot;,\&quot;group\&quot;:\&quot;lithostitched\&quot;,\&quot;version\&quot;:\&quot;2.0.1-neoforge-26.3\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\versions\\\\neoforge\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\versions\\\\neoforge\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\build.neoforge.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}}},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}}&quot;
+      &quot;{\&quot;id\&quot;:\&quot;lithostitched\&quot;,\&quot;path\&quot;:\&quot;:\&quot;,\&quot;identityPath\&quot;:\&quot;:\&quot;,\&quot;name\&quot;:\&quot;lithostitched\&quot;,\&quot;qName\&quot;:\&quot;lithostitched\&quot;,\&quot;group\&quot;:\&quot;\&quot;,\&quot;version\&quot;:\&quot;unspecified\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\stonecutter.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{\&quot;buildSrc\&quot;:{\&quot;id\&quot;:\&quot;:buildSrc\&quot;,\&quot;path\&quot;:\&quot;:\&quot;,\&quot;identityPath\&quot;:\&quot;:buildSrc\&quot;,\&quot;name\&quot;:\&quot;buildSrc\&quot;,\&quot;qName\&quot;:\&quot;buildSrc\&quot;,\&quot;group\&quot;:\&quot;\&quot;,\&quot;version\&quot;:\&quot;unspecified\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\buildSrc\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\buildSrc\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\buildSrc\\\\build.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}},\&quot;fabric\&quot;:{\&quot;id\&quot;:\&quot;:fabric\&quot;,\&quot;path\&quot;:\&quot;:fabric\&quot;,\&quot;identityPath\&quot;:\&quot;:fabric\&quot;,\&quot;name\&quot;:\&quot;fabric\&quot;,\&quot;qName\&quot;:\&quot;:fabric\&quot;,\&quot;group\&quot;:\&quot;lithostitched\&quot;,\&quot;version\&quot;:\&quot;2.0.3-fabric-26.3\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\versions\\\\fabric\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\versions\\\\fabric\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\build.fabric.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}},\&quot;neoforge\&quot;:{\&quot;id\&quot;:\&quot;:neoforge\&quot;,\&quot;path\&quot;:\&quot;:neoforge\&quot;,\&quot;identityPath\&quot;:\&quot;:neoforge\&quot;,\&quot;name\&quot;:\&quot;neoforge\&quot;,\&quot;qName\&quot;:\&quot;:neoforge\&quot;,\&quot;group\&quot;:\&quot;lithostitched\&quot;,\&quot;version\&quot;:\&quot;2.0.3-neoforge-26.3\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\versions\\\\neoforge\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\versions\\\\neoforge\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.3\\\\build.neoforge.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}}},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}}&quot;
     ]
   }
 }</component>
@@ -195,11 +211,11 @@
       <recent name="dev.worldgen.lithostitched.worldgen.bandlands" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dev.worldgen.lithostitched.impl.worldgen.densityfunction" />
       <recent name="dev.worldgen.lithostitched.impl.worldgen.modifier" />
       <recent name="dev.worldgen.lithostitched.impl.worldgen.placementcondition" />
       <recent name="dev.worldgen.lithostitched.api.worldgen.util" />
       <recent name="dev.worldgen.lithostitched.mixin.common" />
-      <recent name="dev.worldgen.lithostitched.impl.worldgen.densityfunction" />
     </key>
   </component>
   <component name="RunManager" selected="Gradle.lithostitched [build]">
@@ -273,6 +289,16 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
+    <configuration default="true" type="lua.app" factoryName="Lua Application">
+      <option name="program" value="lua.exe" />
+      <option name="file" value="" />
+      <option name="workingDir" value="$PROJECT_DIR$/src/main/java" />
+      <option name="debuggerType" value="1" />
+      <option name="params" value="" />
+      <option name="charset" value="UTF-8" />
+      <option name="showConsole" value="true" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.neoforge - Client" />
       <item itemvalue="Application.neoforge - Server" />
@@ -306,14 +332,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1754844028042</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Structure environment attributes">
-      <option name="closed" value="true" />
-      <created>1770258512603</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1770258512603</updated>
     </task>
     <task id="LOCAL-00010" summary="Implement basic biome injectors">
       <option name="closed" value="true" />
@@ -699,14 +717,21 @@
       <option name="project" value="LOCAL" />
       <updated>1789525470784</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="fix set_material_rule modifier">
+      <option name="closed" value="true" />
+      <created>1789698257665</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1789698257665</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Less failed 26.1 port" />
     <MESSAGE value="aaaaaa" />
     <MESSAGE value="1.6.6" />
     <MESSAGE value="1.6.8" />
@@ -731,7 +756,8 @@
     <MESSAGE value="Fixed remaining issues, add aquifer sampling/wrapping" />
     <MESSAGE value="Last changes" />
     <MESSAGE value="Neo support, begin testing suite" />
-    <option name="LAST_COMMIT_MESSAGE" value="Neo support, begin testing suite" />
+    <MESSAGE value="fix set_material_rule modifier" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix set_material_rule modifier" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

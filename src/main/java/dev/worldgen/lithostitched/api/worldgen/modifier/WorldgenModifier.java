@@ -16,6 +16,7 @@ import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondi
 import net.minecraft.core.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.attribute.EnvironmentAttributeMap;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -198,6 +199,18 @@ public interface WorldgenModifier {
 		@SafeVarargs
 		public final WorldgenModifier removeStructureSetEntries(HolderSet<StructureSet> sets, Holder<Structure>... holders) {
 			return new RemoveStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), sets, List.of(holders));
+		}
+		
+		public WorldgenModifier setBiomeAttributes(Holder<Biome> biome, EnvironmentAttributeMap attributes) {
+			return new SetBiomeAttributesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), attributes, true);
+		}
+		
+		public WorldgenModifier setBiomeAttributes(HolderSet<Biome> biomes, EnvironmentAttributeMap attributes) {
+			return new SetBiomeAttributesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, attributes, true);
+		}
+		
+		public WorldgenModifier setBiomeAttributes(HolderSet<Biome> biomes, EnvironmentAttributeMap attributes, boolean append) {
+			return new SetBiomeAttributesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, attributes, append);
 		}
 		
 		public WorldgenModifier setBiomeClimate(Holder<Biome> biome, BiomeClimate climate) {
