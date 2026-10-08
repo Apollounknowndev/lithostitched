@@ -73,10 +73,15 @@ public class AlternateJigsawGenerator {
         int originZ = (blockBox.maxZ() + blockBox.minZ()) / 2;
         Optional<Integer> y;
         y = config.startProjection().map(
-            either -> either.map(
-                snap -> snap.findY(new BlockPos(originX, blockPos2.getY(), originZ), context, heightLimitView, context.randomState()),
-                type -> Optional.of(pos.getY() + chunkGenerator.getFirstFreeHeight(originX, originZ, type, heightLimitView, context.randomState()))
-            )
+            either -> {
+                if (!context.couldStructureExistInColumn(originX, originZ, heightLimitView.getMinY(), heightLimitView.getMaxY())) {
+                    return Optional.<Integer>empty();
+                }
+                return either.map(
+                    snap -> snap.findY(new BlockPos(originX, blockPos2.getY(), originZ), context, heightLimitView, context.randomState()),
+                    type -> Optional.of(pos.getY() + chunkGenerator.getFirstFreeHeight(originX, originZ, type, heightLimitView, context.randomState()))
+                );
+            }
         ).orElseGet(() -> Optional.of(blockPos2.getY()));
 
         if (y.isEmpty()) return Optional.empty();

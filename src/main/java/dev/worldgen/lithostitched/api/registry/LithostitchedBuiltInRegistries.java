@@ -61,7 +61,6 @@ import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 /*import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import dev.worldgen.lithostitched.impl.platform.neoforge.LithostitchedRegistrations;
-import dev.worldgen.lithostitched.impl.platform.neoforge.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.impl.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
 *///? }
 
@@ -269,10 +268,7 @@ public class LithostitchedBuiltInRegistries {
 		));
 		
 		//? if neoforge {
-		/*LithostitchedRegistrar.register(NeoForgeRegistries.CONDITION_SERIALIZERS, Map.ofEntries(
-			Map.entry("breaks_seed_parity", BreaksSeedParityCondition.CODEC)
-		));
-		LithostitchedRegistrar.register(NeoForgeRegistries.BIOME_MODIFIER_SERIALIZERS, Map.ofEntries(
+		/*LithostitchedRegistrar.register(NeoForgeRegistries.BIOME_MODIFIER_SERIALIZERS, Map.ofEntries(
 			Map.entry("set_biome_attributes", LithostitchedNeoforgeBiomeModifiers.SetAttributesBiomeModifier.CODEC),
 			Map.entry("replace_climate", LithostitchedNeoforgeBiomeModifiers.ReplaceClimateBiomeModifier.CODEC),
 			Map.entry("replace_effects", LithostitchedNeoforgeBiomeModifiers.ReplaceEffectsBiomeModifier.CODEC)

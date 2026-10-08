@@ -23,7 +23,6 @@ public interface BlockPredicateMixin {
 		return RegistryCodecs.holder(LithostitchedRegistries.BLOCK_PREDICATE, directCodec).xmap(holder -> switch (holder) {
 			case Holder.Direct<BlockPredicate> direct -> direct.value();
 			case Holder.Reference<BlockPredicate> reference -> new HolderHolderPredicate(reference);
-			default -> throw new IllegalStateException("Unexpected value: " + holder);
 		}, value -> switch (value) {
 			case HolderHolderPredicate(Holder<BlockPredicate> holder) -> holder;
 			default -> Holder.direct(value);

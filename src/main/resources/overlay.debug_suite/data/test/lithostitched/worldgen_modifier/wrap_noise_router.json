@@ -1,0 +1,25 @@
+{
+  "type": "lithostitched:wrap_noise_router",
+  "target_function": "minecraft:overworld/sloped_cheese",
+  "dimension": "minecraft:overworld",
+  "target": "final_density",
+  "wrapper_function": {
+    "type": "minecraft:range_choice",
+    "input": "minecraft:y",
+    "min_inclusive": 256,
+    "max_exclusive": 320,
+    "when_in_range": {
+      "type": "minecraft:add",
+      "left": -0.7,
+      "right": {
+        "type": "minecraft:noise",
+        "noise": "minecraft:surface",
+        "xz_scale": 0.33,
+        "y_scale": 0.33
+      }
+    },
+    "when_out_of_range": {
+      "type": "lithostitched:wrapped_marker"
+    }
+  }
+}

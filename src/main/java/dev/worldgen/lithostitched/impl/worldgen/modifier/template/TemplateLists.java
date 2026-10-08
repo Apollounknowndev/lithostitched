@@ -5,9 +5,11 @@ import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.util.RandomSource;
 
 import java.util.Map;
+import java.util.Optional;
 
 public interface TemplateLists {
     Map<Integer, String> MANSION_FLOORS = Map.of(1, "first_floor/", 2, "second_floor/", 3, "third_floor/");
@@ -28,8 +30,13 @@ public interface TemplateLists {
         return ResourceKey.create(LithostitchedRegistries.TEMPLATE_LIST, Lithostitched.id("woodland_mansion/" + MANSION_FLOORS.get(floor) + name));
     }
 
-    static Identifier getRandom(RegistryAccess registries, ResourceKey<TemplateList> list, RandomSource random) {
-        return registries.lookupOrThrow(LithostitchedRegistries.TEMPLATE_LIST).get(list).get().value().getRandom(random);
+    static Identifier getRandom(RegistryAccess registries, ResourceKey<TemplateList> key, RandomSource random) {
+        Optional<TemplateList> value = registries.lookupOrThrow(LithostitchedRegistries.TEMPLATE_LIST).getOptional(key);
+        if (value.isEmpty()) {
+            Lithostitched.LOGGER.error("Couldn't find template list {}. This should never happen, report to Lithostitched!", key.identifier());
+            return Identifier.withDefaultNamespace("empty");
+        }
+        return value.get().getRandom(random);
     }
 
     interface Mansion {

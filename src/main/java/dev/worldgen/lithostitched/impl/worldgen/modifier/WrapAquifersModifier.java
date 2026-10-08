@@ -18,13 +18,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public record WrapAquifersModifier(Optional<LoadPredicate> predicate, int priority, ResourceKey<Level> dimension, AquiferTarget target, Holder<DensityFunction> wrapperFunction) implements WorldgenModifier {
+public record WrapAquifersModifier(Optional<LoadPredicate> predicate, int priority, ResourceKey<Level> dimension, AquiferTarget target, DensityFunction wrapperFunction) implements WorldgenModifier {
     public static final MapCodec<WrapAquifersModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(WrapAquifersModifier::priority),
         ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension").forGetter(WrapAquifersModifier::dimension),
         AquiferTarget.CODEC.fieldOf("target").forGetter(WrapAquifersModifier::target),
-        LithostitchedCodecs.DF_REFERENCE.fieldOf("wrapper_function").forGetter(WrapAquifersModifier::wrapperFunction)
+        DensityFunction.CODEC.fieldOf("wrapper_function").forGetter(WrapAquifersModifier::wrapperFunction)
     ).apply(instance, WrapAquifersModifier::new));
 
     @Override
@@ -39,7 +39,7 @@ public record WrapAquifersModifier(Optional<LoadPredicate> predicate, int priori
         List<DensityFunction> orderedFunctions = modifiers.stream()
             .filter(modifier -> modifier.target == target)
             .sorted(Comparator.comparingInt(WrapAquifersModifier::priority))
-            .map(modifier -> modifier.wrapperFunction().value())
+            .map(WrapAquifersModifier::wrapperFunction)
             .toList();
 
         if (orderedFunctions.isEmpty()) return wrapped;

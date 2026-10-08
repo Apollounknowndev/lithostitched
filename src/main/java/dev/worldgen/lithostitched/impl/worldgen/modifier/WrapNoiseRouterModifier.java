@@ -5,9 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.api.worldgen.util.NoiseRouterTarget;
-import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.internal.DensityFunctionInjectorHelper;
-import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -18,13 +16,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public record WrapNoiseRouterModifier(Optional<LoadPredicate> predicate, int priority, ResourceKey<Level> dimension, NoiseRouterTarget target, Holder<DensityFunction> wrapperFunction) implements WorldgenModifier {
+public record WrapNoiseRouterModifier(Optional<LoadPredicate> predicate, int priority, ResourceKey<Level> dimension, NoiseRouterTarget target, DensityFunction wrapperFunction) implements WorldgenModifier {
     public static final MapCodec<WrapNoiseRouterModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(WrapNoiseRouterModifier::priority),
         ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension").forGetter(WrapNoiseRouterModifier::dimension),
         NoiseRouterTarget.CODEC.fieldOf("target").forGetter(WrapNoiseRouterModifier::target),
-        LithostitchedCodecs.DF_REFERENCE.fieldOf("wrapper_function").forGetter(WrapNoiseRouterModifier::wrapperFunction)
+        DensityFunction.CODEC.fieldOf("wrapper_function").forGetter(WrapNoiseRouterModifier::wrapperFunction)
     ).apply(instance, WrapNoiseRouterModifier::new));
 
     @Override
@@ -39,7 +37,7 @@ public record WrapNoiseRouterModifier(Optional<LoadPredicate> predicate, int pri
         List<DensityFunction> orderedFunctions = modifiers.stream()
             .filter(modifier -> modifier.target == target)
             .sorted(Comparator.comparingInt(WrapNoiseRouterModifier::priority))
-            .map(modifier -> modifier.wrapperFunction().value())
+            .map(WrapNoiseRouterModifier::wrapperFunction)
             .toList();
 
         if (orderedFunctions.isEmpty()) return wrapped;

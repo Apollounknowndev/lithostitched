@@ -11,7 +11,7 @@ import dev.worldgen.lithostitched.api.worldgen.util.BiomeClimate;
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeEffects;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.world.attribute.*;
+import net.minecraft.core.RegistryAccess;import net.minecraft.world.attribute.*;
 import net.minecraft.world.level.biome.Biome;
 import net.neoforged.neoforge.common.world.*;
 
@@ -28,7 +28,7 @@ public class LithostitchedNeoforgeBiomeModifiers {
         ).apply(builder, ReplaceClimateBiomeModifier::new));
 
         @Override
-        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+        public void modify(RegistryAccess registries, Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
             if (phase == Phase.MODIFY && this.biomes().contains(biome)) {
                 ClimateSettingsBuilder climateSettings = builder.getClimateSettings();
                 tryApply(this.climateSettings.temperature(), climateSettings::setTemperature);
@@ -56,7 +56,7 @@ public class LithostitchedNeoforgeBiomeModifiers {
         ).apply(builder, ReplaceEffectsBiomeModifier::new));
 
         @Override
-        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder info) {
+        public void modify(RegistryAccess registries, Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder info) {
             if (phase == Phase.MODIFY && this.biomes().contains(biome)) {
                 BiomeSpecialEffectsBuilder builder = info.getSpecialEffects();
                 applyEffect(BiomeEffects::waterColor, builder::waterColor);
@@ -82,7 +82,7 @@ public class LithostitchedNeoforgeBiomeModifiers {
         public static final MapCodec<AddSpawnCostsBiomeModifier> CODEC = AddSpawnCostsModifier.CODEC.xmap(AddSpawnCostsBiomeModifier::new, AddSpawnCostsBiomeModifier::modifier);
         
         @Override
-        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+        public void modify(RegistryAccess registries, Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
             if (phase == Phase.ADD && this.modifier.biomes().contains(biome)) {
                 MobSpawnSettingsBuilder spawnSettings = builder.getMobSpawnSettings();
                 for (var costEntry : this.modifier.spawnCosts().entrySet()) {
@@ -101,7 +101,7 @@ public class LithostitchedNeoforgeBiomeModifiers {
         public static final MapCodec<SetAttributesBiomeModifier> CODEC = SetBiomeAttributesModifier.CODEC.xmap(SetAttributesBiomeModifier::new, SetAttributesBiomeModifier::modifier);
         
         @Override
-        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+        public void modify(RegistryAccess registries, Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
             if (phase == Phase.MODIFY && this.modifier.biomes().contains(biome)) {
                 EnvironmentAttributeMapBuilder attributes = builder.getAttributes();
                 if (!this.modifier.append()) {

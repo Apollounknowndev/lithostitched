@@ -5,9 +5,11 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "2.0.4"
+MOD_VERSION = "2.0.5"
 CHANGELOG = """
-- Removed test code that made Pale Gardens have closer fog.
+- Fixed density function wrappers and `cellular` df conditions not allowing inlined functions.
+- Fixed the `breaks_seed_parity` config option not working correctly.
+- Fixed Neoforge 26.3.0.24+ not working.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "26.3"),

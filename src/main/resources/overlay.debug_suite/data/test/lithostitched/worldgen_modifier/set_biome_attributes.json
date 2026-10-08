@@ -1,0 +1,7 @@
+{
+  "type": "lithostitched:set_biome_attributes",
+  "biomes": "minecraft:pale_garden",
+  "attributes": {
+    "minecraft:visual/fog_end_distance": 32
+  }
+}

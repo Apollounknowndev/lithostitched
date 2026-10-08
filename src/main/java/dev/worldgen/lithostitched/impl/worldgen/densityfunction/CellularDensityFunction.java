@@ -96,7 +96,7 @@ public record CellularDensityFunction(Optional<CellCondition> condition, GridDim
 	
 	public record CellCondition(DensityFunction function, InclusiveRange<Float> range, float fallbackValue) {
 		public static final Codec<CellCondition> CODEC = RecordCodecBuilder.create(i -> i.group(
-			LithostitchedCodecs.DF_BASE.fieldOf("function").forGetter(CellCondition::function),
+			DensityFunction.CODEC.fieldOf("function").forGetter(CellCondition::function),
 			LithostitchedCodecs.FLOAT_RANGE.fieldOf("range").forGetter(CellCondition::range),
 			Codec.FLOAT.fieldOf("fallback_value").forGetter(CellCondition::fallbackValue)
 		).apply(i, CellCondition::new));

@@ -5,7 +5,6 @@ import dev.worldgen.apollib.config.ApollibConfigHolder;
 import dev.worldgen.apollib.registry.ApollibRegistrar;
 import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
 import dev.worldgen.lithostitched.impl.config.ConfigState;
-import dev.worldgen.lithostitched.impl.debug.LithostitchedDebugging;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.Identifier;
@@ -30,8 +29,11 @@ public class Lithostitched {
 		LithostitchedBuiltInRegistries.init();
 		REGISTRAR.registerAll();
 		
+		Apollib.addResourceCondition(id("breaks_seed_parity"), () -> CONFIG.getState().breaksSeedParity);
+		Apollib.addResourceCondition(id("debug_suite"), () -> CONFIG.getState().enableDebugSuite);
+		
 		if (CONFIG.getState().enableDebugSuite) {
-			LithostitchedDebugging.init();
+			Lithostitched.LOGGER.error("Lithostitched's debug suite is enabled. Various modifications will be applied to world generation. If you do not want this, turn off the enable_debug_suite option in the config!");
 		}
 	}
 	

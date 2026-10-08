@@ -5,23 +5,24 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
-import dev.worldgen.lithostitched.impl.LithostitchedCodecs;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.internal.DensityFunctionInjectorHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
 
 import java.util.Optional;
 
-public record WrapDensityFunctionModifier(Optional<LoadPredicate> predicate, int priority, Holder<DensityFunction> targetFunction, Holder<DensityFunction> wrapperFunction) implements WorldgenModifier {
+public record WrapDensityFunctionModifier(Optional<LoadPredicate> predicate, int priority, Holder<DensityFunction> targetFunction, DensityFunction wrapperFunction) implements WorldgenModifier {
     public static final MapCodec<WrapDensityFunctionModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(WrapDensityFunctionModifier::priority),
-        LithostitchedCodecs.DF_REFERENCE.fieldOf("target_function").forGetter(WrapDensityFunctionModifier::targetFunction),
-        LithostitchedCodecs.DF_REFERENCE.fieldOf("wrapper_function").forGetter(WrapDensityFunctionModifier::wrapperFunction)
+        RegistryCodecs.holder(Registries.DENSITY_FUNCTION).fieldOf("target_function").forGetter(WrapDensityFunctionModifier::targetFunction),
+        DensityFunction.CODEC.fieldOf("wrapper_function").forGetter(WrapDensityFunctionModifier::wrapperFunction)
     ).apply(instance, WrapDensityFunctionModifier::new));
     
-    public static WorldgenModifier create(Optional<LoadPredicate> predicate, int priority, Holder<DensityFunction> targetFunction, Holder<DensityFunction> wrapperFunction) {
+    public static WorldgenModifier create(Optional<LoadPredicate> predicate, int priority, Holder<DensityFunction> targetFunction, DensityFunction wrapperFunction) {
         return new WrapDensityFunctionModifier(predicate, priority, targetFunction, wrapperFunction);
     }
     
@@ -30,7 +31,7 @@ public record WrapDensityFunctionModifier(Optional<LoadPredicate> predicate, int
     public void apply(RegistryAccess registries) {
         if (this.targetFunction instanceof Holder.Reference<DensityFunction> reference) {
             var accessor = ((HolderReferenceAccessor<DensityFunction>)reference);
-            accessor.setValue(DensityFunctionInjectorHelper.wrap(this.targetFunction.value(), this.wrapperFunction.value()));
+            accessor.setValue(DensityFunctionInjectorHelper.wrap(this.targetFunction.value(), this.wrapperFunction));
         }
     }
 

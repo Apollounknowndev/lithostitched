@@ -1,0 +1,6 @@
+{
+  "type": "lithostitched:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "minecraft:patch_crimson_roots",
+  "step": "vegetal_decoration"
+}

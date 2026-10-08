@@ -6,6 +6,7 @@ import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.util.InjectionType;
+import dev.worldgen.lithostitched.api.worldgen.util.AquiferTarget;
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeClimate;
 import dev.worldgen.lithostitched.api.worldgen.util.WeightedSpawnerData;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
@@ -277,19 +278,15 @@ public interface WorldgenModifier {
 			return new StackFeatureModifier(predicate, priority.orElse(DEFAULT_PRIORITY), baseFeatures, stackedFeature, placementType);
 		}
 		
-		public WorldgenModifier wrapDensityFunction(Holder<DensityFunction> target, DensityFunction wrapper) {
-			return WrapDensityFunctionModifier.create(predicate, priority.orElse(DEFAULT_PRIORITY), target, Holder.direct(wrapper));
+		public WorldgenModifier wrapAquifers(ResourceKey<Level> dimension, AquiferTarget target, DensityFunction wrapper) {
+			return new WrapAquifersModifier(predicate, priority.orElse(DEFAULT_PRIORITY), dimension, target, wrapper);
 		}
 		
-		public WorldgenModifier wrapDensityFunction(Holder<DensityFunction> target, Holder<DensityFunction> wrapper) {
+		public WorldgenModifier wrapDensityFunction(Holder<DensityFunction> target, DensityFunction wrapper) {
 			return WrapDensityFunctionModifier.create(predicate, priority.orElse(DEFAULT_PRIORITY), target, wrapper);
 		}
 		
 		public WorldgenModifier wrapNoiseRouter(ResourceKey<Level> dimension, NoiseRouterTarget target, DensityFunction wrapper) {
-			return new WrapNoiseRouterModifier(predicate, priority.orElse(DEFAULT_PRIORITY), dimension, target, Holder.direct(wrapper));
-		}
-		
-		public WorldgenModifier wrapNoiseRouter(ResourceKey<Level> dimension, NoiseRouterTarget target, Holder<DensityFunction> wrapper) {
 			return new WrapNoiseRouterModifier(predicate, priority.orElse(DEFAULT_PRIORITY), dimension, target, wrapper);
 		}
 	}
