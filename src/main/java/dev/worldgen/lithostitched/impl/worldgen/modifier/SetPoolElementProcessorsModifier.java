@@ -16,6 +16,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.level.levelgen.structure.pools.ListPoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -64,6 +65,10 @@ public record SetPoolElementProcessorsModifier(Optional<LoadPredicate> predicate
             }
         } else if (element instanceof DelegatingPoolElement delegating) {
             applyModifier(delegating.delegate());
+        } else if (element instanceof ListPoolElement list) {
+            for (StructurePoolElement childElement : list.getElements()) {
+                applyModifier(childElement);
+            }
         }
     }
 

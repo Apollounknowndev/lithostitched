@@ -26,6 +26,6 @@ public class StructureStartMixin {
 		)
 	)
 	private void storeReferencePos(WorldGenLevel level, StructureManager structureManager, ChunkGenerator generator, RandomSource random, BoundingBox chunkBB, ChunkPos chunkPos, CallbackInfo ci, @Local(ordinal = 1) BlockPos referencePos, @Local(ordinal = 0) StructurePiece piece) {
-		((ReferencePosDuck)piece).setReferencePos(referencePos);
+		((ReferencePosDuck)piece).lithostitched$setReferencePos(referencePos);
 	}
 }

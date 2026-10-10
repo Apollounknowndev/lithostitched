@@ -17,6 +17,7 @@ public interface LithostitchedProcessorLists {
 	ResourceKey<StructureProcessorList> SHIPWRECK = key("shipwreck");
 	ResourceKey<StructureProcessorList> WOODLAND_MANSION = key("woodland_mansion");
 	
+	ResourceKey<StructureProcessorList> BURIED_TREASURE = key("buried_treasure");
 	ResourceKey<StructureProcessorList> MINESHAFT = key("mineshaft");
 	ResourceKey<StructureProcessorList> NETHER_FORTRESS = key("nether_fortress");
 	ResourceKey<StructureProcessorList> OCEAN_MONUMENT = key("ocean_monument");
@@ -31,6 +32,12 @@ public interface LithostitchedProcessorLists {
 	
 	// Internal method for non-template processors.
 	static ResourceKey<StructureProcessorList> pick(StructurePiece piece) {
+		if (piece instanceof BuriedTreasurePieces.BuriedTreasurePiece) {
+			return BURIED_TREASURE;
+		}
+		if (piece instanceof RuinedPortalPiece) {
+			return RUINED_PORTAL;
+		}
 		if (piece instanceof MineshaftPieces.MineShaftPiece) {
 			return MINESHAFT;
 		}

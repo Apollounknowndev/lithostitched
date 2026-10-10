@@ -1,10 +1,12 @@
 package dev.worldgen.lithostitched.api.worldgen.processorcondition;
 
 import dev.worldgen.lithostitched.api.worldgen.processor.enums.BlockType;
+import dev.worldgen.lithostitched.api.worldgen.processor.enums.ProcessorPosition;
 import dev.worldgen.lithostitched.impl.worldgen.processor.condition.*;
 import net.minecraft.advancements.predicates.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.structure.templatesystem.PosRuleTest;
 
@@ -17,6 +19,22 @@ public interface LithostitchedProcessorConditions {
 	
 	static ProcessorCondition anyOf(ProcessorCondition... conditions) {
 		return new AnyOf(Arrays.asList(conditions));
+	}
+	
+	static ProcessorCondition matchingBiomes(Holder<Biome> biome) {
+		return new MatchingBiomes(HolderSet.direct(biome), ProcessorPosition.BLOCK);
+	}
+	
+	static ProcessorCondition matchingBiomes(Holder<Biome> biome, ProcessorPosition position) {
+		return new MatchingBiomes(HolderSet.direct(biome), position);
+	}
+	
+	static ProcessorCondition matchingBiomes(HolderSet<Biome> biomes) {
+		return new MatchingBiomes(biomes, ProcessorPosition.BLOCK);
+	}
+	
+	static ProcessorCondition matchingBiomes(HolderSet<Biome> biomes, ProcessorPosition position) {
+		return new MatchingBiomes(biomes, position);
 	}
 	
 	static ProcessorCondition matchingBlocks(Block block, StatePropertiesPredicate properties, BlockType matchType) {
