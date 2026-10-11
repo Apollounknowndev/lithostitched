@@ -9,17 +9,17 @@ import net.minecraft.world.level.levelgen.densityfunction.DensitySampler;
 import net.minecraft.world.level.levelgen.densityfunction.DfRewriteRule;
 
 /**
- * Holds two density functions, one of which runs.
+ * Holds three density functions, one of which runs.
  * Used for density function wrapping to maintain access to the root density function.
  */
-public record MergedDensityFunction(DensityFunction original, DensityFunction wrapped, DensityFunction full) implements DensityFunction {
+public record MergedFunction(DensityFunction original, DensityFunction wrapped, DensityFunction full) implements DensityFunction {
     public static final MapCodec<DensityFunction> CODEC = DensityFunction.CODEC.xmap(
         df -> df instanceof DensityFunctions.HolderHolder(Holder<DensityFunction> holder) ? holder.value() : df,
-        MergedDensityFunction::unwrappedOriginal
+        MergedFunction::unwrappedOriginal
     ).fieldOf("original");
 
     private static DensityFunction unwrappedOriginal(DensityFunction df) {
-        return df instanceof MergedDensityFunction merged ? unwrappedOriginal(merged.original()) : df;
+        return df instanceof MergedFunction merged ? unwrappedOriginal(merged.original()) : df;
     }
     
     @Override
@@ -29,8 +29,8 @@ public record MergedDensityFunction(DensityFunction original, DensityFunction wr
     
     @Override
     public DensityFunction rewriteChildren(DfRewriteRule rule) {
-        DensityFunction full = this.full.rewriteChildren(rule);
-        return full == this.full ? this : new MergedDensityFunction(original, wrapped, full);
+        DensityFunction full = rule.rewrite(this.full);
+        return full == this.full ? this : new MergedFunction(original, wrapped, full);
     }
     
     @Override

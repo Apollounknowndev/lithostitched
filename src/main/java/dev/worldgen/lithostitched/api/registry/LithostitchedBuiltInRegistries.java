@@ -19,9 +19,9 @@ import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.InjectorB
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import dev.worldgen.lithostitched.impl.worldgen.blockpredicate.*;
 import dev.worldgen.lithostitched.impl.worldgen.densityfunction.*;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.MergedDensityFunction;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.OriginalMarkerDensityFunction;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.WrappedMarkerDensityFunction;
+import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.MergedFunction;
+import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.OriginalMarkerFunction;
+import dev.worldgen.lithostitched.impl.worldgen.densityfunction.marker.WrappedMarkerFunction;
 import dev.worldgen.lithostitched.impl.worldgen.fastnoise.CellularNoiseType;
 import dev.worldgen.lithostitched.impl.worldgen.fastnoise.PerlinNoiseType;
 import dev.worldgen.lithostitched.impl.worldgen.fastnoise.SimplexNoiseType;
@@ -197,9 +197,9 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("weighted", WeightedProvider.CODEC)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.DENSITY_FUNCTION_TYPE, Map.ofEntries(
-			Map.entry("internal/merged", MergedDensityFunction.CODEC),
-			Map.entry("wrapped_marker", WrappedMarkerDensityFunction.CODEC),
-			Map.entry("original_marker", OriginalMarkerDensityFunction.CODEC),
+			Map.entry("internal/merged", MergedFunction.CODEC),
+			Map.entry("wrapped_marker", WrappedMarkerFunction.CODEC),
+			Map.entry("original_marker", OriginalMarkerFunction.CODEC),
 			Map.entry("fast_noise", FastNoiseFunction.CODEC),
 			
 			Map.entry("cos", CosFunction.CODEC),

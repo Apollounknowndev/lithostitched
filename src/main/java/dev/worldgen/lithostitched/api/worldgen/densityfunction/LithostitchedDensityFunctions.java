@@ -26,19 +26,19 @@ public interface LithostitchedDensityFunctions {
 	}
 	
 	static DensityFunction cellular2d(int gridSize, float jitter, ReturnType returnType, int salt) {
-		return new CellularDensityFunction(Optional.empty(), new GridDimensions(gridSize, 0), jitter, returnType, salt, 0);
+		return new CellularDensityFunction(Optional.empty(), new GridDimensions(gridSize, 0), jitter, returnType, salt);
 	}
 	
 	static DensityFunction cellular2d(DensityFunction condition, float minValue, float maxValue, float fallback, int gridSize, float jitter, ReturnType returnType, int salt) {
-		return new CellularDensityFunction(Optional.of(new CellularDensityFunction.CellCondition(condition, new InclusiveRange<>(minValue, maxValue), fallback)), new GridDimensions(gridSize, 0), jitter, returnType, salt, 0);
+		return new CellularDensityFunction(Optional.of(new CellularDensityFunction.CellCondition(condition, new InclusiveRange<>(minValue, maxValue), fallback)), new GridDimensions(gridSize, 0), jitter, returnType, salt);
 	}
 	
 	static DensityFunction cellular3d(int gridSizeXZ, int gridSizeY, float jitter, ReturnType returnType, int salt) {
-		return new CellularDensityFunction(Optional.empty(), new GridDimensions(gridSizeXZ, gridSizeY), jitter, returnType, salt, 0);
+		return new CellularDensityFunction(Optional.empty(), new GridDimensions(gridSizeXZ, gridSizeY), jitter, returnType, salt);
 	}
 	
 	static DensityFunction cellular3d(DensityFunction condition, float minValue, float maxValue, float fallback, int gridSizeXZ, int gridSizeY, float jitter, ReturnType returnType, int salt) {
-		return new CellularDensityFunction(Optional.of(new CellularDensityFunction.CellCondition(condition, new InclusiveRange<>(minValue, maxValue), fallback)), new GridDimensions(gridSizeXZ, gridSizeY), jitter, returnType, salt, 0);
+		return new CellularDensityFunction(Optional.of(new CellularDensityFunction.CellCondition(condition, new InclusiveRange<>(minValue, maxValue), fallback)), new GridDimensions(gridSizeXZ, gridSizeY), jitter, returnType, salt);
 	}
 	
 	static DensityFunction fastNoise(Holder<FastNoiseConfig> config, double xzScale, double yScale) {
@@ -50,10 +50,10 @@ public interface LithostitchedDensityFunctions {
 	}
 	
 	static DensityFunction wrappedMarker() {
-		return new WrappedMarkerDensityFunction();
+		return new WrappedMarkerFunction();
 	}
 	
 	static DensityFunction originalMarker() {
-		return new OriginalMarkerDensityFunction();
+		return new OriginalMarkerFunction();
 	}
 }

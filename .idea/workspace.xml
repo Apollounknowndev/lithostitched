@@ -4,31 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="df fixes, neo biome modifier fix, pack.mcmeta fixes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/tag/LithostitchedBlockTags.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/processor/internal/NonTemplateProcessorHelper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/DesertPyramidStructureMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/MineshaftCorridorMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/MineshaftPieceMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/MonsterThroneMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/PortalRoomMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/WoodlandMansionStructureMixin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/data/lithostitched/tags/block/supports_mineshaft_extension.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/data/lithostitched/tags/block/supports_ruined_portal_leaves.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/data/lithostitched/worldgen/processor_list/buried_treasure.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/overlay.debug_suite/data/test/lithostitched/worldgen_modifier/add_processor_list_processors.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/overlay.debug_suite/data/test/lithostitched/worldgen_modifier/test2.json" afterDir="false" />
+    <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Tons of processor injection fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/processor/LithostitchedProcessorLists.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/processor/LithostitchedProcessorLists.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/processorcondition/LithostitchedProcessorConditions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/processorcondition/LithostitchedProcessorConditions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/duck/ReferencePosDuck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/duck/ReferencePosDuck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/SetPoolElementProcessorsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/SetPoolElementProcessorsModifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/NetherFossilPieceMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/NetherFossilPieceMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/RuinedPortalPieceMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/RuinedPortalPieceMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/StructurePieceMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/StructurePieceMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/StructureStartMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/StructureStartMixin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/lithostitched.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lithostitched.mixins.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/overlay.debug_suite/data/test/function/join.mcfunction" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/overlay.debug_suite/data/test/function/join.mcfunction" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/densityfunction/LithostitchedDensityFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/densityfunction/LithostitchedDensityFunctions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/LithostitchedInternalHooks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/LithostitchedInternalHooks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/CellularDensityFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/CellularDensityFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/marker/MarkerFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/marker/MarkerFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/marker/MergedDensityFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/marker/MergedFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/marker/OriginalMarkerDensityFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/marker/OriginalMarkerFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/marker/WrappedMarkerDensityFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/marker/WrappedMarkerFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/internal/DensityFunctionInjectorHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/internal/DensityFunctionInjectorHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/processor/condition/MatchingBiomes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/processor/condition/MatchingBiomes.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +175,7 @@
     &quot;git-widget-placeholder&quot;: &quot;26.3&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/26.3/src/main/resources/data/lithostitched/tags/block&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/26.3/run/world/datapacks&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
@@ -204,11 +191,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.3\run\world\datapacks" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.3\src\main\resources\data\lithostitched\tags\block" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.3\src\main\resources\data\lithostitched\worldgen\processor_list" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.3\src\main\resources\overlay.debug_suite\data\test\lithostitched\worldgen_modifier" />
       <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.3\src\main\java\dev\worldgen\lithostitched\mixin\common" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.3\src\main\java\dev\worldgen\lithostitched\impl\worldgen" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -231,7 +218,7 @@
       <recent name="dev.worldgen.lithostitched.impl.worldgen.modifier" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Minecraft Server (:fabric)">
+  <component name="RunManager" selected="Gradle.Minecraft Client (:fabric)">
     <configuration name="neoforge - Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
       <module name="lithostitched.neoforge.main" />
@@ -372,14 +359,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1754844028042</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Cleaned up reserved names">
-      <option name="closed" value="true" />
-      <created>1770428573332</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1770428573332</updated>
     </task>
     <task id="LOCAL-00013" summary="So much progress aaaaaaaa">
       <option name="closed" value="true" />
@@ -765,14 +744,21 @@
       <option name="project" value="LOCAL" />
       <updated>1791429383608</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Tons of processor injection fixes">
+      <option name="closed" value="true" />
+      <created>1791616068920</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1791616068920</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="1.6.8" />
     <MESSAGE value="1.7.0" />
     <MESSAGE value="1.7.3 (now works, wahoo)" />
     <MESSAGE value="1.7.4-5" />
@@ -797,12 +783,14 @@
     <MESSAGE value="fix set_material_rule modifier" />
     <MESSAGE value="df fixes, neo biome attributes fix, block predicate holders" />
     <MESSAGE value="df fixes, neo biome modifier fix, pack.mcmeta fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="df fixes, neo biome modifier fix, pack.mcmeta fixes" />
+    <MESSAGE value="Tons of processor injection fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tons of processor injection fixes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="net.minecraft.world.level.biome.Biome" memberName="climateSettings" />
+        <PinnedItemInfo parentTag="net.minecraft.world.level.levelgen.densityfunction.op.SliceFunction" memberName="input" />
         <PinnedItemInfo parentTag="net.minecraft.world.level.biome.MultiNoiseBiomeSource" memberName="parameters" />
       </pinned-members>
     </pin-to-top-manager>
@@ -812,6 +800,8 @@
         <watch expression="this.baseResolver" language="JAVA" />
         <watch expression="sampler" />
         <watch expression="this" />
+        <watch expression="((ClampFunction)((LerpFunction)this.wrapperFunction).alpha).min" custom="dev.worldgen.lithostitched.impl.worldgen.modifier.WrapDensityFunctionModifier,net.minecraft.world.level.levelgen.densityfunction.op.LerpFunction,net.minecraft.world.level.levelgen.densityfunction.op.ClampFunction" />
+        <watch expression="((ClampFunction)value).input" custom="net.minecraft.world.level.levelgen.densityfunction.op.ClampFunction" />
       </configuration>
     </watches-manager>
   </component>

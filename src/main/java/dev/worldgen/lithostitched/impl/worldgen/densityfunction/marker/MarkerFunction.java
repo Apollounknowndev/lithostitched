@@ -5,7 +5,7 @@ import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
 import net.minecraft.world.level.levelgen.densityfunction.DensitySampler;
 import net.minecraft.world.level.levelgen.densityfunction.DfRewriteRule;
 
-public interface MarkerFunction extends DensityFunction {
+public sealed interface MarkerFunction extends DensityFunction permits OriginalMarkerFunction, WrappedMarkerFunction {
     @Override
     default DensitySampler compileSampler(final CompileContext context) {
         throw new IllegalStateException("Marker density function should never be compiled!");

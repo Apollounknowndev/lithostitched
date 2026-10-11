@@ -4,8 +4,8 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
 import org.jetbrains.annotations.NotNull;
 
-public class OriginalMarkerDensityFunction implements MarkerFunction {
-    public static final MapCodec<OriginalMarkerDensityFunction> CODEC = MapCodec.unit(new OriginalMarkerDensityFunction());
+public non-sealed class OriginalMarkerFunction implements MarkerFunction {
+    public static final MapCodec<OriginalMarkerFunction> CODEC = MapCodec.unit(new OriginalMarkerFunction());
     
     @Override
     public @NotNull MapCodec<? extends DensityFunction> codec() {
