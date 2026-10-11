@@ -152,6 +152,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("set_timeline_tracks", SetTimelineTracksModifier.CODEC),
 			Map.entry("set_tree_decorators", SetTreeDecoratorsModifier.CODEC),
 			Map.entry("stack_feature", StackFeatureModifier.CODEC),
+			Map.entry("wrap_aquifers", WrapAquifersModifier.CODEC),
 			Map.entry("wrap_density_function", WrapDensityFunctionModifier.CODEC),
 			Map.entry("wrap_noise_router", WrapNoiseRouterModifier.CODEC)
 		));
