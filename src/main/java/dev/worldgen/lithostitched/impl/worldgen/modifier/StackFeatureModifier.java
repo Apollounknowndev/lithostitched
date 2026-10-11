@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
 import dev.worldgen.lithostitched.impl.worldgen.feature.CompositeFeature;
 import net.minecraft.core.Holder;
@@ -16,20 +17,22 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import java.util.List;
 import java.util.Optional;
 
-import static dev.worldgen.lithostitched.impl.LithostitchedCodecs.registrySet;
+import static dev.worldgen.lithostitched.impl.LithostitchedCodecs.holderTarget;
 
-public record StackFeatureModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Feature> baseFeatures, Holder<PlacedFeature> stackedFeature, CompositeFeature.Type placementType) implements WorldgenModifier {
+public record StackFeatureModifier(Optional<LoadPredicate> predicate, int priority, HolderTarget<Feature> baseFeatures, Holder<PlacedFeature> stackedFeature, CompositeFeature.Type placementType) implements WorldgenModifier {
     public static final MapCodec<StackFeatureModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(StackFeatureModifier::priority),
-        registrySet(Registries.FEATURE, "base_features").forGetter(StackFeatureModifier::baseFeatures),
+        holderTarget(Registries.FEATURE, "base_features").forGetter(StackFeatureModifier::baseFeatures),
         PlacedFeature.CODEC.fieldOf("stacked_feature").forGetter(StackFeatureModifier::stackedFeature),
         CompositeFeature.Type.CODEC.fieldOf("placement_type").orElse(CompositeFeature.Type.CANCEL_ON_FAILURE).forGetter(StackFeatureModifier::placementType)
     ).apply(instance, StackFeatureModifier::new));
 
     @Override
     public void apply(RegistryAccess registries) {
-        this.baseFeatures.stream().forEach(this::applyModifier);
+        for (Holder<Feature> feature : this.baseFeatures.getHolders(registries)) {
+            this.applyModifier(feature);
+        }
     }
 
     private void applyModifier(Holder<Feature> feature) {

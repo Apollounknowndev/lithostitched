@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
 import dev.worldgen.lithostitched.impl.duck.BiomeTimelineDuck;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -14,18 +15,18 @@ import net.minecraft.world.timeline.Timeline;
 
 import java.util.Optional;
 
-public record SetBiomeTimelineModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, Holder<Timeline> timeline, boolean append) implements WorldgenModifier {
+public record SetBiomeTimelineModifier(Optional<LoadPredicate> predicate, int priority, HolderTarget<Biome> biomes, Holder<Timeline> timeline, boolean append) implements WorldgenModifier {
     public static final MapCodec<SetBiomeTimelineModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetBiomeTimelineModifier::priority),
-        Biome.LIST_CODEC.fieldOf("biomes").forGetter(SetBiomeTimelineModifier::biomes),
+        HolderTarget.BIOMES.fieldOf("biomes").forGetter(SetBiomeTimelineModifier::biomes),
         Timeline.CODEC.fieldOf("timeline").forGetter(SetBiomeTimelineModifier::timeline),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetBiomeTimelineModifier::append)
     ).apply(instance, SetBiomeTimelineModifier::new));
 
     @Override
     public void apply(RegistryAccess registries) {
-        for (Holder<Biome> biome : this.biomes) {
+        for (Holder<Biome> biome : this.biomes.getHolders(registries)) {
             if (this.append) {
                 BiomeTimelineDuck.cast(biome.value()).lithostitched$addTimeline(this.timeline);
             } else {

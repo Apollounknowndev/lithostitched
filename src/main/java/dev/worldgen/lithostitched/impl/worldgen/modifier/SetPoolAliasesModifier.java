@@ -6,11 +6,11 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
 import dev.worldgen.lithostitched.mixin.common.JigsawStructureAccessor;
 import dev.worldgen.lithostitched.impl.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.impl.worldgen.structure.DelegatingStructure;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -21,13 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static dev.worldgen.lithostitched.impl.LithostitchedCodecs.registrySet;
+import static dev.worldgen.lithostitched.impl.LithostitchedCodecs.holderTarget;
 
-public record SetPoolAliasesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Structure> structures, List<PoolAliasBinding> poolAliases, boolean append) implements WorldgenModifier {
+public record SetPoolAliasesModifier(Optional<LoadPredicate> predicate, int priority, HolderTarget<Structure> structures, List<PoolAliasBinding> poolAliases, boolean append) implements WorldgenModifier {
     public static final MapCodec<SetPoolAliasesModifier> CODEC = RecordCodecBuilder.<SetPoolAliasesModifier>mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetPoolAliasesModifier::priority),
-        registrySet(Registries.STRUCTURE, "structures").forGetter(SetPoolAliasesModifier::structures),
+        holderTarget(Registries.STRUCTURE, "structures").forGetter(SetPoolAliasesModifier::structures),
         Codec.list(PoolAliasBinding.CODEC).fieldOf("pool_aliases").forGetter(SetPoolAliasesModifier::poolAliases),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetPoolAliasesModifier::append)
     ).apply(instance, SetPoolAliasesModifier::new)).validate(SetPoolAliasesModifier::validate);
@@ -48,7 +48,9 @@ public record SetPoolAliasesModifier(Optional<LoadPredicate> predicate, int prio
 
     @Override
     public void apply(RegistryAccess registries) {
-        this.structures.stream().map(Holder::value).forEach(this::applyModifier);
+        for (Holder<Structure> structure : this.structures.getHolders(registries)) {
+            this.applyModifier(structure.value());
+        }
     }
 
     private void applyModifier(Structure structure) {

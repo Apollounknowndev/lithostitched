@@ -15,13 +15,11 @@ import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.structures.RuinedPortalPiece;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.Optional;
 
-@Debug(export = true)
 @Mixin(RuinedPortalPiece.class)
 public abstract class RuinedPortalPieceMixin extends StructurePiece implements ReferencePosDuck {
     protected RuinedPortalPieceMixin() {

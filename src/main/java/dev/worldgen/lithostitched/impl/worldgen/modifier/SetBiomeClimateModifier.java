@@ -2,7 +2,7 @@ package dev.worldgen.lithostitched.impl.worldgen.modifier;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.impl.Lithostitched;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
@@ -18,18 +18,18 @@ import java.util.Optional;
 import dev.worldgen.lithostitched.impl.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
 *///? }
 
-public record SetBiomeClimateModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, BiomeClimate climateSettings) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
+public record SetBiomeClimateModifier(Optional<LoadPredicate> predicate, int priority, HolderTarget<Biome> biomes, BiomeClimate climateSettings) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<SetBiomeClimateModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetBiomeClimateModifier::priority),
-        Biome.LIST_CODEC.fieldOf("biomes").forGetter(SetBiomeClimateModifier::biomes),
+        HolderTarget.BIOMES.fieldOf("biomes").forGetter(SetBiomeClimateModifier::biomes),
         BiomeClimate.CODEC.fieldOf("climate").forGetter(SetBiomeClimateModifier::climateSettings)
     ).apply(instance, SetBiomeClimateModifier::new));
     
     //? if neoforge {
     /*@Override
-    public BiomeModifier createNeoforgeModifier() {
-        return new LithostitchedNeoforgeBiomeModifiers.ReplaceClimateBiomeModifier(biomes, climateSettings);
+    public BiomeModifier createNeoforgeModifier(RegistryAccess registries) {
+        return new LithostitchedNeoforgeBiomeModifiers.ReplaceClimateBiomeModifier(biomes.getHoldersAsSet(registries), climateSettings);
     }
     *///? }
 
@@ -39,9 +39,9 @@ public record SetBiomeClimateModifier(Optional<LoadPredicate> predicate, int pri
         //if (true) return;
         
         Registry<Biome> registry = Lithostitched.registry(registries, Registries.BIOME);
-        for (Holder<Biome> entry : this.biomes()) {
-            this.applyModifier(entry.value());
-            WorldgenModifier.resetRegistrationInfo(registry, entry);
+        for (Holder<Biome> biome : this.biomes().getHolders(registries)) {
+            this.applyModifier(biome.value());
+            WorldgenModifier.resetRegistrationInfo(registry, biome);
         }
     }
 

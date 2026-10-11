@@ -10,6 +10,12 @@ import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondi
 import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
 import dev.worldgen.lithostitched.impl.predicate.*;
 import dev.worldgen.lithostitched.impl.registry.LithostitchedRegistrar;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.target.AnyTarget;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.target.HolderSetTarget;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.target.RegexTarget;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.target.biome.ClimateTarget;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.target.biome.HasFeatureTarget;
 import dev.worldgen.lithostitched.impl.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.impl.worldgen.bandlands.band.BaseBand;
 import dev.worldgen.lithostitched.impl.worldgen.bandlands.band.RepeatingBand;
@@ -76,6 +82,7 @@ public class LithostitchedBuiltInRegistries {
 	public static final Registry<MapCodec<? extends BiomeInjector>> BIOME_INJECTOR_TYPE = create(LithostitchedRegistries.BIOME_INJECTOR_TYPE);
 	public static final Registry<MapCodec<? extends FastNoiseConfig>> FAST_NOISE_CONFIG_TYPE = create(LithostitchedRegistries.FAST_NOISE_CONFIG_TYPE);
 	public static final Registry<MapCodec<? extends LoadPredicate>> LOAD_PREDICATE_TYPE = create(LithostitchedRegistries.LOAD_PREDICATE_TYPE);
+	public static final Registry<HolderTarget.Type> HOLDER_TARGET_TYPE = create(LithostitchedRegistries.HOLDER_TARGET_TYPE);
 	
 	private static <T> Registry<T> create(ResourceKey<Registry<T>> key) {
 		//? if fabric {
@@ -111,6 +118,13 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("force_placement", ForcePlacement.CODEC),
 			Map.entry("replace_fully", ReplaceFully.CODEC),
 			Map.entry("replace_partially", ReplacePartially.CODEC)
+		));
+		LithostitchedRegistrar.register(LithostitchedBuiltInRegistries.HOLDER_TARGET_TYPE, Map.ofEntries(
+			Map.entry("any", AnyTarget.TYPE),
+			Map.entry("holder_set", HolderSetTarget.TYPE),
+			Map.entry("regex", RegexTarget.TYPE),
+			Map.entry("biome/climate", ClimateTarget.TYPE),
+			Map.entry("biome/has_feature", HasFeatureTarget.TYPE)
 		));
 		LithostitchedRegistrar.register(LithostitchedBuiltInRegistries.MODIFIER_TYPE, Map.ofEntries(
 			Map.entry("internal/compile_raw_templates", CompileRawTemplatesModifier.CODEC),

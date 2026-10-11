@@ -2,12 +2,11 @@ package dev.worldgen.lithostitched.impl.worldgen.modifier;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.worldgen.lithostitched.impl.Lithostitched;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeEffects;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -26,18 +25,18 @@ import java.util.function.Supplier;
 import dev.worldgen.lithostitched.impl.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
 *///? }
 
-public record SetBiomeEffectsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, BiomeEffects effects) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
+public record SetBiomeEffectsModifier(Optional<LoadPredicate> predicate, int priority, HolderTarget<Biome> biomes, BiomeEffects effects) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<SetBiomeEffectsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetBiomeEffectsModifier::priority),
-        Biome.LIST_CODEC.fieldOf("biomes").forGetter(SetBiomeEffectsModifier::biomes),
+        HolderTarget.BIOMES.fieldOf("biomes").forGetter(SetBiomeEffectsModifier::biomes),
         BiomeEffects.CODEC.fieldOf("effects").forGetter(SetBiomeEffectsModifier::effects)
     ).apply(instance, SetBiomeEffectsModifier::new));
     
     //? if neoforge {
     /*@Override
-    public BiomeModifier createNeoforgeModifier() {
-        return new LithostitchedNeoforgeBiomeModifiers.ReplaceEffectsBiomeModifier(biomes, effects);
+    public BiomeModifier createNeoforgeModifier(RegistryAccess registries) {
+        return new LithostitchedNeoforgeBiomeModifiers.ReplaceEffectsBiomeModifier(biomes.getHoldersAsSet(registries), effects);
     }
     *///? }
 
@@ -47,9 +46,9 @@ public record SetBiomeEffectsModifier(Optional<LoadPredicate> predicate, int pri
         //if (true) return;
         
         Registry<Biome> registry = Lithostitched.registry(registries, Registries.BIOME);
-        for (Holder<Biome> entry : this.biomes()) {
-            this.applyModifier(entry.value());
-            WorldgenModifier.resetRegistrationInfo(registry, entry);
+        for (Holder<Biome> biome : this.biomes().getHolders(registries)) {
+            this.applyModifier(biome.value());
+            WorldgenModifier.resetRegistrationInfo(registry, biome);
         }
     }
     

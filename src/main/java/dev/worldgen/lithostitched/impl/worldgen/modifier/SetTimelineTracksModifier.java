@@ -3,6 +3,7 @@ package dev.worldgen.lithostitched.impl.worldgen.modifier;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
 import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
@@ -22,19 +23,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public record SetTimelineTracksModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Timeline> timelines, Map<EnvironmentAttribute<?>, AttributeTrack<?, ?>> tracks, boolean append) implements WorldgenModifier {
+public record SetTimelineTracksModifier(Optional<LoadPredicate> predicate, int priority, HolderTarget<Timeline> timelines, Map<EnvironmentAttribute<?>, AttributeTrack<?, ?>> tracks, boolean append) implements WorldgenModifier {
     private static final Codec<Map<EnvironmentAttribute<?>, AttributeTrack<?, ?>>> TRACKS_CODEC = Codec.dispatchedMap(EnvironmentAttributes.CODEC, Util.memoize(AttributeTrack::createCodec));
     public static final MapCodec<SetTimelineTracksModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetTimelineTracksModifier::priority),
-        RegistryCodecs.holderSet(Registries.TIMELINE).fieldOf("timelines").forGetter(SetTimelineTracksModifier::timelines),
+        HolderTarget.createCodec(Registries.TIMELINE).fieldOf("timelines").forGetter(SetTimelineTracksModifier::timelines),
         TRACKS_CODEC.fieldOf("tracks").forGetter(SetTimelineTracksModifier::tracks),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetTimelineTracksModifier::append)
     ).apply(instance, SetTimelineTracksModifier::new));
 
     @Override
     public void apply(RegistryAccess registries) {
-        for (Holder<Timeline> timeline : this.timelines) {
+        for (Holder<Timeline> timeline : this.timelines.getHolders(registries)) {
             TimelineAccessor accessor = ((TimelineAccessor)timeline.value());
 
             HashMap<EnvironmentAttribute<?>, AttributeTrack<?, ?>> map = new HashMap<>(accessor.getTracks());

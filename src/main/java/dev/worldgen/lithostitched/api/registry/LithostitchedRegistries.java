@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
 import dev.worldgen.lithostitched.impl.worldgen.bandlands.Bandlands;
 import dev.worldgen.lithostitched.api.worldgen.bandlands.Band;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
@@ -34,6 +35,7 @@ public interface LithostitchedRegistries {
 	ResourceKey<Registry<MapCodec<? extends BiomeInjector>>> BIOME_INJECTOR_TYPE = create("biome_injector_type");
 	ResourceKey<Registry<MapCodec<? extends FastNoiseConfig>>> FAST_NOISE_CONFIG_TYPE = create("fast_noise_config_type");
 	ResourceKey<Registry<MapCodec<? extends LoadPredicate>>> LOAD_PREDICATE_TYPE = create("load_predicate_type");
+	ResourceKey<Registry<HolderTarget.Type>> HOLDER_TARGET_TYPE = create("holder_target_type");
 	
 	private static <T> ResourceKey<Registry<T>> create(String name) {
 		return ResourceKey.createRegistryKey(Lithostitched.id(name));

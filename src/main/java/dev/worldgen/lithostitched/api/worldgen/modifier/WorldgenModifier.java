@@ -6,6 +6,7 @@ import com.mojang.serialization.MapCodec;
 import dev.worldgen.lithostitched.api.registry.LithostitchedBuiltInRegistries;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.util.InjectionType;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
 import dev.worldgen.lithostitched.api.worldgen.util.AquiferTarget;
 import dev.worldgen.lithostitched.api.worldgen.util.BiomeClimate;
 import dev.worldgen.lithostitched.api.worldgen.util.WeightedSpawnerData;
@@ -43,6 +44,7 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 import static net.minecraft.core.HolderSet.direct;
+import static dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget.of;
 
 /**
  * The root interface of a worldgen modifier.
@@ -54,7 +56,7 @@ public interface WorldgenModifier {
 	Codec<WorldgenModifier> CODEC = LithostitchedBuiltInRegistries.MODIFIER_TYPE.byNameCodec().dispatch(WorldgenModifier::codec, Function.identity());
 	Integer DEFAULT_PRIORITY = 1000;
 	
-	MapCodec<Integer> PRIORITY_DEFAULT_CODEC = Codec.INT.optionalFieldOf("priority", 1000);
+	MapCodec<Integer> PRIORITY_DEFAULT_CODEC = Codec.INT.optionalFieldOf("priority", DEFAULT_PRIORITY);
 	MapCodec<Integer> PRIORITY_REMOVE_CODEC = Codec.INT.optionalFieldOf("priority", 2000);
 	
 	Optional<LoadPredicate> predicate();
@@ -99,10 +101,14 @@ public interface WorldgenModifier {
 		}
 		
 		public WorldgenModifier addBiomeSpawns(Holder<Biome> biome, WeightedSpawnerData... spawns) {
-			return new AddBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), List.of(spawns));
+			return new AddBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(biome)), List.of(spawns));
 		}
 		
 		public WorldgenModifier addBiomeSpawns(HolderSet<Biome> biomes, WeightedSpawnerData... spawns) {
+			return new AddBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(biomes), List.of(spawns));
+		}
+		
+		public WorldgenModifier addBiomeSpawns(HolderTarget<Biome> biomes, WeightedSpawnerData... spawns) {
 			return new AddBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, List.of(spawns));
 		}
 		
@@ -114,6 +120,10 @@ public interface WorldgenModifier {
 			return new AddFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, direct(feature), step);
 		}
 		
+		public WorldgenModifier addFeatures(HolderTarget<Biome> biomes, Holder<PlacedFeature> feature, GenerationStep.Decoration step) {
+			return new AddFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, direct(feature), step);
+		}
+		
 		public WorldgenModifier addFeatures(Holder<Biome> biome, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) {
 			return new AddFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), features, step);
 		}
@@ -122,37 +132,58 @@ public interface WorldgenModifier {
 			return new AddFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, features, step);
 		}
 		
+		public WorldgenModifier addFeatures(HolderTarget<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) {
+			return new AddFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, features, step);
+		}
+		
 		public WorldgenModifier addProcessorListProcessors(Holder<StructureProcessorList> list, StructureProcessor... processors) {
-			return new AddProcessorListProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(list), new StructureProcessorList(List.of(processors)));
+			return new AddProcessorListProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(list)), new StructureProcessorList(List.of(processors)));
 		}
 		
 		public WorldgenModifier addProcessorListProcessors(HolderSet<StructureProcessorList> lists, StructureProcessor... processors) {
+			return new AddProcessorListProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(lists), new StructureProcessorList(List.of(processors)));
+		}
+		
+		public WorldgenModifier addProcessorListProcessors(HolderTarget<StructureProcessorList> lists, StructureProcessor... processors) {
 			return new AddProcessorListProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), lists, new StructureProcessorList(List.of(processors)));
 		}
 		
-		public WorldgenModifier addStructureSetEntries(Holder<StructureSet> set, StructureSelectionEntry... entries) {
-			return new AddStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(set), List.of(entries));
-		}
-		
 		public WorldgenModifier addSpawnCosts(Holder<Biome> biome, Map<EntityType<?>, MobSpawnSettings.MobSpawnCost> spawnCosts) {
-			return new AddSpawnCostsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), spawnCosts);
+			return new AddSpawnCostsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(biome)), spawnCosts);
 		}
 		
 		public WorldgenModifier addSpawnCosts(HolderSet<Biome> biomes, Map<EntityType<?>, MobSpawnSettings.MobSpawnCost> spawnCosts) {
+			return new AddSpawnCostsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(biomes), spawnCosts);
+		}
+		
+		public WorldgenModifier addSpawnCosts(HolderTarget<Biome> biomes, Map<EntityType<?>, MobSpawnSettings.MobSpawnCost> spawnCosts) {
 			return new AddSpawnCostsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, spawnCosts);
 		}
 		
+		public WorldgenModifier addStructureSetEntries(Holder<StructureSet> set, StructureSelectionEntry... entries) {
+			return new AddStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(set)), List.of(entries));
+		}
+		
 		public WorldgenModifier addStructureSetEntries(HolderSet<StructureSet> sets, StructureSelectionEntry... entries) {
+			return new AddStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(sets), List.of(entries));
+		}
+		
+		public WorldgenModifier addStructureSetEntries(HolderTarget<StructureSet> sets, StructureSelectionEntry... entries) {
 			return new AddStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), sets, List.of(entries));
 		}
 		
 		@SafeVarargs
 		public final WorldgenModifier addTemplatePoolElements(Holder<StructureTemplatePool> pool, Pair<StructurePoolElement, Integer>... elements) {
-			return new AddTemplatePoolElementsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(pool), List.of(elements));
+			return new AddTemplatePoolElementsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(pool)), List.of(elements));
 		}
 		
 		@SafeVarargs
 		public final WorldgenModifier addTemplatePoolElements(HolderSet<StructureTemplatePool> pools, Pair<StructurePoolElement, Integer>... elements) {
+			return new AddTemplatePoolElementsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(pools), List.of(elements));
+		}
+		
+		@SafeVarargs
+		public final WorldgenModifier addTemplatePoolElements(HolderTarget<StructureTemplatePool> pools, Pair<StructurePoolElement, Integer>... elements) {
 			return new AddTemplatePoolElementsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), pools, List.of(elements));
 		}
 		
@@ -161,120 +192,181 @@ public interface WorldgenModifier {
 		}
 		
 		public WorldgenModifier removeBiomeSpawns(Holder<Biome> biome, Holder<EntityType<?>> mob) {
-			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), direct(mob));
+			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(biome)), direct(mob));
 		}
 		
 		public WorldgenModifier removeBiomeSpawns(HolderSet<Biome> biomes, Holder<EntityType<?>> mob) {
+			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(biomes), direct(mob));
+		}
+		
+		public WorldgenModifier removeBiomeSpawns(HolderTarget<Biome> biomes, Holder<EntityType<?>> mob) {
 			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, direct(mob));
 		}
 		
 		public WorldgenModifier removeBiomeSpawns(Holder<Biome> biome, HolderSet<EntityType<?>> mobs) {
-			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), mobs);
+			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(biome)), mobs);
 		}
 		
 		public WorldgenModifier removeBiomeSpawns(HolderSet<Biome> biomes, HolderSet<EntityType<?>> mobs) {
+			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(biomes), mobs);
+		}
+		
+		public WorldgenModifier removeBiomeSpawns(HolderTarget<Biome> biomes, HolderSet<EntityType<?>> mobs) {
 			return new RemoveBiomeSpawnsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, mobs);
 		}
 		
 		public WorldgenModifier removeFeatures(Holder<Biome> biome, Holder<PlacedFeature> feature, GenerationStep.Decoration step) {
-			return new RemoveFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), direct(feature), step);
+			return new RemoveFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(biome)), direct(feature), step);
 		}
 		
 		public WorldgenModifier removeFeatures(HolderSet<Biome> biomes, Holder<PlacedFeature> feature, GenerationStep.Decoration step) {
+			return new RemoveFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(biomes), direct(feature), step);
+		}
+		
+		public WorldgenModifier removeFeatures(HolderTarget<Biome> biomes, Holder<PlacedFeature> feature, GenerationStep.Decoration step) {
 			return new RemoveFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, direct(feature), step);
 		}
 		
 		public WorldgenModifier removeFeatures(Holder<Biome> biome, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) {
-			return new RemoveFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), features, step);
+			return new RemoveFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(biome)), features, step);
 		}
 		
 		public WorldgenModifier removeFeatures(HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) {
+			return new RemoveFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(biomes), features, step);
+		}
+		
+		public WorldgenModifier removeFeatures(HolderTarget<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) {
 			return new RemoveFeaturesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, features, step);
 		}
 		
 		@SafeVarargs
 		public final WorldgenModifier removeStructureSetEntries(Holder<StructureSet> set, Holder<Structure>... holders) {
-			return new RemoveStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(set), List.of(holders));
+			return new RemoveStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(set)), List.of(holders));
 		}
 		
 		@SafeVarargs
 		public final WorldgenModifier removeStructureSetEntries(HolderSet<StructureSet> sets, Holder<Structure>... holders) {
+			return new RemoveStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(sets), List.of(holders));
+		}
+		
+		@SafeVarargs
+		public final WorldgenModifier removeStructureSetEntries(HolderTarget<StructureSet> sets, Holder<Structure>... holders) {
 			return new RemoveStructureSetEntriesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), sets, List.of(holders));
 		}
 		
 		public WorldgenModifier setBiomeAttributes(Holder<Biome> biome, EnvironmentAttributeMap attributes) {
-			return new SetBiomeAttributesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), attributes, true);
+			return new SetBiomeAttributesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(biome)), attributes, true);
 		}
 		
 		public WorldgenModifier setBiomeAttributes(HolderSet<Biome> biomes, EnvironmentAttributeMap attributes) {
-			return new SetBiomeAttributesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, attributes, true);
+			return new SetBiomeAttributesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(biomes), attributes, true);
 		}
 		
 		public WorldgenModifier setBiomeAttributes(HolderSet<Biome> biomes, EnvironmentAttributeMap attributes, boolean append) {
+			return new SetBiomeAttributesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(biomes), attributes, append);
+		}
+		
+		public WorldgenModifier setBiomeAttributes(HolderTarget<Biome> biomes, EnvironmentAttributeMap attributes, boolean append) {
 			return new SetBiomeAttributesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, attributes, append);
 		}
 		
 		public WorldgenModifier setBiomeClimate(Holder<Biome> biome, BiomeClimate climate) {
-			return new SetBiomeClimateModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), climate);
+			return new SetBiomeClimateModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(biome)), climate);
 		}
 		
 		public WorldgenModifier setBiomeClimate(HolderSet<Biome> biomes, BiomeClimate climate) {
+			return new SetBiomeClimateModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(biomes), climate);
+		}
+		
+		public WorldgenModifier setBiomeClimate(HolderTarget<Biome> biomes, BiomeClimate climate) {
 			return new SetBiomeClimateModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, climate);
 		}
 		
 		public WorldgenModifier setBiomeEffects(Holder<Biome> biome, UnaryOperator<BiomeEffectsBuilder> operator) {
-			return new SetBiomeEffectsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(biome), operator.apply(BiomeEffectsBuilder.create()).build());
+			return new SetBiomeEffectsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(biome)), operator.apply(BiomeEffectsBuilder.create()).build());
 		}
 		
 		public WorldgenModifier setBiomeEffects(HolderSet<Biome> biomes, UnaryOperator<BiomeEffectsBuilder> operator) {
+			return new SetBiomeEffectsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(biomes), operator.apply(BiomeEffectsBuilder.create()).build());
+		}
+		
+		public WorldgenModifier setBiomeEffects(HolderTarget<Biome> biomes, UnaryOperator<BiomeEffectsBuilder> operator) {
 			return new SetBiomeEffectsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), biomes, operator.apply(BiomeEffectsBuilder.create()).build());
 		}
 		
 		public WorldgenModifier setMaterialRule(Holder<MaterialRule> targetRule, Holder<MaterialRule> injectedRule) {
-			return new SetMaterialRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), HolderSet.direct(targetRule), injectedRule, InjectionType.PREPEND);
+			return new SetMaterialRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(targetRule)), injectedRule, InjectionType.PREPEND);
 		}
 		
 		public WorldgenModifier setMaterialRule(Holder<MaterialRule> targetRule, Holder<MaterialRule> injectedRule, InjectionType injectionType) {
-			return new SetMaterialRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), HolderSet.direct(targetRule), injectedRule, injectionType);
+			return new SetMaterialRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(targetRule)), injectedRule, injectionType);
+		}
+		
+		public WorldgenModifier setMaterialRule(HolderSet<MaterialRule> targetRules, Holder<MaterialRule> injectedRule, InjectionType injectionType) {
+			return new SetMaterialRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(targetRules), injectedRule, injectionType);
+		}
+		
+		public WorldgenModifier setMaterialRule(HolderTarget<MaterialRule> targetRules, Holder<MaterialRule> injectedRule, InjectionType injectionType) {
+			return new SetMaterialRuleModifier(predicate, priority.orElse(DEFAULT_PRIORITY), targetRules, injectedRule, injectionType);
 		}
 		
 		public WorldgenModifier setPoolAliases(Holder<Structure> structure, boolean append, PoolAliasBinding... aliases) {
-			return new SetPoolAliasesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(structure), List.of(aliases), append);
+			return new SetPoolAliasesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(structure)), List.of(aliases), append);
 		}
 		
 		public WorldgenModifier setPoolAliases(HolderSet<Structure> structures, boolean append, PoolAliasBinding... aliases) {
+			return new SetPoolAliasesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(structures), List.of(aliases), append);
+		}
+		
+		public WorldgenModifier setPoolAliases(HolderTarget<Structure> structures, boolean append, PoolAliasBinding... aliases) {
 			return new SetPoolAliasesModifier(predicate, priority.orElse(DEFAULT_PRIORITY), structures, List.of(aliases), append);
 		}
 		
 		public WorldgenModifier setPoolElementProcessors(Holder<StructureTemplatePool> pool, Holder<StructureProcessorList> list, boolean append) {
-			return new SetPoolElementProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(pool), Optional.empty(), list, append);
+			return new SetPoolElementProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(pool)), Optional.empty(), list, append);
 		}
 		
 		public WorldgenModifier setPoolElementProcessors(Holder<StructureTemplatePool> pool, Holder<StructureProcessorList> list, boolean append, Identifier... ids) {
-			return new SetPoolElementProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(pool), Optional.of(List.of(ids)), list, append);
+			return new SetPoolElementProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(pool)), Optional.of(List.of(ids)), list, append);
 		}
 		
 		public WorldgenModifier setPoolElementProcessors(HolderSet<StructureTemplatePool> pools, Holder<StructureProcessorList> list, boolean append) {
-			return new SetPoolElementProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), pools, Optional.empty(), list, append);
+			return new SetPoolElementProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(pools), Optional.empty(), list, append);
 		}
 		
 		public WorldgenModifier setPoolElementProcessors(HolderSet<StructureTemplatePool> pools, Holder<StructureProcessorList> list, boolean append, Identifier... ids) {
+			return new SetPoolElementProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(pools), Optional.of(List.of(ids)), list, append);
+		}
+		
+		public WorldgenModifier setPoolElementProcessors(HolderTarget<StructureTemplatePool> pools, Holder<StructureProcessorList> list, boolean append) {
+			return new SetPoolElementProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), pools, Optional.empty(), list, append);
+		}
+		
+		public WorldgenModifier setPoolElementProcessors(HolderTarget<StructureTemplatePool> pools, Holder<StructureProcessorList> list, boolean append, Identifier... ids) {
 			return new SetPoolElementProcessorsModifier(predicate, priority.orElse(DEFAULT_PRIORITY), pools, Optional.of(List.of(ids)), list, append);
 		}
 		
 		public WorldgenModifier setStructureSpawnCondition(Holder<Structure> structure, PlacementCondition spawnCondition, boolean append) {
-			return new SetStructureSpawnConditionModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(structure), spawnCondition, append);
+			return new SetStructureSpawnConditionModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(structure)), spawnCondition, append);
 		}
 		
 		public WorldgenModifier setStructureSpawnCondition(HolderSet<Structure> structures, PlacementCondition spawnCondition, boolean append) {
+			return new SetStructureSpawnConditionModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(structures), spawnCondition, append);
+		}
+		
+		public WorldgenModifier setStructureSpawnCondition(HolderTarget<Structure> structures, PlacementCondition spawnCondition, boolean append) {
 			return new SetStructureSpawnConditionModifier(predicate, priority.orElse(DEFAULT_PRIORITY), structures, spawnCondition, append);
 		}
 		
 		public WorldgenModifier stackFeatures(Holder<Feature> baseFeatures, Holder<PlacedFeature> stackedFeature, CompositeFeature.Type placementType) {
-			return new StackFeatureModifier(predicate, priority.orElse(DEFAULT_PRIORITY), direct(baseFeatures), stackedFeature, placementType);
+			return new StackFeatureModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(direct(baseFeatures)), stackedFeature, placementType);
 		}
 		
 		public WorldgenModifier stackFeatures(HolderSet<Feature> baseFeatures, Holder<PlacedFeature> stackedFeature, CompositeFeature.Type placementType) {
+			return new StackFeatureModifier(predicate, priority.orElse(DEFAULT_PRIORITY), of(baseFeatures), stackedFeature, placementType);
+		}
+		
+		public WorldgenModifier stackFeatures(HolderTarget<Feature> baseFeatures, Holder<PlacedFeature> stackedFeature, CompositeFeature.Type placementType) {
 			return new StackFeatureModifier(predicate, priority.orElse(DEFAULT_PRIORITY), baseFeatures, stackedFeature, placementType);
 		}
 		

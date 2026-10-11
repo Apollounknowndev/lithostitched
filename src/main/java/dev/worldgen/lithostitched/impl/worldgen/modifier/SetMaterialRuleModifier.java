@@ -5,12 +5,11 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.util.InjectionType;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
 import dev.worldgen.lithostitched.mixin.common.HolderReferenceAccessor;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.world.level.levelgen.material.MaterialRules;
 import net.minecraft.world.level.levelgen.material.rule.MaterialRule;
 import net.minecraft.world.level.levelgen.material.rule.SequenceRule;
@@ -19,18 +18,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public record SetMaterialRuleModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<MaterialRule> targetRules, Holder<MaterialRule> materialRule, InjectionType injectionType) implements WorldgenModifier {
+public record SetMaterialRuleModifier(Optional<LoadPredicate> predicate, int priority, HolderTarget<MaterialRule> targetRules, Holder<MaterialRule> materialRule, InjectionType injectionType) implements WorldgenModifier {
 	public static final MapCodec<SetMaterialRuleModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
 		PRIORITY_DEFAULT_CODEC.forGetter(WorldgenModifier::priority),
-		RegistryCodecs.holderSet(Registries.MATERIAL_RULE).fieldOf("target_rules").forGetter(SetMaterialRuleModifier::targetRules),
+		HolderTarget.createCodec(Registries.MATERIAL_RULE).fieldOf("target_rules").forGetter(SetMaterialRuleModifier::targetRules),
 		MaterialRule.HOLDER_CODEC.fieldOf("material_rule").forGetter(SetMaterialRuleModifier::materialRule),
 		InjectionType.CODEC.fieldOf("injection_type").orElse(InjectionType.PREPEND).forGetter(SetMaterialRuleModifier::injectionType)
 	).apply(instance, SetMaterialRuleModifier::new));
 	
 	@Override
 	public void apply(RegistryAccess registries) {
-		for (Holder<MaterialRule> targetRule : this.targetRules) {
+		for (Holder<MaterialRule> targetRule : this.targetRules.getHolders(registries)) {
 			if (targetRule instanceof Holder.Reference<MaterialRule> reference) {
 				HolderReferenceAccessor<MaterialRule> accessor = ((HolderReferenceAccessor<MaterialRule>)reference);
 				accessor.setValue(this.wrap(reference.value()));

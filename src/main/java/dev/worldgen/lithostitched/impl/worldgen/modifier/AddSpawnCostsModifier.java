@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mojang.serialization.codecs.SimpleMapCodec;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
 import dev.worldgen.lithostitched.api.worldgen.util.WeightedSpawnerData;
 import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
@@ -34,25 +35,25 @@ import java.util.Optional;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 *///? }
 
-public record AddSpawnCostsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, Map<EntityType<?>, MobSpawnCost> spawnCosts) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
+public record AddSpawnCostsModifier(Optional<LoadPredicate> predicate, int priority, HolderTarget<Biome> biomes, Map<EntityType<?>, MobSpawnCost> spawnCosts) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
 	public static final SimpleMapCodec<EntityType<?>, MobSpawnCost> SPAWN_COST_CODEC = Codec.simpleMap(BuiltInRegistries.ENTITY_TYPE.byNameCodec(), MobSpawnCost.CODEC, BuiltInRegistries.ENTITY_TYPE);
 	public static final MapCodec<AddSpawnCostsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
 		PRIORITY_DEFAULT_CODEC.forGetter(AddSpawnCostsModifier::priority),
-		Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddSpawnCostsModifier::biomes),
+		HolderTarget.BIOMES.fieldOf("biomes").forGetter(AddSpawnCostsModifier::biomes),
 		SPAWN_COST_CODEC.fieldOf("spawn_costs").forGetter(AddSpawnCostsModifier::spawnCosts)
 	).apply(instance, AddSpawnCostsModifier::new));
 	
 	//? if neoforge {
 	/*@Override
-	public BiomeModifier createNeoforgeModifier() {
+	public BiomeModifier createNeoforgeModifier(RegistryAccess registries) {
 		return new LithostitchedNeoforgeBiomeModifiers.AddSpawnCostsBiomeModifier(this);
 	}
 	*///? }
 	
 	@Override
 	public void apply(RegistryAccess registries) {
-		for (Holder<Biome> entry : this.biomes()) {
+		for (Holder<Biome> entry : this.biomes().getHolders(registries)) {
 			this.applyModifier(registries, entry);
 		}
 	}

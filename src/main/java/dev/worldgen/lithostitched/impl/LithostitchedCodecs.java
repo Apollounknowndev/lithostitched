@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
 import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.core.HolderSet;
@@ -43,8 +44,8 @@ public interface LithostitchedCodecs {
         ).apply(instance, InclusiveRange::new))
     );
 
-    static <T> MapCodec<HolderSet<T>> registrySet(ResourceKey<Registry<T>> key, String name) {
-        return RegistryCodecs.holderSet(key).fieldOf(name);
+    static <T> MapCodec<HolderTarget<T>> holderTarget(ResourceKey<Registry<T>> key, String name) {
+        return HolderTarget.createCodec(key).fieldOf(name);
     }
     
     // Either a single entry, simple list of entries, or weighted list of entries.

@@ -83,7 +83,7 @@ public class LithostitchedNeoforgeBiomeModifiers {
         
         @Override
         public void modify(RegistryAccess registries, Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
-            if (phase == Phase.ADD && this.modifier.biomes().contains(biome)) {
+            if (phase == Phase.ADD && this.modifier.biomes().getHoldersAsSet(registries).contains(biome)) {
                 MobSpawnSettingsBuilder spawnSettings = builder.getMobSpawnSettings();
                 for (var costEntry : this.modifier.spawnCosts().entrySet()) {
                     spawnSettings.addMobSpawnCost(costEntry.getKey(), costEntry.getValue().charge(), costEntry.getValue().energyBudget());
@@ -102,7 +102,7 @@ public class LithostitchedNeoforgeBiomeModifiers {
         
         @Override
         public void modify(RegistryAccess registries, Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
-            if (phase == Phase.MODIFY && this.modifier.biomes().contains(biome)) {
+            if (phase == Phase.MODIFY && this.modifier.biomes().getHoldersAsSet(registries).contains(biome)) {
                 EnvironmentAttributeMapBuilder attributes = builder.getAttributes();
                 if (!this.modifier.append()) {
                     ((AttributeMapDuck)(Object)attributes).clear();

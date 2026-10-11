@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
-import dev.worldgen.lithostitched.impl.platform.LithostitchedPlatform;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;import dev.worldgen.lithostitched.impl.platform.LithostitchedPlatform;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
@@ -22,19 +22,19 @@ import net.neoforged.neoforge.common.world.BiomeModifiers;
 import java.util.Set;
 *///? }
 
-public record RemoveFeaturesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
+public record RemoveFeaturesModifier(Optional<LoadPredicate> predicate, int priority, HolderTarget<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<RemoveFeaturesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_REMOVE_CODEC.forGetter(RemoveFeaturesModifier::priority),
-        Biome.LIST_CODEC.fieldOf("biomes").forGetter(RemoveFeaturesModifier::biomes),
+        HolderTarget.BIOMES.fieldOf("biomes").forGetter(RemoveFeaturesModifier::biomes),
         PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(RemoveFeaturesModifier::features),
         GenerationStep.Decoration.CODEC.fieldOf("step").forGetter(RemoveFeaturesModifier::step)
     ).apply(instance, RemoveFeaturesModifier::new));
     
     //? if neoforge {
     /*@Override
-    public BiomeModifier createNeoforgeModifier() {
-        return new BiomeModifiers.RemoveFeaturesBiomeModifier(biomes, features, Set.of(step));
+    public BiomeModifier createNeoforgeModifier(RegistryAccess registries) {
+        return new BiomeModifiers.RemoveFeaturesBiomeModifier(biomes.getHoldersAsSet(registries), features, Set.of(step));
     }
     *///? }
     
@@ -43,8 +43,8 @@ public record RemoveFeaturesModifier(Optional<LoadPredicate> predicate, int prio
         //? if neoforge
         //if (true) return;
         
-        for (Holder<Biome> entry : this.biomes()) {
-            this.applyModifier(entry.value());
+        for (Holder<Biome> biome : this.biomes().getHolders(registries)) {
+            this.applyModifier(biome.value());
         }
     }
     
