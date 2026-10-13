@@ -5,11 +5,29 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "2.0.5"
+MOD_VERSION = "2.0.6"
 CHANGELOG = """
-- Fixed density function wrappers and `cellular` df conditions not allowing inlined functions.
-- Fixed the `breaks_seed_parity` config option not working correctly.
-- Fixed Neoforge 26.3.0.24+ not working.
+- Introduced a system for alternate targeting in worldgen modifiers.
+    - Instead of a target being a "single_id", ["id","list"], or a "tag", there is an object format with a custom targeting type. The targeting types are:
+        - `lithostitched:any` -> Matches all entries in the registry
+        - `lithostitched:regex` -> Matches all entries in the registry whose ids match the given regex pattern
+        - `lithostitched:biome/climate` -> Matches all biomes within given climate ranges
+        - `lithostitched:biome/has_feature` -> Matches all biomes that have a given placed feature
+- Fixed various places where processor list injections didn't apply.
+    - Any template pool element nested inside a `list_pool_element` (primarily impacts Pillager Outpost towers)
+    - Planks, logs, and chains in mineshafts
+    - Leaves, vines, and surrounding netherrack in ruined portals
+    - Sand and suspicious sand in desert temples
+    - Dried ghasts in nether fossils
+    - Spawners in strongholds and nether fortresses
+    - Cobblestone extensions in woodland mansions
+    - Chests in various structures
+- Added two new block tags in tandem with the previous changes to allow smoother palette swapping of vanilla structures.
+    - `#lithostitched:supports_mineshaft_extension` -> Blocks in this tag can have log and chain extensions built off of them.
+    - `#lithostitched:supports_ruined_portal_leaves` -> Blocks in this tag can have leaves from overgrown ruined portals spawn on them.
+- Fixed a freeze that would infrequently occur from the `lithostitched:matching_biomes` processor condition.
+- Fixed `wrapped_marker` and `original_marker` functions not functioning as expected if nested in more than one layer of density functions.
+- Fixed `wrap_aquifers` modifier not being registered. Oops.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "26.3"),
