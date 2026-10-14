@@ -6,6 +6,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
 import dev.worldgen.lithostitched.mixin.common.SinglePoolElementAccessor;
 import dev.worldgen.lithostitched.mixin.common.StructureTemplatePoolAccessor;
 import dev.worldgen.lithostitched.worldgen.LithostitchedCodecs;
@@ -15,6 +16,8 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.level.levelgen.structure.pools.ListPoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -26,34 +29,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.registrySet;
+import static dev.worldgen.lithostitched.worldgen.LithostitchedCodecs.holderTarget;
 
 /**
  * A {@link WorldgenModifier} implementation that sets/adds structure processors to a template pool element entry.
  *
  * @author Apollo
  */
-public record SetPoolElementProcessorsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<StructureTemplatePool> templatePools, Optional<List<Identifier>> locations, Holder<StructureProcessorList> processorList, boolean append) implements WorldgenModifier {
+public record SetPoolElementProcessorsModifier(Optional<LoadPredicate> predicate, int priority, HolderTarget<StructureTemplatePool> templatePools, Optional<List<Identifier>> locations, Holder<StructureProcessorList> processorList, boolean append) implements WorldgenModifier {
     public static final MapCodec<SetPoolElementProcessorsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(SetPoolElementProcessorsModifier::priority),
-        registrySet(Registries.TEMPLATE_POOL, "template_pools").forGetter(SetPoolElementProcessorsModifier::templatePools),
-        LithostitchedCodecs.compactList(Identifier.CODEC).optionalFieldOf("locations").forGetter(SetPoolElementProcessorsModifier::locations),
+        holderTarget(Registries.TEMPLATE_POOL, "template_pools").forGetter(SetPoolElementProcessorsModifier::templatePools),
+        ExtraCodecs.compactListCodec(Identifier.CODEC).optionalFieldOf("locations").forGetter(SetPoolElementProcessorsModifier::locations),
         StructureProcessorType.LIST_CODEC.fieldOf("processor_list").forGetter(SetPoolElementProcessorsModifier::processorList),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetPoolElementProcessorsModifier::append)
     ).apply(instance, SetPoolElementProcessorsModifier::new));
-
+    
     @Override
     public void apply(RegistryAccess registries) {
-        for (Holder<StructureTemplatePool> templatePool : this.templatePools) {
+        for (Holder<StructureTemplatePool> templatePool : this.templatePools.getHolders(registries)) {
             StructureTemplatePoolAccessor pool = ((StructureTemplatePoolAccessor)templatePool.value());
-
+            
             for (StructurePoolElement element : pool.getRawTemplates().stream().map(Pair::getFirst).toList()) {
                 applyModifier(element);
             }
         }
     }
-
+    
     private void applyModifier(StructurePoolElement element) {
         if (element instanceof SinglePoolElement) {
             SinglePoolElementAccessor accessor = (SinglePoolElementAccessor)element;
@@ -63,19 +66,23 @@ public record SetPoolElementProcessorsModifier(Optional<LoadPredicate> predicate
             }
         } else if (element instanceof DelegatingPoolElement delegating) {
             applyModifier(delegating.delegate());
+        } else if (element instanceof ListPoolElement list) {
+            for (StructurePoolElement childElement : list.getElements()) {
+                applyModifier(childElement);
+            }
         }
     }
-
+    
     private void addProcessor(SinglePoolElementAccessor element) {
         List<StructureProcessor> processors = new ArrayList<>();
         if (append) {
             processors.addAll(element.getProcessors().value().list());
         }
         processors.addAll(processorList.value().list());
-
+        
         element.setProcessors(Holder.direct(new StructureProcessorList(processors)));
     }
-
+    
     @Override
     public MapCodec<? extends WorldgenModifier> codec() {
         return CODEC;

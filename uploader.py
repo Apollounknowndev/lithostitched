@@ -5,28 +5,27 @@ import json
 # Per-mod: Update this for each mod!!!
 
 MOD_ID = "lithostitched"
-MOD_VERSION = "1.8.0"
+MOD_VERSION = "1.8.1"
 CHANGELOG = """
-Lithostitched 1.8.0 is largely focused on backend changes, with the codebase split up based on version again. Various other changes and fixes have made it in, though.
-
-**Additions**
-
-- `add_spawn_costs` modifier (adds spawn costs for mobs in given biome(s))
-- `set_tree_decorators` modifier (adds/overrides tree decorators on given tree feature(s))
-- `branched_mega_jungle` foliage placer (for wider mega jungle trees)
-- `branched_mega_pine` foliage placer (for wider pine jungle trees)
-- `large_mangrove` root placer (for root placements with 2x2 trees)
-- `cellular` density function type (in-house 2d cellular noise with more consistency/features than fast noise)
-- Introduced an optimization to density function caching. This will be most noticeable when playing with heavy worldgen packs like Tectonic or Lithosphere.
-    - A special thank you to Unnecessarymb and Evanbones for finding and implementing this optimization, respectively.
-
-**Fixes**
-
-- Fixed a critical issue that caused worlds with surface rule injections to corrupt under certain conditions, such as when having a world with both RU 0.6 and Terrablender installed.
-- Fixed the fields on the `offset` placement modifier being non-optional.
-- Fixed the `dungeon` feature type not working.
-- Fixed annoying but harmless log errors when World Weaver is installed.
-- Fix the assumed minimum value in various places (e.g. `sample_density` placement condition) being 0, not roughly -1.8E308.
+- Introduced a system for alternate targeting in worldgen modifiers.
+    - Instead of a target being a "single_id", ["id","list"], or a "tag", there is an object format with a custom targeting type. The targeting types are:
+        - `lithostitched:any` -> Matches all entries in the registry
+        - `lithostitched:regex` -> Matches all entries in the registry whose ids match the given regex pattern
+        - `lithostitched:biome/climate` -> Matches all biomes within given climate ranges
+        - `lithostitched:biome/has_feature` -> Matches all biomes that have a given placed feature
+- Fixed various places where processor list injections didn't apply.
+    - Any template pool element nested inside a `list_pool_element` (primarily impacts Pillager Outpost towers)
+    - Planks, logs, and chains in mineshafts
+    - Leaves, vines, and surrounding netherrack in ruined portals
+    - Sand and suspicious sand in desert temples
+    - Dried ghasts in nether fossils
+    - Spawners in strongholds and nether fortresses
+    - Cobblestone extensions in woodland mansions
+    - Chests in various structures
+- Added two new block tags in tandem with the previous changes to allow smoother palette swapping of vanilla structures.
+    - `#lithostitched:supports_mineshaft_extension` -> Blocks in this tag can have log and chain extensions built off of them.
+    - `#lithostitched:supports_ruined_portal_leaves` -> Blocks in this tag can have leaves from overgrown ruined portals spawn on them.
+- Fixed a freeze that would infrequently occur from the `lithostitched:matching_biomes` processor condition.
 """
 UPLOAD_VERSIONS = [
     ("fabric", "26.1"),

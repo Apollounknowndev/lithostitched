@@ -6,10 +6,12 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
 import dev.worldgen.lithostitched.api.worldgen.util.WeightedSpawnerData;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import dev.worldgen.lithostitched.mixin.common.BiomeAccessor;
@@ -28,27 +30,18 @@ import java.util.Optional;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
 *///? }
 
-public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, List<WeightedSpawnerData> biomeSpawns) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
+public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderTarget<Biome> biomes, List<WeightedSpawnerData> biomeSpawns) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<AddBiomeSpawnsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(AddBiomeSpawnsModifier::priority),
-        Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddBiomeSpawnsModifier::biomes),
-        Codec.mapEither(
-            WeightedSpawnerData.CODEC.listOf().fieldOf("spawners"),
-            WeightedSpawnerData.CODEC.fieldOf("spawners")
-        ).xmap(
-            either -> either.map(
-                list -> list,
-                List::of
-            ),
-            Either::left
-        ).forGetter(AddBiomeSpawnsModifier::biomeSpawns)
+        HolderTarget.BIOMES.fieldOf("biomes").forGetter(AddBiomeSpawnsModifier::biomes),
+        ExtraCodecs.compactListCodec(WeightedSpawnerData.CODEC).fieldOf("spawners").forGetter(AddBiomeSpawnsModifier::biomeSpawns)
     ).apply(instance, AddBiomeSpawnsModifier::new));
     
     //? if neoforge {
     /*@Override
-    public BiomeModifier createNeoforgeModifier() {
-        return new BiomeModifiers.AddSpawnsBiomeModifier(biomes, WeightedList.of(
+    public BiomeModifier createNeoforgeModifier(RegistryAccess registries) {
+        return new BiomeModifiers.AddSpawnsBiomeModifier(biomes.getHoldersAsSet(registries), WeightedList.of(
             biomeSpawns
                 .stream()
                 .map(data -> new Weighted<>(new MobSpawnSettings.SpawnerData(data.type(), data.minCount(), data.maxCount()), data.weight()))
@@ -62,7 +55,7 @@ public record AddBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int prio
         //? if neoforge
         //if (true) return;
         
-        for (Holder<Biome> entry : this.biomes()) {
+        for (Holder<Biome> entry : this.biomes().getHolders(registries)) {
             this.applyModifier(entry.value());
         }
     }

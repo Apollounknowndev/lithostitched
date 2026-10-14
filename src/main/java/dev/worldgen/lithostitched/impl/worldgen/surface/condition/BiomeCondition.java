@@ -12,7 +12,7 @@ import net.minecraft.world.level.levelgen.SurfaceRules;
 
 public record BiomeCondition(HolderSet<Biome> biomes) implements SurfaceRules.ConditionSource {
     public static final MapCodec<BiomeCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        LithostitchedCodecs.registrySet(Registries.BIOME, "biomes").forGetter(BiomeCondition::biomes)
+        Biome.LIST_CODEC.fieldOf("biomes").forGetter(BiomeCondition::biomes)
     ).apply(instance, BiomeCondition::new));
     public static final KeyDispatchDataCodec<BiomeCondition> DATA_CODEC = KeyDispatchDataCodec.of(CODEC);
     

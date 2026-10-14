@@ -2,20 +2,33 @@
     "pack": {
         "description": "Lithostitched resources",
         "pack_format": 48,
-        "supported_formats": [48, 99],
+        "supported_formats": [48, 999],
         "min_format": 48,
-        "max_format": 99
+        "max_format": 999
     },
     "neoforge:overlays": {
         "entries": [
             {
                 "directory": "overlay.breaks_seed_parity",
-                "formats": [48, 99],
+                "formats": [48, 999],
                 "min_format": 48,
-                "max_format": 99,
+                "max_format": 999,
                 "neoforge:conditions": [
                     {
-                        "type": "lithostitched:breaks_seed_parity"
+                        "type": "apollib:config",
+                        "key": "lithostitched:breaks_seed_parity"
+                    }
+                ]
+            },
+            {
+                "directory": "overlay.debug_suite",
+                "formats": [48, 999],
+                "min_format": 48,
+                "max_format": 999,
+                "neoforge:conditions": [
+                    {
+                        "type": "apollib:config",
+                        "key": "lithostitched:debug_suite"
                     }
                 ]
             }
@@ -26,7 +39,15 @@
             {
                 "directory": "overlay.breaks_seed_parity",
                 "condition": {
-                    "condition": "lithostitched:breaks_seed_parity"
+                    "condition": "apollib:config",
+                    "key": "lithostitched:breaks_seed_parity"
+                }
+            },
+            {
+                "directory": "overlay.debug_suite",
+                "condition": {
+                    "condition": "apollib:config",
+                    "key": "lithostitched:debug_suite"
                 }
             }
         ]

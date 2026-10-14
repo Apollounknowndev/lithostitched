@@ -4,10 +4,13 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.target.HolderSetTarget;
 import dev.worldgen.lithostitched.platform.LithostitchedPlatform;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
@@ -21,19 +24,23 @@ import java.util.Optional;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
 *///? }
 
-public record AddFeaturesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
+public record AddFeaturesModifier(Optional<LoadPredicate> predicate, int priority, HolderTarget<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<AddFeaturesModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_DEFAULT_CODEC.forGetter(AddFeaturesModifier::priority),
-        Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddFeaturesModifier::biomes),
+        HolderTarget.BIOMES.fieldOf("biomes").forGetter(AddFeaturesModifier::biomes),
         PlacedFeature.LIST_CODEC.fieldOf("features").forGetter(AddFeaturesModifier::features),
         GenerationStep.Decoration.CODEC.fieldOf("step").forGetter(AddFeaturesModifier::step)
     ).apply(instance, AddFeaturesModifier::new));
     
+    public AddFeaturesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) {
+        this(predicate, priority, new HolderSetTarget<>(biomes, Registries.BIOME), features, step);
+    }
+    
     //? if neoforge {
     /*@Override
-    public BiomeModifier createNeoforgeModifier() {
-        return new BiomeModifiers.AddFeaturesBiomeModifier(biomes, features, step);
+    public BiomeModifier createNeoforgeModifier(RegistryAccess registries) {
+        return new BiomeModifiers.AddFeaturesBiomeModifier(biomes.getHoldersAsSet(registries), features, step);
     }
     *///? }
     
@@ -42,7 +49,7 @@ public record AddFeaturesModifier(Optional<LoadPredicate> predicate, int priorit
         //? if neoforge
         //if (true) return;
         
-        for (Holder<Biome> entry : this.biomes()) {
+        for (Holder<Biome> entry : this.biomes().getHolders(registries)) {
             this.applyModifier(entry.value());
         }
     }

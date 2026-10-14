@@ -28,6 +28,9 @@ public class Lithostitched {
 		
 		LithostitchedBuiltInRegistries.init();
 		REGISTRAR.registerAll();
+		
+		Apollib.addResourceCondition(id("breaks_seed_parity"), () -> CONFIG.getState().breaksSeedParity);
+		Apollib.addResourceCondition(id("debug_suite"), () -> CONFIG.getState().enableDebugSuite);
 	}
 	
 	public static <T> ResourceKey<T> key(ResourceKey<? extends Registry<T>> resourceKey, String name) {

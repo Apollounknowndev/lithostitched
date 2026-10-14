@@ -4,6 +4,7 @@ package dev.worldgen.lithostitched.mixin.common.neoforge;
 /*import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.ModifierManager;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.NeoforgeModifierHolder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.neoforge.common.world.BiomeModifier;
@@ -23,11 +24,12 @@ public class ServerLifecycleHooksMixin {
 		ordinal = 0
 	)
 	private static List<BiomeModifier> lithostitched$injectBiomeModifers(List<BiomeModifier> biomeModifiers, MinecraftServer server) {
+		RegistryAccess registries = server.registryAccess();
 		List<BiomeModifier> allBiomeModifiers = new ArrayList<>(biomeModifiers);
 		
-		Map<Identifier, WorldgenModifier> modifiers = ModifierManager.getAllModifiers(server.registryAccess());
+		Map<Identifier, WorldgenModifier> modifiers = ModifierManager.getAllModifiers(registries);
 		var lithostitchedBiomeModifiers = modifiers.entrySet().stream().filter(entry -> entry.getValue() instanceof NeoforgeModifierHolder).map(entry -> Map.entry(entry.getKey(), (NeoforgeModifierHolder) entry.getValue())).toList();
-		lithostitchedBiomeModifiers.forEach(entry -> allBiomeModifiers.add(entry.getValue().createNeoforgeModifier()));
+		lithostitchedBiomeModifiers.forEach(entry -> allBiomeModifiers.add(entry.getValue().createNeoforgeModifier(registries)));
 		
 		return allBiomeModifiers;
 	}

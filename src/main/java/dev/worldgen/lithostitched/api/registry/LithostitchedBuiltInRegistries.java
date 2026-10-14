@@ -6,6 +6,7 @@ import dev.worldgen.lithostitched.api.worldgen.bandlands.Band;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
 import dev.worldgen.lithostitched.api.worldgen.densityfunction.fastnoise.FastNoiseConfig;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
 import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondition;
 import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
 import dev.worldgen.lithostitched.impl.predicate.*;
@@ -17,6 +18,11 @@ import dev.worldgen.lithostitched.impl.worldgen.bandlands.band.WrappedBand;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.*;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.InjectorBiomeSource;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.target.AnyTarget;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.target.HolderSetTarget;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.target.RegexTarget;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.target.biome.ClimateTarget;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.target.biome.HasFeatureTarget;
 import dev.worldgen.lithostitched.impl.worldgen.tree.foliageplacer.BranchedMegaJungleFoliagePlacer;
 import dev.worldgen.lithostitched.impl.worldgen.tree.foliageplacer.BranchedMegaPineFoliagePlacer;
 import dev.worldgen.lithostitched.impl.worldgen.tree.rootplacer.LargeMangroveRootPlacer;
@@ -74,7 +80,6 @@ import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 /*import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import dev.worldgen.lithostitched.platform.neoforge.LithostitchedRegistrations;
-import dev.worldgen.lithostitched.platform.neoforge.resource.BreaksSeedParityCondition;
 import dev.worldgen.lithostitched.platform.neoforge.worldgen.LithostitchedNeoforgeBiomeModifiers;
 *///? }
 
@@ -90,6 +95,7 @@ public class LithostitchedBuiltInRegistries {
 	public static final Registry<MapCodec<? extends BiomeInjector>> BIOME_INJECTOR_TYPE = create(LithostitchedRegistries.BIOME_INJECTOR_TYPE);
 	public static final Registry<MapCodec<? extends FastNoiseConfig>> FAST_NOISE_CONFIG_TYPE = create(LithostitchedRegistries.FAST_NOISE_CONFIG_TYPE);
 	public static final Registry<MapCodec<? extends LoadPredicate>> LOAD_PREDICATE_TYPE = create(LithostitchedRegistries.LOAD_PREDICATE_TYPE);
+	public static final Registry<HolderTarget.Type> HOLDER_TARGET_TYPE = create(LithostitchedRegistries.HOLDER_TARGET_TYPE);
 
 	private static <T> Registry<T> create(ResourceKey<Registry<T>> key) {
 		//? if fabric {
@@ -125,6 +131,13 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("force_placement", ForcePlacement.CODEC),
 			Map.entry("replace_fully", ReplaceFully.CODEC),
 			Map.entry("replace_partially", ReplacePartially.CODEC)
+		));
+		LithostitchedRegistrar.register(LithostitchedBuiltInRegistries.HOLDER_TARGET_TYPE, Map.ofEntries(
+			Map.entry("any", AnyTarget.TYPE),
+			Map.entry("holder_set", HolderSetTarget.TYPE),
+			Map.entry("regex", RegexTarget.TYPE),
+			Map.entry("biome/climate", ClimateTarget.TYPE),
+			Map.entry("biome/has_feature", HasFeatureTarget.TYPE)
 		));
 		LithostitchedRegistrar.register(LithostitchedBuiltInRegistries.MODIFIER_TYPE, Map.ofEntries(
 			Map.entry("internal/compile_raw_templates", CompileRawTemplatesModifier.CODEC),
@@ -299,10 +312,7 @@ public class LithostitchedBuiltInRegistries {
 		));
 
 		//? if neoforge {
-		/*LithostitchedRegistrar.register(NeoForgeRegistries.CONDITION_SERIALIZERS, Map.ofEntries(
-			Map.entry("breaks_seed_parity", BreaksSeedParityCondition.CODEC)
-		));
-		LithostitchedRegistrar.register(NeoForgeRegistries.BIOME_MODIFIER_SERIALIZERS, Map.ofEntries(
+		/*LithostitchedRegistrar.register(NeoForgeRegistries.BIOME_MODIFIER_SERIALIZERS, Map.ofEntries(
 			Map.entry("replace_climate", LithostitchedNeoforgeBiomeModifiers.ReplaceClimateBiomeModifier.CODEC),
 			Map.entry("replace_effects", LithostitchedNeoforgeBiomeModifiers.ReplaceEffectsBiomeModifier.CODEC),
 			Map.entry("add_spawn_costs", LithostitchedNeoforgeBiomeModifiers.AddSpawnCostsBiomeModifier.CODEC)

@@ -5,10 +5,79 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe28feff-e22b-494a-ae5d-d85e05a48c48" name="Changes" comment="Cellular noise, min value fixes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/tag/LithostitchedBlockTags.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/modifier/target/HolderTarget.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/target/AnyTarget.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/target/HolderSetTarget.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/target/RegexTarget.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/target/biome/ClimateTarget.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/target/biome/HasFeatureTarget.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/processor/internal/NonTemplateProcessorHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/DesertPyramidStructureMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/MineshaftCorridorMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/MineshaftPieceMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/MonsterThroneMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/PortalRoomMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/WoodlandMansionStructureMixin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/data/lithostitched/tags/block/supports_mineshaft_extension.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/data/lithostitched/tags/block/supports_ruined_portal_leaves.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/data/lithostitched/worldgen/processor_list/buried_treasure.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/overlay.debug_suite/data/test/advancement/join.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/overlay.debug_suite/data/test/function/join.mcfunction" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/overlay.debug_suite/data/test/function/line.mcfunction" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/overlay.debug_suite/data/test/lithostitched/worldgen_modifier/add_biome_spawns.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/overlay.debug_suite/data/test/lithostitched/worldgen_modifier/add_features.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/overlay.debug_suite/data/test/lithostitched/worldgen_modifier/add_processor_list_processors.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/overlay.debug_suite/data/test/lithostitched/worldgen_modifier/set_biome_attributes.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/overlay.debug_suite/data/test/lithostitched/worldgen_modifier/wrap_noise_router.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/LithostitchedInternalHooks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/LithostitchedInternalHooks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/CellularDensityFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/densityfunction/CellularDensityFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/rule/ReferenceRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/rule/ReferenceRule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/Lithostitched.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/Lithostitched.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedBuiltInRegistries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedRegistries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/registry/LithostitchedRegistries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/modifier/WorldgenModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/modifier/WorldgenModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/processor/LithostitchedProcessorLists.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/processor/LithostitchedProcessorLists.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/processorcondition/LithostitchedProcessorConditions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/api/worldgen/processorcondition/LithostitchedProcessorConditions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/config/ConfigState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/config/ConfigState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/duck/ReferencePosDuck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/duck/ReferencePosDuck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/AddBiomeSpawnsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/AddBiomeSpawnsModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/AddFeaturesModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/AddFeaturesModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/AddSpawnCostsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/AddSpawnCostsModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/NeoforgeModifierHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/NeoforgeModifierHolder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/RemoveBiomeSpawnsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/RemoveBiomeSpawnsModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/RemoveFeaturesModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/RemoveFeaturesModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/ReplaceClimateModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/ReplaceClimateModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/ReplaceEffectsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier/ReplaceEffectsModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/condition/BiomeCondition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/impl/worldgen/surface/condition/BiomeCondition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/neoforge/ServerLifecycleHooksMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/neoforge/ServerLifecycleHooksMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/predicate/PendingRegistrationMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/predicate/PendingRegistrationMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/NetherFossilPieceMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/NetherFossilPieceMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/RuinedPortalPieceMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/RuinedPortalPieceMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/StructurePieceMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/StructurePieceMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/StructureStartMixin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/mixin/common/processor/StructureStartMixin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/platform/fabric/LithostitchedFabric.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/platform/fabric/LithostitchedFabric.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/platform/fabric/resource/BreaksSeedParityCondition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/platform/neoforge/resource/BreaksSeedParityCondition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/platform/neoforge/worldgen/LithostitchedNeoforgeBiomeModifiers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/platform/neoforge/worldgen/LithostitchedNeoforgeBiomeModifiers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/LithostitchedCodecs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/LithostitchedCodecs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/blockpredicate/MatchingBiomesPredicate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/blockpredicate/MatchingBiomesPredicate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/AddProcessorListProcessorsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/AddProcessorListProcessorsModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/AddStructureSetEntriesModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/AddStructureSetEntriesModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/AddStructureTemplatesModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/AddStructureTemplatesModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/AddTemplatePoolElementsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/AddTemplatePoolElementsModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/RemoveStructureSetEntriesModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/RemoveStructureSetEntriesModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetPoolAliasesModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetPoolAliasesModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetPoolElementProcessorsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetPoolElementProcessorsModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetStructureSpawnConditionModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetStructureSpawnConditionModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetTreeDecoratorsModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/SetTreeDecoratorsModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/StackFeatureModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/StackFeatureModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/attribute/SetBiomeAttributesModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/attribute/SetBiomeAttributesModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/attribute/SetBiomeTimelineModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/attribute/SetBiomeTimelineModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/attribute/SetDimensionAttributesModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/attribute/SetDimensionAttributesModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/attribute/SetStructureAttributesModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/attribute/SetStructureAttributesModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/attribute/SetTimelineTracksModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/attribute/SetTimelineTracksModifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/template/TemplateLists.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/worldgen/lithostitched/worldgen/modifier/template/TemplateLists.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/lithostitched.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lithostitched.mixins.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/pack.mcmeta" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/pack.mcmeta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stonecutter.properties.toml" beforeDir="false" afterPath="$PROJECT_DIR$/stonecutter.properties.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/uploader.py" afterDir="false" />
     </list>
@@ -34,17 +103,6 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="lithostitched" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="lithostitched" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="lithostitched" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -105,12 +163,14 @@
     &quot;Gradle.1.20.1 [prepareFabric1219ClientRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.1.20.1 [prepareNeoforge1211ClientRun].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.1.20.1 [prepareNeoforge1219ClientRun].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.26.1 [:neoforge:net.neoforged.devlaunch.Main.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.26.1 [stonecutterSwitchTofabric].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.26.1 [stonecutterSwitchToneoforge].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Build lithostitched.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Minecraft Client (:26.2-fabric).executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Minecraft Client (:fabric).executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Minecraft Server (:fabric).executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Upgrade Gradle wrapper.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [:26.2-neoforge:net.neoforged.devlaunch.Main.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.lithostitched [:cpw.mods.bootstraplauncher.BootstrapLauncher.main()].executor&quot;: &quot;Run&quot;,
@@ -159,7 +219,7 @@
     &quot;git-widget-placeholder&quot;: &quot;26.1&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/26.1/run&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ldglo/Documents/Github/lithostitched/26.1/src/main/java/dev/worldgen/lithostitched/impl/worldgen/modifier&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
@@ -169,17 +229,17 @@
   },
   &quot;keyToStringList&quot;: {
     &quot;dev.kikugie.stonecutter.projects&quot;: [
-      &quot;{\&quot;id\&quot;:\&quot;lithostitched\&quot;,\&quot;path\&quot;:\&quot;:\&quot;,\&quot;identityPath\&quot;:\&quot;:\&quot;,\&quot;name\&quot;:\&quot;lithostitched\&quot;,\&quot;qName\&quot;:\&quot;lithostitched\&quot;,\&quot;group\&quot;:\&quot;\&quot;,\&quot;version\&quot;:\&quot;unspecified\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\stonecutter.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{\&quot;buildSrc\&quot;:{\&quot;id\&quot;:\&quot;:buildSrc\&quot;,\&quot;path\&quot;:\&quot;:\&quot;,\&quot;identityPath\&quot;:\&quot;:buildSrc\&quot;,\&quot;name\&quot;:\&quot;buildSrc\&quot;,\&quot;qName\&quot;:\&quot;buildSrc\&quot;,\&quot;group\&quot;:\&quot;\&quot;,\&quot;version\&quot;:\&quot;unspecified\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\buildSrc\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\buildSrc\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\buildSrc\\\\build.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}},\&quot;fabric\&quot;:{\&quot;id\&quot;:\&quot;:fabric\&quot;,\&quot;path\&quot;:\&quot;:fabric\&quot;,\&quot;identityPath\&quot;:\&quot;:fabric\&quot;,\&quot;name\&quot;:\&quot;fabric\&quot;,\&quot;qName\&quot;:\&quot;:fabric\&quot;,\&quot;group\&quot;:\&quot;lithostitched\&quot;,\&quot;version\&quot;:\&quot;1.8.0+beta6-fabric-26.1\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\versions\\\\fabric\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\versions\\\\fabric\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\build.fabric.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}},\&quot;neoforge\&quot;:{\&quot;id\&quot;:\&quot;:neoforge\&quot;,\&quot;path\&quot;:\&quot;:neoforge\&quot;,\&quot;identityPath\&quot;:\&quot;:neoforge\&quot;,\&quot;name\&quot;:\&quot;neoforge\&quot;,\&quot;qName\&quot;:\&quot;:neoforge\&quot;,\&quot;group\&quot;:\&quot;lithostitched\&quot;,\&quot;version\&quot;:\&quot;1.8.0+beta6-neoforge-26.1\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\versions\\\\neoforge\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\versions\\\\neoforge\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\build.neoforge.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}}},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}}&quot;
+      &quot;{\&quot;id\&quot;:\&quot;lithostitched\&quot;,\&quot;path\&quot;:\&quot;:\&quot;,\&quot;identityPath\&quot;:\&quot;:\&quot;,\&quot;name\&quot;:\&quot;lithostitched\&quot;,\&quot;qName\&quot;:\&quot;lithostitched\&quot;,\&quot;group\&quot;:\&quot;\&quot;,\&quot;version\&quot;:\&quot;unspecified\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\stonecutter.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{\&quot;buildSrc\&quot;:{\&quot;id\&quot;:\&quot;:buildSrc\&quot;,\&quot;path\&quot;:\&quot;:\&quot;,\&quot;identityPath\&quot;:\&quot;:buildSrc\&quot;,\&quot;name\&quot;:\&quot;buildSrc\&quot;,\&quot;qName\&quot;:\&quot;buildSrc\&quot;,\&quot;group\&quot;:\&quot;\&quot;,\&quot;version\&quot;:\&quot;unspecified\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\buildSrc\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\buildSrc\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\buildSrc\\\\build.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}},\&quot;fabric\&quot;:{\&quot;id\&quot;:\&quot;:fabric\&quot;,\&quot;path\&quot;:\&quot;:fabric\&quot;,\&quot;identityPath\&quot;:\&quot;:fabric\&quot;,\&quot;name\&quot;:\&quot;fabric\&quot;,\&quot;qName\&quot;:\&quot;:fabric\&quot;,\&quot;group\&quot;:\&quot;lithostitched\&quot;,\&quot;version\&quot;:\&quot;1.8.0-fabric-26.1\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\versions\\\\fabric\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\versions\\\\fabric\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\build.fabric.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}},\&quot;neoforge\&quot;:{\&quot;id\&quot;:\&quot;:neoforge\&quot;,\&quot;path\&quot;:\&quot;:neoforge\&quot;,\&quot;identityPath\&quot;:\&quot;:neoforge\&quot;,\&quot;name\&quot;:\&quot;neoforge\&quot;,\&quot;qName\&quot;:\&quot;:neoforge\&quot;,\&quot;group\&quot;:\&quot;lithostitched\&quot;,\&quot;version\&quot;:\&quot;1.8.0-neoforge-26.1\&quot;,\&quot;projectDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\versions\\\\neoforge\&quot;},\&quot;buildDir\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\versions\\\\neoforge\\\\build\&quot;},\&quot;buildFile\&quot;:{\&quot;path\&quot;:\&quot;C:\\\\Users\\\\ldglo\\\\Documents\\\\Github\\\\lithostitched\\\\26.1\\\\build.neoforge.gradle.kts\&quot;},\&quot;externalSystemId\&quot;:\&quot;GRADLE\&quot;,\&quot;childProjects\&quot;:{},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}}},\&quot;sourceSetModel\&quot;:{\&quot;taskArtifacts\&quot;:[],\&quot;configurationArtifacts\&quot;:{},\&quot;sourceSets\&quot;:{},\&quot;additionalArtifacts\&quot;:[]},\&quot;taskModel\&quot;:{\&quot;tasks\&quot;:{}}}&quot;
     ]
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.1\run" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\main\resources\data\example\timeline" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\main\resources\data\lithostitched\lithostitched\worldgen_modifier" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\main\java\dev\worldgen\lithostitched\mixin\common" />
-      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\src\main\java\dev\worldgen\lithostitched\platform\neoforge" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.1\src\main\java\dev\worldgen\lithostitched\impl\worldgen\modifier" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.1\src\main\java\dev\worldgen\lithostitched\api\worldgen\modifier" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.1\src\main\resources" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.1\src\main\resources\data\lithostitched\worldgen\processor_list" />
+      <recent name="C:\Users\ldglo\Documents\Github\lithostitched\26.1\src\main\resources\data\lithostitched\tags" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -195,14 +255,14 @@
       <recent name="dev.worldgen.lithostitched.worldgen.bandlands" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="dev.worldgen.lithostitched.impl.worldgen.densityfunction" />
       <recent name="dev.worldgen.lithostitched.worldgen.modifier" />
+      <recent name="dev.worldgen.lithostitched.api.tag" />
+      <recent name="dev.worldgen.lithostitched.impl.worldgen.densityfunction" />
       <recent name="dev.worldgen.lithostitched.impl.worldgen.modifier.attribute" />
       <recent name="dev.worldgen.lithostitched.worldgen.modifier.internal" />
-      <recent name="dev.worldgen.lithostitched.mixin.common" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.lithostitched [build]">
+  <component name="RunManager" selected="Gradle.Minecraft Client (:fabric)">
     <configuration name="neoforge - Client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
       <module name="lithostitched.neoforge.main" />
@@ -273,6 +333,16 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
+    <configuration default="true" type="lua.app" factoryName="Lua Application">
+      <option name="program" value="lua.exe" />
+      <option name="file" value="" />
+      <option name="workingDir" value="$PROJECT_DIR$/versions/neoforge/build/generated/stonecutter/main/java" />
+      <option name="debuggerType" value="1" />
+      <option name="params" value="" />
+      <option name="charset" value="UTF-8" />
+      <option name="showConsole" value="true" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.neoforge - Client" />
       <item itemvalue="Application.neoforge - Server" />
@@ -293,8 +363,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.25134.95" />
-        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.25134.95" />
+        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.27258.48" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.27258.48" />
       </set>
     </attachedChunks>
   </component>

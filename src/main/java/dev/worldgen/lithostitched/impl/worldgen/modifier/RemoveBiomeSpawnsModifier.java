@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.modifier.WorldgenModifier;
-import net.minecraft.core.Holder;
+import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.RegistryCodecs;
@@ -29,18 +29,18 @@ import java.util.Optional;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
 *///? }
 
-public record RemoveBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, HolderSet<EntityType<?>> mobs) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
+public record RemoveBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int priority, HolderTarget<Biome> biomes, HolderSet<EntityType<?>> mobs) implements WorldgenModifier /*? if neoforge{*//*, NeoforgeModifierHolder *//*?}*/ {
     public static final MapCodec<RemoveBiomeSpawnsModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         LoadPredicate.FIELD_CODEC.forGetter(WorldgenModifier::predicate),
         PRIORITY_REMOVE_CODEC.forGetter(RemoveBiomeSpawnsModifier::priority),
-        Biome.LIST_CODEC.fieldOf("biomes").forGetter(RemoveBiomeSpawnsModifier::biomes),
+        HolderTarget.BIOMES.fieldOf("biomes").forGetter(RemoveBiomeSpawnsModifier::biomes),
         RegistryCodecs.homogeneousList(Registries.ENTITY_TYPE).fieldOf("mobs").forGetter(RemoveBiomeSpawnsModifier::mobs)
     ).apply(instance, RemoveBiomeSpawnsModifier::new));
     
     //? if neoforge {
     /*@Override
-    public BiomeModifier createNeoforgeModifier() {
-        return new BiomeModifiers.RemoveSpawnsBiomeModifier(biomes, mobs);
+    public BiomeModifier createNeoforgeModifier(RegistryAccess registries) {
+        return new BiomeModifiers.RemoveSpawnsBiomeModifier(biomes.getHoldersAsSet(registries), mobs);
     }
     *///? }
     
@@ -49,7 +49,7 @@ public record RemoveBiomeSpawnsModifier(Optional<LoadPredicate> predicate, int p
         //? if neoforge
         //if (true) return;
         
-        for (Holder<Biome> entry : this.biomes()) {
+        for (Holder<Biome> entry : this.biomes().getHolders(registries)) {
             this.applyModifier(entry.value());
         }
     }

@@ -1,0 +1,10 @@
+{
+  "type": "lithostitched:add_biome_spawns",
+  "biomes": "#minecraft:is_overworld",
+  "spawners": {
+    "type": "minecraft:armadillo",
+    "minCount": 4,
+    "maxCount": 4,
+    "weight": 200
+  }
+}

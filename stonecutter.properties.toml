@@ -5,7 +5,7 @@ mod.group = "dev.worldgen.lithostitched"
 mod.url = "https://modrinth.com/project/lithostitched"
 mod.sources = "https://github.com/Apollounknowndev/lithostitched"
 mod.description = "A library mod with new configurability and compatibility enhancements for worldgen"
-mod.version = "1.8.0"
+mod.version = "1.8.1"
 
 deps.fabric_loader = "0.19.3"
 loomx.loom_version = "1.17-SNAPSHOT"
@@ -17,10 +17,10 @@ mod.mc_releases = ["26.1", "26.1.1", "26.1.2"]
 mod.mc_compat = "~26.1"
 deps.fabric_api = "0.152.1+26.1.2"
 deps.mod_menu = "18.0.0-alpha.8"
-deps.apollib = "1.1.6-fabric-26.1"
+deps.apollib = "1.2.0-fabric-26.1"
 
 
 [neoforge."26.1"]
 mod.mc_compat = "[26.1, 26.2)"
 deps.neo_loader = "26.1.2.76"
-deps.apollib = "1.1.6-neoforge-26.1"
+deps.apollib = "1.2.0-neoforge-26.1"

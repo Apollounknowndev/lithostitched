@@ -1,0 +1,23 @@
+{
+  "type": "lithostitched:add_processor_list_processors",
+  "processor_lists": "lithostitched:mineshaft",
+  "processors": [
+    {
+      "processor_type": "lithostitched:condition",
+      "if_true": {
+        "type": "lithostitched:matching_biomes",
+        "biomes": "#minecraft:is_jungle",
+        "position": "structure_start"
+      },
+      "then": {
+        "processor_type": "lithostitched:block_swap",
+        "blocks": {
+          "minecraft:oak_planks": "minecraft:jungle_planks",
+          "minecraft:oak_log": "minecraft:jungle_log",
+          "minecraft:iron_chain": "minecraft:waxed_exposed_copper_chain",
+          "minecraft:oak_fence": "minecraft:jungle_fence"
+        }
+      }
+    }
+  ]
+}

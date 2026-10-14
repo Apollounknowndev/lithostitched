@@ -24,7 +24,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
 
-@Debug(export = true)
 @Mixin(RegistryLoadTask.PendingRegistration.class)
 public class PendingRegistrationMixin {
 	//? if fabric {

@@ -1,0 +1,1 @@
+$tellraw @a [{text:"[$(name)]"},{text:": $(desc)",color:"gray"}]

@@ -1,0 +1,10 @@
+{
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "rewards": {
+    "function": "test:join"
+  }
+}

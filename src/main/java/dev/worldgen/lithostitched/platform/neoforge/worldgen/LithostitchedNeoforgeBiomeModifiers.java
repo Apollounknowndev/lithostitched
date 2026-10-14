@@ -94,12 +94,15 @@ public class LithostitchedNeoforgeBiomeModifiers {
         }
     }
     
-    public record AddSpawnCostsBiomeModifier(AddSpawnCostsModifier modifier) implements BiomeModifier {
-        public static final MapCodec<AddSpawnCostsBiomeModifier> CODEC = AddSpawnCostsModifier.CODEC.xmap(AddSpawnCostsBiomeModifier::new, AddSpawnCostsBiomeModifier::modifier);
+    public record AddSpawnCostsBiomeModifier(HolderSet<Biome> biomes, AddSpawnCostsModifier modifier) implements BiomeModifier {
+        public static final MapCodec<AddSpawnCostsBiomeModifier> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+            Biome.LIST_CODEC.fieldOf("biomes").forGetter(AddSpawnCostsBiomeModifier::biomes),
+            AddSpawnCostsModifier.CODEC.fieldOf("modifier").forGetter(AddSpawnCostsBiomeModifier::modifier)
+        ).apply(i, AddSpawnCostsBiomeModifier::new));
         
         @Override
         public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
-            if (phase == Phase.ADD && this.modifier.biomes().contains(biome)) {
+            if (phase == Phase.ADD && this.biomes().contains(biome)) {
 	            MobSpawnSettingsBuilder spawnSettings = builder.getMobSpawnSettings();
                 for (var costEntry : this.modifier.spawnCosts().entrySet()) {
                     spawnSettings.addMobCharge(costEntry.getKey(), costEntry.getValue().charge(), costEntry.getValue().energyBudget());
