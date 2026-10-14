@@ -30,21 +30,7 @@ public record SetPoolAliasesModifier(Optional<LoadPredicate> predicate, int prio
         holderTarget(Registries.STRUCTURE, "structures").forGetter(SetPoolAliasesModifier::structures),
         Codec.list(PoolAliasBinding.CODEC).fieldOf("pool_aliases").forGetter(SetPoolAliasesModifier::poolAliases),
         Codec.BOOL.fieldOf("append").orElse(true).forGetter(SetPoolAliasesModifier::append)
-    ).apply(instance, SetPoolAliasesModifier::new)).validate(SetPoolAliasesModifier::validate);
-
-    private static DataResult<SetPoolAliasesModifier> validate(SetPoolAliasesModifier modifier) {
-        /*for (Holder<Structure> holder : modifier.structures) {
-            Structure structure = holder.value();
-            if (structure instanceof DelegatingStructure delegating) {
-                structure = delegating.delegate();
-            }
-
-            if (!(structure instanceof JigsawStructure || structure instanceof AlternateJigsawStructure)) {
-                return DataResult.error(() -> "Target structure for pool alias additions should be a jigsaw structure");
-            }
-        }*/
-        return DataResult.success(modifier);
-    }
+    ).apply(instance, SetPoolAliasesModifier::new));
 
     @Override
     public void apply(RegistryAccess registries) {
