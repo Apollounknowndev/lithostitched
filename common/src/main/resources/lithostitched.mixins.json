@@ -10,6 +10,7 @@
     "common.HolderReferenceAccessor",
     "common.JigsawStructureMixin",
     "common.MappedRegistryAccessor",
+    "common.NoiseBasedChunkGeneratorAccessor",
     "common.NoiseGeneratorSettingsAccessor",
     "common.PlacedFeatureAccessor",
     "common.RandomStateAccessor",

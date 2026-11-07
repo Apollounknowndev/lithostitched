@@ -2,19 +2,17 @@ package dev.worldgen.lithostitched.worldgen.surface;
 
 import com.mojang.datafixers.util.Pair;
 import dev.worldgen.lithostitched.LithostitchedCommon;
+import dev.worldgen.lithostitched.mixin.common.NoiseGeneratorSettingsAccessor;
 import dev.worldgen.lithostitched.registry.LithostitchedRegistryKeys;
 import dev.worldgen.lithostitched.worldgen.modifier.AddSurfaceRuleModifier;
-import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
-import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
 import java.util.ArrayList;
@@ -47,26 +45,11 @@ public class SurfaceRuleManager {
             ResourceLocation location = entry.getKey().location();
             var surfaceRulesForKey = assignedSurfaceRules.get(location);
             if (surfaceRulesForKey != null) {
-                ChunkGenerator chunkGenerator = entry.getValue().generator();
-                if (!(chunkGenerator instanceof NoiseBasedChunkGenerator)) continue;
-                NoiseGeneratorSettings settings = ((NoiseBasedChunkGenerator) chunkGenerator).generatorSettings().value();
-                SurfaceRules.RuleSource oldRules = settings.surfaceRule();
-                // Noise generator settings must be rebuilt due to Forge not allowing surface rules to be directly modified.
-                ((NoiseBasedChunkGenerator) chunkGenerator).settings = Holder.direct(new NoiseGeneratorSettings(
-                    settings.noiseSettings(),
-                    settings.defaultBlock(),
-                    settings.defaultFluid(),
-                    settings.noiseRouter(),
-                    buildModdedSurfaceRules(surfaceRulesForKey, oldRules),
-                    settings.spawnTarget(),
-                    settings.seaLevel(),
-                    settings.disableMobGeneration(),
-                    settings.isAquifersEnabled(),
-                    settings.oreVeinsEnabled(),
-                    settings.useLegacyRandomSource()
-                ));
-
-                LithostitchedCommon.debug("Applied {} surface rule additions for '{}' dimension", surfaceRulesForKey.size(), location);
+	            if (!(entry.getValue().generator() instanceof NoiseBasedChunkGenerator generator)) continue;
+	            NoiseGeneratorSettingsAccessor settings = (NoiseGeneratorSettingsAccessor)(Object) generator.generatorSettings().value();
+	            settings.setSurfaceRule(buildModdedSurfaceRules(surfaceRulesForKey, settings.getSurfaceRuleBecauseTerriblenderSucksAndWontLetMeUseTheNormalMethodToGetTheSurfaceRules()));
+	            
+	            LithostitchedCommon.debug("Applied {} surface rule additions for '{}' dimension", surfaceRulesForKey.size(), location);
             }
         }
     }

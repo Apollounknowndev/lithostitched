@@ -14,6 +14,7 @@ import dev.worldgen.lithostitched.worldgen.densityfunction.WrappedMarkerDensityF
 import dev.worldgen.lithostitched.worldgen.feature.*;
 import dev.worldgen.lithostitched.worldgen.modifier.*;
 import dev.worldgen.lithostitched.worldgen.modifier.internal.CompileRawTemplatesModifier;
+import dev.worldgen.lithostitched.worldgen.modifier.internal.RereferenceNoiseSettingsModifier;
 import dev.worldgen.lithostitched.worldgen.modifier.predicate.*;
 import dev.worldgen.lithostitched.worldgen.placementcondition.*;
 import dev.worldgen.lithostitched.worldgen.placementmodifier.ConditionPlacement;
@@ -65,6 +66,7 @@ public final class LithostitchedCommon {
 
 	public static void registerCommonModifiers(BiConsumer<String, Codec<? extends Modifier>> consumer) {
 		consumer.accept("internal/compile_raw_templates", CompileRawTemplatesModifier.CODEC);
+		consumer.accept("internal/rereference_noise_settings", RereferenceNoiseSettingsModifier.CODEC);
 		consumer.accept("add_processor_list_processors", AddProcessorListProcessorsModifier.CODEC);
 		consumer.accept("add_structure_set_entries", AddStructureSetEntriesModifier.CODEC);
 		consumer.accept("add_surface_rule", AddSurfaceRuleModifier.CODEC);
