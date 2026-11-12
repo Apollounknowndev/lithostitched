@@ -1,0 +1,58 @@
+{
+  "type": "lithostitched:add_processor_list_processors",
+  "processor_lists": "lithostitched:stronghold",
+  "processors": [
+    {
+      "processor_type": "lithostitched:density",
+      "density_function": {
+        "type": "lithostitched:cellular",
+        "grid_dimensions": 32,
+        "jitter": 0.5,
+        "return_type": "distance_1",
+        "salt": 24895304
+      },
+      "selector": {
+        "entries": [
+          {
+            "acceptable_density": [0, 6],
+            "value":  {
+              "processor_type": "lithostitched:set_block",
+              "state_provider": {
+                "id": "minecraft:air"
+              }
+            }
+          },
+          {
+            "acceptable_density": [6, 7],
+            "value": {
+              "processor_type": "lithostitched:condition",
+              "if_true": {
+                "type": "lithostitched:not",
+                "condition": {
+                  "type": "lithostitched:matching_blocks",
+                  "blocks": "#minecraft:air"
+                }
+              },
+              "then": {
+                "processor_type": "lithostitched:set_block",
+                "state_provider": {
+                  "id": "minecraft:moss_block"
+                }
+              }
+            }
+          },
+          {
+            "acceptable_density": [7, 9],
+            "value": {
+              "processor_type": "minecraft:block_age",
+              "mossiness": 1
+            }
+          }
+        ],
+        "fallback": {
+          "processor_type": "minecraft:nop"
+        }
+      }
+    }
+  ]
+}

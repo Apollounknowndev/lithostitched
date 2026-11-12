@@ -17,11 +17,11 @@ import net.minecraft.core.QuartPos;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.*;
+import net.minecraft.world.level.biome.Climate.Sampler;
 import net.minecraft.world.level.biome.Climate.TargetPoint;
 import net.minecraft.world.level.levelgen.RandomState;
-import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
-import net.minecraft.world.level.levelgen.densityfunction.DensitySamplerSet;
-import net.minecraft.world.level.levelgen.densityfunction.SamplerContext;
+import net.minecraft.world.level.levelgen.densityfunction.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -39,6 +39,7 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 	private final BiomeSource rootDelegate;
 	
 	private final Map<MapCodec<? extends BiomeInjector>, List<BiomeInjector>> injectorsByType = new HashMap<>();
+	private Set<DensityFunction> densityFunctions = new HashSet<>();
 	private List<Holder<Biome>> possibleBiomes = new ArrayList<>();
 	private List<Holder<Biome>> replacedBiomes = new ArrayList<>();
 	private RegionManager regionManager;
@@ -72,6 +73,10 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 			if (injector instanceof ReplaceFully replaceFully) {
 				this.replacedBiomes.addAll(replaceFully.targets().stream().toList());
 			}
+			if (injector instanceof ParameterMapHolder mapHolder) {
+				ParameterMap parameters = mapHolder.parameters();
+				this.densityFunctions.addAll(parameters.getDensityFunctions());
+			}
 		});
 		
 		for (List<BiomeInjector> byType : this.injectorsByType.values()) {
@@ -81,6 +86,7 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		if (!(this.rootDelegate instanceof MultiNoiseBiomeSource multiNoise)) {
 			Lithostitched.debug("Biome source is not a MultiNoiseBiomeSource instance, got {}. add_points injectors will not run.", this.rootDelegate.getClass().getSimpleName());
 			this.regionManager = new RegionManager(regionFunction, regions, this.directDelegate.possibleBiomes());
+			this.regionManager.getRegionFunction().ifPresent(this.densityFunctions::add);
 			return;
 		}
 		
@@ -100,6 +106,7 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		// Calling `directDelegate.possibleBiomes()` will trigger Biolith's point injection,
 		// at which point Lithostitched's point injections won't work.
 		this.regionManager = new RegionManager(regionFunction, regions, this.directDelegate.possibleBiomes());
+		this.regionManager.getRegionFunction().ifPresent(this.densityFunctions::add);
 	}
 	
 	private static void updateParameters(Climate.ParameterList<Holder<Biome>> original, List<Pair<Climate.ParameterPoint, Holder<Biome>>> modifiedParameters) {
@@ -151,14 +158,21 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 	}
 	
 	@Override
-	public BiomeResolver createResolver(Climate.Sampler sampler) {
-		BiomeResolver baseResolver = this.directDelegate.createResolver(sampler);
+	public BiomeResolver createResolverForChunk(Sampler sampler, int minQuartX, int minQuartY, int minQuartZ, int quartSizeX, int quartSizeY, int quartSizeZ) {
+		BiomeResolver baseResolver = this.directDelegate.createResolverForChunk(sampler, minQuartX, minQuartY, minQuartZ, quartSizeX, quartSizeY, quartSizeZ);
 		DensitySamplerSet samplers = this.randomState.samplersWithContext(SamplerContext.builder().enableCaches().build());
-		// TODO: Maybe make cached?
-		return (x, y, z) -> this.getNoiseBiome(x, y, z, baseResolver, sampler, samplers);
+		DensityVolume volume = new DensityVolume(quartSizeX, quartSizeY, quartSizeZ, QuartPos.toBlock(minQuartX), QuartPos.toBlock(minQuartY), QuartPos.toBlock(minQuartZ), 4, 4, 4);
+		return (quartX, quartY, quartZ) -> this.getNoiseBiome(quartX, quartY, quartZ, baseResolver, sampler, getDensitiesInChunk(samplers, volume));
 	}
 	
-	public Holder<Biome> getNoiseBiome(int quartX, int quartY, int quartZ, BiomeResolver baseResolver, Climate.Sampler climate, DensitySamplerSet samplers) {
+	@Override
+	public BiomeResolver createResolver(Sampler sampler) {
+		BiomeResolver baseResolver = this.directDelegate.createResolver(sampler);
+		DensitySamplerSet samplers = this.randomState.samplersWithContext(SamplerContext.builder().enableCaches().build());
+		return (x, y, z) -> this.getNoiseBiome(x, y, z, baseResolver, sampler, getDensitiesInChunk(samplers, null));
+	}
+	
+	public Holder<Biome> getNoiseBiome(int quartX, int quartY, int quartZ, BiomeResolver baseResolver, Sampler climate, Map<DensityFunction, DensityGetter> densityGetters) {
 		if (this.injectorsByType.isEmpty()) {
 			return baseResolver.getNoiseBiome(quartX, quartY, quartZ);
 		}
@@ -169,12 +183,12 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		TargetPoint point = climate.sample(quartX, quartY, quartZ);
 		
 		Holder<Biome> biome = baseResolver.getNoiseBiome(quartX, quartY, quartZ);
-		ResourceKey<Region> currentRegion = this.regionManager.getRegion(blockX, blockY, blockZ, samplers, biome);
+		ResourceKey<Region> currentRegion = this.regionManager.getRegion(blockX, blockY, blockZ, densityGetters, biome);
 		
 		if (this.injectorsByType.containsKey(ForcePlacement.CODEC)) {
 			for (BiomeInjector injector : this.injectorsByType.getOrDefault(ForcePlacement.CODEC, List.of())) {
 				ForcePlacement forcePlacement = (ForcePlacement) injector;
-				if (forcePlacement.matches(blockX, blockY, blockZ, samplers, point, currentRegion)) {
+				if (forcePlacement.matches(blockX, blockY, blockZ, densityGetters, point, currentRegion)) {
 					return forcePlacement.biome();
 				}
 			}
@@ -183,7 +197,7 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		if (this.injectorsByType.containsKey(DispatchAlternateLayout.CODEC)) {
 			for (BiomeInjector injector : this.injectorsByType.getOrDefault(DispatchAlternateLayout.CODEC, List.of())) {
 				DispatchAlternateLayout alternateLayout = (DispatchAlternateLayout) injector;
-				if (alternateLayout.matches(blockX, blockY, blockZ, samplers, point, currentRegion)) {
+				if (alternateLayout.matches(blockX, blockY, blockZ, densityGetters, point, currentRegion)) {
 					biome = alternateLayout.points().findValue(point);
 					break;
 				}
@@ -192,7 +206,7 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		
 		for (BiomeInjector injector : this.injectorsByType.getOrDefault(ReplacePartially.CODEC, List.of())) {
 			ReplacePartially replacePartially = (ReplacePartially) injector;
-			if (replacePartially.matches(blockX, blockY, blockZ, samplers, point, biome, currentRegion)) {
+			if (replacePartially.matches(blockX, blockY, blockZ, densityGetters, point, biome, currentRegion)) {
 				biome = replacePartially.replacement();
 				break;
 			}
@@ -210,19 +224,43 @@ public class InjectorBiomeSource extends BiomeSource implements Cloneable {
 		return biome;
 	}
 	
+	public Map<DensityFunction, DensityGetter> getDensitiesInChunk(DensitySamplerSet samplers, @Nullable DensityVolume volume) {
+		Map<DensityFunction, DensityGetter> map = new HashMap<>();
+		
+		for (DensityFunction function : this.densityFunctions) {
+			DensitySampler.Bound sampler = samplers.get(function);
+			if (volume != null) {
+				DensityBuffer buffer = DensityBuffer.createUnpooled(volume.size());
+				sampler.sampleVolume(buffer, volume);
+				map.put(function, (blockX, blockY, blockZ) -> {
+					int index = volume.indexOfBlock(blockX, blockY, blockZ);
+					return index == -1 ? sampler.sampleValue(blockX, blockY, blockZ) : buffer.get(index);
+				});
+			} else {
+				map.put(function, sampler::sampleValue);
+			}
+		}
+		
+		return map;
+	}
+	
+	public interface DensityGetter {
+		float get(int blockX, int blockY, int blockZ);
+	}
+	
 	@Override
-	public void addDebugInfo(List<String> lines, BlockPos pos, Climate.Sampler sampler) {
+	public void addDebugInfo(List<String> lines, BlockPos pos, Sampler sampler) {
 		this.directDelegate.addDebugInfo(lines, pos, sampler);
 	}
 	
-	public String getRegionLine(DensitySamplerSet samplers, Climate.Sampler climate, BlockPos pos) {
+	public String getRegionLine(DensitySamplerSet samplers, Sampler climate, BlockPos pos) {
 		int quartX = QuartPos.fromBlock(pos.getX());
 		int quartY = QuartPos.fromBlock(pos.getY());
 		int quartZ = QuartPos.fromBlock(pos.getZ());
 		Holder<Biome> biome = this.directDelegate.createResolver(climate).getNoiseBiome(quartX, quartY, quartZ);
-		Identifier region = this.regionManager.getRegion(pos.getX(), pos.getY(), pos.getZ(), samplers, biome).identifier();
-		int rawValue = this.regionManager.getRegionValue(pos.getX(), pos.getY(), pos.getZ(), samplers, biome);
-		return String.format("Region: %s (Raw value: %s)", region, rawValue);
+		//Identifier region = this.regionManager.getRegion(pos.getX(), pos.getY(), pos.getZ(), samplers, biome).identifier();
+		//int rawValue = this.regionManager.getRegionValue(pos.getX(), pos.getY(), pos.getZ(), samplers, biome);
+		return String.format("Region: %s (Raw value: %s)", "region", "rawValue");
 	}
 	
 	private static BiomeSource getRootSource(BiomeSource currentSource) {

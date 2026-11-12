@@ -2,6 +2,8 @@ package dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region;
 
 import dev.worldgen.lithostitched.impl.Lithostitched;
 import dev.worldgen.lithostitched.api.registry.LithostitchedRegistries;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.InjectorBiomeSource;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.InjectorBiomeSource.DensityGetter;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
@@ -37,18 +39,22 @@ public class RegionManager {
 		}
 	}
 	
-	public ResourceKey<Region> getRegion(int blockX, int blockY, int blockZ, DensitySamplerSet samplers, Holder<Biome> biome) {
+	public Optional<DensityFunction> getRegionFunction() {
+		return regionFunction;
+	}
+	
+	public ResourceKey<Region> getRegion(int blockX, int blockY, int blockZ, Map<DensityFunction, DensityGetter> densityGetters, Holder<Biome> biome) {
 		BiomeRegions biomeRegions = this.regionsByBiome.get(biome);
 		if (biomeRegions == null) return NO_REGIONS;
 		
-		return biomeRegions.getRegion(regionFunction, blockX, blockY, blockZ, samplers);
+		return biomeRegions.getRegion(regionFunction, blockX, blockY, blockZ, densityGetters);
 	}
 	
-	public int getRegionValue(int blockX, int blockY, int blockZ, DensitySamplerSet samplers, Holder<Biome> biome) {
+	public int getRegionValue(int blockX, int blockY, int blockZ, Map<DensityFunction, DensityGetter> densityGetters, Holder<Biome> biome) {
 		BiomeRegions biomeRegions = this.regionsByBiome.get(biome);
 		if (biomeRegions == null || regionFunction.isEmpty()) return -1;
 		
-		return biomeRegions.getRegionValue(samplers, regionFunction.get(), blockX, blockY, blockZ);
+		return biomeRegions.getRegionValue(densityGetters, regionFunction.get(), blockX, blockY, blockZ);
 	}
 	
 	private static ResourceKey<Region> error(String message) {
@@ -56,15 +62,15 @@ public class RegionManager {
 	}
 	
 	private record BiomeRegions(TreeMap<Integer, ResourceKey<Region>> regionsByOutputs, int totalWeight) {
-		private int getRegionValue(DensitySamplerSet samplers, DensityFunction function, int blockX, int blockY, int blockZ) {
-			float density = samplers.sampleValue(function, blockX, blockY, blockZ);
+		private int getRegionValue(Map<DensityFunction, DensityGetter> densityGetters, DensityFunction function, int blockX, int blockY, int blockZ) {
+			float density = densityGetters.get(function).get(blockX, blockY, blockZ);
 			return (int) (Math.clamp(density, 0, 1) * totalWeight + 1);
 		}
 		
-		public ResourceKey<Region> getRegion(Optional<DensityFunction> regionFunction, int blockX, int blockY, int blockZ, DensitySamplerSet samplers) {
+		public ResourceKey<Region> getRegion(Optional<DensityFunction> regionFunction, int blockX, int blockY, int blockZ, Map<DensityFunction, DensityGetter> densityGetters) {
 			if (regionFunction.isEmpty() || regionsByOutputs.isEmpty()) return NO_REGIONS;
 			
-			int value = getRegionValue(samplers, regionFunction.get(), blockX, blockY, blockZ);
+			int value = getRegionValue(densityGetters, regionFunction.get(), blockX, blockY, blockZ);
 			
 			var entry = regionsByOutputs.floorEntry(value);
 			if (entry == null) return NO_REGIONS_IN_RANGE;

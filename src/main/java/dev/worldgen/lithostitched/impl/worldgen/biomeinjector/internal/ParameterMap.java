@@ -14,9 +14,7 @@ import net.minecraft.world.level.biome.Climate.TargetPoint;
 import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
 import net.minecraft.world.level.levelgen.densityfunction.DensitySamplerSet;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public final class ParameterMap {
 	public static final MapCodec<ParameterMap> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
@@ -35,12 +33,20 @@ public final class ParameterMap {
 		this.region = region;
 	}
 	
-	public boolean matches(int blockX, int blockY, int blockZ, DensitySamplerSet samplers, TargetPoint point, ResourceKey<Region> currentRegion) {
+	public Set<DensityFunction> getDensityFunctions() {
+		Set<DensityFunction> functions = new HashSet<>();
+		for (var entry : this.parameters.entrySet()) {
+			entry.getKey().ifRight(functions::add);
+		}
+		return functions;
+	}
+	
+	public boolean matches(int blockX, int blockY, int blockZ, Map<DensityFunction, InjectorBiomeSource.DensityGetter> samplers, TargetPoint point, ResourceKey<Region> currentRegion) {
 		if (!region.map(currentRegion::equals).orElse(true)) return false;
 		for (var entry : this.parameters.entrySet()) {
 			float density = entry.getKey().map(
 				reserved -> reserved.getter.apply(point) / 10000F,
-				df -> samplers.sampleValue(df, blockX, blockY, blockZ)
+				df -> samplers.get(df).get(blockX, blockY, blockZ)
 			);
 			if (!entry.getValue().isValueInRange(density)) return false;
 		}

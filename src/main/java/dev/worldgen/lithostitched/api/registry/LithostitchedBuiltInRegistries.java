@@ -10,7 +10,7 @@ import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondi
 import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
 import dev.worldgen.lithostitched.impl.predicate.*;
 import dev.worldgen.lithostitched.impl.registry.LithostitchedRegistrar;
-import dev.worldgen.lithostitched.impl.worldgen.modifier.target.AnyTarget;
+import dev.worldgen.lithostitched.impl.worldgen.densityfunction.feature.AbsoluteAnchorFunction;import dev.worldgen.lithostitched.impl.worldgen.densityfunction.feature.RelativeAnchorFunction;import dev.worldgen.lithostitched.impl.worldgen.modifier.target.AnyTarget;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.target.HolderSetTarget;
 import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.target.RegexTarget;
@@ -47,7 +47,7 @@ import dev.worldgen.lithostitched.impl.worldgen.placementmodifier.ConditionPlace
 import dev.worldgen.lithostitched.impl.worldgen.placementmodifier.NoiseSlopePlacement;
 import dev.worldgen.lithostitched.impl.worldgen.poolalias.RandomEntries;
 import dev.worldgen.lithostitched.impl.worldgen.poolelement.DelegatingPoolElement;
-import dev.worldgen.lithostitched.impl.worldgen.stateprovider.WeightedProvider;
+import dev.worldgen.lithostitched.impl.worldgen.stateprovider.PassthroughProvider;import dev.worldgen.lithostitched.impl.worldgen.stateprovider.WeightedProvider;
 import dev.worldgen.lithostitched.impl.worldgen.structure.AlternateJigsawStructure;
 import dev.worldgen.lithostitched.impl.worldgen.structure.DelegatingStructure;
 
@@ -209,6 +209,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("random_chance", RandomChancePredicate.TYPE)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.BLOCK_STATE_PROVIDER_TYPE, Map.ofEntries(
+			Map.entry("passthrough", PassthroughProvider.CODEC),
 			Map.entry("weighted", WeightedProvider.CODEC)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.DENSITY_FUNCTION_TYPE, Map.ofEntries(
@@ -221,6 +222,9 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("shift", ShiftFunction.CODEC),
 			Map.entry("sin", SinFunction.CODEC),
 			
+			Map.entry("absolute_anchor", AbsoluteAnchorFunction.CODEC),
+			Map.entry("relative_anchor", RelativeAnchorFunction.CODEC),
+			
 			Map.entry("cellular", CellularDensityFunction.CODEC)
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.ENVIRONMENT_ATTRIBUTE, Map.ofEntries(
@@ -228,6 +232,7 @@ public class LithostitchedBuiltInRegistries {
 		));
 		LithostitchedRegistrar.register(BuiltInRegistries.FEATURE_TYPE, Map.ofEntries(
 			Map.entry("composite", CompositeFeature.CODEC),
+			Map.entry("density", DensityFeature.CODEC),
 			Map.entry("dungeon", DungeonFeature.CODEC),
 			Map.entry("large_dripstone", LargeDripstoneFeature.CODEC),
 			Map.entry("ore", OreFeature.CODEC),
@@ -270,6 +275,7 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("internal/unbound_reference", UnboundReferenceProcessor.CODEC),
 			Map.entry("apply_random", ApplyRandomStructureProcessor.CODEC),
 			Map.entry("block_swap", BlockSwapStructureProcessor.CODEC),
+			Map.entry("density", DensityProcessor.CODEC),
 			Map.entry("reference", ReferenceStructureProcessor.CODEC),
 			
 			Map.entry("condition", ConditionProcessor.CODEC),

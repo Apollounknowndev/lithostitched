@@ -1,9 +1,6 @@
 {
   "type": "lithostitched:add_features",
-  "biomes": {
-    "type": "lithostitched:regex",
-    "pattern": ".*jungle.*"
-  },
-  "features": "minecraft:patch_crimson_roots",
+  "biomes": "#minecraft:is_overworld",
+  "features": "test:density",
   "step": "vegetal_decoration"
 }

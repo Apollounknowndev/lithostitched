@@ -4,23 +4,33 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.Interval;
 import net.minecraft.world.level.levelgen.densityfunction.*;
+import net.minecraft.world.level.levelgen.densityfunction.generator.ConstantFunction;
 
 public record ShiftFunction(DensityFunction input, DensityFunction shiftX, DensityFunction shiftY, DensityFunction shiftZ) implements DensityFunction {
 	public static final MapCodec<ShiftFunction> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 		DensityFunction.CODEC.fieldOf("input").forGetter(ShiftFunction::input),
-		DensityFunction.CODEC.fieldOf("shift_x").forGetter(ShiftFunction::shiftX),
-		DensityFunction.CODEC.fieldOf("shift_y").forGetter(ShiftFunction::shiftY),
-		DensityFunction.CODEC.fieldOf("shift_z").forGetter(ShiftFunction::shiftZ)
+		DensityFunction.CODEC.fieldOf("shift_x").orElse(DensityFunctions.zero()).forGetter(ShiftFunction::shiftX),
+		DensityFunction.CODEC.fieldOf("shift_y").orElse(DensityFunctions.zero()).forGetter(ShiftFunction::shiftY),
+		DensityFunction.CODEC.fieldOf("shift_z").orElse(DensityFunctions.zero()).forGetter(ShiftFunction::shiftZ)
 	).apply(i, ShiftFunction::new));
 	
 	@Override
 	public DensitySampler compileSampler(CompileContext context) {
-		return new Sampler(
-			this.input.compileSampler(context),
-			this.shiftX.compileSampler(context),
-			this.shiftY.compileSampler(context),
-			this.shiftZ.compileSampler(context)
-		);
+		DensitySampler input = this.input.compileSampler(context);
+		if (
+			this.shiftX instanceof ConstantFunction(float offsetXValue) &&
+			this.shiftY instanceof ConstantFunction(float offsetYValue) &&
+			this.shiftZ instanceof ConstantFunction(float offsetZValue)
+		) {
+			return new ConstOffsetSampler(input, (int)offsetXValue, (int)offsetYValue, (int)offsetZValue);
+		} else {
+			return new Sampler(
+				this.input.compileSampler(context),
+				this.shiftX.compileSampler(context),
+				this.shiftY.compileSampler(context),
+				this.shiftZ.compileSampler(context)
+			);
+		}
 	}
 	
 	@Override
@@ -45,6 +55,26 @@ public record ShiftFunction(DensityFunction input, DensityFunction shiftX, Densi
 	@Override
 	public MapCodec<? extends DensityFunction> codec() {
 		return CODEC;
+	}
+	
+	public record ConstOffsetSampler(DensitySampler input, int offsetX, int offsetY, int offsetZ) implements DensitySampler {
+		@Override
+		public void sampleVolume(final SamplerContext context, final DensityBuffer outputBuffer, final DensityVolume volume) {
+			this.input.sampleVolume(
+				context,
+				outputBuffer,
+				new DensityVolume(
+					volume.sizeX(), volume.sizeY(), volume.sizeZ(),
+					volume.minBlockX() + this.offsetX, volume.minBlockY() + this.offsetY, volume.minBlockZ() + this.offsetZ,
+					volume.stepBlockX(), volume.stepBlockY(), volume.stepBlockZ()
+				)
+			);
+		}
+		
+		@Override
+		public float sampleValue(final SamplerContext context, final int blockX, final int blockY, final int blockZ) {
+			return this.input.sampleValue(context, blockX + this.offsetX, blockY + this.offsetY, blockZ + this.offsetZ);
+		}
 	}
 	
 	public record Sampler(DensitySampler input, DensitySampler shiftX, DensitySampler shiftY, DensitySampler shiftZ) implements DensitySampler {

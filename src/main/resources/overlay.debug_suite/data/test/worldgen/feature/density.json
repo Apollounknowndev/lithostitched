@@ -1,0 +1,55 @@
+{
+  "type": "lithostitched:density",
+  "min_offset": [-12, -12, -12],
+  "max_offset": [12, 12, 12],
+  "density_function": {
+    "type": "lithostitched:relative_anchor",
+    "input": {
+      "type": "minecraft:spline",
+      "spline": {
+        "coordinate": {
+          "type": "minecraft:distance_to_point",
+          "point": [0, 0, 0],
+          "metric": "euclidean"
+        },
+        "points": [
+          {
+            "location": 6,
+            "derivative": 0,
+            "value": 0.25
+          },
+          {
+            "location": 12,
+            "derivative": 0,
+            "value": -0.25
+          }
+        ]
+      }
+    }
+  },
+  "selector": {
+    "entries": [
+      {
+        "acceptable_density": [0.01, 0.1],
+        "value": {
+          "id": "minecraft:mossy_cobblestone"
+        }
+      },
+      {
+        "acceptable_density": [0.1, 0.2],
+        "value": {
+          "id": "minecraft:cobblestone"
+        }
+      },
+      {
+        "acceptable_density": [0.2, 1],
+        "value": {
+          "id": "minecraft:stone"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "lithostitched:passthrough"
+    }
+  }
+}

@@ -5,7 +5,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.worldgen.lithostitched.api.predicate.LoadPredicate;
 import dev.worldgen.lithostitched.api.worldgen.biomeinjector.BiomeInjector;
 import dev.worldgen.lithostitched.api.worldgen.util.DensityFunctionWrapper;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.InjectorBiomeSource;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.InjectorBiomeSource.DensityGetter;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.ParameterMap;
+import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.internal.ParameterMapHolder;
 import dev.worldgen.lithostitched.impl.worldgen.biomeinjector.region.Region;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -18,9 +21,10 @@ import net.minecraft.world.level.levelgen.densityfunction.DensitySamplerSet;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public record ReplacePartially(Optional<LoadPredicate> predicate, ResourceKey<LevelStem> dimension, int priority, HolderSet<Biome> targets, Holder<Biome> replacement, ParameterMap parameters) implements BiomeInjector {
+public record ReplacePartially(Optional<LoadPredicate> predicate, ResourceKey<LevelStem> dimension, int priority, HolderSet<Biome> targets, Holder<Biome> replacement, ParameterMap parameters) implements BiomeInjector, ParameterMapHolder {
 	public static final MapCodec<ReplacePartially> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 		LoadPredicate.FIELD_CODEC.forGetter(ReplacePartially::predicate),
 		BiomeInjector.DIMENSION_CODEC.forGetter(ReplacePartially::dimension),
@@ -30,9 +34,9 @@ public record ReplacePartially(Optional<LoadPredicate> predicate, ResourceKey<Le
 		ParameterMap.CODEC.forGetter(ReplacePartially::parameters)
 	).apply(i, ReplacePartially::new));
 
-	public boolean matches(int blockX, int blockY, int blockZ, DensitySamplerSet samplers, Climate.TargetPoint point, Holder<Biome> biome, ResourceKey<Region> currentRegion) {
+	public boolean matches(int blockX, int blockY, int blockZ, Map<DensityFunction, DensityGetter> densityGetters, Climate.TargetPoint point, Holder<Biome> biome, ResourceKey<Region> currentRegion) {
 		if (!this.targets().contains(biome)) return false;
-		return this.parameters.matches(blockX, blockY, blockZ, samplers, point, currentRegion);
+		return this.parameters.matches(blockX, blockY, blockZ, densityGetters, point, currentRegion);
 	}
 	
 	@Override
