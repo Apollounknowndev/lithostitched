@@ -10,10 +10,8 @@ import dev.worldgen.lithostitched.api.worldgen.placementcondition.PlacementCondi
 import dev.worldgen.lithostitched.api.worldgen.processorcondition.ProcessorCondition;
 import dev.worldgen.lithostitched.impl.predicate.*;
 import dev.worldgen.lithostitched.impl.registry.LithostitchedRegistrar;
-import dev.worldgen.lithostitched.impl.worldgen.densityfunction.feature.AbsoluteAnchorFunction;import dev.worldgen.lithostitched.impl.worldgen.densityfunction.feature.RelativeAnchorFunction;import dev.worldgen.lithostitched.impl.worldgen.modifier.target.AnyTarget;
-import dev.worldgen.lithostitched.impl.worldgen.modifier.target.HolderSetTarget;
+import dev.worldgen.lithostitched.impl.worldgen.densityfunction.feature.AbsoluteAnchorFunction;import dev.worldgen.lithostitched.impl.worldgen.densityfunction.feature.RelativeAnchorFunction;import dev.worldgen.lithostitched.impl.worldgen.modifier.target.*;
 import dev.worldgen.lithostitched.api.worldgen.modifier.target.HolderTarget;
-import dev.worldgen.lithostitched.impl.worldgen.modifier.target.RegexTarget;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.target.biome.ClimateTarget;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.target.biome.HasFeatureTarget;
 import dev.worldgen.lithostitched.impl.worldgen.bandlands.Bandlands;
@@ -33,7 +31,7 @@ import dev.worldgen.lithostitched.impl.worldgen.fastnoise.PerlinNoiseType;
 import dev.worldgen.lithostitched.impl.worldgen.fastnoise.SimplexNoiseType;
 import dev.worldgen.lithostitched.impl.worldgen.feature.*;
 import dev.worldgen.lithostitched.impl.worldgen.modifier.*;
-import dev.worldgen.lithostitched.impl.worldgen.placementcondition.*;
+import dev.worldgen.lithostitched.impl.worldgen.modifier.target.structure.FromBiomeTarget;import dev.worldgen.lithostitched.impl.worldgen.placementcondition.*;
 import dev.worldgen.lithostitched.impl.worldgen.processor.*;
 import dev.worldgen.lithostitched.impl.worldgen.processor.condition.*;
 import dev.worldgen.lithostitched.impl.worldgen.material.condition.*;
@@ -120,11 +118,17 @@ public class LithostitchedBuiltInRegistries {
 			Map.entry("replace_partially", ReplacePartially.CODEC)
 		));
 		LithostitchedRegistrar.register(LithostitchedBuiltInRegistries.HOLDER_TARGET_TYPE, Map.ofEntries(
+			Map.entry("not", NotTarget.TYPE),
+			Map.entry("all_of", AllOfTarget.TYPE),
+			Map.entry("any_of", AnyOfTarget.TYPE),
+			
 			Map.entry("any", AnyTarget.TYPE),
 			Map.entry("holder_set", HolderSetTarget.TYPE),
 			Map.entry("regex", RegexTarget.TYPE),
+			
 			Map.entry("biome/climate", ClimateTarget.TYPE),
-			Map.entry("biome/has_feature", HasFeatureTarget.TYPE)
+			Map.entry("biome/has_feature", HasFeatureTarget.TYPE),
+			Map.entry("structure/from_biome", FromBiomeTarget.TYPE)
 		));
 		LithostitchedRegistrar.register(LithostitchedBuiltInRegistries.MODIFIER_TYPE, Map.ofEntries(
 			Map.entry("internal/compile_raw_templates", CompileRawTemplatesModifier.CODEC),

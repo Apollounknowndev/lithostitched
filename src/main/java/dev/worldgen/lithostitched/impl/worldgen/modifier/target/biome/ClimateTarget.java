@@ -16,6 +16,7 @@ import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.level.biome.Biome;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public record ClimateTarget<T>(ResourceKey<Registry<T>> key, Optional<InclusiveRange<Float>> temperature, Optional<InclusiveRange<Float>> downfall, Optional<Boolean> hasPrecipitation, Optional<Biome.TemperatureModifier> temperatureModifier) implements HolderTarget<T> {
 	public static final Type TYPE = new Type() {
@@ -34,10 +35,10 @@ public record ClimateTarget<T>(ResourceKey<Registry<T>> key, Optional<InclusiveR
 	};
 	
 	@Override
-	public Iterable<Holder<T>> getHolders(RegistryAccess registries) {
+	public Stream<Holder<T>> streamHolders(RegistryAccess registries) {
 		if (!this.key.equals(Registries.BIOME)) throw new IllegalStateException("Cannot use \"biome/climate\" target type outside of biomes");
 		
-		return registries.lookupOrThrow(Registries.BIOME).listElements().filter(biome -> this.test(biome.value())).map(t -> (Holder<T>) t).toList();
+		return registries.lookupOrThrow(Registries.BIOME).listElements().filter(biome -> this.test(biome.value())).map(t -> (Holder<T>) t);
 	}
 	
 	private boolean test(Biome biome) {
@@ -51,6 +52,6 @@ public record ClimateTarget<T>(ResourceKey<Registry<T>> key, Optional<InclusiveR
 	
 	@Override
 	public Type getType() {
-		return null;
+		return TYPE;
 	}
 }

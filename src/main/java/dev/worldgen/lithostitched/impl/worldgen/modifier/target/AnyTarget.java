@@ -7,6 +7,8 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 
+import java.util.stream.Stream;
+
 public record AnyTarget<T>(ResourceKey<Registry<T>> key) implements HolderTarget<T> {
 	public static final Type TYPE = new SimpleType() {
 		@Override
@@ -16,8 +18,8 @@ public record AnyTarget<T>(ResourceKey<Registry<T>> key) implements HolderTarget
 	};
 	
 	@Override
-	public Iterable<Holder<T>> getHolders(RegistryAccess registries) {
-		return registries.lookupOrThrow(this.key).listElements().map(t -> (Holder<T>) t).toList();
+	public Stream<Holder<T>> streamHolders(RegistryAccess registries) {
+		return registries.lookupOrThrow(this.key).listElements().map(t -> t);
 	}
 	
 	@Override

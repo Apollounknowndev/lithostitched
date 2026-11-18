@@ -1,6 +1,15 @@
 {
   "type": "lithostitched:add_features",
-  "biomes": "#minecraft:is_overworld",
+  "biomes": {
+    "type": "lithostitched:all_of",
+    "targets": [
+      "#minecraft:is_overworld",
+      {
+        "type": "lithostitched:regex",
+        "pattern": ".*o.*"
+      }
+    ]
+  },
   "features": "test:density",
   "step": "vegetal_decoration"
 }

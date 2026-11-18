@@ -1,0 +1,15 @@
+{
+  "type": "lithostitched:set_structure_spawn_condition",
+  "structures": {
+    "type": "lithostitched:structure/from_biome",
+    "biome": "minecraft:plains"
+  },
+  "spawn_condition": {
+    "type": "lithostitched:not",
+    "condition": {
+      "type": "lithostitched:in_biome",
+      "biomes": "minecraft:plains"
+    }
+  }
+}
+

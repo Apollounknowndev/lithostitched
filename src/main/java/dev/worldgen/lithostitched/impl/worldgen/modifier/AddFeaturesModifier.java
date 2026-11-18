@@ -31,7 +31,7 @@ public record AddFeaturesModifier(Optional<LoadPredicate> predicate, int priorit
     ).apply(instance, AddFeaturesModifier::new));
     
     public AddFeaturesModifier(Optional<LoadPredicate> predicate, int priority, HolderSet<Biome> biomes, HolderSet<PlacedFeature> features, GenerationStep.Decoration step) {
-        this(predicate, priority, new HolderSetTarget<>(biomes, Registries.BIOME), features, step);
+        this(predicate, priority, new HolderSetTarget<>(Registries.BIOME, biomes), features, step);
     }
     
     //? if neoforge {

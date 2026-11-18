@@ -1,5 +1,6 @@
 package dev.worldgen.lithostitched.api.worldgen.modifier.target;
 
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
@@ -14,8 +15,9 @@ import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * Interface representing a {@code HolderTarget}.
@@ -26,34 +28,28 @@ import java.util.List;
 public interface HolderTarget<T> {
 	Codec<HolderTarget<Biome>> BIOMES = createCodec(Registries.BIOME);
 	
-	Iterable<Holder<T>> getHolders(RegistryAccess registries);
+	Stream<Holder<T>> streamHolders(RegistryAccess registries);
 	Type getType();
 	
+	default List<Holder<T>> getHolders(RegistryAccess registries) {
+		return this.streamHolders(registries).distinct().toList();
+	}
+	
 	default HolderSet<T> getHoldersAsSet(RegistryAccess registryAccess) {
-		List<Holder<T>> holders = new ArrayList<>();
-		for (Holder<T> holder : this.getHolders(registryAccess)) {
-			holders.add(holder);
-		}
-		return HolderSet.direct(holders);
-	}
-	
-	static <T> HolderTarget<T> of(Holder<T> holder) {
-		return new HolderSetTarget<>(HolderSet.direct(holder), holder.unwrapKey().orElseThrow().registryKey());
-	}
-	
-	static <T> HolderTarget<T> of(HolderSet<T> holderSet) {
-		return new HolderSetTarget<>(holderSet, holderSet.get(0).unwrapKey().orElseThrow().registryKey());
+		return HolderSet.direct(this.getHolders(registryAccess));
 	}
 	
 	static <T> Codec<HolderTarget<T>> createCodec(ResourceKey<Registry<T>> key) {
-		return Codec.withAlternative(
+		return Codec.either(
 			LithostitchedBuiltInRegistries.HOLDER_TARGET_TYPE.byNameCodec().partialDispatch(
 				"type",
 				target -> DataResult.success(target.getType()),
 				factory -> factory.apply(key)
 			),
-			RegistryCodecs.holderSet(key),
-			set -> new HolderSetTarget<>(set, key)
+			RegistryCodecs.holderSet(key)
+		).xmap(
+			e -> e.map(Function.identity(), set -> new HolderSetTarget<>(key, set)),
+			target -> target instanceof HolderSetTarget<T> setTarget ? Either.right(setTarget.set()) : Either.left(target)
 		);
 	}
 	

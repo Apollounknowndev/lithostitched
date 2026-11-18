@@ -13,6 +13,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 public record HasFeatureTarget<T>(ResourceKey<Registry<T>> key, Holder<PlacedFeature> feature) implements HolderTarget<T> {
 	public static final Type TYPE = new Type() {
 		@Override
@@ -27,10 +30,10 @@ public record HasFeatureTarget<T>(ResourceKey<Registry<T>> key, Holder<PlacedFea
 	};
 	
 	@Override
-	public Iterable<Holder<T>> getHolders(RegistryAccess registries) {
+	public Stream<Holder<T>> streamHolders(RegistryAccess registries) {
 		if (!this.key.equals(Registries.BIOME)) throw new IllegalStateException("Cannot use \"biome/has_feature\" target type outside of biomes");
 		
-		return registries.lookupOrThrow(Registries.BIOME).listElements().filter(biome -> this.test(biome.value())).map(t -> (Holder<T>) t).toList();
+		return registries.lookupOrThrow(Registries.BIOME).listElements().filter(biome -> this.test(biome.value())).map(t -> (Holder<T>) t);
 	}
 	
 	private boolean test(Biome biome) {
@@ -39,6 +42,6 @@ public record HasFeatureTarget<T>(ResourceKey<Registry<T>> key, Holder<PlacedFea
 	
 	@Override
 	public Type getType() {
-		return null;
+		return TYPE;
 	}
 }

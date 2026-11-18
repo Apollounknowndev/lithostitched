@@ -9,17 +9,19 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.codec.RegistryCodecs;
 import net.minecraft.resources.ResourceKey;
 
-public record HolderSetTarget<T>(HolderSet<T> set, ResourceKey<Registry<T>> key) implements HolderTarget<T> {
+import java.util.stream.Stream;
+
+public record HolderSetTarget<T>(ResourceKey<Registry<T>> key, HolderSet<T> set) implements HolderTarget<T> {
 	public static final Type TYPE = new SimpleType() {
 		@Override
 		public <A> MapCodec<? extends HolderTarget<A>> applySimple(ResourceKey<Registry<A>> key) {
-			return RegistryCodecs.holderSet(key).fieldOf("set").xmap(set -> new HolderSetTarget<>(set, key), HolderSetTarget::set);
+			return RegistryCodecs.holderSet(key).fieldOf("set").xmap(set -> new HolderSetTarget<>(key, set), HolderSetTarget::set);
 		}
 	};
 	
 	@Override
-	public Iterable<Holder<T>> getHolders(RegistryAccess registries) {
-		return this.set;
+	public Stream<Holder<T>> streamHolders(RegistryAccess registries) {
+		return this.set.stream();
 	}
 	
 	@Override

@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ExtraCodecs;
 
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public record RegexTarget<T>(ResourceKey<Registry<T>> key, String regex) implements HolderTarget<T> {
 	public static final Type TYPE = new SimpleType() {
@@ -19,8 +20,8 @@ public record RegexTarget<T>(ResourceKey<Registry<T>> key, String regex) impleme
 	};
 	
 	@Override
-	public Iterable<Holder<T>> getHolders(RegistryAccess registries) {
-		return registries.lookupOrThrow(this.key).listElements().filter(t -> t.key().identifier().toString().matches(this.regex)).map(t -> (Holder<T>) t).toList();
+	public Stream<Holder<T>> streamHolders(RegistryAccess registries) {
+		return registries.lookupOrThrow(this.key).listElements().filter(t -> t.key().identifier().toString().matches(this.regex)).map(t -> t);
 	}
 	
 	@Override
